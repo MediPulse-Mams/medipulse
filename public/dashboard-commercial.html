@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediPulse — Dashboard Commercial</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f8fafd;--surface:#fff;--surface2:#f1f5fb;--border:#e4ecf7;
+  --text:#0a1628;--muted:#6b7fa3;--light:#b0bdd4;
+  --primary:#0057ff;--primary-lt:#e6eeff;
+  --success:#00c49a;--success-bg:#e6faf5;
+  --warn:#f59e0b;--warn-bg:#fef8e7;
+  --danger:#ef4444;--danger-bg:#fef2f2;
+  --sidebar:#0a1628;
+}
+html,body{height:100%;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+.shell{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:220px;background:var(--sidebar);display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:200;}
+.logo{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
+.logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:8px;display:grid;place-items:center;}
+.logo-icon svg{width:14px;height:14px;stroke:#fff;fill:none;}
+.logo-text{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:#fff;}
+.logo-text em{color:#4d8bff;font-style:normal;}
+nav{padding:14px 10px;flex:1;}
+.nav-section{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:0 8px;margin:14px 0 4px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;color:rgba(255,255,255,.55);font-weight:500;font-size:12.5px;transition:all .15s;margin-bottom:1px;}
+.nav-item:hover{background:rgba(255,255,255,.07);color:#fff;}
+.nav-item.active{background:var(--primary);color:#fff;}
+.nav-item svg{width:14px;height:14px;flex-shrink:0;}
+.sidebar-user{padding:12px 10px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
+.u-av{width:28px;height:28px;background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;}
+.u-name{font-weight:600;font-size:11.5px;color:#fff;}
+.u-role{color:rgba(255,255,255,.4);font-size:10px;}
+.logout{margin-left:auto;cursor:pointer;color:rgba(255,255,255,.3);font-size:11px;}
+.logout:hover{color:#fff;}
+
+/* MAIN */
+.main{flex:1;margin-left:220px;display:flex;flex-direction:column;}
+.topbar{height:54px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 22px;gap:10px;position:sticky;top:0;z-index:100;}
+.topbar-title{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;flex:1;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:12px;cursor:pointer;border:none;transition:all .15s;}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 4px 12px rgba(0,87,255,.3);}
+.btn-primary:hover{transform:translateY(-1px);}
+.btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border);}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary);}
+.content{padding:20px 22px;flex:1;}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;transition:all .2s;position:relative;overflow:hidden;}
+.kpi-card:hover{box-shadow:0 8px 24px rgba(0,87,255,.1);transform:translateY(-2px);}
+.kpi-card.gold{background:linear-gradient(135deg,#f59e0b,#d97706);border:none;}
+.kpi-card.gold .kpi-label{color:rgba(255,255,255,.7);}
+.kpi-card.gold .kpi-val{color:#fff;}
+.kpi-card.gold .delta{background:rgba(255,255,255,.2);color:#fff;}
+.kpi-label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:7px;}
+.kpi-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:7px;}
+.kpi-val sup{font-size:12px;vertical-align:super;font-family:'Plus Jakarta Sans',sans-serif;}
+.delta{display:inline-flex;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:20px;}
+.delta.up{color:var(--success);background:var(--success-bg);}
+.delta.down{color:var(--danger);background:var(--danger-bg);}
+.delta.neutral{color:var(--warn);background:var(--warn-bg);}
+
+/* COMMISSION HERO */
+.comm-hero{background:linear-gradient(135deg,#0a1628,#1a2d52);border-radius:16px;padding:22px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.comm-item{text-align:center;padding:16px;background:rgba(255,255,255,.06);border-radius:12px;border:1px solid rgba(255,255,255,.08);}
+.comm-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;color:#fff;margin-bottom:4px;}
+.comm-lbl{font-size:11px;color:rgba(255,255,255,.5);font-weight:500;}
+.comm-delta{font-size:10.5px;font-weight:600;color:var(--success);margin-top:4px;}
+
+/* CARDS */
+.row2{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;margin-bottom:14px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.card-head{padding:14px 18px 11px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;}
+.card-title{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;}
+.card-sub{color:var(--muted);font-size:11px;margin-top:1px;}
+.card-body{padding:14px 18px;}
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10.5px;font-weight:600;background:var(--primary-lt);color:var(--primary);}
+
+/* CABINET LIST */
+.cab-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);transition:all .12s;}
+.cab-row:last-child{border-bottom:none;}
+.cab-row:hover{margin:0 -18px;padding:10px 18px;background:var(--surface2);}
+.cab-logo{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-family:'Playfair Display',serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0;}
+.cab-info{flex:1;}
+.cab-name{font-weight:600;font-size:12.5px;}
+.cab-loc{color:var(--muted);font-size:11px;}
+.cab-note{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;color:var(--primary);}
+.cab-status{font-size:10px;font-weight:700;padding:3px 7px;border-radius:20px;}
+.cab-status.ok{background:var(--success-bg);color:var(--success);}
+.cab-status.warn{background:var(--warn-bg);color:var(--warn);}
+
+/* COMMISSIONS TABLE */
+.tbl{width:100%;border-collapse:collapse;min-width:400px;}
+.tbl th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:9px 13px;border-bottom:1px solid var(--border);background:var(--surface2);}
+.tbl td{padding:10px 13px;border-bottom:1px solid var(--border);font-size:12px;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--surface2);}
+.tbl-wrap{overflow-x:auto;}
+
+/* OBJECTIF BAR */
+.obj-wrap{margin-bottom:16px;}
+.obj-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.obj-label{font-size:13px;font-weight:600;}
+.obj-pct{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;color:var(--primary);}
+.obj-bg{height:10px;background:var(--border);border-radius:10px;overflow:hidden;}
+.obj-fill{height:100%;border-radius:10px;background:linear-gradient(135deg,#0057ff,#4d8bff);transition:width .8s cubic-bezier(.22,1,.36,1);}
+.obj-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+
+/* VIEWS */
+.view{display:none;}
+.view.active{display:block;}
+
+/* BOTTOM NAV */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--sidebar);border-top:1px solid rgba(255,255,255,.08);z-index:300;}
+.bottom-nav-inner{display:flex;height:100%;}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:rgba(255,255,255,.4);font-size:9px;font-weight:600;-webkit-tap-highlight-color:transparent;}
+.bn-item svg{width:19px;height:19px;stroke:currentColor;fill:none;}
+.bn-item.active{color:var(--primary);}
+
+@media(max-width:900px){.kpi-grid{grid-template-columns:1fr 1fr;}.row2{grid-template-columns:1fr;}.comm-hero{grid-template-columns:1fr;gap:8px;}}
+@media(max-width:768px){
+  .sidebar{display:none;}.main{margin-left:0;}
+  .bottom-nav{display:flex;}
+  .content{padding:12px 12px calc(60px + 12px);}
+  .topbar{padding:0 12px;}
+  .hide-mob{display:none;}
+  .kpi-grid{grid-template-columns:1fr 1fr;gap:9px;}
+  .comm-hero{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icon"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+    <span class="logo-text">Medi<em>Pulse</em></span>
+  </div>
+  <nav>
+    <div class="nav-section">Mes ventes</div>
+    <div class="nav-item active" onclick="go('dashboard',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-item" onclick="go('cabinets',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg>
+      Mes cabinets
+    </div>
+    <div class="nav-item" onclick="go('commissions',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg>
+      Commissions
+    </div>
+    <div class="nav-section">Compte</div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
+      Paramètres
+    </div>
+  </nav>
+  <div class="sidebar-user">
+    <div class="u-av">YB</div>
+    <div><div class="u-name">Youssef Bennani</div><div class="u-role">💼 Commercial · Casa</div></div>
+    <span class="logout" onclick="window.location.href='/'">⏻</span>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div style="flex:1">
+      <div class="topbar-title" id="t-title">Mon Dashboard 💼</div>
+      <div class="topbar-sub">Avril 2026 · Casablanca</div>
+    </div>
+    <button class="btn btn-primary hide-mob">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Nouveau prospect
+    </button>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="view active" id="view-dashboard">
+
+      <!-- Commission Hero -->
+      <div class="comm-hero">
+        <div class="comm-item">
+          <div class="comm-val">2 990 MAD</div>
+          <div class="comm-lbl">Commissions ce mois</div>
+          <div class="comm-delta">↑ +890 MAD vs mois dernier</div>
+        </div>
+        <div class="comm-item">
+          <div class="comm-val">10</div>
+          <div class="comm-lbl">Cabinets actifs</div>
+          <div class="comm-delta">↑ +2 ce mois</div>
+        </div>
+        <div class="comm-item">
+          <div class="comm-val">299 MAD</div>
+          <div class="comm-lbl">Récurrent mensuel</div>
+          <div class="comm-delta">↑ Garanti chaque mois</div>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card gold">
+          <div class="kpi-label">Revenus ce mois</div>
+          <div class="kpi-val">2 990<sup>MAD</sup></div>
+          <span class="delta">↑ +42% vs mars</span>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Cabinets signés</div>
+          <div class="kpi-val" style="color:var(--primary)">10</div>
+          <span class="delta up">↑ +2 ce mois</span>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Objectif mensuel</div>
+          <div class="kpi-val" style="color:var(--warn)">67<sup>%</sup></div>
+          <span class="delta neutral">→ 5/15 cabinets</span>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Taux rétention</div>
+          <div class="kpi-val" style="color:var(--success)">90<sup>%</sup></div>
+          <span class="delta up">↑ Excellent</span>
+        </div>
+      </div>
+
+      <!-- Objectif -->
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-head">
+          <div><div class="card-title">🎯 Objectif du mois</div><div class="card-sub">Avril 2026 · 5 cabinets signés sur 15</div></div>
+          <span class="tag">33%</span>
+        </div>
+        <div class="card-body">
+          <div class="obj-wrap">
+            <div class="obj-row"><span class="obj-label">Cabinets signés</span><span class="obj-pct">5 / 15</span></div>
+            <div class="obj-bg"><div class="obj-fill" style="width:33%"></div></div>
+            <div class="obj-sub">Il vous reste 10 cabinets pour atteindre l'objectif — soit +2 990 MAD de bonus</div>
+          </div>
+          <div class="obj-wrap" style="margin-bottom:0">
+            <div class="obj-row"><span class="obj-label">Revenus récurrents</span><span class="obj-pct">2 990 / 4 485 MAD</span></div>
+            <div class="obj-bg"><div class="obj-fill" style="width:67%;background:linear-gradient(135deg,#00c49a,#00a07e)"></div></div>
+            <div class="obj-sub">Revenus garantis chaque mois tant que vos clients restent actifs</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row2">
+        <!-- Mes cabinets -->
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Mes cabinets</div><div class="card-sub">10 clients actifs</div></div>
+            <span style="font-size:11.5px;color:var(--primary);font-weight:600;cursor:pointer" onclick="go('cabinets',null)">Voir tout →</span>
+          </div>
+          <div class="card-body" style="padding-top:4px;padding-bottom:4px">
+            <div class="cab-row"><div class="cab-logo" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">CH</div><div class="cab-info"><div class="cab-name">Cabinet Hassan II</div><div class="cab-loc">📍 Casablanca</div></div><div class="cab-note">4.8 ⭐</div><span class="cab-status ok">Actif</span></div>
+            <div class="cab-row"><div class="cab-logo" style="background:linear-gradient(135deg,#00c49a,#00a07e)">CA</div><div class="cab-info"><div class="cab-name">Clinique Agdal</div><div class="cab-loc">📍 Rabat</div></div><div class="cab-note">3.8 ⭐</div><span class="cab-status warn">À suivre</span></div>
+            <div class="cab-row"><div class="cab-logo" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AF</div><div class="cab-info"><div class="cab-name">Cabinet Al Fath</div><div class="cab-loc">📍 Casablanca</div></div><div class="cab-note">4.3 ⭐</div><span class="cab-status ok">Actif</span></div>
+            <div class="cab-row"><div class="cab-logo" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">CM</div><div class="cab-info"><div class="cab-name">Clinique Marjane</div><div class="cab-loc">📍 Marrakech</div></div><div class="cab-note">4.6 ⭐</div><span class="cab-status ok">Actif</span></div>
+            <div class="cab-row"><div class="cab-logo" style="background:linear-gradient(135deg,#ec4899,#db2777)">CB</div><div class="cab-info"><div class="cab-name">Cabinet Bousfiha</div><div class="cab-loc">📍 Casablanca</div></div><div class="cab-note">4.5 ⭐</div><span class="cab-status ok">Actif</span></div>
+          </div>
+        </div>
+
+        <!-- Commissions détail -->
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">💰 Commissions</div><div class="card-sub">Détail ce mois</div></div>
+          </div>
+          <div class="card-body">
+            <div style="margin-bottom:14px">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)">
+                <span style="font-size:12.5px;font-weight:500">Nouveaux clients (2)</span>
+                <span style="font-family:'Playfair Display',serif;font-weight:700;color:var(--success)">+179 MAD</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)">
+                <span style="font-size:12.5px;font-weight:500">Récurrent (10 clients)</span>
+                <span style="font-family:'Playfair Display',serif;font-weight:700;color:var(--primary)">+299 MAD</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)">
+                <span style="font-size:12.5px;font-weight:500">Bonus objectif</span>
+                <span style="font-family:'Playfair Display',serif;font-weight:700;color:var(--muted)">0 MAD</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0 0">
+                <span style="font-size:13px;font-weight:700">Total ce mois</span>
+                <span style="font-family:'Playfair Display',serif;font-weight:800;font-size:18px;color:var(--warn)">478 MAD</span>
+              </div>
+            </div>
+            <div style="background:var(--success-bg);border-radius:9px;padding:12px;text-align:center">
+              <div style="font-size:11px;color:var(--success);font-weight:600">🎯 Atteignez 15 cabinets</div>
+              <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:20px;color:var(--success);margin:4px 0">+2 990 MAD</div>
+              <div style="font-size:10.5px;color:var(--muted)">de bonus ce mois !</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CABINETS -->
+    <div class="view" id="view-cabinets">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Mes cabinets</div><div style="color:var(--muted);font-size:12px;margin-top:2px">10 clients actifs</div></div>
+        <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Ajouter</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:13px">
+            <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#0057ff,#4d8bff);display:grid;place-items:center;font-family:'Playfair Display',serif;font-weight:700;font-size:14px;color:#fff">CH</div>
+            <div><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:13px">Cabinet Hassan II</div><div style="color:var(--muted);font-size:11px">📍 Casablanca · Dr. Ahmed Benali</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;text-align:center">
+            <div style="background:var(--surface2);border-radius:8px;padding:8px 4px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:16px">4.8</div><div style="font-size:9.5px;color:var(--muted)">Note</div></div>
+            <div style="background:var(--surface2);border-radius:8px;padding:8px 4px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:16px">312</div><div style="font-size:9.5px;color:var(--muted)">Patients</div></div>
+            <div style="background:var(--success-bg);border-radius:8px;padding:8px 4px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:var(--success)">30</div><div style="font-size:9.5px;color:var(--success)">MAD/mois</div></div>
+          </div>
+        </div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:13px">
+            <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#00c49a,#00a07e);display:grid;place-items:center;font-family:'Playfair Display',serif;font-weight:700;font-size:14px;color:#fff">CA</div>
+            <div><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:13px">Clinique Agdal</div><div style="color:var(--muted);font-size:11px">📍 Rabat · Dr. Leila Fassi</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;text-align:center">
+            <div style="background:var(--surface2);border-radius:8px;padding:8px 4px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:16px">3.8</div><div style="font-size:9.5px;color:var(--muted)">Note</div></div>
+            <div style="background:var(--surface2);border-radius:8px;padding:8px 4px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:16px">428</div><div style="font-size:9.5px;color:var(--muted)">Patients</div></div>
+            <div style="background:var(--success-bg);border-radius:8px;padding:8px 4px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:var(--success)">30</div><div style="font-size:9.5px;color:var(--success)">MAD/mois</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMISSIONS -->
+    <div class="view" id="view-commissions">
+      <div style="margin-bottom:16px">
+        <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Mes commissions</div>
+        <div style="color:var(--muted);font-size:12px;margin-top:2px">Historique complet</div>
+      </div>
+      <div class="card">
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr><th>Mois</th><th>Nouveaux clients</th><th>Récurrent</th><th>Bonus</th><th>Total</th><th>Statut</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Avril 2026</strong></td><td style="color:var(--success)">+179 MAD</td><td style="color:var(--primary)">+299 MAD</td><td style="color:var(--muted)">0 MAD</td><td><strong style="color:var(--warn)">478 MAD</strong></td><td><span style="background:var(--warn-bg);color:var(--warn);padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700">En cours</span></td></tr>
+              <tr><td><strong>Mars 2026</strong></td><td style="color:var(--success)">+359 MAD</td><td style="color:var(--primary)">+239 MAD</td><td style="color:var(--muted)">0 MAD</td><td><strong>598 MAD</strong></td><td><span style="background:var(--success-bg);color:var(--success);padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700">✓ Payé</span></td></tr>
+              <tr><td><strong>Février 2026</strong></td><td style="color:var(--success)">+179 MAD</td><td style="color:var(--primary)">+179 MAD</td><td style="color:var(--muted)">0 MAD</td><td><strong>358 MAD</strong></td><td><span style="background:var(--success-bg);color:var(--success);padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700">✓ Payé</span></td></tr>
+              <tr><td><strong>Janvier 2026</strong></td><td style="color:var(--success)">+539 MAD</td><td style="color:var(--primary)">+90 MAD</td><td style="color:var(--muted)">0 MAD</td><td><strong>629 MAD</strong></td><td><span style="background:var(--success-bg);color:var(--success);padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700">✓ Payé</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <div class="bn-item active" id="bn-dashboard" onclick="go('dashboard',this)">
+      <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+      Dashboard
+    </div>
+    <div class="bn-item" id="bn-cabinets" onclick="go('cabinets',this)">
+      <svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg>
+      Cabinets
+    </div>
+    <div class="bn-item" id="bn-commissions" onclick="go('commissions',this)">
+      <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg>
+      Commissions
+    </div>
+  </div>
+</nav>
+
+<script>
+function go(name,el){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el&&el.classList.contains('nav-item'))el.classList.add('active');
+  document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
+  const bn=document.getElementById('bn-'+name);
+  if(bn)bn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

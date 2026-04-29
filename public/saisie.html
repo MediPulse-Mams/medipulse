@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediPulse — Saisie Assistante</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --primary:#0057ff;--primary-lt:#e6eeff;
+  --success:#00c49a;--success-bg:#e6faf5;
+  --border:#e4ecf7;--muted:#6b7fa3;--light:#b0bdd4;
+  --text:#0a1628;--bg:#f8fafd;--surface:#fff;
+}
+html,body{height:100%;min-height:100vh;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(135deg,#0a1628 0%,#0d2452 100%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+
+/* HEADER */
+.header{display:flex;align-items:center;gap:10px;margin-bottom:24px;}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:10px;display:grid;place-items:center;}
+.logo-icon svg{width:18px;height:18px;stroke:#fff;fill:none;}
+.logo-text{font-family:'Playfair Display',serif;font-weight:700;font-size:20px;color:#fff;}
+.logo-text em{color:#4d8bff;font-style:normal;}
+
+/* CARD */
+.card{background:#fff;border-radius:20px;padding:32px;width:100%;max-width:440px;box-shadow:0 24px 80px rgba(0,0,0,.3);}
+.card-title{font-family:'Playfair Display',serif;font-weight:800;font-size:22px;margin-bottom:4px;}
+.card-sub{color:var(--muted);font-size:13px;margin-bottom:24px;}
+
+/* FORM */
+.form-group{margin-bottom:14px;}
+.form-label{font-size:11.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:block;}
+.form-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:all .15s;background:var(--bg);}
+.form-input:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px rgba(0,87,255,.1);}
+.form-input::placeholder{color:var(--light);}
+select.form-input{cursor:pointer;}
+
+/* BUTTON */
+.send-btn{width:100%;padding:14px;background:linear-gradient(135deg,#0057ff,#4d8bff);color:#fff;border:none;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:all .2s;margin-top:6px;box-shadow:0 4px 16px rgba(0,87,255,.35);display:flex;align-items:center;justify-content:center;gap:8px;}
+.send-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,87,255,.4);}
+.send-btn:active{transform:translateY(0);}
+.send-btn svg{width:18px;height:18px;stroke:#fff;fill:none;}
+
+/* SUCCESS */
+.success{display:none;background:var(--success-bg);border:1px solid var(--success);border-radius:9px;padding:16px;text-align:center;margin-top:14px;}
+.success-icon{font-size:32px;margin-bottom:8px;}
+.success-title{font-weight:700;font-size:15px;color:var(--success);}
+.success-sub{font-size:12px;color:var(--muted);margin-top:4px;}
+
+/* HISTORY */
+.history{background:#fff;border-radius:20px;padding:24px;width:100%;max-width:440px;margin-top:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);}
+.history-title{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;margin-bottom:14px;color:var(--text);}
+.h-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.h-row:last-child{border-bottom:none;}
+.h-av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;flex-shrink:0;color:#fff;}
+.h-info{flex:1;}
+.h-name{font-weight:600;font-size:12.5px;}
+.h-meta{color:var(--muted);font-size:11px;}
+.h-status{font-size:10.5px;font-weight:700;background:var(--success-bg);color:var(--success);padding:3px 8px;border-radius:20px;}
+
+/* LOGOUT */
+.logout-btn{margin-top:16px;color:rgba(255,255,255,.4);font-size:12px;cursor:pointer;text-align:center;}
+.logout-btn:hover{color:#fff;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-icon">
+    <svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+  </div>
+  <span class="logo-text">Medi<em>Pulse</em></span>
+</div>
+
+<div class="card">
+  <div class="card-title">Saisie patient 📋</div>
+  <div class="card-sub">Remplissez les infos — le SMS part automatiquement 📲</div>
+
+  <div class="form-group">
+    <label class="form-label">Cabinet</label>
+    <select class="form-input" id="cabinet">
+      <option value="">Sélectionner un cabinet...</option>
+      <option>Cabinet Hassan II — Casablanca</option>
+      <option>Clinique Agdal — Rabat</option>
+      <option>Cabinet Al Fath — Casablanca</option>
+      <option>Clinique Marjane — Marrakech</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Nom du patient</label>
+    <input class="form-input" type="text" id="nom" placeholder="Ex: Karim Alaoui">
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Numéro de téléphone</label>
+    <input class="form-input" type="tel" id="tel" placeholder="Ex: 06 12 34 56 78">
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Langue préférée</label>
+    <select class="form-input" id="langue">
+      <option value="fr">🇫🇷 Français</option>
+      <option value="ar">🇲🇦 Arabe</option>
+    </select>
+  </div>
+
+  <button class="send-btn" onclick="envoyer()">
+    <svg viewBox="0 0 24 24" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.72A2 2 0 012 .92h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    Envoyer le questionnaire SMS
+  </button>
+
+  <div class="success" id="success">
+    <div class="success-icon">✅</div>
+    <div class="success-title">SMS envoyé avec succès !</div>
+    <div class="success-sub" id="success-text">Le patient recevra le lien dans quelques secondes.</div>
+  </div>
+</div>
+
+<!-- Historique -->
+<div class="history">
+  <div class="history-title">📋 Envois du jour</div>
+  <div id="history-list">
+    <div class="h-row">
+      <div class="h-av" style="background:#0057ff">KA</div>
+      <div class="h-info">
+        <div class="h-name">Karim A.</div>
+        <div class="h-meta">06 61 23 45 67 · il y a 8 min</div>
+      </div>
+      <span class="h-status">✓ Envoyé</span>
+    </div>
+    <div class="h-row">
+      <div class="h-av" style="background:#00c49a">NE</div>
+      <div class="h-info">
+        <div class="h-name">Nadia El K.</div>
+        <div class="h-meta">06 72 34 56 78 · il y a 1h</div>
+      </div>
+      <span class="h-status">✓ Envoyé</span>
+    </div>
+  </div>
+</div>
+
+<div class="logout-btn" onclick="window.location.href='/'">⏻ Déconnexion</div>
+
+<script>
+const colors = ['#0057ff','#00c49a','#f59e0b','#ef4444','#7c3aed','#ec4899'];
+
+function envoyer() {
+  const cabinet = document.getElementById('cabinet').value;
+  const nom = document.getElementById('nom').value.trim();
+  const tel = document.getElementById('tel').value.trim();
+  const langue = document.getElementById('langue').value;
+
+  if (!cabinet || !nom || !tel) {
+    alert('Veuillez remplir tous les champs !');
+    return;
+  }
+
+  // Affiche succès
+  const success = document.getElementById('success');
+  document.getElementById('success-text').textContent =
+    `SMS envoyé à ${nom} (${tel}) en ${langue === 'fr' ? 'Français 🇫🇷' : 'Arabe 🇲🇦'}`;
+  success.style.display = 'block';
+
+  // Ajoute à l'historique
+  const initiales = nom.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
+  const couleur = colors[Math.floor(Math.random() * colors.length)];
+  const now = 'À l\'instant';
+  const list = document.getElementById('history-list');
+  const row = document.createElement('div');
+  row.className = 'h-row';
+  row.innerHTML = `
+    <div class="h-av" style="background:${couleur}">${initiales}</div>
+    <div class="h-info">
+      <div class="h-name">${nom}</div>
+      <div class="h-meta">${tel} · ${now}</div>
+    </div>
+    <span class="h-status">✓ Envoyé</span>
+  `;
+  list.prepend(row);
+
+  // Reset form
+  document.getElementById('nom').value = '';
+  document.getElementById('tel').value = '';
+
+  // Cache succès après 4 sec
+  setTimeout(() => { success.style.display = 'none'; }, 4000);
+}
+
+// Entrée clavier
+document.addEventListener('keypress', e => {
+  if (e.key === 'Enter') envoyer();
+});
+</script>
+</body>
+</html>

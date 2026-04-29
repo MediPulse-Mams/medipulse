@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediPulse — Dashboard Médecin</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f8fafd;--surface:#fff;--surface2:#f1f5fb;--border:#e4ecf7;
+  --text:#0a1628;--muted:#6b7fa3;--light:#b0bdd4;
+  --primary:#0057ff;--primary-lt:#e6eeff;
+  --success:#00c49a;--success-bg:#e6faf5;
+  --warn:#f59e0b;--warn-bg:#fef8e7;
+  --danger:#ef4444;--danger-bg:#fef2f2;
+  --sidebar:#0a1628;
+}
+html,body{height:100%;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+.shell{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:220px;background:var(--sidebar);display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:200;}
+.logo{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
+.logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:8px;display:grid;place-items:center;}
+.logo-icon svg{width:14px;height:14px;stroke:#fff;fill:none;}
+.logo-text{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:#fff;}
+.logo-text em{color:#4d8bff;font-style:normal;}
+nav{padding:14px 10px;flex:1;}
+.nav-section{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:0 8px;margin:14px 0 4px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;color:rgba(255,255,255,.55);font-weight:500;font-size:12.5px;transition:all .15s;margin-bottom:1px;}
+.nav-item:hover{background:rgba(255,255,255,.07);color:#fff;}
+.nav-item.active{background:var(--primary);color:#fff;}
+.nav-item svg{width:14px;height:14px;flex-shrink:0;}
+.nav-badge{margin-left:auto;background:var(--danger);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:20px;}
+.sidebar-user{padding:12px 10px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
+.u-av{width:28px;height:28px;background:linear-gradient(135deg,#00c49a,#00a07e);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;}
+.u-name{font-weight:600;font-size:11.5px;color:#fff;}
+.u-role{color:rgba(255,255,255,.4);font-size:10px;}
+.logout{margin-left:auto;cursor:pointer;color:rgba(255,255,255,.3);font-size:11px;}
+.logout:hover{color:#fff;}
+
+/* MAIN */
+.main{flex:1;margin-left:220px;display:flex;flex-direction:column;}
+.topbar{height:54px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 22px;gap:10px;position:sticky;top:0;z-index:100;}
+.topbar-title{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;flex:1;}
+.topbar-sub{color:var(--muted);font-size:11px;}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:12px;cursor:pointer;border:none;transition:all .15s;}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 4px 12px rgba(0,87,255,.3);}
+.btn-primary:hover{transform:translateY(-1px);}
+.btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border);}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary);}
+.content{padding:20px 22px;flex:1;}
+
+/* HERO CABINET */
+.cabinet-hero{background:linear-gradient(135deg,#0057ff,#3d7bff);border-radius:16px;padding:22px;display:flex;align-items:flex-start;gap:16px;margin-bottom:18px;position:relative;overflow:hidden;}
+.cabinet-hero::before{content:'';position:absolute;right:-20px;top:-20px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.07);}
+.ch-logo{width:50px;height:50px;border-radius:13px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-family:'Playfair Display',serif;font-weight:700;font-size:18px;color:#fff;flex-shrink:0;}
+.ch-name{font-family:'Playfair Display',serif;font-weight:800;font-size:18px;color:#fff;}
+.ch-meta{color:rgba(255,255,255,.7);font-size:12px;margin-top:2px;}
+.ch-rating{display:flex;align-items:center;gap:6px;margin-top:7px;}
+.ch-stars{color:#ffd700;font-size:15px;}
+.ch-score{font-family:'Playfair Display',serif;font-weight:800;font-size:18px;color:#fff;}
+.ch-count{color:rgba(255,255,255,.6);font-size:12px;}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;transition:all .2s;}
+.kpi-card:hover{box-shadow:0 8px 24px rgba(0,87,255,.1);transform:translateY(-2px);}
+.kpi-label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:7px;}
+.kpi-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:7px;}
+.kpi-val sup{font-size:12px;vertical-align:super;font-family:'Plus Jakarta Sans',sans-serif;}
+.delta{display:inline-flex;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:20px;}
+.delta.up{color:var(--success);background:var(--success-bg);}
+.delta.down{color:var(--danger);background:var(--danger-bg);}
+.delta.neutral{color:var(--warn);background:var(--warn-bg);}
+
+/* CARDS */
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.card-head{padding:14px 18px 11px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;}
+.card-title{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;}
+.card-sub{color:var(--muted);font-size:11px;margin-top:1px;}
+.card-body{padding:14px 18px;}
+
+/* METRICS */
+.metric-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);}
+.metric-row:last-child{border-bottom:none;}
+.metric-lbl{font-size:13px;font-weight:500;}
+.metric-right{display:flex;align-items:center;gap:9px;}
+.metric-bar{width:70px;height:5px;background:var(--border);border-radius:10px;overflow:hidden;}
+.metric-fill{height:100%;border-radius:10px;}
+.metric-val{font-family:'Playfair Display',serif;font-weight:700;font-size:13px;min-width:24px;text-align:right;}
+
+/* ALERTS */
+.alert{border-radius:9px;padding:11px 13px;display:flex;align-items:flex-start;gap:9px;margin-bottom:8px;border:1px solid;}
+.alert:last-child{margin-bottom:0;}
+.alert.danger{background:#fff5f5;border-color:#fca5a5;}
+.alert.warn{background:#fffbeb;border-color:#fcd34d;}
+.alert-icon{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;flex-shrink:0;}
+.alert-icon svg{width:12px;height:12px;}
+.alert.danger .alert-icon{background:var(--danger-bg);color:var(--danger);}
+.alert.warn .alert-icon{background:var(--warn-bg);color:var(--warn);}
+.alert-body{flex:1;}
+.alert-title{font-weight:700;font-size:12px;}
+.alert.danger .alert-title{color:var(--danger);}
+.alert.warn .alert-title{color:var(--warn);}
+.alert-desc{font-size:11px;color:var(--muted);}
+.alert-cta{font-size:11px;font-weight:700;color:var(--primary);cursor:pointer;padding:3px 7px;border-radius:5px;white-space:nowrap;flex-shrink:0;}
+
+/* PATIENTS */
+.p-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.p-row:last-child{border-bottom:none;}
+.p-row:hover{margin:0 -18px;padding:9px 18px;background:var(--surface2);}
+.p-av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.p-info{flex:1;}
+.p-name{font-weight:600;font-size:12.5px;}
+.p-meta{color:var(--muted);font-size:10.5px;}
+.stars{font-size:10.5px;color:#f59e0b;}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700;}
+.badge::before{content:'';width:5px;height:5px;border-radius:50%;}
+.badge.ok{background:var(--success-bg);color:var(--success);}
+.badge.ok::before{background:var(--success);}
+.badge.mid{background:var(--warn-bg);color:var(--warn);}
+.badge.mid::before{background:var(--warn);}
+.badge.bad{background:var(--danger-bg);color:var(--danger);}
+.badge.bad::before{background:var(--danger);}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;min-width:500px;}
+.tbl th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:9px 13px;border-bottom:1px solid var(--border);background:var(--surface2);}
+.tbl td{padding:10px 13px;border-bottom:1px solid var(--border);font-size:12px;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--surface2);}
+.tbl-wrap{overflow-x:auto;}
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10.5px;font-weight:600;background:var(--primary-lt);color:var(--primary);}
+
+/* VIEWS */
+.view{display:none;}
+.view.active{display:block;}
+
+/* BOTTOM NAV */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--sidebar);border-top:1px solid rgba(255,255,255,.08);z-index:300;}
+.bottom-nav-inner{display:flex;height:100%;}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:rgba(255,255,255,.4);font-size:9px;font-weight:600;transition:color .15s;-webkit-tap-highlight-color:transparent;}
+.bn-item svg{width:19px;height:19px;stroke:currentColor;fill:none;}
+.bn-item.active{color:var(--primary);}
+
+@media(max-width:900px){.kpi-grid{grid-template-columns:1fr 1fr;}.row2{grid-template-columns:1fr;}}
+@media(max-width:768px){
+  .sidebar{display:none;}.main{margin-left:0;}
+  .bottom-nav{display:flex;}
+  .content{padding:12px 12px calc(60px + 12px);}
+  .topbar{padding:0 12px;}
+  .hide-mob{display:none;}
+  .kpi-grid{grid-template-columns:1fr 1fr;gap:9px;}
+  .kpi-val{font-size:22px;}
+  .cabinet-hero{flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icon"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+    <span class="logo-text">Medi<em>Pulse</em></span>
+  </div>
+  <nav>
+    <div class="nav-section">Mon cabinet</div>
+    <div class="nav-item active" onclick="go('dashboard',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-item" onclick="go('patients',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Mes patients
+      <span class="nav-badge">3</span>
+    </div>
+    <div class="nav-item" onclick="go('historique',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+      Historique
+    </div>
+    <div class="nav-section">Compte</div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
+      Paramètres
+    </div>
+  </nav>
+  <div class="sidebar-user">
+    <div class="u-av">AB</div>
+    <div><div class="u-name">Dr. Ahmed Benali</div><div class="u-role">🏥 Cabinet Hassan II</div></div>
+    <span class="logout" onclick="window.location.href='/'">⏻</span>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div style="flex:1">
+      <div class="topbar-title" id="t-title">Mon Dashboard 🏥</div>
+      <div class="topbar-sub">Avril 2026 · Cabinet Hassan II · Casablanca</div>
+    </div>
+    <button class="btn btn-outline hide-mob">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Rapport PDF
+    </button>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="view active" id="view-dashboard">
+
+      <!-- Hero -->
+      <div class="cabinet-hero">
+        <div class="ch-logo">CH</div>
+        <div style="flex:1;position:relative;z-index:1">
+          <div class="ch-name">Cabinet Hassan II</div>
+          <div class="ch-meta">📍 Casablanca, Maarif · Médecine générale</div>
+          <div class="ch-rating">
+            <span class="ch-stars">★★★★★</span>
+            <span class="ch-score">4.8</span>
+            <span class="ch-count">/ 5 — 312 avis ce mois</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Patients ce mois</div>
+          <div class="kpi-val" style="color:var(--primary)">312</div>
+          <span class="delta up">↑ +24 vs mois dernier</span>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Satisfaction</div>
+          <div class="kpi-val" style="color:var(--success)">4.8<sup>/5</sup></div>
+          <span class="delta up">↑ Excellent</span>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Taux réponse</div>
+          <div class="kpi-val" style="color:var(--warn)">34<sup>%</sup></div>
+          <span class="delta down">↓ À améliorer</span>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Alertes</div>
+          <div class="kpi-val" style="color:var(--danger)">5</div>
+          <span class="delta neutral">→ À traiter</span>
+        </div>
+      </div>
+
+      <div class="row2">
+        <!-- Métriques -->
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">Métriques détaillées</div><div class="card-sub">Par critère de satisfaction</div></div>
+          </div>
+          <div class="card-body">
+            <div class="metric-row"><span class="metric-lbl">Accueil & personnel</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:94%;background:#0057ff"></div></div><span class="metric-val">4.9</span></div></div>
+            <div class="metric-row"><span class="metric-lbl">Temps d'attente</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:58%;background:#f59e0b"></div></div><span class="metric-val">3.0</span></div></div>
+            <div class="metric-row"><span class="metric-lbl">Qualité consultation</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:96%;background:#00c49a"></div></div><span class="metric-val">4.9</span></div></div>
+            <div class="metric-row"><span class="metric-lbl">Propreté des locaux</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:82%;background:#0057ff"></div></div><span class="metric-val">4.4</span></div></div>
+            <div class="metric-row"><span class="metric-lbl">Recommandation</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:90%;background:#0057ff"></div></div><span class="metric-val">4.8</span></div></div>
+          </div>
+        </div>
+
+        <!-- Alertes -->
+        <div class="card">
+          <div class="card-head">
+            <div><div class="card-title">🔔 Alertes</div><div class="card-sub">Patients insatisfaits</div></div>
+            <span class="tag" style="background:var(--danger-bg);color:var(--danger)">5 urgentes</span>
+          </div>
+          <div class="card-body">
+            <div class="alert danger"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Salma B. — 2/5</div><div class="alert-desc">Action recommandée · 25/04</div></div><span class="alert-cta">Voir →</span></div>
+            <div class="alert danger"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Rachid K. — 1/5</div><div class="alert-desc">Action recommandée · 24/04</div></div><span class="alert-cta">Voir →</span></div>
+            <div class="alert warn"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">Taux réponse faible</div><div class="alert-desc">34% · Rappel SMS conseillé</div></div><span class="alert-cta">Voir →</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Patients récents -->
+      <div class="card">
+        <div class="card-head">
+          <div><div class="card-title">Patients récents</div><div class="card-sub">Dernières réponses reçues</div></div>
+          <span style="font-size:11.5px;color:var(--primary);font-weight:600;cursor:pointer" onclick="go('patients',null)">Voir tout →</span>
+        </div>
+        <div class="card-body" style="padding-top:4px;padding-bottom:4px">
+          <div class="p-row"><div class="p-av" style="background:#e6eeff;color:#0057ff">KA</div><div class="p-info"><div class="p-name">Karim A.</div><div class="p-meta">il y a 8 min</div></div><div class="stars">★★★★★</div><span class="badge ok">Satisfait</span></div>
+          <div class="p-row"><div class="p-av" style="background:#fef2f2;color:#ef4444">SB</div><div class="p-info"><div class="p-name">Salma B.</div><div class="p-meta">il y a 45 min</div></div><div class="stars" style="color:#f87171">★★<span style="color:#e4ecf7">★★★</span></div><span class="badge bad">Insatisfait</span></div>
+          <div class="p-row"><div class="p-av" style="background:#e6faf5;color:#00c49a">NE</div><div class="p-info"><div class="p-name">Nadia El K.</div><div class="p-meta">il y a 3h</div></div><div class="stars" style="color:#f59e0b">★★★★★</div><span class="badge ok">Satisfait</span></div>
+          <div class="p-row"><div class="p-av" style="background:#fef2f2;color:#ef4444">RK</div><div class="p-info"><div class="p-name">Rachid K.</div><div class="p-meta">hier</div></div><div class="stars"><span style="color:#f59e0b">★</span><span style="color:#e4ecf7">★★★★</span></div><span class="badge bad">Insatisfait</span></div>
+          <div class="p-row"><div class="p-av" style="background:#e6eeff;color:#0057ff">MT</div><div class="p-info"><div class="p-name">Mohamed T.</div><div class="p-meta">hier</div></div><div class="stars" style="color:#f59e0b">★★★★<span style="color:#e4ecf7">★</span></div><span class="badge ok">Satisfait</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATIENTS -->
+    <div class="view" id="view-patients">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Mes patients</div><div style="color:var(--muted);font-size:12px;margin-top:2px">312 réponses ce mois</div></div>
+        <select style="background:var(--surface2);border:1.5px solid var(--border);border-radius:9px;padding:6px 10px;font-size:12px;color:var(--text);cursor:pointer;outline:none;"><option>Tous</option><option>Satisfait</option><option>Moyen</option><option>Insatisfait</option></select>
+      </div>
+      <div class="card">
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr><th>Patient</th><th>Note</th><th>Statut</th><th>Commentaire</th><th>Date</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Karim A.</strong></td><td>⭐⭐⭐⭐⭐</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Excellent médecin"</td><td style="color:var(--muted)">25/04</td></tr>
+              <tr style="background:#fff5f5"><td><strong>Salma B.</strong></td><td>⭐⭐</td><td><span class="badge bad">Insatisfait</span></td><td style="color:var(--muted);font-style:italic">"Attente trop longue"</td><td style="color:var(--muted)">25/04</td></tr>
+              <tr><td><strong>Nadia El K.</strong></td><td>⭐⭐⭐⭐⭐</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Merci docteur !"</td><td style="color:var(--muted)">25/04</td></tr>
+              <tr style="background:#fff5f5"><td><strong>Rachid K.</strong></td><td>⭐</td><td><span class="badge bad">Insatisfait</span></td><td style="color:var(--muted);font-style:italic">"Pas écouté"</td><td style="color:var(--muted)">24/04</td></tr>
+              <tr><td><strong>Mohamed T.</strong></td><td>⭐⭐⭐⭐</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Très bien"</td><td style="color:var(--muted)">24/04</td></tr>
+              <tr><td><strong>Houda R.</strong></td><td>⭐⭐⭐⭐⭐</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Je recommande"</td><td style="color:var(--muted)">23/04</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORIQUE -->
+    <div class="view" id="view-historique">
+      <div style="margin-bottom:16px">
+        <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Historique complet</div>
+        <div style="color:var(--muted);font-size:12px;margin-top:2px">Toutes les réponses de votre cabinet</div>
+      </div>
+      <div class="card">
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr><th>Patient</th><th>Note</th><th>Accueil</th><th>Attente</th><th>Consult.</th><th>Statut</th><th>Commentaire</th><th>Date</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Karim A.</strong></td><td>⭐⭐⭐⭐⭐</td><td>5/5</td><td>4/5</td><td>5/5</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Excellent"</td><td style="color:var(--muted)">25/04</td></tr>
+              <tr style="background:#fff5f5"><td><strong>Salma B.</strong></td><td>⭐⭐</td><td>2/5</td><td>1/5</td><td>3/5</td><td><span class="badge bad">Insatisfait</span></td><td style="color:var(--muted);font-style:italic">"Trop long"</td><td style="color:var(--muted)">25/04</td></tr>
+              <tr><td><strong>Nadia El K.</strong></td><td>⭐⭐⭐⭐⭐</td><td>5/5</td><td>5/5</td><td>5/5</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Parfait"</td><td style="color:var(--muted)">25/04</td></tr>
+              <tr style="background:#fff5f5"><td><strong>Rachid K.</strong></td><td>⭐</td><td>1/5</td><td>1/5</td><td>2/5</td><td><span class="badge bad">Insatisfait</span></td><td style="color:var(--muted);font-style:italic">"Déçu"</td><td style="color:var(--muted)">24/04</td></tr>
+              <tr><td><strong>Mohamed T.</strong></td><td>⭐⭐⭐⭐</td><td>4/5</td><td>3/5</td><td>5/5</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Bien"</td><td style="color:var(--muted)">24/04</td></tr>
+              <tr><td><strong>Houda R.</strong></td><td>⭐⭐⭐⭐⭐</td><td>5/5</td><td>5/5</td><td>5/5</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Je recommande"</td><td style="color:var(--muted)">23/04</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <div class="bn-item active" id="bn-dashboard" onclick="go('dashboard',this)">
+      <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+      Dashboard
+    </div>
+    <div class="bn-item" id="bn-patients" onclick="go('patients',this)">
+      <svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Patients
+    </div>
+    <div class="bn-item" id="bn-historique" onclick="go('historique',this)">
+      <svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+      Historique
+    </div>
+  </div>
+</nav>
+
+<script>
+function go(name,el){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el&&el.classList.contains('nav-item'))el.classList.add('active');
+  document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
+  const bn=document.getElementById('bn-'+name);
+  if(bn)bn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
