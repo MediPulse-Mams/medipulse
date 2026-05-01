@@ -188,6 +188,11 @@ function valider() {
 }
 
 function genererMessage(nom, lien) {
+  const langue = document.getElementById('cabinet').value;
+  const isAR = langue.includes('1FAIpQLSeUqRuMX');
+  if(isAR) {
+    return `مرحباً ${nom} 👋\n\nشكراً على زيارتكم للعيادة.\n\nرأيكم يهمنا ! يرجى تخصيص دقيقة واحدة للإجابة على استبيان الرضا :\n\n${lien}\n\nشكراً لكم وتمنياتنا لكم بيوم سعيد ! 🌟\n\n_MediPulse_`;
+  }
   return `Bonjour ${nom} 👋\n\nMerci pour votre visite au cabinet.\n\nVotre avis nous est précieux ! Merci de prendre 1 minute pour répondre à notre questionnaire de satisfaction :\n\n${lien}\n\nMerci et bonne journée ! 🌟\n\n_MediPulse_`;
 }
 
