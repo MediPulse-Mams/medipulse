@@ -202,10 +202,10 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
     <!-- DASHBOARD -->
     <div class="view active" id="view-dashboard">
       <div class="kpi-grid">
-        <div class="kpi-card featured"><div class="kpi-label">Patients</div><div class="kpi-val">1 284</div><span class="delta">↑ +12% ce mois</span></div>
-        <div class="kpi-card"><div class="kpi-label">Satisfaction</div><div class="kpi-val" style="color:var(--primary)">4.6<sup>/5</sup></div><span class="delta up">↑ +0.3</span></div>
-        <div class="kpi-card"><div class="kpi-label">Avis moyens</div><div class="kpi-val" style="color:var(--warn)">87</div><span class="delta neutral">→ Stable</span></div>
-        <div class="kpi-card"><div class="kpi-label">Alertes</div><div class="kpi-val" style="color:var(--danger)">14</div><span class="delta down">↑ +3</span></div>
+        <div class="kpi-card featured"><div class="kpi-label">Patients</div><div class="kpi-val" id="kpi-patients">1 284</div><span class="delta">↑ +12% ce mois</span></div>
+        <div class="kpi-card"><div class="kpi-label">Satisfaction</div><div class="kpi-val" id="kpi-satisfaction" style="color:var(--primary)">4.6<sup>/5</sup></div><span class="delta up">↑ +0.3</span></div>
+        <div class="kpi-card"><div class="kpi-label">Avis moyens</div><div class="kpi-val" id="kpi-moyens" style="color:var(--warn)">87</div><span class="delta neutral">→ Stable</span></div>
+        <div class="kpi-card"><div class="kpi-label">Alertes</div><div class="kpi-val" id="kpi-alertes" style="color:var(--danger)">14</div><span class="delta down">↑ +3</span></div>
       </div>
       <div class="villes">
         <div class="ville"><div class="ville-val">🏙️ 5</div><div class="ville-lbl">Cabinets Casa</div></div>
@@ -265,7 +265,7 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
       <div class="row2 equal">
         <div class="card">
           <div class="card-head"><div><div class="card-title">Patients récents</div></div><span style="font-size:11.5px;color:var(--primary);font-weight:600;cursor:pointer" onclick="go('patients',null)">Voir tout →</span></div>
-          <div class="card-body" style="padding-top:4px;padding-bottom:4px">
+          <div class="card-body" id="patients-list" style="padding-top:4px;padding-bottom:4px">
             <div class="p-row"><div class="p-av" style="background:#e6eeff;color:#0057ff">KA</div><div class="p-info"><div class="p-name">Karim A.</div><div class="p-meta">Hassan II · 8 min</div></div><div class="stars">★★★★★</div><span class="badge ok">Satisfait</span></div>
             <div class="p-row"><div class="p-av" style="background:#fef2f2;color:#ef4444">SB</div><div class="p-info"><div class="p-name">Salma B.</div><div class="p-meta">Agdal · 45 min</div></div><div class="stars" style="color:#f87171">★★<span style="color:#e4ecf7">★★★</span></div><span class="badge bad">Insatisfait</span></div>
             <div class="p-row"><div class="p-av" style="background:#fef8e7;color:#f59e0b">YM</div><div class="p-info"><div class="p-name">Youssef M.</div><div class="p-meta">Al Fath · 2h</div></div><div class="stars"><span style="color:#f59e0b">★★★</span><span style="color:#e4ecf7">★★</span></div><span class="badge mid">Moyen</span></div>
@@ -375,6 +375,56 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
   </div>
 </nav>
 
+const SHEET_ID = '1LV7RMfmxJXopO942FBenTQYTGcMUxZT_4QYypQrHeMU';
+const SHEET_NAME = 'Fusion AR & FR';
+const API_KEY = 'AIzaSyCy3jfMxuWxeQXE0L7rLm3AZbNwCQegneM';
+
+async function loadSheetData() {
+  try {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_NAME)}?key=${API_KEY}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const rows = data.values ? data.values.slice(1) : [];
+    let total = rows.length;
+    let satisfait = 0, moyen = 0, insatisfait = 0;
+    let totalNote = 0;
+    rows.forEach(row => {
+      const noteStr = row[1] || '';
+      const note = (noteStr.match(/★/g) || []).length || parseInt(noteStr) || 0;
+      totalNote += note;
+      if(note >= 4) satisfait++;
+      else if(note === 3) moyen++;
+      else if(note > 0) insatisfait++;
+    });
+    const avg = total > 0 ? (totalNote/total).toFixed(1) : '0.0';
+    const kpiP = document.getElementById('kpi-patients');
+    const kpiS = document.getElementById('kpi-satisfaction');
+    const kpiM = document.getElementById('kpi-moyens');
+    const kpiA = document.getElementById('kpi-alertes');
+    if(kpiP) kpiP.textContent = total;
+    if(kpiS) kpiS.textContent = avg + '/5';
+    if(kpiM) kpiM.textContent = moyen;
+    if(kpiA) kpiA.textContent = insatisfait;
+    const list = document.getElementById('patients-list');
+    if(list) {
+      list.innerHTML = '';
+      const recent = rows.slice(-5).reverse();
+      recent.forEach(row => {
+        const nom = row[2] || 'Anonyme';
+        const noteStr = row[1] || '';
+        const note = (noteStr.match(/★/g) || []).length || parseInt(noteStr) || 0;
+        const date = row[0] || '';
+        const initiales = nom.split(' ').map(n=>n[0]||'').join('').toUpperCase().slice(0,2);
+        const statut = note >= 4 ? 'ok' : note === 3 ? 'mid' : 'bad';
+        const label = note >= 4 ? 'Satisfait' : note === 3 ? 'Moyen' : 'Insatisfait';
+        const stars = '★'.repeat(Math.min(note,5)) + '☆'.repeat(Math.max(0,5-note));
+        list.innerHTML += `<div class="p-row"><div class="p-av" style="background:#e6eeff;color:#0057ff">${initiales}</div><div class="p-info"><div class="p-name">${nom}</div><div class="p-meta">${date}</div></div><div class="stars">${stars}</div><span class="badge ${statut}">${label}</span></div>`;
+      });
+    }
+  } catch(e) { console.log('Erreur:', e); }
+}
+loadSheetData();
+setInterval(loadSheetData, 30000);
 <script>
 const T={dashboard:"Vue d'ensemble 👑",cabinets:"Cabinets 🇲🇦",patients:"Patients",alertes:"🔔 Alertes",commerciaux:"💼 Commerciaux",stats:"📊 Statistiques"};
 function go(name,el){
@@ -387,6 +437,7 @@ function go(name,el){
   if(T[name])document.getElementById('t-title').textContent=T[name];
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
 </script>
 </body>
 </html>
