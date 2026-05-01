@@ -7,84 +7,110 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --primary:#0057ff;--primary-lt:#e6eeff;
-  --success:#00c49a;--success-bg:#e6faf5;
-  --border:#e4ecf7;--muted:#6b7fa3;--light:#b0bdd4;
-  --text:#0a1628;--bg:#f8fafd;--surface:#fff;
-}
-html,body{height:100%;min-height:100vh;}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(135deg,#0a1628 0%,#0d2452 100%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+:root{--primary:#0057ff;--primary-lt:#e6eeff;--success:#00c49a;--success-bg:#e6faf5;--border:#e4ecf7;--muted:#6b7fa3;--light:#b0bdd4;--text:#0a1628;--bg:#f8fafd;--surface:#fff;--danger:#ef4444;--danger-bg:#fef2f2;}
+html,body{min-height:100vh;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(135deg,#0a1628 0%,#0d2452 100%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:24px 16px 40px;}
 
-/* HEADER */
 .header{display:flex;align-items:center;gap:10px;margin-bottom:24px;}
-.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:10px;display:grid;place-items:center;}
-.logo-icon svg{width:18px;height:18px;stroke:#fff;fill:none;}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:10px;display:grid;place-items:center;}
+.logo-icon svg{width:17px;height:17px;stroke:#fff;fill:none;}
 .logo-text{font-family:'Playfair Display',serif;font-weight:700;font-size:20px;color:#fff;}
 .logo-text em{color:#4d8bff;font-style:normal;}
 
-/* CARD */
-.card{background:#fff;border-radius:20px;padding:32px;width:100%;max-width:440px;box-shadow:0 24px 80px rgba(0,0,0,.3);}
-.card-title{font-family:'Playfair Display',serif;font-weight:800;font-size:22px;margin-bottom:4px;}
-.card-sub{color:var(--muted);font-size:13px;margin-bottom:24px;}
+.card{background:#fff;border-radius:20px;padding:28px;width:100%;max-width:460px;box-shadow:0 24px 80px rgba(0,0,0,.3);}
+.card-title{font-family:'Playfair Display',serif;font-weight:800;font-size:20px;margin-bottom:4px;}
+.card-sub{color:var(--muted);font-size:13px;margin-bottom:22px;}
 
-/* FORM */
 .form-group{margin-bottom:14px;}
-.form-label{font-size:11.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:block;}
+.form-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:block;}
 .form-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:all .15s;background:var(--bg);}
 .form-input:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px rgba(0,87,255,.1);}
 .form-input::placeholder{color:var(--light);}
 select.form-input{cursor:pointer;}
 
-/* BUTTON */
-.send-btn{width:100%;padding:14px;background:linear-gradient(135deg,#0057ff,#4d8bff);color:#fff;border:none;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:all .2s;margin-top:6px;box-shadow:0 4px 16px rgba(0,87,255,.35);display:flex;align-items:center;justify-content:center;gap:8px;}
-.send-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,87,255,.4);}
-.send-btn:active{transform:translateY(0);}
-.send-btn svg{width:18px;height:18px;stroke:#fff;fill:none;}
+/* BOUTON WHATSAPP */
+.wa-btn{
+  width:100%;padding:14px;
+  background:linear-gradient(135deg,#25D366,#128C7E);
+  color:#fff;border:none;border-radius:9px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700;font-size:15px;cursor:pointer;
+  transition:all .2s;margin-top:6px;
+  box-shadow:0 4px 16px rgba(37,211,102,.35);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.wa-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.4);}
+.wa-btn:active{transform:translateY(0);}
+.wa-btn svg{width:20px;height:20px;fill:#fff;}
 
-/* SUCCESS */
-.success{display:none;background:var(--success-bg);border:1px solid var(--success);border-radius:9px;padding:16px;text-align:center;margin-top:14px;}
-.success-icon{font-size:32px;margin-bottom:8px;}
-.success-title{font-weight:700;font-size:15px;color:var(--success);}
-.success-sub{font-size:12px;color:var(--muted);margin-top:4px;}
+/* BOUTON COPIER LIEN */
+.copy-btn{
+  width:100%;padding:11px;
+  background:transparent;
+  color:var(--primary);
+  border:1.5px solid var(--primary);
+  border-radius:9px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:600;font-size:13px;cursor:pointer;
+  transition:all .15s;margin-top:8px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.copy-btn:hover{background:var(--primary-lt);}
+.copy-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;}
 
-/* HISTORY */
-.history{background:#fff;border-radius:20px;padding:24px;width:100%;max-width:440px;margin-top:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);}
-.history-title{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;margin-bottom:14px;color:var(--text);}
+/* LIEN GENERÉ */
+.link-preview{
+  background:var(--bg);
+  border:1.5px solid var(--border);
+  border-radius:9px;
+  padding:12px 14px;
+  margin-top:14px;
+  display:none;
+}
+.link-preview-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.link-preview-url{font-size:12px;color:var(--primary);word-break:break-all;font-weight:500;}
+
+/* SUCCÈS */
+.success{display:none;background:var(--success-bg);border:1px solid var(--success);border-radius:9px;padding:14px;text-align:center;margin-top:14px;}
+.success-icon{font-size:28px;margin-bottom:6px;}
+.success-title{font-weight:700;font-size:14px;color:var(--success);}
+.success-sub{font-size:12px;color:var(--muted);margin-top:3px;}
+
+/* HISTORIQUE */
+.history{background:#fff;border-radius:20px;padding:22px;width:100%;max-width:460px;margin-top:16px;box-shadow:0 8px 32px rgba(0,0,0,.2);}
+.history-title{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;margin-bottom:12px;color:var(--text);}
 .h-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
 .h-row:last-child{border-bottom:none;}
-.h-av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;flex-shrink:0;color:#fff;}
-.h-info{flex:1;}
-.h-name{font-weight:600;font-size:12.5px;}
+.h-av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700;flex-shrink:0;color:#fff;}
+.h-info{flex:1;min-width:0;}
+.h-name{font-weight:600;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .h-meta{color:var(--muted);font-size:11px;}
-.h-status{font-size:10.5px;font-weight:700;background:var(--success-bg);color:var(--success);padding:3px 8px;border-radius:20px;}
+.h-status{font-size:10.5px;font-weight:700;background:var(--success-bg);color:var(--success);padding:3px 8px;border-radius:20px;white-space:nowrap;}
 
-/* LOGOUT */
-.logout-btn{margin-top:16px;color:rgba(255,255,255,.4);font-size:12px;cursor:pointer;text-align:center;}
+.logout-btn{margin-top:20px;color:rgba(255,255,255,.4);font-size:12px;cursor:pointer;text-align:center;}
 .logout-btn:hover{color:#fff;}
+
+/* COPIED TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0a1628;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:600;display:none;z-index:999;box-shadow:0 4px 16px rgba(0,0,0,.3);}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="logo-icon">
-    <svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-  </div>
+  <div class="logo-icon"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
   <span class="logo-text">Medi<em>Pulse</em></span>
 </div>
 
 <div class="card">
   <div class="card-title">Saisie patient 📋</div>
-  <div class="card-sub">Remplissez les infos — le SMS part automatiquement 📲</div>
+  <div class="card-sub">Remplissez les infos — le lien WhatsApp sera généré automatiquement 📲</div>
 
   <div class="form-group">
-    <label class="form-label">Cabinet</label>
+    <label class="form-label">Langue du questionnaire</label>
     <select class="form-input" id="cabinet">
-      <option value="">Sélectionner un cabinet...</option>
-      <option>Cabinet Hassan II — Casablanca</option>
-      <option>Clinique Agdal — Rabat</option>
-      <option>Cabinet Al Fath — Casablanca</option>
-      <option>Clinique Marjane — Marrakech</option>
+      <option value="">Sélectionner la langue...</option>
+      <option value="https://docs.google.com/forms/d/e/1FAIpQLScKASRKZQfs0LxTkkGmZvdMSEl92iqmskNgyRugK3BzZqb6Rg/viewform">🇫🇷 Français</option>
+      <option value="https://docs.google.com/forms/d/e/1FAIpQLSeUqRuMXn3H0fImp4gN3APOH70_NPJKwyzExRr6VA5zx5cK9A/viewform">🇲🇦 Arabe (عربية)</option>
     </select>
   </div>
 
@@ -94,27 +120,32 @@ select.form-input{cursor:pointer;}
   </div>
 
   <div class="form-group">
-    <label class="form-label">Numéro de téléphone</label>
+    <label class="form-label">Numéro WhatsApp</label>
     <input class="form-input" type="tel" id="tel" placeholder="Ex: 06 12 34 56 78">
   </div>
 
-  <div class="form-group">
-    <label class="form-label">Langue préférée</label>
-    <select class="form-input" id="langue">
-      <option value="fr">🇫🇷 Français</option>
-      <option value="ar">🇲🇦 Arabe</option>
-    </select>
+  <!-- Lien généré -->
+  <div class="link-preview" id="link-preview">
+    <div class="link-preview-label">🔗 Lien du questionnaire</div>
+    <div class="link-preview-url" id="link-url"></div>
   </div>
 
-  <button class="send-btn" onclick="envoyer()">
-    <svg viewBox="0 0 24 24" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.72A2 2 0 012 .92h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-    Envoyer le questionnaire SMS
+  <!-- Bouton WhatsApp -->
+  <button class="wa-btn" onclick="envoyerWhatsApp()">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Envoyer via WhatsApp
+  </button>
+
+  <!-- Bouton copier lien -->
+  <button class="copy-btn" onclick="copierLien()">
+    <svg viewBox="0 0 24 24" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+    Copier le lien uniquement
   </button>
 
   <div class="success" id="success">
     <div class="success-icon">✅</div>
-    <div class="success-title">SMS envoyé avec succès !</div>
-    <div class="success-sub" id="success-text">Le patient recevra le lien dans quelques secondes.</div>
+    <div class="success-title">Lien envoyé via WhatsApp !</div>
+    <div class="success-sub" id="success-text">Le patient va recevoir le questionnaire.</div>
   </div>
 </div>
 
@@ -122,76 +153,123 @@ select.form-input{cursor:pointer;}
 <div class="history">
   <div class="history-title">📋 Envois du jour</div>
   <div id="history-list">
-    <div class="h-row">
-      <div class="h-av" style="background:#0057ff">KA</div>
-      <div class="h-info">
-        <div class="h-name">Karim A.</div>
-        <div class="h-meta">06 61 23 45 67 · il y a 8 min</div>
-      </div>
-      <span class="h-status">✓ Envoyé</span>
-    </div>
-    <div class="h-row">
-      <div class="h-av" style="background:#00c49a">NE</div>
-      <div class="h-info">
-        <div class="h-name">Nadia El K.</div>
-        <div class="h-meta">06 72 34 56 78 · il y a 1h</div>
-      </div>
-      <span class="h-status">✓ Envoyé</span>
-    </div>
+    <div style="color:var(--muted);font-size:13px;text-align:center;padding:10px">Aucun envoi pour le moment</div>
   </div>
 </div>
 
 <div class="logout-btn" onclick="window.location.href='/'">⏻ Déconnexion</div>
 
+<div class="toast" id="toast">✅ Lien copié !</div>
+
 <script>
 const colors = ['#0057ff','#00c49a','#f59e0b','#ef4444','#7c3aed','#ec4899'];
+let envoisDuJour = [];
 
-function envoyer() {
-  const cabinet = document.getElementById('cabinet').value;
-  const nom = document.getElementById('nom').value.trim();
-  const tel = document.getElementById('tel').value.trim();
-  const langue = document.getElementById('langue').value;
-
-  if (!cabinet || !nom || !tel) {
-    alert('Veuillez remplir tous les champs !');
-    return;
-  }
-
-  // Affiche succès
-  const success = document.getElementById('success');
-  document.getElementById('success-text').textContent =
-    `SMS envoyé à ${nom} (${tel}) en ${langue === 'fr' ? 'Français 🇫🇷' : 'Arabe 🇲🇦'}`;
-  success.style.display = 'block';
-
-  // Ajoute à l'historique
-  const initiales = nom.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
-  const couleur = colors[Math.floor(Math.random() * colors.length)];
-  const now = 'À l\'instant';
-  const list = document.getElementById('history-list');
-  const row = document.createElement('div');
-  row.className = 'h-row';
-  row.innerHTML = `
-    <div class="h-av" style="background:${couleur}">${initiales}</div>
-    <div class="h-info">
-      <div class="h-name">${nom}</div>
-      <div class="h-meta">${tel} · ${now}</div>
-    </div>
-    <span class="h-status">✓ Envoyé</span>
-  `;
-  list.prepend(row);
-
-  // Reset form
-  document.getElementById('nom').value = '';
-  document.getElementById('tel').value = '';
-
-  // Cache succès après 4 sec
-  setTimeout(() => { success.style.display = 'none'; }, 4000);
+function getLienForm() {
+  return document.getElementById('cabinet').value;
 }
 
-// Entrée clavier
-document.addEventListener('keypress', e => {
-  if (e.key === 'Enter') envoyer();
-});
+function getNom() {
+  return document.getElementById('nom').value.trim();
+}
+
+function getTel() {
+  return document.getElementById('tel').value.trim().replace(/\s/g,'');
+}
+
+function valider() {
+  const cabinet = getLienForm();
+  const nom = getNom();
+  const tel = getTel();
+  if(!cabinet){alert('Veuillez sélectionner un cabinet !');return false;}
+  if(!nom){alert('Veuillez entrer le nom du patient !');return false;}
+  if(!tel){alert('Veuillez entrer le numéro WhatsApp !');return false;}
+  return true;
+}
+
+function genererMessage(nom, lien) {
+  return `Bonjour ${nom} 👋\n\nMerci pour votre visite au cabinet.\n\nVotre avis nous est précieux ! Merci de prendre 1 minute pour répondre à notre questionnaire de satisfaction :\n\n${lien}\n\nMerci et bonne journée ! 🌟\n\n_MediPulse_`;
+}
+
+function envoyerWhatsApp() {
+  if(!valider()) return;
+
+  const nom = getNom();
+  const tel = getTel();
+  const lien = getLienForm();
+
+  // Format numéro Maroc
+  let numero = tel;
+  if(numero.startsWith('0')) numero = '212' + numero.slice(1);
+  if(!numero.startsWith('+')) numero = '+' + numero;
+  numero = numero.replace(/\D/g,'');
+
+  const message = genererMessage(nom, lien);
+  const waUrl = `https://wa.me/${numero}?text=${encodeURIComponent(message)}`;
+
+  // Ouvre WhatsApp
+  window.open(waUrl, '_blank');
+
+  // Affiche succès
+  afficherSucces(nom);
+  ajouterHistorique(nom, tel);
+  resetForm();
+}
+
+function copierLien() {
+  if(!valider()) return;
+
+  const nom = getNom();
+  const lien = getLienForm();
+  const message = genererMessage(nom, lien);
+
+  navigator.clipboard.writeText(message).then(() => {
+    const toast = document.getElementById('toast');
+    toast.style.display = 'block';
+    setTimeout(()=>toast.style.display='none', 2500);
+  });
+
+  ajouterHistorique(getNom(), getTel());
+  afficherSucces(getNom());
+  resetForm();
+}
+
+function afficherSucces(nom) {
+  const success = document.getElementById('success');
+  document.getElementById('success-text').textContent = `Message prêt pour ${nom} !`;
+  success.style.display = 'block';
+  setTimeout(()=>success.style.display='none', 4000);
+}
+
+function ajouterHistorique(nom, tel) {
+  envoisDuJour.unshift({nom, tel, heure: new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})});
+  renderHistorique();
+}
+
+function renderHistorique() {
+  const list = document.getElementById('history-list');
+  if(envoisDuJour.length===0){
+    list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:10px">Aucun envoi pour le moment</div>';
+    return;
+  }
+  list.innerHTML = envoisDuJour.map((e,i) => {
+    const initiales = e.nom.split(' ').map(n=>n[0]||'').join('').toUpperCase().slice(0,2);
+    const color = colors[i % colors.length];
+    return `<div class="h-row">
+      <div class="h-av" style="background:${color}">${initiales}</div>
+      <div class="h-info">
+        <div class="h-name">${e.nom}</div>
+        <div class="h-meta">${e.tel} · ${e.heure}</div>
+      </div>
+      <span class="h-status">✓ Envoyé</span>
+    </div>`;
+  }).join('');
+}
+
+function resetForm() {
+  document.getElementById('nom').value = '';
+  document.getElementById('tel').value = '';
+}
 </script>
 </body>
 </html>
