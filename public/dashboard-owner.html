@@ -133,6 +133,7 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
 .mob-card-row:last-child{margin-bottom:0;}
 .mob-card-lbl{font-size:11.5px;color:var(--muted);}
 .mob-card-val{font-size:12.5px;font-weight:600;}
+.loading{text-align:center;padding:20px;color:var(--muted);font-size:13px;}
 .view{display:none;}
 .view.active{display:block;}
 .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:70px;background:var(--sidebar);border-top:1px solid rgba(255,255,255,.1);z-index:300;box-shadow:0 -4px 20px rgba(0,0,0,.3);}
@@ -176,7 +177,7 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
     <div class="nav-item active" onclick="go('dashboard',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</div>
     <div class="nav-item" onclick="go('cabinets',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg>Cabinets <span class="nav-badge">8</span></div>
     <div class="nav-item" onclick="go('patients',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Patients</div>
-    <div class="nav-item" onclick="go('alertes',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>Alertes <span class="nav-badge">14</span></div>
+    <div class="nav-item" onclick="go('alertes',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>Alertes <span class="nav-badge" id="badge-alertes">14</span></div>
     <div class="nav-section">Équipe</div>
     <div class="nav-item" onclick="go('commerciaux',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Commerciaux</div>
     <div class="nav-item" onclick="go('stats',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Statistiques</div>
@@ -202,16 +203,18 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
     <!-- DASHBOARD -->
     <div class="view active" id="view-dashboard">
       <div class="kpi-grid">
-        <div class="kpi-card featured"><div class="kpi-label">Patients</div><div class="kpi-val" id="kpi-patients">1 284</div><span class="delta">↑ +12% ce mois</span></div>
-        <div class="kpi-card"><div class="kpi-label">Satisfaction</div><div class="kpi-val" id="kpi-satisfaction" style="color:var(--primary)">4.6<sup>/5</sup></div><span class="delta up">↑ +0.3</span></div>
-        <div class="kpi-card"><div class="kpi-label">Avis moyens</div><div class="kpi-val" id="kpi-moyens" style="color:var(--warn)">87</div><span class="delta neutral">→ Stable</span></div>
-        <div class="kpi-card"><div class="kpi-label">Alertes</div><div class="kpi-val" id="kpi-alertes" style="color:var(--danger)">14</div><span class="delta down">↑ +3</span></div>
+        <div class="kpi-card featured"><div class="kpi-label">Patients</div><div class="kpi-val" id="kpi-patients">...</div><span class="delta">Ce mois</span></div>
+        <div class="kpi-card"><div class="kpi-label">Satisfaction</div><div class="kpi-val" id="kpi-satisfaction" style="color:var(--primary)">...</div><span class="delta up">↑ Chargement</span></div>
+        <div class="kpi-card"><div class="kpi-label">Avis moyens</div><div class="kpi-val" id="kpi-moyens" style="color:var(--warn)">...</div><span class="delta neutral">→ Stable</span></div>
+        <div class="kpi-card"><div class="kpi-label">Alertes</div><div class="kpi-val" id="kpi-alertes" style="color:var(--danger)">...</div><span class="delta down">↑ Actives</span></div>
       </div>
+
       <div class="villes">
         <div class="ville"><div class="ville-val">🏙️ 5</div><div class="ville-lbl">Cabinets Casa</div></div>
         <div class="ville"><div class="ville-val">🏛️ 2</div><div class="ville-lbl">Cabinets Rabat</div></div>
         <div class="ville"><div class="ville-val">🌴 1</div><div class="ville-lbl">Marrakech</div></div>
       </div>
+
       <div class="row2">
         <div class="card">
           <div class="card-head"><div><div class="card-title">Évolution des avis</div><div class="card-sub">6 derniers mois</div></div><select class="ctrl"><option>Tous</option><option>Casablanca</option><option>Rabat</option></select></div>
@@ -243,42 +246,37 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
                 <circle cx="40" cy="40" r="30" fill="none" stroke="#0057ff" stroke-width="12" stroke-dasharray="135 54" stroke-dashoffset="65" transform="rotate(-90 40 40)"/>
                 <circle cx="40" cy="40" r="30" fill="none" stroke="#f59e0b" stroke-width="12" stroke-dasharray="34 155" stroke-dashoffset="-71" transform="rotate(-90 40 40)"/>
                 <circle cx="40" cy="40" r="30" fill="none" stroke="#ef4444" stroke-width="12" stroke-dasharray="19 170" stroke-dashoffset="-106" transform="rotate(-90 40 40)"/>
-                <text x="40" y="36" text-anchor="middle" font-size="12" font-weight="800" font-family="Playfair Display" fill="#0a1628">74%</text>
+                <text x="40" y="36" text-anchor="middle" font-size="12" font-weight="800" font-family="Playfair Display" fill="#0a1628" id="donut-pct">74%</text>
                 <text x="40" y="47" text-anchor="middle" font-size="7" fill="#6b7fa3">Satisfaits</text>
               </svg>
               <div style="flex:1">
-                <div class="leg-item"><div class="leg-dot" style="background:#0057ff"></div>Satisfaits<span class="leg-pct">74%</span></div>
-                <div class="leg-item"><div class="leg-dot" style="background:#f59e0b"></div>Moyens<span class="leg-pct">17%</span></div>
-                <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Négatifs<span class="leg-pct">9%</span></div>
+                <div class="leg-item"><div class="leg-dot" style="background:#0057ff"></div>Satisfaits<span class="leg-pct" id="leg-satisfait">74%</span></div>
+                <div class="leg-item"><div class="leg-dot" style="background:#f59e0b"></div>Moyens<span class="leg-pct" id="leg-moyen">17%</span></div>
+                <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Négatifs<span class="leg-pct" id="leg-negatif">9%</span></div>
               </div>
             </div>
             <div style="margin-top:10px">
-              <div class="sb-item"><div class="sb-row"><span>⭐⭐⭐⭐⭐</span><span class="sb-count">521</span></div><div class="sb-bg"><div class="sb-fill" style="width:67%;background:#0057ff"></div></div></div>
-              <div class="sb-item"><div class="sb-row"><span>⭐⭐⭐⭐</span><span class="sb-count">330</span></div><div class="sb-bg"><div class="sb-fill" style="width:43%;background:#4d8bff"></div></div></div>
-              <div class="sb-item"><div class="sb-row"><span>⭐⭐⭐</span><span class="sb-count">218</span></div><div class="sb-bg"><div class="sb-fill" style="width:28%;background:#f59e0b"></div></div></div>
-              <div class="sb-item"><div class="sb-row"><span>⭐⭐</span><span class="sb-count">98</span></div><div class="sb-bg"><div class="sb-fill" style="width:13%;background:#f87171"></div></div></div>
-              <div class="sb-item"><div class="sb-row"><span>⭐</span><span class="sb-count">47</span></div><div class="sb-bg"><div class="sb-fill" style="width:6%;background:#ef4444"></div></div></div>
+              <div class="sb-item"><div class="sb-row"><span>⭐⭐⭐⭐⭐</span><span class="sb-count" id="sb-5">-</span></div><div class="sb-bg"><div class="sb-fill" style="width:67%;background:#0057ff"></div></div></div>
+              <div class="sb-item"><div class="sb-row"><span>⭐⭐⭐⭐</span><span class="sb-count" id="sb-4">-</span></div><div class="sb-bg"><div class="sb-fill" style="width:43%;background:#4d8bff"></div></div></div>
+              <div class="sb-item"><div class="sb-row"><span>⭐⭐⭐</span><span class="sb-count" id="sb-3">-</span></div><div class="sb-bg"><div class="sb-fill" style="width:28%;background:#f59e0b"></div></div></div>
+              <div class="sb-item"><div class="sb-row"><span>⭐⭐</span><span class="sb-count" id="sb-2">-</span></div><div class="sb-bg"><div class="sb-fill" style="width:13%;background:#f87171"></div></div></div>
+              <div class="sb-item"><div class="sb-row"><span>⭐</span><span class="sb-count" id="sb-1">-</span></div><div class="sb-bg"><div class="sb-fill" style="width:6%;background:#ef4444"></div></div></div>
             </div>
           </div>
         </div>
       </div>
+
       <div class="row2 equal">
         <div class="card">
-          <div class="card-head"><div><div class="card-title">Patients récents</div></div><span style="font-size:11.5px;color:var(--primary);font-weight:600;cursor:pointer" onclick="go('patients',null)">Voir tout →</span></div>
+          <div class="card-head"><div><div class="card-title">Patients récents</div><div class="card-sub">Dernières réponses Google Sheet</div></div><span style="font-size:11.5px;color:var(--primary);font-weight:600;cursor:pointer" onclick="go('patients',null)">Voir tout →</span></div>
           <div class="card-body" id="patients-list" style="padding-top:4px;padding-bottom:4px">
-            <div class="p-row"><div class="p-av" style="background:#e6eeff;color:#0057ff">KA</div><div class="p-info"><div class="p-name">Karim A.</div><div class="p-meta">Hassan II · 8 min</div></div><div class="stars">★★★★★</div><span class="badge ok">Satisfait</span></div>
-            <div class="p-row"><div class="p-av" style="background:#fef2f2;color:#ef4444">SB</div><div class="p-info"><div class="p-name">Salma B.</div><div class="p-meta">Agdal · 45 min</div></div><div class="stars" style="color:#f87171">★★<span style="color:#e4ecf7">★★★</span></div><span class="badge bad">Insatisfait</span></div>
-            <div class="p-row"><div class="p-av" style="background:#fef8e7;color:#f59e0b">YM</div><div class="p-info"><div class="p-name">Youssef M.</div><div class="p-meta">Al Fath · 2h</div></div><div class="stars"><span style="color:#f59e0b">★★★</span><span style="color:#e4ecf7">★★</span></div><span class="badge mid">Moyen</span></div>
-            <div class="p-row"><div class="p-av" style="background:#e6faf5;color:#00c49a">NE</div><div class="p-info"><div class="p-name">Nadia El K.</div><div class="p-meta">Hassan II · 3h</div></div><div class="stars" style="color:#f59e0b">★★★★★</div><span class="badge ok">Satisfait</span></div>
-            <div class="p-row"><div class="p-av" style="background:#fef2f2;color:#ef4444">OA</div><div class="p-info"><div class="p-name">Omar A.</div><div class="p-meta">Marjane · hier</div></div><div class="stars"><span style="color:#f59e0b">★</span><span style="color:#e4ecf7">★★★★</span></div><span class="badge bad">Insatisfait</span></div>
+            <div class="loading">⏳ Chargement des données...</div>
           </div>
         </div>
         <div class="card">
-          <div class="card-head"><div><div class="card-title">🔔 Alertes</div></div><span class="tag">14 actives</span></div>
-          <div class="card-body">
-            <div class="alert danger"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Salma B. — 2/5</div><div class="alert-desc">Clinique Agdal</div></div><span class="alert-cta">Agir →</span></div>
-            <div class="alert danger"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Omar A. — 1/5</div><div class="alert-desc">Clinique Marjane</div></div><span class="alert-cta">Agir →</span></div>
-            <div class="alert warn"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">Taux réponse baisse</div><div class="alert-desc">Cabinet Hassan II</div></div><span class="alert-cta">Voir →</span></div>
+          <div class="card-head"><div><div class="card-title">🔔 Alertes</div><div class="card-sub">Patients insatisfaits</div></div><span class="tag" id="tag-alertes">...</span></div>
+          <div class="card-body" id="alertes-list">
+            <div class="loading">⏳ Chargement...</div>
           </div>
         </div>
       </div>
@@ -301,41 +299,28 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
     <!-- PATIENTS -->
     <div class="view" id="view-patients">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-        <div><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Patients</div><div style="color:var(--muted);font-size:12px">1 284 réponses</div></div>
-        <select class="ctrl"><option>Tous</option><option>Satisfait</option><option>Moyen</option><option>Insatisfait</option></select>
+        <div><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Patients</div><div style="color:var(--muted);font-size:12px" id="patients-count">Chargement...</div></div>
+        <select class="ctrl" id="filtre-statut"><option value="">Tous</option><option value="ok">Satisfait</option><option value="mid">Moyen</option><option value="bad">Insatisfait</option></select>
       </div>
       <!-- Desktop -->
       <div class="card tbl-wrap">
         <table class="tbl">
-          <thead><tr><th>Patient</th><th>Cabinet</th><th>Ville</th><th>Note</th><th>Statut</th><th>Commentaire</th><th>Date</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Karim A.</strong></td><td style="color:var(--muted)">Hassan II</td><td>🏙️ Casa</td><td>⭐⭐⭐⭐⭐</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Excellent"</td><td style="color:var(--muted)">25/04</td></tr>
-            <tr style="background:#fff5f5"><td><strong>Salma B.</strong></td><td style="color:var(--muted)">Agdal</td><td>🏛️ Rabat</td><td>⭐⭐</td><td><span class="badge bad">Insatisfait</span></td><td style="color:var(--muted);font-style:italic">"Attente longue"</td><td style="color:var(--muted)">25/04</td></tr>
-            <tr><td><strong>Youssef M.</strong></td><td style="color:var(--muted)">Al Fath</td><td>🏙️ Casa</td><td>⭐⭐⭐</td><td><span class="badge mid">Moyen</span></td><td style="color:var(--muted);font-style:italic">"Correct"</td><td style="color:var(--muted)">25/04</td></tr>
-            <tr><td><strong>Nadia El K.</strong></td><td style="color:var(--muted)">Hassan II</td><td>🏙️ Casa</td><td>⭐⭐⭐⭐⭐</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Merci !"</td><td style="color:var(--muted)">25/04</td></tr>
-            <tr style="background:#fff5f5"><td><strong>Omar A.</strong></td><td style="color:var(--muted)">Marjane</td><td>🌴 Mkch</td><td>⭐</td><td><span class="badge bad">Insatisfait</span></td><td style="color:var(--muted);font-style:italic">"Pas écouté"</td><td style="color:var(--muted)">24/04</td></tr>
+          <thead><tr><th>Patient</th><th>Note</th><th>Langue</th><th>Statut</th><th>Commentaire</th><th>Date</th></tr></thead>
+          <tbody id="patients-table-body">
+            <tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted)">⏳ Chargement...</td></tr>
           </tbody>
         </table>
       </div>
       <!-- Mobile -->
-      <div class="mob-cards">
-        <div class="mob-card"><div class="mob-card-top"><span class="mob-card-title">Karim A.</span><span class="badge ok">Satisfait</span></div><div class="mob-card-row"><span class="mob-card-lbl">Cabinet</span><span class="mob-card-val">Hassan II · Casa</span></div><div class="mob-card-row"><span class="mob-card-lbl">Note</span><span class="mob-card-val">⭐⭐⭐⭐⭐</span></div><div class="mob-card-row"><span class="mob-card-lbl">Commentaire</span><span class="mob-card-val" style="color:var(--muted);font-style:italic">"Excellent"</span></div><div class="mob-card-row"><span class="mob-card-lbl">Date</span><span class="mob-card-val">25/04</span></div></div>
-        <div class="mob-card" style="border-color:#fca5a5"><div class="mob-card-top"><span class="mob-card-title">Salma B.</span><span class="badge bad">Insatisfait</span></div><div class="mob-card-row"><span class="mob-card-lbl">Cabinet</span><span class="mob-card-val">Agdal · Rabat</span></div><div class="mob-card-row"><span class="mob-card-lbl">Note</span><span class="mob-card-val">⭐⭐</span></div><div class="mob-card-row"><span class="mob-card-lbl">Commentaire</span><span class="mob-card-val" style="color:var(--muted);font-style:italic">"Attente longue"</span></div><div class="mob-card-row"><span class="mob-card-lbl">Date</span><span class="mob-card-val">25/04</span></div></div>
-        <div class="mob-card"><div class="mob-card-top"><span class="mob-card-title">Youssef M.</span><span class="badge mid">Moyen</span></div><div class="mob-card-row"><span class="mob-card-lbl">Cabinet</span><span class="mob-card-val">Al Fath · Casa</span></div><div class="mob-card-row"><span class="mob-card-lbl">Note</span><span class="mob-card-val">⭐⭐⭐</span></div><div class="mob-card-row"><span class="mob-card-lbl">Commentaire</span><span class="mob-card-val" style="color:var(--muted);font-style:italic">"Correct"</span></div><div class="mob-card-row"><span class="mob-card-lbl">Date</span><span class="mob-card-val">25/04</span></div></div>
-        <div class="mob-card" style="border-color:#fca5a5"><div class="mob-card-top"><span class="mob-card-title">Omar A.</span><span class="badge bad">Insatisfait</span></div><div class="mob-card-row"><span class="mob-card-lbl">Cabinet</span><span class="mob-card-val">Marjane · Marrakech</span></div><div class="mob-card-row"><span class="mob-card-lbl">Note</span><span class="mob-card-val">⭐</span></div><div class="mob-card-row"><span class="mob-card-lbl">Commentaire</span><span class="mob-card-val" style="color:var(--muted);font-style:italic">"Pas écouté"</span></div><div class="mob-card-row"><span class="mob-card-lbl">Date</span><span class="mob-card-val">24/04</span></div></div>
+      <div class="mob-cards" id="patients-mob-cards">
+        <div class="loading">⏳ Chargement...</div>
       </div>
     </div>
 
     <!-- ALERTES -->
     <div class="view" id="view-alertes">
-      <div style="margin-bottom:16px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">🔔 Toutes les alertes</div><div style="color:var(--muted);font-size:12px">14 alertes actives</div></div>
-      <div class="card"><div class="card-body">
-        <div class="alert danger" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Salma B. — 2/5 ⭐</div><div class="alert-desc">Clinique Agdal · Rabat · 25/04</div></div><span class="alert-cta">Agir →</span></div>
-        <div class="alert danger" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Omar A. — 1/5 ⭐</div><div class="alert-desc">Clinique Marjane · Marrakech · 24/04</div></div><span class="alert-cta">Agir →</span></div>
-        <div class="alert danger" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Rachid K. — 2/5 ⭐</div><div class="alert-desc">Cabinet Al Fath · Casa · 23/04</div></div><span class="alert-cta">Agir →</span></div>
-        <div class="alert warn" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">Taux réponse en baisse</div><div class="alert-desc">Cabinet Hassan II — 34%</div></div><span class="alert-cta">Voir →</span></div>
-        <div class="alert warn"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">4 avis moyens consécutifs</div><div class="alert-desc">Clinique Agdal · Tendance négative</div></div><span class="alert-cta">Voir →</span></div>
-      </div></div>
+      <div style="margin-bottom:16px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">🔔 Toutes les alertes</div><div style="color:var(--muted);font-size:12px" id="alertes-count">Chargement...</div></div>
+      <div class="card"><div class="card-body" id="alertes-full-list"><div class="loading">⏳ Chargement...</div></div></div>
     </div>
 
     <!-- COMMERCIAUX -->
@@ -354,7 +339,7 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
         <div class="card"><div class="card-head"><div><div class="card-title">Revenus mensuels</div></div></div><div class="card-body"><div style="text-align:center;padding:20px 0"><div style="font-family:'Playfair Display',serif;font-size:34px;font-weight:800;color:var(--success)">2 392 MAD</div><div style="color:var(--muted);font-size:12px;margin-top:4px">8 cabinets × 299 MAD</div><div style="margin-top:12px;display:inline-flex;align-items:center;gap:5px;background:var(--success-bg);color:var(--success);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600">↑ +598 MAD vs mars</div></div></div></div>
         <div class="card"><div class="card-head"><div><div class="card-title">Croissance</div></div></div><div class="card-body">
           <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px;font-weight:500"><span>Cabinets actifs</span><span style="color:var(--primary)">8/10</span></div><div style="height:8px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:80%;height:100%;background:var(--primary);border-radius:10px"></div></div></div>
-          <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px;font-weight:500"><span>Satisfaction moy.</span><span style="color:var(--success)">4.6/5</span></div><div style="height:8px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:92%;height:100%;background:var(--success);border-radius:10px"></div></div></div>
+          <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px;font-weight:500"><span>Satisfaction moy.</span><span id="stat-satisfaction" style="color:var(--success)">...</span></div><div style="height:8px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:92%;height:100%;background:var(--success);border-radius:10px"></div></div></div>
           <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px;font-weight:500"><span>Taux réponse</span><span style="color:var(--warn)">38%</span></div><div style="height:8px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:38%;height:100%;background:var(--warn);border-radius:10px"></div></div></div>
         </div></div>
       </div>
@@ -375,57 +360,210 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
   </div>
 </nav>
 
+<script>
+// ═══ GOOGLE SHEETS CONFIG ═══
 const SHEET_ID = '1LV7RMfmxJXopO942FBenTQYTGcMUxZT_4QYypQrHeMU';
 const SHEET_NAME = 'Fusion AR & FR';
 const API_KEY = 'AIzaSyCy3jfMxuWxeQXE0L7rLm3AZbNwCQegneM';
+
+let allRows = [];
+
+function getNote(str) {
+  if(!str) return 0;
+  const stars = (str.match(/\u2B50/g)||str.match(/★/g)||str.match(/[\u2B50\u2605\u2736]/g)||[]).length;
+  if(stars > 0) return stars;
+  const n = parseInt(str);
+  return isNaN(n) ? 0 : n;
+}
+
+function getStatut(note) {
+  if(note >= 4) return {cls:'ok', label:'Satisfait'};
+  if(note === 3) return {cls:'mid', label:'Moyen'};
+  return {cls:'bad', label:'Insatisfait'};
+}
+
+function getInitiales(nom) {
+  return (nom||'?').split(' ').map(n=>n[0]||'').join('').toUpperCase().slice(0,2) || '??';
+}
 
 async function loadSheetData() {
   try {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_NAME)}?key=${API_KEY}`;
     const res = await fetch(url);
     const data = await res.json();
-    const rows = data.values ? data.values.slice(1) : [];
-    let total = rows.length;
-    let satisfait = 0, moyen = 0, insatisfait = 0;
-    let totalNote = 0;
-    rows.forEach(row => {
-      const noteStr = row[1] || '';
-      const note = (noteStr.match(/★/g) || []).length || parseInt(noteStr) || 0;
+    if(!data.values) return;
+    allRows = data.values.slice(1).filter(r => r[0]);
+
+    const total = allRows.length;
+    let s5=0,s4=0,s3=0,s2=0,s1=0;
+    let totalNote=0, insatisfait=0, moyen=0, satisfait=0;
+
+    allRows.forEach(row => {
+      const note = getNote(row[1]);
       totalNote += note;
-      if(note >= 4) satisfait++;
-      else if(note === 3) moyen++;
-      else if(note > 0) insatisfait++;
+      if(note===5) s5++;
+      else if(note===4) s4++;
+      else if(note===3){s3++;moyen++;}
+      else if(note===2){s2++;insatisfait++;}
+      else if(note===1){s1++;insatisfait++;}
+      if(note>=4) satisfait++;
     });
-    const avg = total > 0 ? (totalNote/total).toFixed(1) : '0.0';
-    const kpiP = document.getElementById('kpi-patients');
-    const kpiS = document.getElementById('kpi-satisfaction');
-    const kpiM = document.getElementById('kpi-moyens');
-    const kpiA = document.getElementById('kpi-alertes');
-    if(kpiP) kpiP.textContent = total;
-    if(kpiS) kpiS.textContent = avg + '/5';
-    if(kpiM) kpiM.textContent = moyen;
-    if(kpiA) kpiA.textContent = insatisfait;
-    const list = document.getElementById('patients-list');
-    if(list) {
-      list.innerHTML = '';
-      const recent = rows.slice(-5).reverse();
-      recent.forEach(row => {
-        const nom = row[2] || 'Anonyme';
-        const noteStr = row[1] || '';
-        const note = (noteStr.match(/★/g) || []).length || parseInt(noteStr) || 0;
-        const date = row[0] || '';
-        const initiales = nom.split(' ').map(n=>n[0]||'').join('').toUpperCase().slice(0,2);
-        const statut = note >= 4 ? 'ok' : note === 3 ? 'mid' : 'bad';
-        const label = note >= 4 ? 'Satisfait' : note === 3 ? 'Moyen' : 'Insatisfait';
-        const stars = '★'.repeat(Math.min(note,5)) + '☆'.repeat(Math.max(0,5-note));
-        list.innerHTML += `<div class="p-row"><div class="p-av" style="background:#e6eeff;color:#0057ff">${initiales}</div><div class="p-info"><div class="p-name">${nom}</div><div class="p-meta">${date}</div></div><div class="stars">${stars}</div><span class="badge ${statut}">${label}</span></div>`;
-      });
-    }
-  } catch(e) { console.log('Erreur:', e); }
+
+    const avg = total>0 ? (totalNote/total).toFixed(1) : '0.0';
+    const pctS = total>0 ? Math.round(satisfait/total*100) : 0;
+    const pctM = total>0 ? Math.round(moyen/total*100) : 0;
+    const pctN = total>0 ? Math.round(insatisfait/total*100) : 0;
+
+    // KPIs
+    document.getElementById('kpi-patients').textContent = total;
+    document.getElementById('kpi-satisfaction').textContent = avg+'/5';
+    document.getElementById('kpi-moyens').textContent = moyen;
+    document.getElementById('kpi-alertes').textContent = insatisfait;
+    document.getElementById('badge-alertes').textContent = insatisfait;
+    document.getElementById('tag-alertes').textContent = insatisfait+' actives';
+
+    // Stats
+    const statSat = document.getElementById('stat-satisfaction');
+    if(statSat) statSat.textContent = avg+'/5';
+
+    // Donut
+    document.getElementById('donut-pct').textContent = pctS+'%';
+    document.getElementById('leg-satisfait').textContent = pctS+'%';
+    document.getElementById('leg-moyen').textContent = pctM+'%';
+    document.getElementById('leg-negatif').textContent = pctN+'%';
+
+    // Star bars
+    document.getElementById('sb-5').textContent = s5;
+    document.getElementById('sb-4').textContent = s4;
+    document.getElementById('sb-3').textContent = s3;
+    document.getElementById('sb-2').textContent = s2;
+    document.getElementById('sb-1').textContent = s1;
+
+    // Patients récents
+    renderPatientsList(allRows.slice(-5).reverse(), 'patients-list', true);
+
+    // Alertes dashboard
+    renderAlertes(allRows.filter(r=>getNote(r[1])<3).slice(-5), 'alertes-list');
+
+    // Patients page
+    document.getElementById('patients-count').textContent = total+' réponses collectées';
+    renderPatientsTable(allRows);
+
+    // Alertes page
+    const insRows = allRows.filter(r=>getNote(r[1])<3);
+    document.getElementById('alertes-count').textContent = insRows.length+' alertes actives';
+    renderAlertesFull(insRows);
+
+  } catch(e) {
+    console.error('Erreur Google Sheets:', e);
+  }
 }
-loadSheetData();
-setInterval(loadSheetData, 30000);
-<script>
+
+function renderPatientsList(rows, containerId, mini=false) {
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  if(rows.length===0){el.innerHTML='<div class="loading">Aucune donnée</div>';return;}
+  el.innerHTML = rows.map(row => {
+    const nom = row[2]||'Anonyme';
+    const note = getNote(row[1]);
+    const date = row[0]||'';
+    const {cls,label} = getStatut(note);
+    const stars = '★'.repeat(Math.min(note,5))+'☆'.repeat(Math.max(0,5-note));
+    const init = getInitiales(nom);
+    const colors = {ok:'#e6eeff;color:#0057ff',mid:'#fef8e7;color:#f59e0b',bad:'#fef2f2;color:#ef4444'};
+    return `<div class="p-row">
+      <div class="p-av" style="background:${colors[cls].split(';')[0].split(':')[1]};color:${colors[cls].split(';')[1].split(':')[1]}">${init}</div>
+      <div class="p-info"><div class="p-name">${nom}</div><div class="p-meta">${date}</div></div>
+      <div class="stars">${stars}</div>
+      <span class="badge ${cls}">${label}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderAlertes(rows, containerId) {
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  if(rows.length===0){el.innerHTML='<div style="color:var(--success);font-weight:600;text-align:center;padding:16px">✅ Aucune alerte !</div>';return;}
+  el.innerHTML = rows.map(row => {
+    const nom = row[2]||'Anonyme';
+    const note = getNote(row[1]);
+    const date = row[0]||'';
+    const cls = note<=1?'danger':'warn';
+    return `<div class="alert ${cls}">
+      <div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+      <div class="alert-body"><div class="alert-title">${nom} — ${note}/5 ⭐</div><div class="alert-desc">${date}</div></div>
+      <span class="alert-cta">Agir →</span>
+    </div>`;
+  }).join('');
+}
+
+function renderAlertesFull(rows) {
+  const el = document.getElementById('alertes-full-list');
+  if(!el) return;
+  if(rows.length===0){el.innerHTML='<div style="color:var(--success);font-weight:600;text-align:center;padding:24px">✅ Aucune alerte active !</div>';return;}
+  el.innerHTML = rows.map(row => {
+    const nom = row[2]||'Anonyme';
+    const note = getNote(row[1]);
+    const date = row[0]||'';
+    const commentaire = row[3]||'';
+    const cls = note<=1?'danger':'warn';
+    return `<div class="alert ${cls}" style="margin-bottom:10px">
+      <div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+      <div class="alert-body"><div class="alert-title">${nom} — ${note}/5 ⭐</div><div class="alert-desc">${commentaire||'Action recommandée'} · ${date}</div></div>
+      <span class="alert-cta">Agir →</span>
+    </div>`;
+  }).join('');
+}
+
+function renderPatientsTable(rows) {
+  const tbody = document.getElementById('patients-table-body');
+  const mobCards = document.getElementById('patients-mob-cards');
+  if(!tbody) return;
+  if(rows.length===0){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted)">Aucune donnée</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.slice().reverse().map(row => {
+    const nom = row[2]||'Anonyme';
+    const note = getNote(row[1]);
+    const langue = row[4]||'';
+    const commentaire = row[3]||'';
+    const date = row[0]||'';
+    const {cls,label} = getStatut(note);
+    const stars = '★'.repeat(Math.min(note,5));
+    const bg = cls==='bad'?'background:#fff5f5':'';
+    return `<tr style="${bg}">
+      <td><strong>${nom}</strong></td>
+      <td>${stars}</td>
+      <td><span style="font-size:10px;padding:2px 6px;border-radius:4px;background:var(--surface2)">${langue}</span></td>
+      <td><span class="badge ${cls}">${label}</span></td>
+      <td style="color:var(--muted);font-style:italic">${commentaire?'"'+commentaire+'"':''}</td>
+      <td style="color:var(--muted)">${date}</td>
+    </tr>`;
+  }).join('');
+
+  if(mobCards) {
+    mobCards.innerHTML = rows.slice().reverse().slice(0,20).map(row => {
+      const nom = row[2]||'Anonyme';
+      const note = getNote(row[1]);
+      const langue = row[4]||'';
+      const commentaire = row[3]||'';
+      const date = row[0]||'';
+      const {cls,label} = getStatut(note);
+      const stars = '★'.repeat(Math.min(note,5));
+      const borderColor = cls==='bad'?'border-color:#fca5a5':'';
+      return `<div class="mob-card" style="${borderColor}">
+        <div class="mob-card-top"><span class="mob-card-title">${nom}</span><span class="badge ${cls}">${label}</span></div>
+        <div class="mob-card-row"><span class="mob-card-lbl">Note</span><span class="mob-card-val">${stars}</span></div>
+        <div class="mob-card-row"><span class="mob-card-lbl">Langue</span><span class="mob-card-val">${langue}</span></div>
+        ${commentaire?`<div class="mob-card-row"><span class="mob-card-lbl">Commentaire</span><span class="mob-card-val" style="color:var(--muted);font-style:italic">"${commentaire}"</span></div>`:''}
+        <div class="mob-card-row"><span class="mob-card-lbl">Date</span><span class="mob-card-val">${date}</span></div>
+      </div>`;
+    }).join('');
+  }
+}
+
+// Navigation
 const T={dashboard:"Vue d'ensemble 👑",cabinets:"Cabinets 🇲🇦",patients:"Patients",alertes:"🔔 Alertes",commerciaux:"💼 Commerciaux",stats:"📊 Statistiques"};
 function go(name,el){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
@@ -438,6 +576,9 @@ function go(name,el){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
+// Chargement initial + refresh toutes les 30s
+loadSheetData();
+setInterval(loadSheetData, 30000);
 </script>
 </body>
 </html>
