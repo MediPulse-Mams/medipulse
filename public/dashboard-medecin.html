@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MediPulse — Dashboard Médecin</title>
+<title>MediPulse — Médecin</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -27,33 +27,32 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .logo-icon svg{width:14px;height:14px;stroke:#fff;fill:none;}
 .logo-text{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:#fff;}
 .logo-text em{color:#4d8bff;font-style:normal;}
-nav{padding:14px 10px;flex:1;}
+nav{padding:14px 10px;flex:1;overflow-y:auto;}
 .nav-section{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:0 8px;margin:14px 0 4px;}
-.nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;color:rgba(255,255,255,.55);font-weight:500;font-size:12.5px;transition:all .15s;margin-bottom:1px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:10px;cursor:pointer;color:rgba(255,255,255,.55);font-weight:500;font-size:13px;transition:all .15s;margin-bottom:2px;}
 .nav-item:hover{background:rgba(255,255,255,.07);color:#fff;}
 .nav-item.active{background:var(--primary);color:#fff;}
-.nav-item svg{width:14px;height:14px;flex-shrink:0;}
+.nav-item svg{width:16px;height:16px;flex-shrink:0;}
 .nav-badge{margin-left:auto;background:var(--danger);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:20px;}
-.sidebar-user{padding:12px 10px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
-.u-av{width:28px;height:28px;background:linear-gradient(135deg,#00c49a,#00a07e);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;}
-.u-name{font-weight:600;font-size:11.5px;color:#fff;}
+.sidebar-user{padding:14px 12px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
+.u-av{width:32px;height:32px;background:linear-gradient(135deg,#00c49a,#00a07e);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;flex-shrink:0;}
+.u-name{font-weight:600;font-size:12px;color:#fff;}
 .u-role{color:rgba(255,255,255,.4);font-size:10px;}
-.logout{margin-left:auto;cursor:pointer;color:rgba(255,255,255,.3);font-size:11px;}
+.logout{margin-left:auto;cursor:pointer;color:rgba(255,255,255,.3);font-size:14px;}
 .logout:hover{color:#fff;}
 
 /* MAIN */
 .main{flex:1;margin-left:220px;display:flex;flex-direction:column;}
-.topbar{height:54px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 22px;gap:10px;position:sticky;top:0;z-index:100;}
-.topbar-title{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;flex:1;}
+.topbar{height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 22px;gap:10px;position:sticky;top:0;z-index:100;}
+.topbar-title{font-family:'Playfair Display',serif;font-weight:700;font-size:17px;flex:1;}
 .topbar-sub{color:var(--muted);font-size:11px;}
-.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:12px;cursor:pointer;border:none;transition:all .15s;}
-.btn-primary{background:var(--primary);color:#fff;box-shadow:0 4px 12px rgba(0,87,255,.3);}
-.btn-primary:hover{transform:translateY(-1px);}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:12.5px;cursor:pointer;border:none;transition:all .15s;}
 .btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border);}
 .btn-outline:hover{border-color:var(--primary);color:var(--primary);}
+.btn svg{width:13px;height:13px;}
 .content{padding:20px 22px;flex:1;}
 
-/* HERO CABINET */
+/* HERO */
 .cabinet-hero{background:linear-gradient(135deg,#0057ff,#3d7bff);border-radius:16px;padding:22px;display:flex;align-items:flex-start;gap:16px;margin-bottom:18px;position:relative;overflow:hidden;}
 .cabinet-hero::before{content:'';position:absolute;right:-20px;top:-20px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.07);}
 .ch-logo{width:50px;height:50px;border-radius:13px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-family:'Playfair Display',serif;font-weight:700;font-size:18px;color:#fff;flex-shrink:0;}
@@ -83,6 +82,7 @@ nav{padding:14px 10px;flex:1;}
 .card-title{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;}
 .card-sub{color:var(--muted);font-size:11px;margin-top:1px;}
 .card-body{padding:14px 18px;}
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10.5px;font-weight:600;}
 
 /* METRICS */
 .metric-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);}
@@ -102,7 +102,7 @@ nav{padding:14px 10px;flex:1;}
 .alert-icon svg{width:12px;height:12px;}
 .alert.danger .alert-icon{background:var(--danger-bg);color:var(--danger);}
 .alert.warn .alert-icon{background:var(--warn-bg);color:var(--warn);}
-.alert-body{flex:1;}
+.alert-body{flex:1;min-width:0;}
 .alert-title{font-weight:700;font-size:12px;}
 .alert.danger .alert-title{color:var(--danger);}
 .alert.warn .alert-title{color:var(--warn);}
@@ -114,7 +114,7 @@ nav{padding:14px 10px;flex:1;}
 .p-row:last-child{border-bottom:none;}
 .p-row:hover{margin:0 -18px;padding:9px 18px;background:var(--surface2);}
 .p-av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700;flex-shrink:0;}
-.p-info{flex:1;}
+.p-info{flex:1;min-width:0;}
 .p-name{font-weight:600;font-size:12.5px;}
 .p-meta{color:var(--muted);font-size:10.5px;}
 .stars{font-size:10.5px;color:#f59e0b;}
@@ -133,30 +133,69 @@ nav{padding:14px 10px;flex:1;}
 .tbl td{padding:10px 13px;border-bottom:1px solid var(--border);font-size:12px;}
 .tbl tr:last-child td{border-bottom:none;}
 .tbl tr:hover td{background:var(--surface2);}
-.tbl-wrap{overflow-x:auto;}
-.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10.5px;font-weight:600;background:var(--primary-lt);color:var(--primary);}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 
 /* VIEWS */
 .view{display:none;}
 .view.active{display:block;}
 
-/* BOTTOM NAV */
-.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--sidebar);border-top:1px solid rgba(255,255,255,.08);z-index:300;}
-.bottom-nav-inner{display:flex;height:100%;}
-.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:rgba(255,255,255,.4);font-size:9px;font-weight:600;transition:color .15s;-webkit-tap-highlight-color:transparent;}
-.bn-item svg{width:19px;height:19px;stroke:currentColor;fill:none;}
-.bn-item.active{color:var(--primary);}
+/* ══ BOTTOM NAV MOBILE ══ */
+.bottom-nav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;
+  height:70px;
+  background:var(--sidebar);
+  border-top:1px solid rgba(255,255,255,.1);
+  z-index:300;
+  box-shadow:0 -4px 20px rgba(0,0,0,.3);
+}
+.bottom-nav-inner{
+  display:flex;height:100%;
+  padding:6px 8px;gap:4px;
+}
+.bn-item{
+  flex:1;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:5px;
+  cursor:pointer;
+  color:rgba(255,255,255,.45);
+  font-size:10px;font-weight:600;
+  -webkit-tap-highlight-color:transparent;
+  border-radius:12px;
+  transition:all .2s;
+  padding:6px 4px;
+}
+.bn-item:active{transform:scale(.95);}
+.bn-item svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;}
+.bn-item.active{color:#fff;background:var(--primary);box-shadow:0 4px 12px rgba(0,87,255,.4);}
+.bn-item span{font-size:9.5px;font-weight:600;line-height:1;}
 
-@media(max-width:900px){.kpi-grid{grid-template-columns:1fr 1fr;}.row2{grid-template-columns:1fr;}}
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .row2{grid-template-columns:1fr;}
+}
 @media(max-width:768px){
-  .sidebar{display:none;}.main{margin-left:0;}
+  .sidebar{display:none;}
+  .main{margin-left:0;}
   .bottom-nav{display:flex;}
-  .content{padding:12px 12px calc(60px + 12px);}
-  .topbar{padding:0 12px;}
+  .content{padding:14px 14px calc(70px + 14px);}
+  .topbar{padding:0 14px;height:52px;}
+  .topbar-title{font-size:15px;}
+  .topbar-sub{display:none;}
   .hide-mob{display:none;}
-  .kpi-grid{grid-template-columns:1fr 1fr;gap:9px;}
+  .kpi-grid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+  .kpi-card{padding:14px;}
   .kpi-val{font-size:22px;}
-  .cabinet-hero{flex-wrap:wrap;}
+  .row2{grid-template-columns:1fr;gap:10px;}
+  .cabinet-hero{flex-wrap:wrap;padding:16px;}
+  .p-row:hover{margin:0;padding:9px 0;background:none;}
+  .card-head{padding:12px 14px 10px;}
+  .card-body{padding:12px 14px;}
+}
+@media(max-width:400px){
+  .kpi-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -179,9 +218,18 @@ nav{padding:14px 10px;flex:1;}
       Mes patients
       <span class="nav-badge">3</span>
     </div>
+    <div class="nav-item" onclick="go('alertes',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+      Alertes
+      <span class="nav-badge">5</span>
+    </div>
     <div class="nav-item" onclick="go('historique',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
       Historique
+    </div>
+    <div class="nav-item" onclick="go('stats',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      Statistiques
     </div>
     <div class="nav-section">Compte</div>
     <div class="nav-item">
@@ -198,9 +246,9 @@ nav{padding:14px 10px;flex:1;}
 
 <main class="main">
   <div class="topbar">
-    <div style="flex:1">
+    <div style="flex:1;min-width:0">
       <div class="topbar-title" id="t-title">Mon Dashboard 🏥</div>
-      <div class="topbar-sub">Avril 2026 · Cabinet Hassan II · Casablanca</div>
+      <div class="topbar-sub">Avril 2026 · Cabinet Hassan II</div>
     </div>
     <button class="btn btn-outline hide-mob">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -212,78 +260,50 @@ nav{padding:14px 10px;flex:1;}
 
     <!-- DASHBOARD -->
     <div class="view active" id="view-dashboard">
-
-      <!-- Hero -->
       <div class="cabinet-hero">
         <div class="ch-logo">CH</div>
-        <div style="flex:1;position:relative;z-index:1">
+        <div style="flex:1;position:relative;z-index:1;min-width:0">
           <div class="ch-name">Cabinet Hassan II</div>
           <div class="ch-meta">📍 Casablanca, Maarif · Médecine générale</div>
           <div class="ch-rating">
             <span class="ch-stars">★★★★★</span>
             <span class="ch-score">4.8</span>
-            <span class="ch-count">/ 5 — 312 avis ce mois</span>
+            <span class="ch-count">/ 5 — 312 avis</span>
           </div>
         </div>
       </div>
 
-      <!-- KPIs -->
       <div class="kpi-grid">
-        <div class="kpi-card">
-          <div class="kpi-label">Patients ce mois</div>
-          <div class="kpi-val" style="color:var(--primary)">312</div>
-          <span class="delta up">↑ +24 vs mois dernier</span>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Satisfaction</div>
-          <div class="kpi-val" style="color:var(--success)">4.8<sup>/5</sup></div>
-          <span class="delta up">↑ Excellent</span>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Taux réponse</div>
-          <div class="kpi-val" style="color:var(--warn)">34<sup>%</sup></div>
-          <span class="delta down">↓ À améliorer</span>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Alertes</div>
-          <div class="kpi-val" style="color:var(--danger)">5</div>
-          <span class="delta neutral">→ À traiter</span>
-        </div>
+        <div class="kpi-card"><div class="kpi-label">Patients</div><div class="kpi-val" style="color:var(--primary)">312</div><span class="delta up">↑ +24 ce mois</span></div>
+        <div class="kpi-card"><div class="kpi-label">Satisfaction</div><div class="kpi-val" style="color:var(--success)">4.8<sup>/5</sup></div><span class="delta up">↑ Excellent</span></div>
+        <div class="kpi-card"><div class="kpi-label">Taux réponse</div><div class="kpi-val" style="color:var(--warn)">34<sup>%</sup></div><span class="delta down">↓ À améliorer</span></div>
+        <div class="kpi-card"><div class="kpi-label">Alertes</div><div class="kpi-val" style="color:var(--danger)">5</div><span class="delta neutral">→ À traiter</span></div>
       </div>
 
       <div class="row2">
-        <!-- Métriques -->
         <div class="card">
-          <div class="card-head">
-            <div><div class="card-title">Métriques détaillées</div><div class="card-sub">Par critère de satisfaction</div></div>
-          </div>
+          <div class="card-head"><div><div class="card-title">Métriques détaillées</div><div class="card-sub">Par critère</div></div></div>
           <div class="card-body">
             <div class="metric-row"><span class="metric-lbl">Accueil & personnel</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:94%;background:#0057ff"></div></div><span class="metric-val">4.9</span></div></div>
             <div class="metric-row"><span class="metric-lbl">Temps d'attente</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:58%;background:#f59e0b"></div></div><span class="metric-val">3.0</span></div></div>
             <div class="metric-row"><span class="metric-lbl">Qualité consultation</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:96%;background:#00c49a"></div></div><span class="metric-val">4.9</span></div></div>
-            <div class="metric-row"><span class="metric-lbl">Propreté des locaux</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:82%;background:#0057ff"></div></div><span class="metric-val">4.4</span></div></div>
+            <div class="metric-row"><span class="metric-lbl">Propreté</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:82%;background:#0057ff"></div></div><span class="metric-val">4.4</span></div></div>
             <div class="metric-row"><span class="metric-lbl">Recommandation</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:90%;background:#0057ff"></div></div><span class="metric-val">4.8</span></div></div>
           </div>
         </div>
-
-        <!-- Alertes -->
         <div class="card">
-          <div class="card-head">
-            <div><div class="card-title">🔔 Alertes</div><div class="card-sub">Patients insatisfaits</div></div>
-            <span class="tag" style="background:var(--danger-bg);color:var(--danger)">5 urgentes</span>
-          </div>
+          <div class="card-head"><div><div class="card-title">🔔 Alertes</div></div><span class="tag" style="background:var(--danger-bg);color:var(--danger)">5 urgentes</span></div>
           <div class="card-body">
-            <div class="alert danger"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Salma B. — 2/5</div><div class="alert-desc">Action recommandée · 25/04</div></div><span class="alert-cta">Voir →</span></div>
-            <div class="alert danger"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Rachid K. — 1/5</div><div class="alert-desc">Action recommandée · 24/04</div></div><span class="alert-cta">Voir →</span></div>
-            <div class="alert warn"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">Taux réponse faible</div><div class="alert-desc">34% · Rappel SMS conseillé</div></div><span class="alert-cta">Voir →</span></div>
+            <div class="alert danger"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Salma B. — 2/5</div><div class="alert-desc">Action recommandée</div></div><span class="alert-cta">Voir →</span></div>
+            <div class="alert danger"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Rachid K. — 1/5</div><div class="alert-desc">Action recommandée</div></div><span class="alert-cta">Voir →</span></div>
+            <div class="alert warn"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">Taux réponse faible</div><div class="alert-desc">34% · Rappel SMS</div></div><span class="alert-cta">Voir →</span></div>
           </div>
         </div>
       </div>
 
-      <!-- Patients récents -->
       <div class="card">
         <div class="card-head">
-          <div><div class="card-title">Patients récents</div><div class="card-sub">Dernières réponses reçues</div></div>
+          <div><div class="card-title">Patients récents</div><div class="card-sub">Dernières réponses</div></div>
           <span style="font-size:11.5px;color:var(--primary);font-weight:600;cursor:pointer" onclick="go('patients',null)">Voir tout →</span>
         </div>
         <div class="card-body" style="padding-top:4px;padding-bottom:4px">
@@ -291,16 +311,15 @@ nav{padding:14px 10px;flex:1;}
           <div class="p-row"><div class="p-av" style="background:#fef2f2;color:#ef4444">SB</div><div class="p-info"><div class="p-name">Salma B.</div><div class="p-meta">il y a 45 min</div></div><div class="stars" style="color:#f87171">★★<span style="color:#e4ecf7">★★★</span></div><span class="badge bad">Insatisfait</span></div>
           <div class="p-row"><div class="p-av" style="background:#e6faf5;color:#00c49a">NE</div><div class="p-info"><div class="p-name">Nadia El K.</div><div class="p-meta">il y a 3h</div></div><div class="stars" style="color:#f59e0b">★★★★★</div><span class="badge ok">Satisfait</span></div>
           <div class="p-row"><div class="p-av" style="background:#fef2f2;color:#ef4444">RK</div><div class="p-info"><div class="p-name">Rachid K.</div><div class="p-meta">hier</div></div><div class="stars"><span style="color:#f59e0b">★</span><span style="color:#e4ecf7">★★★★</span></div><span class="badge bad">Insatisfait</span></div>
-          <div class="p-row"><div class="p-av" style="background:#e6eeff;color:#0057ff">MT</div><div class="p-info"><div class="p-name">Mohamed T.</div><div class="p-meta">hier</div></div><div class="stars" style="color:#f59e0b">★★★★<span style="color:#e4ecf7">★</span></div><span class="badge ok">Satisfait</span></div>
         </div>
       </div>
     </div>
 
     <!-- PATIENTS -->
     <div class="view" id="view-patients">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
         <div><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Mes patients</div><div style="color:var(--muted);font-size:12px;margin-top:2px">312 réponses ce mois</div></div>
-        <select style="background:var(--surface2);border:1.5px solid var(--border);border-radius:9px;padding:6px 10px;font-size:12px;color:var(--text);cursor:pointer;outline:none;"><option>Tous</option><option>Satisfait</option><option>Moyen</option><option>Insatisfait</option></select>
+        <select style="background:var(--surface2);border:1.5px solid var(--border);border-radius:9px;padding:6px 10px;font-size:12px;color:var(--text);cursor:pointer;outline:none;font-family:'Plus Jakarta Sans',sans-serif;"><option>Tous</option><option>Satisfait</option><option>Moyen</option><option>Insatisfait</option></select>
       </div>
       <div class="card">
         <div class="tbl-wrap">
@@ -319,11 +338,28 @@ nav{padding:14px 10px;flex:1;}
       </div>
     </div>
 
+    <!-- ALERTES -->
+    <div class="view" id="view-alertes">
+      <div style="margin-bottom:16px">
+        <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">🔔 Alertes actives</div>
+        <div style="color:var(--muted);font-size:12px;margin-top:2px">5 alertes nécessitent votre attention</div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="alert danger" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Salma B. — 2/5 ⭐</div><div class="alert-desc">Attente trop longue · 25/04/2026</div></div><span class="alert-cta">Traiter →</span></div>
+          <div class="alert danger" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Rachid K. — 1/5 ⭐</div><div class="alert-desc">Pas écouté · 24/04/2026</div></div><span class="alert-cta">Traiter →</span></div>
+          <div class="alert danger" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Hassan M. — 2/5 ⭐</div><div class="alert-desc">Salle d'attente sale · 23/04/2026</div></div><span class="alert-cta">Traiter →</span></div>
+          <div class="alert warn" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">Taux réponse en baisse</div><div class="alert-desc">34% ce mois · Rappel SMS conseillé</div></div><span class="alert-cta">Voir →</span></div>
+          <div class="alert warn"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">3 avis moyens consécutifs</div><div class="alert-desc">Tendance négative détectée</div></div><span class="alert-cta">Voir →</span></div>
+        </div>
+      </div>
+    </div>
+
     <!-- HISTORIQUE -->
     <div class="view" id="view-historique">
       <div style="margin-bottom:16px">
         <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Historique complet</div>
-        <div style="color:var(--muted);font-size:12px;margin-top:2px">Toutes les réponses de votre cabinet</div>
+        <div style="color:var(--muted);font-size:12px;margin-top:2px">Toutes les réponses</div>
       </div>
       <div class="card">
         <div class="tbl-wrap">
@@ -335,9 +371,44 @@ nav{padding:14px 10px;flex:1;}
               <tr><td><strong>Nadia El K.</strong></td><td>⭐⭐⭐⭐⭐</td><td>5/5</td><td>5/5</td><td>5/5</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Parfait"</td><td style="color:var(--muted)">25/04</td></tr>
               <tr style="background:#fff5f5"><td><strong>Rachid K.</strong></td><td>⭐</td><td>1/5</td><td>1/5</td><td>2/5</td><td><span class="badge bad">Insatisfait</span></td><td style="color:var(--muted);font-style:italic">"Déçu"</td><td style="color:var(--muted)">24/04</td></tr>
               <tr><td><strong>Mohamed T.</strong></td><td>⭐⭐⭐⭐</td><td>4/5</td><td>3/5</td><td>5/5</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Bien"</td><td style="color:var(--muted)">24/04</td></tr>
-              <tr><td><strong>Houda R.</strong></td><td>⭐⭐⭐⭐⭐</td><td>5/5</td><td>5/5</td><td>5/5</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Je recommande"</td><td style="color:var(--muted)">23/04</td></tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="view" id="view-stats">
+      <div style="margin-bottom:16px">
+        <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">📊 Statistiques</div>
+        <div style="color:var(--muted);font-size:12px;margin-top:2px">Avril 2026</div>
+      </div>
+      <div class="row2">
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Évolution mensuelle</div></div></div>
+          <div class="card-body">
+            <div style="height:140px">
+              <svg viewBox="0 0 400 120" width="100%" height="100%" preserveAspectRatio="none">
+                <defs><linearGradient id="gS" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0057ff" stop-opacity=".15"/><stop offset="100%" stop-color="#0057ff" stop-opacity="0"/></linearGradient></defs>
+                <line x1="0" y1="90" x2="400" y2="90" stroke="#e4ecf7" stroke-width="1"/>
+                <line x1="0" y1="60" x2="400" y2="60" stroke="#e4ecf7" stroke-width="1"/>
+                <line x1="0" y1="30" x2="400" y2="30" stroke="#e4ecf7" stroke-width="1"/>
+                <path d="M0,80 C60,70 120,55 180,45 C240,35 300,25 400,15 L400,95 L0,95Z" fill="url(#gS)"/>
+                <path d="M0,80 C60,70 120,55 180,45 C240,35 300,25 400,15" fill="none" stroke="#0057ff" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="400" cy="15" r="4" fill="#0057ff" stroke="#fff" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Répartition avis</div></div></div>
+          <div class="card-body">
+            <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px"><span>⭐⭐⭐⭐⭐</span><span style="color:var(--muted)">521</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:67%;height:100%;background:#0057ff;border-radius:10px"></div></div></div>
+            <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px"><span>⭐⭐⭐⭐</span><span style="color:var(--muted)">330</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:43%;height:100%;background:#4d8bff;border-radius:10px"></div></div></div>
+            <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px"><span>⭐⭐⭐</span><span style="color:var(--muted)">218</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:28%;height:100%;background:#f59e0b;border-radius:10px"></div></div></div>
+            <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px"><span>⭐⭐</span><span style="color:var(--muted)">98</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:13%;height:100%;background:#f87171;border-radius:10px"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px"><span>⭐</span><span style="color:var(--muted)">47</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:6%;height:100%;background:#ef4444;border-radius:10px"></div></div></div>
+          </div>
         </div>
       </div>
     </div>
@@ -346,25 +417,40 @@ nav{padding:14px 10px;flex:1;}
 </main>
 </div>
 
-<!-- BOTTOM NAV -->
+<!-- BOTTOM NAV mobile -->
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
     <div class="bn-item active" id="bn-dashboard" onclick="go('dashboard',this)">
       <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
-      Dashboard
+      <span>Dashboard</span>
     </div>
     <div class="bn-item" id="bn-patients" onclick="go('patients',this)">
       <svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-      Patients
+      <span>Patients</span>
+    </div>
+    <div class="bn-item" id="bn-alertes" onclick="go('alertes',this)">
+      <svg viewBox="0 0 24 24" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+      <span>Alertes</span>
     </div>
     <div class="bn-item" id="bn-historique" onclick="go('historique',this)">
       <svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
-      Historique
+      <span>Historique</span>
+    </div>
+    <div class="bn-item" id="bn-stats" onclick="go('stats',this)">
+      <svg viewBox="0 0 24 24" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      <span>Stats</span>
     </div>
   </div>
 </nav>
 
 <script>
+const TITLES={
+  dashboard:["Mon Dashboard 🏥","Avril 2026 · Cabinet Hassan II"],
+  patients:["Mes patients","312 réponses ce mois"],
+  alertes:["🔔 Alertes actives","5 alertes à traiter"],
+  historique:["Historique complet","Toutes les réponses"],
+  stats:["📊 Statistiques","Avril 2026"]
+};
 function go(name,el){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
@@ -373,6 +459,8 @@ function go(name,el){
   document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
   const bn=document.getElementById('bn-'+name);
   if(bn)bn.classList.add('active');
+  const t=TITLES[name];
+  if(t){document.getElementById('t-title').textContent=t[0];}
   window.scrollTo({top:0,behavior:'smooth'});
 }
 </script>
