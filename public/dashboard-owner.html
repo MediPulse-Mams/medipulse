@@ -3,31 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MediPulse — Owner</title>
+<title>MediPulse — Médecin</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --bg:#f8fafd;--surface:#fff;--surface2:#f1f5fb;--border:#e4ecf7;
-  --text:#0a1628;--muted:#6b7fa3;--light:#b0bdd4;
-  --primary:#0057ff;--primary-lt:#e6eeff;
-  --success:#00c49a;--success-bg:#e6faf5;
-  --warn:#f59e0b;--warn-bg:#fef8e7;
-  --danger:#ef4444;--danger-bg:#fef2f2;
-  --sidebar:#0a1628;
-}
+:root{--bg:#f8fafd;--surface:#fff;--surface2:#f1f5fb;--border:#e4ecf7;--text:#0a1628;--muted:#6b7fa3;--primary:#0057ff;--primary-lt:#e6eeff;--success:#00c49a;--success-bg:#e6faf5;--warn:#f59e0b;--warn-bg:#fef8e7;--danger:#ef4444;--danger-bg:#fef2f2;--sidebar:#0a1628;}
 html,body{height:100%;}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
 .shell{display:flex;min-height:100vh;}
-
-/* SIDEBAR */
 .sidebar{width:220px;background:var(--sidebar);display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:200;}
 .logo{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
 .logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:8px;display:grid;place-items:center;}
 .logo-icon svg{width:14px;height:14px;stroke:#fff;fill:none;}
 .logo-text{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:#fff;}
 .logo-text em{color:#4d8bff;font-style:normal;}
-nav{padding:14px 10px;flex:1;overflow-y:auto;}
+nav{padding:14px 10px;flex:1;}
 .nav-section{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:0 8px;margin:14px 0 4px;}
 .nav-item{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:10px;cursor:pointer;color:rgba(255,255,255,.55);font-weight:500;font-size:13px;transition:all .15s;margin-bottom:2px;}
 .nav-item:hover{background:rgba(255,255,255,.07);color:#fff;}
@@ -35,96 +25,49 @@ nav{padding:14px 10px;flex:1;overflow-y:auto;}
 .nav-item svg{width:16px;height:16px;flex-shrink:0;}
 .nav-badge{margin-left:auto;background:var(--danger);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:20px;}
 .sidebar-user{padding:14px 12px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
-.u-av{width:32px;height:32px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;flex-shrink:0;}
+.u-av{width:32px;height:32px;background:linear-gradient(135deg,#00c49a,#00a07e);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;flex-shrink:0;}
 .u-name{font-weight:600;font-size:12px;color:#fff;}
 .u-role{color:rgba(255,255,255,.4);font-size:10px;}
 .logout{margin-left:auto;cursor:pointer;color:rgba(255,255,255,.3);font-size:14px;}
-.logout:hover{color:#fff;}
-
-/* MAIN */
 .main{flex:1;margin-left:220px;display:flex;flex-direction:column;}
 .topbar{height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 22px;gap:10px;position:sticky;top:0;z-index:100;}
 .topbar-title{font-family:'Playfair Display',serif;font-weight:700;font-size:17px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:12.5px;cursor:pointer;border:none;transition:all .15s;}
-.btn-primary{background:var(--primary);color:#fff;box-shadow:0 4px 12px rgba(0,87,255,.3);}
-.btn-primary:hover{transform:translateY(-1px);}
 .btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border);}
-.btn-outline:hover{border-color:var(--primary);color:var(--primary);}
 .btn svg{width:13px;height:13px;}
 .content{padding:20px 22px;flex:1;}
-
-/* KPI */
+.hero{background:linear-gradient(135deg,#0057ff,#3d7bff);border-radius:16px;padding:20px;display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;right:-20px;top:-20px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.07);}
+.hero-logo{width:48px;height:48px;border-radius:13px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#fff;flex-shrink:0;}
+.hero-name{font-family:'Playfair Display',serif;font-weight:800;font-size:17px;color:#fff;}
+.hero-meta{color:rgba(255,255,255,.7);font-size:12px;margin-top:2px;}
+.hero-rating{display:flex;align-items:center;gap:5px;margin-top:6px;}
+.hero-stars{color:#ffd700;font-size:14px;}
+.hero-score{font-family:'Playfair Display',serif;font-weight:800;font-size:17px;color:#fff;}
+.hero-count{color:rgba(255,255,255,.6);font-size:12px;}
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
-.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;transition:all .2s;position:relative;overflow:hidden;}
-.kpi-card:hover{box-shadow:0 8px 24px rgba(0,87,255,.1);transform:translateY(-2px);}
-.kpi-card.featured{background:linear-gradient(135deg,#0057ff,#3d7bff);border:none;}
-.kpi-card.featured .kpi-label{color:rgba(255,255,255,.7);}
-.kpi-card.featured .kpi-val{color:#fff;}
-.kpi-card.featured .delta{background:rgba(255,255,255,.2);color:#fff;}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;transition:all .2s;}
 .kpi-label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:7px;}
-.kpi-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:7px;}
+.kpi-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:7px;}
 .kpi-val sup{font-size:12px;vertical-align:super;font-family:'Plus Jakarta Sans',sans-serif;}
 .delta{display:inline-flex;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:20px;}
 .delta.up{color:var(--success);background:var(--success-bg);}
 .delta.down{color:var(--danger);background:var(--danger-bg);}
 .delta.neutral{color:var(--warn);background:var(--warn-bg);}
-
-/* VILLES */
-.villes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
-.ville-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
-.ville-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:var(--primary);}
-.ville-lbl{font-size:11px;color:var(--muted);margin-top:2px;}
-
-/* CARDS */
-.row2{display:grid;grid-template-columns:1.7fr 1fr;gap:14px;margin-bottom:14px;}
-.row2.equal{grid-template-columns:1fr 1fr;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
 .card-head{padding:14px 18px 11px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
 .card-title{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;}
 .card-sub{color:var(--muted);font-size:11px;margin-top:1px;}
 .card-body{padding:14px 18px;}
-.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10.5px;font-weight:600;background:var(--primary-lt);color:var(--primary);}
-select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:5px 9px;font-size:11.5px;color:var(--text);cursor:pointer;outline:none;font-family:'Plus Jakarta Sans',sans-serif;}
-
-/* CHART */
-.chart-wrap{height:148px;}
-.chart-wrap svg{width:100%;height:100%;}
-.chart-legend{display:flex;gap:14px;margin-top:7px;}
-.chart-legend span{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);}
-.chart-legend i{width:16px;height:3px;border-radius:3px;display:inline-block;}
-
-/* DONUT */
-.donut-row{display:flex;align-items:center;gap:14px;}
-.leg-item{display:flex;align-items:center;gap:7px;font-size:12px;margin-bottom:6px;font-weight:500;}
-.leg-dot{width:8px;height:8px;border-radius:3px;flex-shrink:0;}
-.leg-pct{margin-left:auto;font-weight:700;}
-
-/* STAR BARS */
-.sb-item{margin-bottom:8px;}
-.sb-row{display:flex;justify-content:space-between;margin-bottom:3px;font-size:11.5px;font-weight:500;}
-.sb-count{color:var(--muted);}
-.sb-bg{height:5px;background:var(--border);border-radius:10px;overflow:hidden;}
-.sb-fill{height:100%;border-radius:10px;}
-
-/* PATIENTS */
-.p-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
-.p-row:last-child{border-bottom:none;}
-.p-row:hover{margin:0 -18px;padding:9px 18px;background:var(--surface2);}
-.p-av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700;flex-shrink:0;}
-.p-info{flex:1;min-width:0;}
-.p-name{font-weight:600;font-size:12.5px;}
-.p-meta{color:var(--muted);font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.stars{font-size:10.5px;color:#f59e0b;white-space:nowrap;}
-.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700;white-space:nowrap;}
-.badge::before{content:'';width:5px;height:5px;border-radius:50%;}
-.badge.ok{background:var(--success-bg);color:var(--success);}
-.badge.ok::before{background:var(--success);}
-.badge.mid{background:var(--warn-bg);color:var(--warn);}
-.badge.mid::before{background:var(--warn);}
-.badge.bad{background:var(--danger-bg);color:var(--danger);}
-.badge.bad::before{background:var(--danger);}
-
-/* ALERTS */
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10.5px;font-weight:600;}
+.metric-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);}
+.metric-row:last-child{border-bottom:none;}
+.metric-lbl{font-size:13px;font-weight:500;}
+.metric-right{display:flex;align-items:center;gap:9px;}
+.metric-bar{width:70px;height:5px;background:var(--border);border-radius:10px;overflow:hidden;}
+.metric-fill{height:100%;border-radius:10px;}
+.metric-val{font-family:'Playfair Display',serif;font-weight:700;font-size:13px;min-width:24px;text-align:right;}
 .alert{border-radius:9px;padding:11px 13px;display:flex;align-items:flex-start;gap:9px;margin-bottom:8px;border:1px solid;}
 .alert:last-child{margin-bottom:0;}
 .alert.danger{background:#fff5f5;border-color:#fca5a5;}
@@ -139,82 +82,51 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
 .alert.warn .alert-title{color:var(--warn);}
 .alert-desc{font-size:11px;color:var(--muted);}
 .alert-cta{font-size:11px;font-weight:700;color:var(--primary);cursor:pointer;padding:3px 7px;border-radius:5px;white-space:nowrap;flex-shrink:0;}
-
-/* CABINETS */
-.cab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
-.cab-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:all .2s;}
-.cab-card:hover{box-shadow:0 8px 24px rgba(0,87,255,.1);transform:translateY(-2px);}
-.cab-top{display:flex;align-items:center;gap:11px;margin-bottom:13px;}
-.cab-logo{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-family:'Playfair Display',serif;font-weight:700;font-size:14px;color:#fff;flex-shrink:0;}
-.cab-name{font-family:'Playfair Display',serif;font-weight:700;font-size:13px;}
-.cab-loc{color:var(--muted);font-size:11px;}
-.cab-status{margin-left:auto;font-size:10px;font-weight:700;background:var(--success-bg);color:var(--success);padding:3px 7px;border-radius:20px;white-space:nowrap;}
-.cab-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;text-align:center;}
-.cab-stat{background:var(--surface2);border-radius:8px;padding:8px 4px;}
-.cab-val{font-family:'Playfair Display',serif;font-weight:700;font-size:17px;line-height:1;}
-.cab-lbl{font-size:9.5px;color:var(--muted);margin-top:2px;}
-
+.p-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.p-row:last-child{border-bottom:none;}
+.p-av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.p-info{flex:1;min-width:0;}
+.p-name{font-weight:600;font-size:12.5px;}
+.p-meta{color:var(--muted);font-size:10.5px;}
+.stars{font-size:10.5px;color:#f59e0b;}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700;}
+.badge::before{content:'';width:5px;height:5px;border-radius:50%;}
+.badge.ok{background:var(--success-bg);color:var(--success);}
+.badge.ok::before{background:var(--success);}
+.badge.mid{background:var(--warn-bg);color:var(--warn);}
+.badge.mid::before{background:var(--warn);}
+.badge.bad{background:var(--danger-bg);color:var(--danger);}
+.badge.bad::before{background:var(--danger);}
 /* TABLE */
-.tbl{width:100%;border-collapse:collapse;min-width:520px;}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tbl{width:100%;border-collapse:collapse;min-width:480px;}
 .tbl th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:9px 13px;border-bottom:1px solid var(--border);background:var(--surface2);}
 .tbl td{padding:10px 13px;border-bottom:1px solid var(--border);font-size:12px;}
 .tbl tr:last-child td{border-bottom:none;}
 .tbl tr:hover td{background:var(--surface2);}
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-
-/* VIEWS */
+/* MOBILE CARDS */
+.mob-cards{display:none;}
+.mob-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;}
+.mob-card:last-child{margin-bottom:0;}
+.mob-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.mob-card-title{font-weight:700;font-size:13.5px;}
+.mob-card-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.mob-card-row:last-child{margin-bottom:0;}
+.mob-card-lbl{font-size:11.5px;color:var(--muted);}
+.mob-card-val{font-size:12.5px;font-weight:600;}
 .view{display:none;}
 .view.active{display:block;}
-
-/* ══ BOTTOM NAV MOBILE ══ */
-.bottom-nav{
-  display:none;
-  position:fixed;bottom:0;left:0;right:0;
-  height:70px;
-  background:var(--sidebar);
-  border-top:1px solid rgba(255,255,255,.1);
-  z-index:300;
-  box-shadow:0 -4px 20px rgba(0,0,0,.3);
-}
-.bottom-nav-inner{
-  display:flex;height:100%;
-  padding:6px 6px;gap:3px;
-}
-.bn-item{
-  flex:1;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  gap:4px;
-  cursor:pointer;
-  color:rgba(255,255,255,.45);
-  font-size:9px;font-weight:600;
-  -webkit-tap-highlight-color:transparent;
-  border-radius:12px;
-  transition:all .2s;
-  padding:6px 2px;
-}
+/* BOTTOM NAV */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:70px;background:var(--sidebar);border-top:1px solid rgba(255,255,255,.1);z-index:300;box-shadow:0 -4px 20px rgba(0,0,0,.3);}
+.bottom-nav-inner{display:flex;height:100%;padding:6px 6px;gap:3px;}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:rgba(255,255,255,.45);font-size:9px;font-weight:600;-webkit-tap-highlight-color:transparent;border-radius:12px;transition:all .2s;padding:6px 2px;}
 .bn-item:active{transform:scale(.95);}
 .bn-item svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2;}
 .bn-item.active{color:#fff;background:var(--primary);box-shadow:0 4px 12px rgba(0,87,255,.4);}
 .bn-item span{font-size:9px;font-weight:600;line-height:1;text-align:center;}
-
-/* ANIMATIONS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-.kpi-card{animation:fadeUp .3s ease both;}
-.kpi-card:nth-child(1){animation-delay:.04s;}
-.kpi-card:nth-child(2){animation-delay:.08s;}
-.kpi-card:nth-child(3){animation-delay:.12s;}
-.kpi-card:nth-child(4){animation-delay:.16s;}
-
-/* RESPONSIVE */
-@media(max-width:1024px){
-  .kpi-grid{grid-template-columns:repeat(2,1fr);}
-  .row2{grid-template-columns:1fr;}
-  .row2.equal{grid-template-columns:1fr;}
-}
+@media(max-width:1024px){.kpi-grid{grid-template-columns:1fr 1fr;}.row2{grid-template-columns:1fr;}}
 @media(max-width:768px){
-  .sidebar{display:none;}
-  .main{margin-left:0;}
+  .sidebar{display:none;}.main{margin-left:0;}
   .bottom-nav{display:flex;}
   .content{padding:14px 14px calc(70px + 14px);}
   .topbar{padding:0 14px;height:52px;}
@@ -222,296 +134,198 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
   .hide-mob{display:none;}
   .kpi-grid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
   .kpi-card{padding:14px;}
-  .kpi-val{font-size:22px;}
-  .villes-grid{grid-template-columns:1fr 1fr;}
-  .row2,.row2.equal{grid-template-columns:1fr;gap:10px;}
-  .p-row:hover{margin:0;padding:9px 0;background:none;}
+  .kpi-val{font-size:20px;}
+  .row2{grid-template-columns:1fr;gap:10px;}
+  .hero{flex-wrap:wrap;padding:14px;}
   .card-head{padding:12px 14px 10px;}
   .card-body{padding:12px 14px;}
-  .cab-grid{grid-template-columns:1fr;}
+  .tbl-wrap{display:none;}
+  .mob-cards{display:block;}
 }
-@media(max-width:400px){
-  .kpi-grid{grid-template-columns:1fr;}
-  .villes-grid{grid-template-columns:1fr;}
-}
+@media(max-width:400px){.kpi-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 <div class="shell">
-
 <aside class="sidebar">
   <div class="logo">
     <div class="logo-icon"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
     <span class="logo-text">Medi<em>Pulse</em></span>
   </div>
   <nav>
-    <div class="nav-section">Principal</div>
+    <div class="nav-section">Mon cabinet</div>
     <div class="nav-item active" onclick="go('dashboard',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
       Dashboard
     </div>
-    <div class="nav-item" onclick="go('cabinets',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg>
-      Cabinets <span class="nav-badge">8</span>
-    </div>
     <div class="nav-item" onclick="go('patients',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-      Patients
+      Mes patients <span class="nav-badge">3</span>
     </div>
     <div class="nav-item" onclick="go('alertes',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
-      Alertes <span class="nav-badge">14</span>
+      Alertes <span class="nav-badge">5</span>
     </div>
-    <div class="nav-section">Équipe</div>
-    <div class="nav-item" onclick="go('commerciaux',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      Commerciaux
+    <div class="nav-item" onclick="go('historique',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+      Historique
     </div>
     <div class="nav-item" onclick="go('stats',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
       Statistiques
     </div>
-    <div class="nav-section">Système</div>
+    <div class="nav-section">Compte</div>
     <div class="nav-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
       Paramètres
     </div>
   </nav>
   <div class="sidebar-user">
-    <div class="u-av">AD</div>
-    <div><div class="u-name">Admin Owner</div><div class="u-role">🇲🇦 Super admin</div></div>
+    <div class="u-av">AB</div>
+    <div><div class="u-name">Dr. Ahmed Benali</div><div class="u-role">🏥 Cabinet Hassan II</div></div>
     <span class="logout" onclick="window.location.href='/'">⏻</span>
   </div>
 </aside>
-
 <main class="main">
   <div class="topbar">
-    <div style="flex:1;min-width:0">
-      <div class="topbar-title" id="t-title">Vue d'ensemble 👑</div>
-    </div>
+    <div style="flex:1;min-width:0"><div class="topbar-title" id="t-title">Mon Dashboard 🏥</div></div>
     <button class="btn btn-outline hide-mob">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Export
-    </button>
-    <button class="btn btn-primary">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      <span class="hide-mob">Nouveau cabinet</span>
-      <span id="mob-new" style="display:none">+</span>
+      Rapport PDF
     </button>
   </div>
-
   <div class="content">
 
     <!-- DASHBOARD -->
     <div class="view active" id="view-dashboard">
+      <div class="hero">
+        <div class="hero-logo">CH</div>
+        <div style="flex:1;position:relative;z-index:1;min-width:0">
+          <div class="hero-name">Cabinet Hassan II</div>
+          <div class="hero-meta">📍 Casablanca · Médecine générale</div>
+          <div class="hero-rating"><span class="hero-stars">★★★★★</span><span class="hero-score">4.8</span><span class="hero-count">/ 5 — 312 avis</span></div>
+        </div>
+      </div>
       <div class="kpi-grid">
-        <div class="kpi-card featured">
-          <div class="kpi-label">Patients suivis</div>
-          <div class="kpi-val">1 284</div>
-          <span class="delta">↑ +12% ce mois</span>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Satisfaction moy.</div>
-          <div class="kpi-val" style="color:var(--primary)">4.6<sup>/5</sup></div>
-          <span class="delta up">↑ +0.3 pts</span>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Avis moyens</div>
-          <div class="kpi-val" style="color:var(--warn)">87</div>
-          <span class="delta neutral">→ Stable</span>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Alertes actives</div>
-          <div class="kpi-val" style="color:var(--danger)">14</div>
-          <span class="delta down">↑ +3 semaine</span>
-        </div>
+        <div class="kpi-card"><div class="kpi-label">Patients</div><div class="kpi-val" style="color:var(--primary)">312</div><span class="delta up">↑ +24</span></div>
+        <div class="kpi-card"><div class="kpi-label">Satisfaction</div><div class="kpi-val" style="color:var(--success)">4.8<sup>/5</sup></div><span class="delta up">↑ Excellent</span></div>
+        <div class="kpi-card"><div class="kpi-label">Taux réponse</div><div class="kpi-val" style="color:var(--warn)">34<sup>%</sup></div><span class="delta down">↓ Faible</span></div>
+        <div class="kpi-card"><div class="kpi-label">Alertes</div><div class="kpi-val" style="color:var(--danger)">5</div><span class="delta neutral">→ À traiter</span></div>
       </div>
-
-      <div class="villes-grid">
-        <div class="ville-card"><div class="ville-val">🏙️ 5</div><div class="ville-lbl">Cabinets Casa</div></div>
-        <div class="ville-card"><div class="ville-val">🏛️ 2</div><div class="ville-lbl">Cabinets Rabat</div></div>
-        <div class="ville-card"><div class="ville-val">🌴 1</div><div class="ville-lbl">Cabinet Marrakech</div></div>
-      </div>
-
       <div class="row2">
         <div class="card">
-          <div class="card-head">
-            <div><div class="card-title">Évolution des avis</div><div class="card-sub">6 derniers mois</div></div>
-            <select class="ctrl"><option>Tous</option><option>Casablanca</option><option>Rabat</option></select>
-          </div>
+          <div class="card-head"><div><div class="card-title">Métriques</div><div class="card-sub">Par critère</div></div></div>
           <div class="card-body">
-            <div class="chart-wrap">
-              <svg viewBox="0 0 400 130" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="gB" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0057ff" stop-opacity=".18"/><stop offset="100%" stop-color="#0057ff" stop-opacity="0"/></linearGradient>
-                  <linearGradient id="gG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00c49a" stop-opacity=".15"/><stop offset="100%" stop-color="#00c49a" stop-opacity="0"/></linearGradient>
-                </defs>
-                <line x1="0" y1="100" x2="400" y2="100" stroke="#e4ecf7" stroke-width="1"/>
-                <line x1="0" y1="72" x2="400" y2="72" stroke="#e4ecf7" stroke-width="1"/>
-                <line x1="0" y1="44" x2="400" y2="44" stroke="#e4ecf7" stroke-width="1"/>
-                <text x="4" y="118" font-size="10" fill="#b0bdd4">Nov</text><text x="68" y="118" font-size="10" fill="#b0bdd4">Déc</text><text x="136" y="118" font-size="10" fill="#b0bdd4">Jan</text><text x="204" y="118" font-size="10" fill="#b0bdd4">Fév</text><text x="272" y="118" font-size="10" fill="#b0bdd4">Mar</text><text x="340" y="118" font-size="10" fill="#b0bdd4">Avr</text>
-                <path d="M0,85 C60,75 120,60 180,50 C240,40 300,28 400,15 L400,105 L0,105Z" fill="url(#gB)"/>
-                <path d="M0,85 C60,75 120,60 180,50 C240,40 300,28 400,15" fill="none" stroke="#0057ff" stroke-width="2.5" stroke-linecap="round"/>
-                <path d="M0,98 C60,100 120,94 180,90 C240,86 300,83 400,78 L400,105 L0,105Z" fill="url(#gG)"/>
-                <path d="M0,98 C60,100 120,94 180,90 C240,86 300,83 400,78" fill="none" stroke="#00c49a" stroke-width="2" stroke-linecap="round"/>
-                <circle cx="400" cy="15" r="4" fill="#0057ff" stroke="#fff" stroke-width="2"/>
-                <circle cx="400" cy="78" r="3.5" fill="#00c49a" stroke="#fff" stroke-width="2"/>
-              </svg>
-            </div>
-            <div class="chart-legend">
-              <span><i style="background:#0057ff"></i>Satisfaits</span>
-              <span><i style="background:#00c49a"></i>Négatifs</span>
-            </div>
+            <div class="metric-row"><span class="metric-lbl">Accueil</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:94%;background:#0057ff"></div></div><span class="metric-val">4.9</span></div></div>
+            <div class="metric-row"><span class="metric-lbl">Attente</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:58%;background:#f59e0b"></div></div><span class="metric-val">3.0</span></div></div>
+            <div class="metric-row"><span class="metric-lbl">Consultation</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:96%;background:#00c49a"></div></div><span class="metric-val">4.9</span></div></div>
+            <div class="metric-row"><span class="metric-lbl">Propreté</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:82%;background:#0057ff"></div></div><span class="metric-val">4.4</span></div></div>
+            <div class="metric-row"><span class="metric-lbl">Recommandation</span><div class="metric-right"><div class="metric-bar"><div class="metric-fill" style="width:90%;background:#0057ff"></div></div><span class="metric-val">4.8</span></div></div>
           </div>
         </div>
         <div class="card">
-          <div class="card-head"><div><div class="card-title">Répartition</div><div class="card-sub">Ce mois</div></div></div>
+          <div class="card-head"><div><div class="card-title">🔔 Alertes</div></div><span class="tag" style="background:var(--danger-bg);color:var(--danger)">5 urgentes</span></div>
           <div class="card-body">
-            <div class="donut-row">
-              <svg width="80" height="80" viewBox="0 0 80 80" style="flex-shrink:0">
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#e4ecf7" stroke-width="12"/>
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#0057ff" stroke-width="12" stroke-dasharray="135 54" stroke-dashoffset="65" transform="rotate(-90 40 40)"/>
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#f59e0b" stroke-width="12" stroke-dasharray="34 155" stroke-dashoffset="-71" transform="rotate(-90 40 40)"/>
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#ef4444" stroke-width="12" stroke-dasharray="19 170" stroke-dashoffset="-106" transform="rotate(-90 40 40)"/>
-                <text x="40" y="36" text-anchor="middle" font-size="12" font-weight="800" font-family="Playfair Display" fill="#0a1628">74%</text>
-                <text x="40" y="47" text-anchor="middle" font-size="7" fill="#6b7fa3">Satisfaits</text>
-              </svg>
-              <div style="flex:1">
-                <div class="leg-item"><div class="leg-dot" style="background:#0057ff"></div>Satisfaits<span class="leg-pct">74%</span></div>
-                <div class="leg-item"><div class="leg-dot" style="background:#f59e0b"></div>Moyens<span class="leg-pct">17%</span></div>
-                <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Négatifs<span class="leg-pct">9%</span></div>
-              </div>
-            </div>
-            <div style="margin-top:12px">
-              <div class="sb-item"><div class="sb-row"><span>⭐⭐⭐⭐⭐</span><span class="sb-count">521</span></div><div class="sb-bg"><div class="sb-fill" style="width:67%;background:#0057ff"></div></div></div>
-              <div class="sb-item"><div class="sb-row"><span>⭐⭐⭐⭐</span><span class="sb-count">330</span></div><div class="sb-bg"><div class="sb-fill" style="width:43%;background:#4d8bff"></div></div></div>
-              <div class="sb-item"><div class="sb-row"><span>⭐⭐⭐</span><span class="sb-count">218</span></div><div class="sb-bg"><div class="sb-fill" style="width:28%;background:#f59e0b"></div></div></div>
-              <div class="sb-item"><div class="sb-row"><span>⭐⭐</span><span class="sb-count">98</span></div><div class="sb-bg"><div class="sb-fill" style="width:13%;background:#f87171"></div></div></div>
-              <div class="sb-item"><div class="sb-row"><span>⭐</span><span class="sb-count">47</span></div><div class="sb-bg"><div class="sb-fill" style="width:6%;background:#ef4444"></div></div></div>
-            </div>
+            <div class="alert danger"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Salma B. — 2/5</div><div class="alert-desc">Action recommandée</div></div><span class="alert-cta">Voir →</span></div>
+            <div class="alert danger"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Rachid K. — 1/5</div><div class="alert-desc">Action recommandée</div></div><span class="alert-cta">Voir →</span></div>
+            <div class="alert warn"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">Taux réponse faible</div><div class="alert-desc">34% · Rappel SMS</div></div><span class="alert-cta">Voir →</span></div>
           </div>
         </div>
       </div>
-
-      <div class="row2 equal">
-        <div class="card">
-          <div class="card-head">
-            <div><div class="card-title">Patients récents</div><div class="card-sub">Dernières réponses</div></div>
-            <span style="font-size:11.5px;color:var(--primary);font-weight:600;cursor:pointer" onclick="go('patients',null)">Voir tout →</span>
-          </div>
-          <div class="card-body" style="padding-top:4px;padding-bottom:4px">
-            <div class="p-row"><div class="p-av" style="background:#e6eeff;color:#0057ff">KA</div><div class="p-info"><div class="p-name">Karim A.</div><div class="p-meta">Cabinet Hassan II · 8 min</div></div><div class="stars">★★★★★</div><span class="badge ok">Satisfait</span></div>
-            <div class="p-row"><div class="p-av" style="background:#fef2f2;color:#ef4444">SB</div><div class="p-info"><div class="p-name">Salma B.</div><div class="p-meta">Clinique Agdal · 45 min</div></div><div class="stars" style="color:#f87171">★★<span style="color:#e4ecf7">★★★</span></div><span class="badge bad">Insatisfait</span></div>
-            <div class="p-row"><div class="p-av" style="background:#fef8e7;color:#f59e0b">YM</div><div class="p-info"><div class="p-name">Youssef M.</div><div class="p-meta">Cabinet Al Fath · 2h</div></div><div class="stars"><span style="color:#f59e0b">★★★</span><span style="color:#e4ecf7">★★</span></div><span class="badge mid">Moyen</span></div>
-            <div class="p-row"><div class="p-av" style="background:#e6faf5;color:#00c49a">NE</div><div class="p-info"><div class="p-name">Nadia El K.</div><div class="p-meta">Cabinet Hassan II · 3h</div></div><div class="stars" style="color:#f59e0b">★★★★★</div><span class="badge ok">Satisfait</span></div>
-            <div class="p-row"><div class="p-av" style="background:#fef2f2;color:#ef4444">OA</div><div class="p-info"><div class="p-name">Omar A.</div><div class="p-meta">Clinique Marjane · hier</div></div><div class="stars"><span style="color:#f59e0b">★</span><span style="color:#e4ecf7">★★★★</span></div><span class="badge bad">Insatisfait</span></div>
-          </div>
+      <div class="card">
+        <div class="card-head">
+          <div><div class="card-title">Patients récents</div></div>
+          <span style="font-size:11.5px;color:var(--primary);font-weight:600;cursor:pointer" onclick="go('patients',null)">Voir tout →</span>
         </div>
-        <div class="card">
-          <div class="card-head">
-            <div><div class="card-title">🔔 Alertes actives</div><div class="card-sub">Action requise</div></div>
-            <span class="tag">14 actives</span>
-          </div>
-          <div class="card-body">
-            <div class="alert danger"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Salma B. — 2/5 ⭐</div><div class="alert-desc">Clinique Agdal · Rabat</div></div><span class="alert-cta">Agir →</span></div>
-            <div class="alert danger"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Omar A. — 1/5 ⭐</div><div class="alert-desc">Clinique Marjane · Marrakech</div></div><span class="alert-cta">Agir →</span></div>
-            <div class="alert warn"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">Taux réponse en baisse</div><div class="alert-desc">Cabinet Hassan II — 34%</div></div><span class="alert-cta">Voir →</span></div>
-            <div class="alert warn"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">4 avis moyens consécutifs</div><div class="alert-desc">Clinique Agdal · Rabat</div></div><span class="alert-cta">Voir →</span></div>
-          </div>
+        <div class="card-body" style="padding-top:4px;padding-bottom:4px">
+          <div class="p-row"><div class="p-av" style="background:#e6eeff;color:#0057ff">KA</div><div class="p-info"><div class="p-name">Karim A.</div><div class="p-meta">8 min</div></div><div class="stars">★★★★★</div><span class="badge ok">Satisfait</span></div>
+          <div class="p-row"><div class="p-av" style="background:#fef2f2;color:#ef4444">SB</div><div class="p-info"><div class="p-name">Salma B.</div><div class="p-meta">45 min</div></div><div class="stars" style="color:#f87171">★★<span style="color:#e4ecf7">★★★</span></div><span class="badge bad">Insatisfait</span></div>
+          <div class="p-row"><div class="p-av" style="background:#e6faf5;color:#00c49a">NE</div><div class="p-info"><div class="p-name">Nadia El K.</div><div class="p-meta">3h</div></div><div class="stars" style="color:#f59e0b">★★★★★</div><span class="badge ok">Satisfait</span></div>
+          <div class="p-row"><div class="p-av" style="background:#fef2f2;color:#ef4444">RK</div><div class="p-info"><div class="p-name">Rachid K.</div><div class="p-meta">hier</div></div><div class="stars"><span style="color:#f59e0b">★</span><span style="color:#e4ecf7">★★★★</span></div><span class="badge bad">Insatisfait</span></div>
         </div>
-      </div>
-    </div>
-
-    <!-- CABINETS -->
-    <div class="view" id="view-cabinets">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-        <div><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Cabinets 🇲🇦</div><div style="color:var(--muted);font-size:12px;margin-top:2px">8 clients actifs</div></div>
-        <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Ajouter</button>
-      </div>
-      <div class="cab-grid">
-        <div class="cab-card"><div class="cab-top"><div class="cab-logo" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">CH</div><div><div class="cab-name">Cabinet Hassan II</div><div class="cab-loc">📍 Casablanca · Dr. Ahmed Benali</div></div><div class="cab-status">Actif</div></div><div class="cab-stats"><div class="cab-stat"><div class="cab-val">4.8</div><div class="cab-lbl">Note</div></div><div class="cab-stat"><div class="cab-val">312</div><div class="cab-lbl">Patients</div></div><div class="cab-stat" style="background:var(--danger-bg)"><div class="cab-val" style="color:var(--danger)">5</div><div class="cab-lbl" style="color:var(--danger)">Alertes</div></div></div></div>
-        <div class="cab-card"><div class="cab-top"><div class="cab-logo" style="background:linear-gradient(135deg,#00c49a,#00a07e)">CA</div><div><div class="cab-name">Clinique Agdal</div><div class="cab-loc">📍 Rabat · Dr. Leila Fassi</div></div><div class="cab-status">Actif</div></div><div class="cab-stats"><div class="cab-stat"><div class="cab-val">3.8</div><div class="cab-lbl">Note</div></div><div class="cab-stat"><div class="cab-val">428</div><div class="cab-lbl">Patients</div></div><div class="cab-stat" style="background:var(--danger-bg)"><div class="cab-val" style="color:var(--danger)">9</div><div class="cab-lbl" style="color:var(--danger)">Alertes</div></div></div></div>
-        <div class="cab-card"><div class="cab-top"><div class="cab-logo" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AF</div><div><div class="cab-name">Cabinet Al Fath</div><div class="cab-loc">📍 Casablanca · Dr. Youssef Tazi</div></div><div class="cab-status">Actif</div></div><div class="cab-stats"><div class="cab-stat"><div class="cab-val">4.3</div><div class="cab-lbl">Note</div></div><div class="cab-stat"><div class="cab-val">198</div><div class="cab-lbl">Patients</div></div><div class="cab-stat" style="background:var(--warn-bg)"><div class="cab-val" style="color:var(--warn)">3</div><div class="cab-lbl" style="color:var(--warn)">Alertes</div></div></div></div>
-        <div class="cab-card"><div class="cab-top"><div class="cab-logo" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">CM</div><div><div class="cab-name">Clinique Marjane</div><div class="cab-loc">📍 Marrakech · Dr. Sara Alami</div></div><div class="cab-status">Actif</div></div><div class="cab-stats"><div class="cab-stat"><div class="cab-val">4.6</div><div class="cab-lbl">Note</div></div><div class="cab-stat"><div class="cab-val">156</div><div class="cab-lbl">Patients</div></div><div class="cab-stat" style="background:var(--success-bg)"><div class="cab-val" style="color:var(--success)">0</div><div class="cab-lbl" style="color:var(--success)">Alertes</div></div></div></div>
       </div>
     </div>
 
     <!-- PATIENTS -->
     <div class="view" id="view-patients">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-        <div><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Patients</div><div style="color:var(--muted);font-size:12px;margin-top:2px">1 284 réponses</div></div>
-        <select class="ctrl"><option>Tous</option><option>Satisfait</option><option>Moyen</option><option>Insatisfait</option></select>
+        <div><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Mes patients</div><div style="color:var(--muted);font-size:12px">312 réponses</div></div>
+        <select style="background:var(--surface2);border:1.5px solid var(--border);border-radius:9px;padding:6px 10px;font-size:12px;color:var(--text);cursor:pointer;outline:none;font-family:'Plus Jakarta Sans',sans-serif;"><option>Tous</option><option>Satisfait</option><option>Moyen</option><option>Insatisfait</option></select>
       </div>
-      <div class="card">
-        <div class="tbl-wrap">
-          <table class="tbl">
-            <thead><tr><th>Patient</th><th>Cabinet</th><th>Ville</th><th>Note</th><th>Statut</th><th>Commentaire</th><th>Date</th></tr></thead>
-            <tbody>
-              <tr><td><strong>Karim A.</strong></td><td style="color:var(--muted)">Cabinet Hassan II</td><td>🏙️ Casa</td><td>⭐⭐⭐⭐⭐</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Excellent"</td><td style="color:var(--muted)">25/04</td></tr>
-              <tr style="background:#fff5f5"><td><strong>Salma B.</strong></td><td style="color:var(--muted)">Clinique Agdal</td><td>🏛️ Rabat</td><td>⭐⭐</td><td><span class="badge bad">Insatisfait</span></td><td style="color:var(--muted);font-style:italic">"Attente longue"</td><td style="color:var(--muted)">25/04</td></tr>
-              <tr><td><strong>Youssef M.</strong></td><td style="color:var(--muted)">Cabinet Al Fath</td><td>🏙️ Casa</td><td>⭐⭐⭐</td><td><span class="badge mid">Moyen</span></td><td style="color:var(--muted);font-style:italic">"Correct"</td><td style="color:var(--muted)">25/04</td></tr>
-              <tr><td><strong>Nadia El K.</strong></td><td style="color:var(--muted)">Cabinet Hassan II</td><td>🏙️ Casa</td><td>⭐⭐⭐⭐⭐</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Merci !"</td><td style="color:var(--muted)">25/04</td></tr>
-              <tr style="background:#fff5f5"><td><strong>Omar A.</strong></td><td style="color:var(--muted)">Clinique Marjane</td><td>🌴 Mkch</td><td>⭐</td><td><span class="badge bad">Insatisfait</span></td><td style="color:var(--muted);font-style:italic">"Pas écouté"</td><td style="color:var(--muted)">24/04</td></tr>
-            </tbody>
-          </table>
-        </div>
+      <!-- Desktop -->
+      <div class="card tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Patient</th><th>Note</th><th>Statut</th><th>Commentaire</th><th>Date</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Karim A.</strong></td><td>⭐⭐⭐⭐⭐</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Excellent médecin"</td><td style="color:var(--muted)">25/04</td></tr>
+            <tr style="background:#fff5f5"><td><strong>Salma B.</strong></td><td>⭐⭐</td><td><span class="badge bad">Insatisfait</span></td><td style="color:var(--muted);font-style:italic">"Attente trop longue"</td><td style="color:var(--muted)">25/04</td></tr>
+            <tr><td><strong>Nadia El K.</strong></td><td>⭐⭐⭐⭐⭐</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Merci docteur !"</td><td style="color:var(--muted)">25/04</td></tr>
+            <tr style="background:#fff5f5"><td><strong>Rachid K.</strong></td><td>⭐</td><td><span class="badge bad">Insatisfait</span></td><td style="color:var(--muted);font-style:italic">"Pas écouté"</td><td style="color:var(--muted)">24/04</td></tr>
+            <tr><td><strong>Mohamed T.</strong></td><td>⭐⭐⭐⭐</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted);font-style:italic">"Très bien"</td><td style="color:var(--muted)">24/04</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Mobile -->
+      <div class="mob-cards">
+        <div class="mob-card"><div class="mob-card-top"><span class="mob-card-title">Karim A.</span><span class="badge ok">Satisfait</span></div><div class="mob-card-row"><span class="mob-card-lbl">Note</span><span class="mob-card-val">⭐⭐⭐⭐⭐</span></div><div class="mob-card-row"><span class="mob-card-lbl">Commentaire</span><span class="mob-card-val" style="color:var(--muted);font-style:italic">"Excellent médecin"</span></div><div class="mob-card-row"><span class="mob-card-lbl">Date</span><span class="mob-card-val">25/04</span></div></div>
+        <div class="mob-card" style="border-color:#fca5a5"><div class="mob-card-top"><span class="mob-card-title">Salma B.</span><span class="badge bad">Insatisfait</span></div><div class="mob-card-row"><span class="mob-card-lbl">Note</span><span class="mob-card-val">⭐⭐</span></div><div class="mob-card-row"><span class="mob-card-lbl">Commentaire</span><span class="mob-card-val" style="color:var(--muted);font-style:italic">"Attente trop longue"</span></div><div class="mob-card-row"><span class="mob-card-lbl">Date</span><span class="mob-card-val">25/04</span></div></div>
+        <div class="mob-card"><div class="mob-card-top"><span class="mob-card-title">Nadia El K.</span><span class="badge ok">Satisfait</span></div><div class="mob-card-row"><span class="mob-card-lbl">Note</span><span class="mob-card-val">⭐⭐⭐⭐⭐</span></div><div class="mob-card-row"><span class="mob-card-lbl">Commentaire</span><span class="mob-card-val" style="color:var(--muted);font-style:italic">"Merci docteur !"</span></div><div class="mob-card-row"><span class="mob-card-lbl">Date</span><span class="mob-card-val">25/04</span></div></div>
+        <div class="mob-card" style="border-color:#fca5a5"><div class="mob-card-top"><span class="mob-card-title">Rachid K.</span><span class="badge bad">Insatisfait</span></div><div class="mob-card-row"><span class="mob-card-lbl">Note</span><span class="mob-card-val">⭐</span></div><div class="mob-card-row"><span class="mob-card-lbl">Commentaire</span><span class="mob-card-val" style="color:var(--muted);font-style:italic">"Pas écouté"</span></div><div class="mob-card-row"><span class="mob-card-lbl">Date</span><span class="mob-card-val">24/04</span></div></div>
       </div>
     </div>
 
     <!-- ALERTES -->
     <div class="view" id="view-alertes">
-      <div style="margin-bottom:16px">
-        <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">🔔 Toutes les alertes</div>
-        <div style="color:var(--muted);font-size:12px;margin-top:2px">14 alertes actives</div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <div class="alert danger" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Salma B. — 2/5 ⭐</div><div class="alert-desc">Clinique Agdal · Rabat · 25/04</div></div><span class="alert-cta">Agir →</span></div>
-          <div class="alert danger" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Omar A. — 1/5 ⭐</div><div class="alert-desc">Clinique Marjane · Marrakech · 24/04</div></div><span class="alert-cta">Agir →</span></div>
-          <div class="alert danger" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Rachid K. — 2/5 ⭐</div><div class="alert-desc">Cabinet Al Fath · Casa · 23/04</div></div><span class="alert-cta">Agir →</span></div>
-          <div class="alert warn" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">Taux réponse en baisse</div><div class="alert-desc">Cabinet Hassan II — 34% ce mois</div></div><span class="alert-cta">Voir →</span></div>
-          <div class="alert warn"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">4 avis moyens consécutifs</div><div class="alert-desc">Clinique Agdal · Tendance négative</div></div><span class="alert-cta">Voir →</span></div>
-        </div>
-      </div>
+      <div style="margin-bottom:16px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">🔔 Alertes</div><div style="color:var(--muted);font-size:12px">5 alertes actives</div></div>
+      <div class="card"><div class="card-body">
+        <div class="alert danger" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Salma B. — 2/5 ⭐</div><div class="alert-desc">Attente trop longue · 25/04</div></div><span class="alert-cta">Traiter →</span></div>
+        <div class="alert danger" style="margin-bottom:10px"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Rachid K. — 1/5 ⭐</div><div class="alert-desc">Pas écouté · 24/04</div></div><span class="alert-cta">Traiter →</span></div>
+        <div class="alert warn"><div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="alert-body"><div class="alert-title">Taux réponse faible</div><div class="alert-desc">34% · Rappel SMS conseillé</div></div><span class="alert-cta">Voir →</span></div>
+      </div></div>
     </div>
 
-    <!-- COMMERCIAUX -->
-    <div class="view" id="view-commerciaux">
-      <div style="margin-bottom:16px">
-        <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">💼 Commerciaux</div>
-        <div style="color:var(--muted);font-size:12px;margin-top:2px">3 commerciaux actifs</div>
+    <!-- HISTORIQUE -->
+    <div class="view" id="view-historique">
+      <div style="margin-bottom:16px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Historique complet</div></div>
+      <!-- Desktop -->
+      <div class="card tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Patient</th><th>Note</th><th>Accueil</th><th>Attente</th><th>Consult.</th><th>Statut</th><th>Date</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Karim A.</strong></td><td>⭐⭐⭐⭐⭐</td><td>5/5</td><td>4/5</td><td>5/5</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted)">25/04</td></tr>
+            <tr style="background:#fff5f5"><td><strong>Salma B.</strong></td><td>⭐⭐</td><td>2/5</td><td>1/5</td><td>3/5</td><td><span class="badge bad">Insatisfait</span></td><td style="color:var(--muted)">25/04</td></tr>
+            <tr><td><strong>Nadia El K.</strong></td><td>⭐⭐⭐⭐⭐</td><td>5/5</td><td>5/5</td><td>5/5</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted)">25/04</td></tr>
+            <tr style="background:#fff5f5"><td><strong>Rachid K.</strong></td><td>⭐</td><td>1/5</td><td>1/5</td><td>2/5</td><td><span class="badge bad">Insatisfait</span></td><td style="color:var(--muted)">24/04</td></tr>
+            <tr><td><strong>Mohamed T.</strong></td><td>⭐⭐⭐⭐</td><td>4/5</td><td>3/5</td><td>5/5</td><td><span class="badge ok">Satisfait</span></td><td style="color:var(--muted)">24/04</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="cab-grid">
-        <div class="cab-card"><div class="cab-top"><div class="cab-logo" style="background:linear-gradient(135deg,#f59e0b,#d97706)">YB</div><div><div class="cab-name">Youssef Bennani</div><div class="cab-loc">💼 Casablanca</div></div><span style="background:var(--success-bg);color:var(--success);font-size:10px;font-weight:700;padding:3px 7px;border-radius:20px">Actif</span></div><div class="cab-stats"><div class="cab-stat"><div class="cab-val">10</div><div class="cab-lbl">Cabinets</div></div><div class="cab-stat"><div class="cab-val" style="color:var(--success)">478</div><div class="cab-lbl">MAD/mois</div></div><div class="cab-stat"><div class="cab-val">90%</div><div class="cab-lbl">Rétention</div></div></div></div>
-        <div class="cab-card"><div class="cab-top"><div class="cab-logo" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">KE</div><div><div class="cab-name">Karim El Fassi</div><div class="cab-loc">💼 Rabat</div></div><span style="background:var(--success-bg);color:var(--success);font-size:10px;font-weight:700;padding:3px 7px;border-radius:20px">Actif</span></div><div class="cab-stats"><div class="cab-stat"><div class="cab-val">7</div><div class="cab-lbl">Cabinets</div></div><div class="cab-stat"><div class="cab-val" style="color:var(--success)">340</div><div class="cab-lbl">MAD/mois</div></div><div class="cab-stat"><div class="cab-val">85%</div><div class="cab-lbl">Rétention</div></div></div></div>
+      <!-- Mobile -->
+      <div class="mob-cards">
+        <div class="mob-card"><div class="mob-card-top"><span class="mob-card-title">Karim A.</span><span class="badge ok">Satisfait</span></div><div class="mob-card-row"><span class="mob-card-lbl">Note globale</span><span class="mob-card-val">⭐⭐⭐⭐⭐</span></div><div class="mob-card-row"><span class="mob-card-lbl">Accueil</span><span class="mob-card-val">5/5</span></div><div class="mob-card-row"><span class="mob-card-lbl">Attente</span><span class="mob-card-val">4/5</span></div><div class="mob-card-row"><span class="mob-card-lbl">Consultation</span><span class="mob-card-val">5/5</span></div><div class="mob-card-row"><span class="mob-card-lbl">Date</span><span class="mob-card-val">25/04</span></div></div>
+        <div class="mob-card" style="border-color:#fca5a5"><div class="mob-card-top"><span class="mob-card-title">Salma B.</span><span class="badge bad">Insatisfait</span></div><div class="mob-card-row"><span class="mob-card-lbl">Note globale</span><span class="mob-card-val">⭐⭐</span></div><div class="mob-card-row"><span class="mob-card-lbl">Accueil</span><span class="mob-card-val">2/5</span></div><div class="mob-card-row"><span class="mob-card-lbl">Attente</span><span class="mob-card-val" style="color:var(--danger)">1/5</span></div><div class="mob-card-row"><span class="mob-card-lbl">Consultation</span><span class="mob-card-val">3/5</span></div><div class="mob-card-row"><span class="mob-card-lbl">Date</span><span class="mob-card-val">25/04</span></div></div>
+        <div class="mob-card"><div class="mob-card-top"><span class="mob-card-title">Nadia El K.</span><span class="badge ok">Satisfait</span></div><div class="mob-card-row"><span class="mob-card-lbl">Note globale</span><span class="mob-card-val">⭐⭐⭐⭐⭐</span></div><div class="mob-card-row"><span class="mob-card-lbl">Accueil</span><span class="mob-card-val">5/5</span></div><div class="mob-card-row"><span class="mob-card-lbl">Attente</span><span class="mob-card-val">5/5</span></div><div class="mob-card-row"><span class="mob-card-lbl">Consultation</span><span class="mob-card-val">5/5</span></div><div class="mob-card-row"><span class="mob-card-lbl">Date</span><span class="mob-card-val">25/04</span></div></div>
       </div>
     </div>
 
     <!-- STATS -->
     <div class="view" id="view-stats">
-      <div style="margin-bottom:16px">
-        <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">📊 Statistiques globales</div>
-        <div style="color:var(--muted);font-size:12px;margin-top:2px">Avril 2026 · Tous les cabinets</div>
-      </div>
-      <div class="row2 equal">
-        <div class="card">
-          <div class="card-head"><div><div class="card-title">Revenus mensuels</div></div></div>
-          <div class="card-body">
-            <div style="text-align:center;padding:20px 0">
-              <div style="font-family:'Playfair Display',serif;font-size:36px;font-weight:800;color:var(--success)">2 392 MAD</div>
-              <div style="color:var(--muted);font-size:12px;margin-top:4px">8 cabinets × 299 MAD</div>
-              <div style="margin-top:12px;display:inline-flex;align-items:center;gap:5px;background:var(--success-bg);color:var(--success);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600">↑ +598 MAD vs mars</div>
-            </div>
+      <div style="margin-bottom:16px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">📊 Statistiques</div></div>
+      <div class="row2">
+        <div class="card"><div class="card-head"><div><div class="card-title">Répartition avis</div></div></div><div class="card-body">
+          <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px"><span>⭐⭐⭐⭐⭐</span><span style="color:var(--muted)">521</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:67%;height:100%;background:#0057ff;border-radius:10px"></div></div></div>
+          <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px"><span>⭐⭐⭐⭐</span><span style="color:var(--muted)">330</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:43%;height:100%;background:#4d8bff;border-radius:10px"></div></div></div>
+          <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px"><span>⭐⭐⭐</span><span style="color:var(--muted)">218</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:28%;height:100%;background:#f59e0b;border-radius:10px"></div></div></div>
+          <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px"><span>⭐⭐</span><span style="color:var(--muted)">98</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:13%;height:100%;background:#f87171;border-radius:10px"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px"><span>⭐</span><span style="color:var(--muted)">47</span></div><div style="height:6px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:6%;height:100%;background:#ef4444;border-radius:10px"></div></div></div>
+        </div></div>
+        <div class="card"><div class="card-head"><div><div class="card-title">Résumé du mois</div></div></div><div class="card-body">
+          <div style="text-align:center;padding:16px 0">
+            <div style="font-family:'Playfair Display',serif;font-size:40px;font-weight:800;color:var(--success)">4.8</div>
+            <div style="color:var(--muted);font-size:12px;margin-top:2px">Note moyenne / 5</div>
+            <div style="margin-top:14px;display:inline-flex;align-items:center;gap:5px;background:var(--success-bg);color:var(--success);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600">🏆 Top cabinet ce mois</div>
           </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><div><div class="card-title">Croissance</div></div></div>
-          <div class="card-body">
-            <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px;font-weight:500"><span>Cabinets actifs</span><span style="color:var(--primary)">8/10 obj.</span></div><div style="height:8px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:80%;height:100%;background:var(--primary);border-radius:10px"></div></div></div>
-            <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px;font-weight:500"><span>Taux satisfaction</span><span style="color:var(--success)">4.6/5</span></div><div style="height:8px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:92%;height:100%;background:var(--success);border-radius:10px"></div></div></div>
-            <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px;font-weight:500"><span>Taux réponse moyen</span><span style="color:var(--warn)">38%</span></div><div style="height:8px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:38%;height:100%;background:var(--warn);border-radius:10px"></div></div></div>
-          </div>
-        </div>
+        </div></div>
       </div>
     </div>
 
@@ -519,50 +333,27 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
 </main>
 </div>
 
-<!-- BOTTOM NAV mobile -->
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <div class="bn-item active" id="bn-dashboard" onclick="go('dashboard',this)">
-      <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
-      <span>Dashboard</span>
-    </div>
-    <div class="bn-item" id="bn-cabinets" onclick="go('cabinets',this)">
-      <svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg>
-      <span>Cabinets</span>
-    </div>
-    <div class="bn-item" id="bn-patients" onclick="go('patients',this)">
-      <svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-      <span>Patients</span>
-    </div>
-    <div class="bn-item" id="bn-alertes" onclick="go('alertes',this)">
-      <svg viewBox="0 0 24 24" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
-      <span>Alertes</span>
-    </div>
-    <div class="bn-item" id="bn-stats" onclick="go('stats',this)">
-      <svg viewBox="0 0 24 24" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-      <span>Stats</span>
-    </div>
+    <div class="bn-item active" id="bn-dashboard" onclick="go('dashboard',this)"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg><span>Dashboard</span></div>
+    <div class="bn-item" id="bn-patients" onclick="go('patients',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Patients</span></div>
+    <div class="bn-item" id="bn-alertes" onclick="go('alertes',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><span>Alertes</span></div>
+    <div class="bn-item" id="bn-historique" onclick="go('historique',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg><span>Historique</span></div>
+    <div class="bn-item" id="bn-stats" onclick="go('stats',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span>Stats</span></div>
   </div>
 </nav>
 
 <script>
-const TITLES={
-  dashboard:"Vue d'ensemble 👑",
-  cabinets:"Cabinets médicaux 🇲🇦",
-  patients:"Patients",
-  alertes:"🔔 Alertes actives",
-  commerciaux:"💼 Commerciaux",
-  stats:"📊 Statistiques"
-};
+const T={dashboard:"Mon Dashboard 🏥",patients:"Mes patients",alertes:"🔔 Alertes",historique:"Historique",stats:"📊 Statistiques"};
 function go(name,el){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   if(el&&el.classList.contains('nav-item'))el.classList.add('active');
   document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
-  const bn=document.getElementById('bn-'+name);
-  if(bn)bn.classList.add('active');
-  if(TITLES[name])document.getElementById('t-title').textContent=TITLES[name];
+  const bn=document.getElementById('bn-'+name);if(bn)bn.classList.add('active');
+  if(T[name])document.getElementById('t-title').textContent=T[name];
   window.scrollTo({top:0,behavior:'smooth'});
 }
 </script>
