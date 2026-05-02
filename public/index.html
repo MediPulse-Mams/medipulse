@@ -7,6 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--primary:#0057ff;--primary-lt:#e6eeff;--border:#e4ecf7;--muted:#6b7fa3;--light:#b0bdd4;--text:#0a1628;--bg:#f8fafd;--danger:#ef4444;--danger-bg:#fef2f2;}
+html,body{min-height:100vh;}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(135deg,#0a1628 0%,#0d2452 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
 .login-box{background:#fff;border-radius:24px;padding:40px;width:100%;max-width:420px;box-shadow:0 24px 80px rgba(0,0,0,.3);}
 .logo{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:32px;}
@@ -19,15 +21,16 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(135de
 .welcome p{color:#6b7fa3;font-size:13px;}
 .form-group{margin-bottom:16px;}
 .form-label{font-size:12px;font-weight:600;color:#6b7fa3;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:block;}
-.form-input{width:100%;padding:13px 16px;border:1.5px solid #e4ecf7;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:#0a1628;outline:none;transition:all .15s;background:#f8fafd;}
-.form-input:focus{border-color:#0057ff;background:#fff;box-shadow:0 0 0 3px rgba(0,87,255,.1);}
-.role-select{width:100%;padding:13px 16px;border:1.5px solid #e4ecf7;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:#0a1628;outline:none;background:#f8fafd;cursor:pointer;}
-.role-select:focus{border-color:#0057ff;}
+.form-input{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:all .15s;background:var(--bg);}
+.form-input:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px rgba(0,87,255,.1);}
+.form-input::placeholder{color:var(--light);}
+.role-select{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--text);outline:none;background:var(--bg);cursor:pointer;}
+.role-select:focus{border-color:var(--primary);}
 .login-btn{width:100%;padding:14px;background:linear-gradient(135deg,#0057ff,#4d8bff);color:#fff;border:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:all .2s;margin-top:8px;box-shadow:0 4px 16px rgba(0,87,255,.35);}
-.login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,87,255,.4);}
-.error{background:#fef2f2;border:1px solid #fca5a5;color:#ef4444;padding:10px 14px;border-radius:8px;font-size:12.5px;font-weight:500;margin-bottom:14px;display:none;text-align:center;}
+.login-btn:hover{transform:translateY(-2px);}
+.login-btn:disabled{opacity:.7;cursor:not-allowed;transform:none;}
+.error{background:var(--danger-bg);border:1px solid #fca5a5;color:var(--danger);padding:10px 14px;border-radius:8px;font-size:12.5px;font-weight:500;margin-bottom:14px;display:none;text-align:center;}
 .footer{text-align:center;margin-top:24px;color:#b0bdd4;font-size:11.5px;}
-.flag{font-size:16px;}
 </style>
 </head>
 <body>
@@ -38,14 +41,11 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(135de
     </div>
     <span class="logo-text">Medi<em>Pulse</em></span>
   </div>
-
   <div class="welcome">
     <h1>Bon retour 👋</h1>
-    <p>Connectez-vous à votre espace MediPulse <span class="flag">🇲🇦</span></p>
+    <p>Connectez-vous à votre espace MediPulse 🇲🇦</p>
   </div>
-
-  <div class="error" id="error-msg">❌ Email ou mot de passe incorrect</div>
-
+  <div class="error" id="error-msg"></div>
   <div class="form-group">
     <label class="form-label">Rôle</label>
     <select class="role-select" id="role">
@@ -55,56 +55,89 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(135de
       <option value="commercial">💼 Commercial</option>
     </select>
   </div>
-
   <div class="form-group">
     <label class="form-label">Email</label>
     <input class="form-input" type="email" id="email" placeholder="votre@email.com">
   </div>
-
   <div class="form-group">
     <label class="form-label">Mot de passe</label>
     <input class="form-input" type="password" id="password" placeholder="••••••••">
   </div>
-
-  <button class="login-btn" onclick="login()">Se connecter →</button>
-
-  <div class="footer">
-    MediPulse © 2026 · Maroc 🇲🇦 · Tous droits réservés
-  </div>
+  <button class="login-btn" id="login-btn" onclick="login()">Se connecter →</button>
+  <div class="footer">MediPulse © 2026 · Maroc 🇲🇦</div>
 </div>
 
 <script>
-function login() {
-  const role = document.getElementById('role').value;
-  const email = document.getElementById('email').value;
+const SUPABASE_URL = 'https://czttvnvcetgmjfqishig.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m';
+
+const ROLES = {
+  'owner@medipulse.ma': 'owner',
+  'medecin@medipulse.ma': 'medecin',
+  'assistante@medipulse.ma': 'assistante',
+  'commercial@medipulse.ma': 'commercial'
+};
+
+const REDIRECTS = {
+  'owner': '/dashboard-owner.html',
+  'medecin': '/dashboard-medecin.html',
+  'assistante': '/saisie.html',
+  'commercial': '/dashboard-commercial.html'
+};
+
+function showError(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = '❌ ' + msg;
+  el.style.display = 'block';
+}
+
+async function login() {
+  const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
+  const role = document.getElementById('role').value;
+  const btn = document.getElementById('login-btn');
   const error = document.getElementById('error-msg');
 
-  // Comptes de démonstration
-  const comptes = {
-    'owner': { email: 'owner@medipulse.ma', password: 'owner123' },
-    'medecin': { email: 'medecin@medipulse.ma', password: 'medecin123' },
-    'assistante': { email: 'assistante@medipulse.ma', password: 'assist123' },
-    'commercial': { email: 'commercial@medipulse.ma', password: 'commercial123' }
-  };
+  error.style.display = 'none';
 
-  const compte = comptes[role];
+  if(!email || !password) {
+    showError('Veuillez remplir tous les champs');
+    return;
+  }
 
-  if (email === compte.email && password === compte.password) {
-    error.style.display = 'none';
-    // Redirection selon le rôle
-    if (role === 'owner') window.location.href = '/dashboard-owner.html';
-    if (role === 'medecin') window.location.href = '/dashboard-medecin.html';
-    if (role === 'assistante') window.location.href = '/saisie.html';
-    if (role === 'commercial') window.location.href = '/dashboard-commercial.html';
-  } else {
-    error.style.display = 'block';
+  btn.disabled = true;
+  btn.textContent = 'Connexion...';
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY
+      },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if(!res.ok) throw new Error(data.error_description || data.msg || 'Erreur de connexion');
+
+    const roleAttendu = ROLES[email];
+    if(!roleAttendu || roleAttendu !== role) {
+      throw new Error('Rôle incorrect pour cet email');
+    }
+
+    window.location.href = REDIRECTS[role];
+
+  } catch(e) {
+    showError(e.message === 'Invalid login credentials' ? 'Email ou mot de passe incorrect' : e.message);
+    btn.disabled = false;
+    btn.textContent = 'Se connecter →';
   }
 }
 
-// Connexion avec touche Entrée
 document.addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') login();
+  if(e.key === 'Enter') login();
 });
 </script>
 </body>
