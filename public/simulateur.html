@@ -383,8 +383,28 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   </div>
 </section>
 
-<!-- SIMULATEUR -->
-<section class="sim-section">
+/* ══ SIMULATEUR ══ */
+.sim-section{padding:80px 24px;}
+.sim-inner{max-width:680px;margin:0 auto;}
+.sim-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;overflow:hidden;}
+.sim-inputs{padding:32px;border-bottom:1px solid var(--border);}
+.sim-sep{display:none;}
+.sim-results{padding:32px;}
+.sim-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted2);margin-bottom:20px;}
+.sim-kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.sim-kpi{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:16px;}
+.sim-kpi.accent{border-color:rgba(0,196,154,.2);background:rgba(0,196,154,.05);}
+.sim-kpi-lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.sim-kpi-val{font-weight:800;font-size:28px;color:#fff;letter-spacing:-1px;line-height:1;transition:all .3s;}
+.sim-kpi.accent .sim-kpi-val{color:var(--success);}
+.sim-kpi-hint{font-size:10px;color:var(--muted2);margin-top:4px;}
+
+/* Desktop : 2 colonnes */
+@media(min-width:769px){
+  .sim-card{display:grid;grid-template-columns:1fr 1fr;}
+  .sim-inputs{border-bottom:none;border-right:1px solid var(--border);}
+  .sim-sep{display:none;}
+}
   <div class="sim-inner">
     <div class="section-eyebrow" style="text-align:center">Simulateur</div>
     <div class="section-title" style="text-align:center">Calculez votre potentiel</div>
