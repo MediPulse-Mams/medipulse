@@ -513,6 +513,7 @@ function updateSim(){
   const totalAvecBonus=total+(nouveaux+actifs>=10?2990:0);
 
   document.getElementById('sim-r-nouveaux').textContent=commNouveaux.toLocaleString('fr-FR')+' MAD';
+  document.getElementById('sim-r-nouveaux').nextElementSibling.textContent=nouveaux+' cabinets × 1 499 × 30%';
   document.getElementById('sim-r-recurrent').textContent=commRecurrent.toLocaleString('fr-FR')+' MAD';
   document.getElementById('sim-r-recurrent-sub').textContent=actifs+' cabinets × 1 499 × 10%';
   document.getElementById('sim-r-total').textContent=total.toLocaleString('fr-FR')+' MAD';
