@@ -450,13 +450,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
         <div class="pricing-price">1 499 <span style="font-size:18px;font-weight:400;color:var(--muted)">MAD</span></div>
         <div class="pricing-period">par mois · sans engagement · résiliable à tout moment</div>
         <div class="pricing-offre">
-          <div>
-            <div class="pricing-offre-label">🎁 Offre 3 mois — Économisez 600 MAD</div>
-            <div class="pricing-offre-desc">Payez 3 mois d'un coup et obtenez <strong style="color:var(--success)">2 mois au prix de 1.5</strong></div>
-          </div>
-          <div style="text-align:right">
-            <div class="pricing-offre-val">3 897 MAD</div>
-            <div class="pricing-offre-old">4 497 MAD</div>
+          <div style="display:flex;align-items:center;gap:16px;width:100%;flex-wrap:wrap;">
+            <div style="flex:1">
+              <div class="pricing-offre-label">🎁 Offre 3 mois</div>
+              <div class="pricing-offre-desc">Engagez-vous 3 mois et économisez <strong style="color:var(--success)">600 MAD</strong></div>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <div style="font-size:10px;color:var(--muted);text-decoration:line-through;margin-bottom:2px">4 497 MAD</div>
+              <div style="font-weight:800;font-size:22px;color:#fff;letter-spacing:-1px">3 897 <span style="font-size:13px;font-weight:400;color:var(--muted)">MAD</span></div>
+              <div style="font-size:11px;color:var(--success);font-weight:600">↓ -600 MAD</div>
+            </div>
           </div>
         </div>
         <div class="pricing-note">✅ Configuration et formation de votre assistante offertes</div>
@@ -586,7 +589,7 @@ function toggleFaq(el){
 // WHATSAPP
 function ouvrirWA(){
   const msg=encodeURIComponent("Bonjour MediPulse 👋\n\nJe suis médecin au Maroc et je suis intéressé par votre solution.\n\nPouvez-vous me faire une démo gratuite ?");
-  window.open(`https://wa.me/212600000000?text=${msg}`,'_blank');
+  window.open(`https://wa.me/212610248681?text=${msg}`,'_blank');
 }
 update();
 </script>
