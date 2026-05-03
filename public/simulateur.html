@@ -26,15 +26,27 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
 .wa-header svg{width:14px;height:14px;fill:#fff;}
 
 /* FOMO */
-.fomo{background:linear-gradient(90deg,#0057ff,#4d8bff,#0057ff);background-size:200%;animation:shimmer 4s linear infinite;padding:9px 24px;text-align:center;}
+.fomo{background:linear-gradient(90deg,#0057ff,#4d8bff,#0057ff);background-size:200%;animation:shimmer 4s linear infinite;padding:10px 24px;overflow:hidden;}
 @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
-.fomo-inner{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;}
-.fomo-inner span{color:#fff;font-size:12px;font-weight:500;}
+.fomo-track{display:flex;gap:48px;animation:scrollFomo 20s linear infinite;white-space:nowrap;width:max-content;}
+.fomo-track:hover{animation-play-state:paused;}
+.fomo-item{display:flex;align-items:center;gap:8px;color:#fff;font-size:12.5px;font-weight:600;white-space:nowrap;}
 .fomo-dot{width:6px;height:6px;background:#fff;border-radius:50%;animation:blink 2s infinite;flex-shrink:0;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+@keyframes scrollFomo{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* VILLES SCROLL */
+.villes-bar{background:linear-gradient(90deg,#0057ff,#4d8bff,#0057ff);background-size:200%;animation:shimmer 6s linear infinite;padding:14px 0;overflow:hidden;border-top:1px solid rgba(255,255,255,.15);}
+.villes-track{display:flex;gap:0;animation:scrollVilles 18s linear infinite;width:max-content;}
+.villes-track:hover{animation-play-state:paused;}
+.ville-item{display:flex;align-items:center;gap:10px;padding:0 32px;border-right:1px solid rgba(255,255,255,.2);}
+.ville-item:last-child{border-right:none;}
+.ville-emoji{font-size:16px;}
+.ville-name{font-weight:800;font-size:15px;color:#fff;letter-spacing:-.3px;}
+@keyframes scrollVilles{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
 /* HERO */
-.hero{padding:70px 24px 70px;position:relative;overflow:hidden;}
+.hero{padding:70px 24px;position:relative;overflow:hidden;}
 .hero::before{content:'';position:absolute;top:-200px;left:20%;width:700px;height:700px;background:radial-gradient(rgba(0,87,255,.18),transparent 65%);pointer-events:none;}
 .hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 400px;gap:56px;align-items:center;position:relative;z-index:1;}
 .hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(77,139,255,.1);border:1px solid rgba(77,139,255,.2);color:var(--primary);padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:22px;}
@@ -77,12 +89,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
 .gc-live-dot{width:6px;height:6px;background:#25D366;border-radius:50%;animation:blink 1.5s infinite;flex-shrink:0;}
 .gc-powered{font-weight:700;color:#0057ff;}
 
-/* LOGOS */
-.logos{padding:20px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-.logos-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:24px;flex-wrap:wrap;justify-content:center;}
-.logos-lbl{font-size:11px;color:var(--muted2);font-weight:600;text-transform:uppercase;letter-spacing:.1em;}
-.city{font-weight:700;font-size:13px;color:rgba(255,255,255,.15);}
-
 /* AVANT APRES */
 .aa-section{padding:80px 24px;position:relative;overflow:hidden;}
 .aa-section::before{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:900px;height:600px;background:radial-gradient(ellipse at 30%,rgba(0,87,255,.12),transparent 50%),radial-gradient(ellipse at 70%,rgba(0,196,154,.08),transparent 50%);pointer-events:none;}
@@ -108,18 +114,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
 .aa-kpi-val{font-weight:800;font-size:28px;color:#fff;letter-spacing:-1px;}
 .aa-kpi-lbl{font-size:11px;color:var(--muted);margin-top:4px;}
 
-/* ══ SIMULATEUR ══ */
+/* SIMULATEUR */
 .sim-section{padding:80px 24px;}
-.sim-inner{max-width:700px;margin:0 auto;}
-
-/* Desktop : card unique avec 2 colonnes internes */
+.sim-inner{max-width:680px;margin:0 auto;}
 .sim-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;overflow:hidden;}
-.sim-card-top{display:grid;grid-template-columns:1fr 1fr;gap:0;}
-.sim-inputs{padding:32px;border-right:1px solid var(--border);}
+.sim-inputs{padding:32px;border-bottom:1px solid var(--border);}
 .sim-results{padding:32px;}
 .sim-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted2);margin-bottom:20px;}
-
-/* Sliders */
 .sl-group{margin-bottom:24px;}
 .sl-group:last-child{margin-bottom:0;}
 .sl-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px;}
@@ -130,19 +131,23 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
 input[type=range]{width:100%;height:4px;-webkit-appearance:none;background:rgba(255,255,255,.1);border-radius:10px;outline:none;cursor:pointer;}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:var(--primary);border-radius:50%;border:2px solid var(--bg);box-shadow:0 0 10px rgba(77,139,255,.5);cursor:pointer;}
 .sl-minmax{display:flex;justify-content:space-between;font-size:10px;color:var(--muted2);margin-top:5px;}
-
-/* Résultats */
-.r-item{padding:14px 0;border-bottom:1px solid var(--border);}
-.r-item:last-of-type{border-bottom:none;padding-bottom:0;}
-.r-lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;}
-.r-val{font-weight:800;font-size:26px;color:#fff;letter-spacing:-1px;line-height:1;transition:all .3s;}
-.r-val span{font-size:11px;font-weight:400;color:var(--muted);letter-spacing:0;}
-.r-hint{font-size:10px;color:var(--muted2);margin-top:3px;}
-.r-item.accent .r-val{color:var(--success);}
-.roi-wrap{margin-top:16px;background:linear-gradient(135deg,rgba(0,87,255,.15),rgba(77,139,255,.08));border:1px solid rgba(77,139,255,.2);border-radius:14px;padding:18px;text-align:center;}
+.sim-kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+.sim-kpi{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:16px;}
+.sim-kpi.accent{border-color:rgba(0,196,154,.2);background:rgba(0,196,154,.05);}
+.sim-kpi-lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.sim-kpi-val{font-weight:800;font-size:28px;color:#fff;letter-spacing:-1px;line-height:1;transition:all .3s;}
+.sim-kpi.accent .sim-kpi-val{color:var(--success);}
+.sim-kpi-hint{font-size:10px;color:var(--muted2);margin-top:4px;}
+.roi-wrap{background:linear-gradient(135deg,rgba(0,87,255,.15),rgba(77,139,255,.08));border:1px solid rgba(77,139,255,.2);border-radius:14px;padding:18px;text-align:center;}
 .roi-eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);margin-bottom:8px;}
 .roi-val{font-weight:800;font-size:48px;color:#fff;letter-spacing:-2px;line-height:1;}
 .roi-sub{font-size:11px;color:var(--muted);margin-top:6px;}
+
+/* Desktop 2 colonnes */
+@media(min-width:769px){
+  .sim-card{display:grid;grid-template-columns:1fr 1fr;}
+  .sim-inputs{border-bottom:none;border-right:1px solid var(--border);}
+}
 
 /* PRICING */
 .pricing-section{padding:80px 24px;position:relative;overflow:hidden;}
@@ -158,10 +163,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .pricing-offre{margin-top:14px;background:linear-gradient(135deg,rgba(0,196,154,.1),rgba(0,87,255,.08));border:1px solid rgba(0,196,154,.2);border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
 .pricing-offre-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--success);margin-bottom:3px;}
 .pricing-offre-desc{font-size:12px;color:rgba(255,255,255,.55);}
-.pricing-offre-price{text-align:right;}
 .pricing-offre-val{font-weight:800;font-size:18px;color:#fff;}
 .pricing-offre-old{font-size:11px;color:var(--muted);text-decoration:line-through;}
-.pricing-note{font-size:12px;color:rgba(0,196,154,.8);margin-top:12px;display:flex;align-items:center;gap:5px;}
+.pricing-note{font-size:12px;color:rgba(0,196,154,.8);margin-top:12px;}
 .pricing-features{padding:24px 32px;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .pf{display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(255,255,255,.6);}
 .pf-check{width:16px;height:16px;background:rgba(0,196,154,.15);border:1px solid rgba(0,196,154,.25);border-radius:4px;display:grid;place-items:center;flex-shrink:0;color:var(--success);font-size:8px;}
@@ -206,61 +210,29 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .footer-note{font-size:12px;color:var(--muted2);margin-top:12px;}
 .footer{padding:18px 24px;border-top:1px solid var(--border);text-align:center;color:var(--muted2);font-size:12px;}
 
-/* ══ RESPONSIVE ══ */
+/* RESPONSIVE */
 @media(max-width:900px){
   .hero-inner{grid-template-columns:1fr;gap:36px;}
   .google-card{max-width:380px;margin:0 auto;}
   .tem-grid{grid-template-columns:1fr;}
   .aa-grid{grid-template-columns:1fr 36px 1fr;}
-  .aa-kpis{grid-template-columns:1fr 1fr;gap:8px;}
+  .aa-kpis{grid-template-columns:1fr 1fr;}
   .pricing-features{grid-template-columns:1fr;}
   .hero-metrics{grid-template-columns:1fr 1fr;}
 }
-
-/* ══ MOBILE SIMULATEUR : TOUT EN UNE SEULE CARD ══ */
 @media(max-width:768px){
-  .sim-section{padding:48px 16px;}
-  .sim-card{border-radius:20px;}
-
-  /* On empile inputs + results dans une seule colonne */
-  .sim-card-top{
-    grid-template-columns:1fr;
-  }
-  .sim-inputs{
-    border-right:none;
-    border-bottom:1px solid var(--border);
-    padding:24px;
-  }
-  .sim-results{
-    padding:24px;
-  }
-
-  /* Résultats en grille 2x2 sur mobile */
-  .sim-results-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-bottom:16px;
-  }
-  .r-item{
-    background:rgba(255,255,255,.04);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:14px;
-    margin:0;
-  }
-  .r-item:last-of-type{padding:14px;}
-  .r-val{font-size:20px;}
-  .aa-kpis{grid-template-columns:1fr;}
-  .aa-grid{grid-template-columns:1fr;gap:12px;}
-  .aa-mid{transform:rotate(90deg);}
   .hero{padding:48px 16px;}
   .header{padding:0 16px;}
+  .aa-grid{grid-template-columns:1fr;gap:12px;}
+  .aa-mid{transform:rotate(90deg);}
+  .aa-kpis{grid-template-columns:1fr;}
+  .sim-section{padding:48px 16px;}
+  .sim-kpis{grid-template-columns:1fr 1fr;}
+  .pricing-features{grid-template-columns:1fr;}
 }
 @media(max-width:480px){
+  .sim-kpis{grid-template-columns:1fr 1fr;}
   .hero-metrics{grid-template-columns:1fr 1fr;}
-  .sim-results-grid{grid-template-columns:1fr;}
-  .pricing-features{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -274,15 +246,19 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   </div>
   <button class="wa-header" onclick="ouvrirWA()">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    Nous contacter
+    Obtenir ma démo gratuite
   </button>
 </header>
 
-<!-- FOMO -->
+<!-- FOMO SCROLL -->
 <div class="fomo">
-  <div class="fomo-inner">
-    <span class="fomo-dot"></span>
-    <span>12 cabinets médicaux au Maroc utilisent déjà MediPulse · Vos concurrents génèrent des avis pendant que vous lisez ceci</span>
+  <div class="fomo-track">
+    <div class="fomo-item"><span class="fomo-dot"></span>Des médecins utilisent MediPulse en ce moment</div>
+    <div class="fomo-item"><span class="fomo-dot"></span>Vos concurrents augmentent leurs avis Google pendant que vous lisez ceci</div>
+    <div class="fomo-item"><span class="fomo-dot"></span>Des médecins utilisent MediPulse en ce moment</div>
+    <div class="fomo-item"><span class="fomo-dot"></span>Vos concurrents augmentent leurs avis Google pendant que vous lisez ceci</div>
+    <div class="fomo-item"><span class="fomo-dot"></span>Des médecins utilisent MediPulse en ce moment</div>
+    <div class="fomo-item"><span class="fomo-dot"></span>Vos concurrents augmentent leurs avis Google pendant que vous lisez ceci</div>
   </div>
 </div>
 
@@ -291,20 +267,20 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   <div class="hero-inner">
     <div class="hero-left">
       <div class="hero-badge"><span class="hero-badge-dot"></span>🇲🇦 La solution #1 pour les cabinets médicaux au Maroc</div>
-      <h1>Transformez chaque consultation<br>en <span class="grad">avis Google</span> automatiquement</h1>
-      <p class="hero-sub">MediPulse envoie un questionnaire WhatsApp à chaque patient — en arabe ou en français — et booste votre note Google sans effort.</p>
+      <h1>Vos patients laissent un avis<br>en <span class="grad">30 secondes.</span> Automatiquement.</h1>
+      <p class="hero-sub">MediPulse envoie un message WhatsApp après chaque consultation. Vos patients répondent. Vos avis Google s'accumulent. Vos nouveaux patients arrivent.</p>
       <div class="hero-ctas">
         <button class="btn-wa" onclick="ouvrirWA()">
           <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Démarrer sur WhatsApp
+          Obtenir ma démo gratuite →
         </button>
-        <span class="btn-ghost">Voir la démo →</span>
+        <span class="btn-ghost">Sans engagement · Réponse en 2h</span>
       </div>
       <div class="hero-metrics">
         <div class="hm"><div class="hm-val">+4.7 ⭐</div><div class="hm-lbl">Note Google après 3 mois</div></div>
         <div class="hm"><div class="hm-val">x13</div><div class="hm-lbl">ROI moyen nos clients</div></div>
         <div class="hm"><div class="hm-val">+23%</div><div class="hm-lbl">Nouveaux patients / mois</div></div>
-        <div class="hm"><div class="hm-val">10 sec</div><div class="hm-lbl">Pour envoyer un questionnaire</div></div>
+        <div class="hm"><div class="hm-val">30 sec</div><div class="hm-lbl">Pour laisser un avis</div></div>
       </div>
     </div>
     <div class="hero-right">
@@ -340,16 +316,24 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   </div>
 </section>
 
-<!-- LOGOS -->
-<div class="logos">
-  <div class="logos-inner">
-    <span class="logos-lbl">Présent dans</span>
-    <span class="city">Casablanca</span>
-    <span class="city">Rabat</span>
-    <span class="city">Marrakech</span>
-    <span class="city">Fès</span>
-    <span class="city">Tanger</span>
-    <span class="city">Agadir</span>
+<!-- VILLES SCROLL -->
+<div class="villes-bar">
+  <div class="villes-track">
+    <div class="ville-item"><span class="ville-emoji">🏙️</span><span class="ville-name">Casablanca</span></div>
+    <div class="ville-item"><span class="ville-emoji">🏛️</span><span class="ville-name">Rabat</span></div>
+    <div class="ville-item"><span class="ville-emoji">🌴</span><span class="ville-name">Marrakech</span></div>
+    <div class="ville-item"><span class="ville-emoji">🏰</span><span class="ville-name">Fès</span></div>
+    <div class="ville-item"><span class="ville-emoji">⚓</span><span class="ville-name">Tanger</span></div>
+    <div class="ville-item"><span class="ville-emoji">🌊</span><span class="ville-name">Agadir</span></div>
+    <div class="ville-item"><span class="ville-emoji">🌅</span><span class="ville-name">Oujda</span></div>
+    <!-- Duplication pour scroll infini -->
+    <div class="ville-item"><span class="ville-emoji">🏙️</span><span class="ville-name">Casablanca</span></div>
+    <div class="ville-item"><span class="ville-emoji">🏛️</span><span class="ville-name">Rabat</span></div>
+    <div class="ville-item"><span class="ville-emoji">🌴</span><span class="ville-name">Marrakech</span></div>
+    <div class="ville-item"><span class="ville-emoji">🏰</span><span class="ville-name">Fès</span></div>
+    <div class="ville-item"><span class="ville-emoji">⚓</span><span class="ville-name">Tanger</span></div>
+    <div class="ville-item"><span class="ville-emoji">🌊</span><span class="ville-name">Agadir</span></div>
+    <div class="ville-item"><span class="ville-emoji">🌅</span><span class="ville-name">Oujda</span></div>
   </div>
 </div>
 
@@ -383,99 +367,69 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   </div>
 </section>
 
-/* ══ SIMULATEUR ══ */
-.sim-section{padding:80px 24px;}
-.sim-inner{max-width:680px;margin:0 auto;}
-.sim-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;overflow:hidden;}
-.sim-inputs{padding:32px;border-bottom:1px solid var(--border);}
-.sim-sep{display:none;}
-.sim-results{padding:32px;}
-.sim-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted2);margin-bottom:20px;}
-.sim-kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
-.sim-kpi{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:16px;}
-.sim-kpi.accent{border-color:rgba(0,196,154,.2);background:rgba(0,196,154,.05);}
-.sim-kpi-lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
-.sim-kpi-val{font-weight:800;font-size:28px;color:#fff;letter-spacing:-1px;line-height:1;transition:all .3s;}
-.sim-kpi.accent .sim-kpi-val{color:var(--success);}
-.sim-kpi-hint{font-size:10px;color:var(--muted2);margin-top:4px;}
-
-/* Desktop : 2 colonnes */
-@media(min-width:769px){
-  .sim-card{display:grid;grid-template-columns:1fr 1fr;}
-  .sim-inputs{border-bottom:none;border-right:1px solid var(--border);}
-  .sim-sep{display:none;}
-}
+<!-- SIMULATEUR -->
+<section class="sim-section">
   <div class="sim-inner">
     <div class="section-eyebrow" style="text-align:center">Simulateur</div>
     <div class="section-title" style="text-align:center">Calculez votre potentiel</div>
     <div class="section-sub" style="text-align:center;margin-bottom:32px">Bougez les curseurs — les résultats s'affichent instantanément</div>
-
     <div class="sim-card">
-      <div class="sim-card-top">
-
-        <!-- INPUTS -->
-        <div class="sim-inputs">
-          <div class="sim-eyebrow">Votre cabinet</div>
-          <div class="sl-group">
-            <div class="sl-row">
-              <div><div class="sl-label">Patients / jour</div><div class="sl-hint">Consultations en moyenne</div></div>
-              <div><div class="sl-val" id="val-patients">20</div><div class="sl-unit">/ jour</div></div>
-            </div>
-            <input type="range" id="sl-patients" min="5" max="60" value="20" oninput="update()">
-            <div class="sl-minmax"><span>5</span><span>60</span></div>
+      <div class="sim-inputs">
+        <div class="sim-eyebrow">Votre cabinet</div>
+        <div class="sl-group">
+          <div class="sl-row">
+            <div><div class="sl-label">Patients / jour</div><div class="sl-hint">Consultations en moyenne</div></div>
+            <div><div class="sl-val" id="val-patients">20</div><div class="sl-unit">/ jour</div></div>
           </div>
-          <div class="sl-group">
-            <div class="sl-row">
-              <div><div class="sl-label">Jours / mois</div><div class="sl-hint">Jours d'ouverture</div></div>
-              <div><div class="sl-val" id="val-jours">22</div><div class="sl-unit">jours</div></div>
-            </div>
-            <input type="range" id="sl-jours" min="10" max="26" value="22" oninput="update()">
-            <div class="sl-minmax"><span>10</span><span>26</span></div>
+          <input type="range" id="sl-patients" min="5" max="60" value="20" oninput="update()">
+          <div class="sl-minmax"><span>5</span><span>60</span></div>
+        </div>
+        <div class="sl-group">
+          <div class="sl-row">
+            <div><div class="sl-label">Jours / mois</div><div class="sl-hint">Jours d'ouverture</div></div>
+            <div><div class="sl-val" id="val-jours">22</div><div class="sl-unit">jours</div></div>
           </div>
-          <div class="sl-group">
-            <div class="sl-row">
-              <div><div class="sl-label">Prix consultation</div><div class="sl-hint">Tarif habituel</div></div>
-              <div><div class="sl-val" id="val-prix">300</div><div class="sl-unit">MAD</div></div>
-            </div>
-            <input type="range" id="sl-prix" min="150" max="600" step="50" value="300" oninput="update()">
-            <div class="sl-minmax"><span>150</span><span>600 MAD</span></div>
+          <input type="range" id="sl-jours" min="10" max="26" value="22" oninput="update()">
+          <div class="sl-minmax"><span>10</span><span>26</span></div>
+        </div>
+        <div class="sl-group">
+          <div class="sl-row">
+            <div><div class="sl-label">Prix consultation</div><div class="sl-hint">Tarif habituel</div></div>
+            <div><div class="sl-val" id="val-prix">300</div><div class="sl-unit">MAD</div></div>
+          </div>
+          <input type="range" id="sl-prix" min="150" max="600" step="50" value="300" oninput="update()">
+          <div class="sl-minmax"><span>150</span><span>600 MAD</span></div>
+        </div>
+      </div>
+      <div class="sim-results">
+        <div class="sim-eyebrow">Vos résultats / mois</div>
+        <div class="sim-kpis">
+          <div class="sim-kpi">
+            <div class="sim-kpi-lbl">Avis Google</div>
+            <div class="sim-kpi-val" id="r-avis">123</div>
+            <div class="sim-kpi-hint" id="r-avis-sub">~91 avis 5⭐</div>
+          </div>
+          <div class="sim-kpi accent">
+            <div class="sim-kpi-lbl">Nouveaux patients</div>
+            <div class="sim-kpi-val" id="r-patients">+66</div>
+            <div class="sim-kpi-hint">Via Google</div>
+          </div>
+          <div class="sim-kpi accent">
+            <div class="sim-kpi-lbl">Revenus supplémentaires</div>
+            <div class="sim-kpi-val" id="r-revenus">19 800</div>
+            <div class="sim-kpi-hint">MAD / mois</div>
+          </div>
+          <div class="sim-kpi">
+            <div class="sim-kpi-lbl">Investissement</div>
+            <div class="sim-kpi-val" style="color:var(--muted)">1 499</div>
+            <div class="sim-kpi-hint">MAD / mois</div>
           </div>
         </div>
-
-        <!-- RÉSULTATS -->
-        <div class="sim-results">
-          <div class="sim-eyebrow">Vos résultats / mois</div>
-          <div class="sim-results-grid">
-          <div class="sim-results-grid">
-            <div class="r-item">
-              <div class="r-lbl">Avis Google</div>
-              <div class="r-val" id="r-avis">123 <span>/ mois</span></div>
-              <div class="r-hint" id="r-avis-sub">~91 avis 5⭐</div>
-            </div>
-            <div class="r-item accent">
-              <div class="r-lbl">Nouveaux patients</div>
-              <div class="r-val" id="r-patients">+66 <span>/ mois</span></div>
-              <div class="r-hint">Via Google</div>
-            </div>
-            <div class="r-item accent">
-              <div class="r-lbl">Revenus supplémentaires</div>
-              <div class="r-val" id="r-revenus">19 800 <span>MAD</span></div>
-              <div class="r-hint">Nouveaux patients</div>
-            </div>
-            <div class="r-item">
-              <div class="r-lbl">Investissement</div>
-              <div class="r-val" style="color:var(--muted)">1 499 <span>MAD</span></div>
-              <div class="r-hint">MediPulse / mois</div>
-            </div>
-          </div>
-          </div><!-- fin sim-results-grid -->
-          <div class="roi-wrap">
-            <div class="roi-eyebrow">🎯 Votre ROI</div>
-            <div class="roi-val" id="r-roi">x13</div>
-            <div class="roi-sub" id="r-roi-sub">Pour 1 499 MAD → 19 800 MAD générés</div>
-          </div>
+        <div class="roi-wrap">
+          <div class="roi-eyebrow">🎯 Votre ROI</div>
+          <div class="roi-val" id="r-roi">x13</div>
+          <div class="roi-sub" id="r-roi-sub">Pour 1 499 MAD → 19 800 MAD générés</div>
         </div>
-
       </div>
     </div>
   </div>
@@ -486,7 +440,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   <div class="pricing-inner">
     <div class="section-eyebrow" style="text-align:center">Tarif</div>
     <div class="section-title" style="text-align:center">Simple. Transparent.</div>
-    <div class="section-sub" style="text-align:center;margin-bottom:32px">Un seul plan. Tout inclus.</div>
+    <div class="section-sub" style="text-align:center;margin-bottom:32px">Un seul plan. Tout inclus. Résiliable à tout moment.</div>
     <div class="pricing-card">
       <div class="pricing-top">
         <div class="pricing-plan-row">
@@ -494,18 +448,18 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
           <div class="pricing-plan-badge">Tout inclus</div>
         </div>
         <div class="pricing-price">1 499 <span style="font-size:18px;font-weight:400;color:var(--muted)">MAD</span></div>
-        <div class="pricing-period">par mois · sans engagement</div>
+        <div class="pricing-period">par mois · sans engagement · résiliable à tout moment</div>
         <div class="pricing-offre">
           <div>
-            <div class="pricing-offre-label">🎁 Offre 3 mois</div>
-            <div class="pricing-offre-desc">Économisez <strong style="color:var(--success)">600 MAD</strong></div>
+            <div class="pricing-offre-label">🎁 Offre 3 mois — Économisez 600 MAD</div>
+            <div class="pricing-offre-desc">Payez 3 mois d'un coup et obtenez <strong style="color:var(--success)">2 mois au prix de 1.5</strong></div>
           </div>
-          <div class="pricing-offre-price">
+          <div style="text-align:right">
             <div class="pricing-offre-val">3 897 MAD</div>
             <div class="pricing-offre-old">4 497 MAD</div>
           </div>
         </div>
-        <div class="pricing-note">✅ Configuration et formation offertes</div>
+        <div class="pricing-note">✅ Configuration et formation de votre assistante offertes</div>
       </div>
       <div class="pricing-features">
         <div class="pf"><div class="pf-check">✓</div>Formulaires AR + FR</div>
@@ -520,9 +474,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
       <div class="pricing-cta">
         <button class="cta-wa-main" onclick="ouvrirWA()">
           <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Démarrer sur WhatsApp
+          Obtenir ma démo gratuite →
         </button>
-        <div class="cta-note">Réponse en moins de 2h · Démo gratuite</div>
+        <div class="cta-note">Réponse en moins de 2h · Sans engagement · Configuration offerte</div>
       </div>
     </div>
   </div>
@@ -535,9 +489,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
     <div class="section-title" style="text-align:center">Ils nous font confiance</div>
     <div class="section-sub" style="text-align:center">Des médecins qui ont transformé leur cabinet 🇲🇦</div>
     <div class="tem-grid">
-      <div class="tem-card"><div class="tem-stars">★★★★★</div><div class="tem-text">"En 2 mois, ma note Google est passée de 3.8 à 4.7. J'ai reçu 40% de nouveaux patients en plus."</div><div class="tem-author"><div class="tem-av" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">ML</div><div><div class="tem-name">Dr. M. Lahbabi</div><div class="tem-role">Gynécologue · Casablanca</div></div></div></div>
-      <div class="tem-card"><div class="tem-stars">★★★★★</div><div class="tem-text">"Mon assistante envoie les liens en 10 secondes. Les avis s'accumulent automatiquement. Simple et rentable !"</div><div class="tem-author"><div class="tem-av" style="background:linear-gradient(135deg,#00c49a,#00a07e)">KT</div><div><div class="tem-name">Dr. K. Tazi</div><div class="tem-role">Généraliste · Rabat</div></div></div></div>
-      <div class="tem-card"><div class="tem-stars">★★★★★</div><div class="tem-text">"1499 MAD par mois et je génère 20 000 MAD de revenus supplémentaires. Le ROI est incroyable !"</div><div class="tem-author"><div class="tem-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">SA</div><div><div class="tem-name">Dr. S. Alami</div><div class="tem-role">Dermatologue · Marrakech</div></div></div></div>
+      <div class="tem-card"><div class="tem-stars">★★★★★</div><div class="tem-text">"En 2 mois, ma note Google est passée de 3.8 à 4.7. J'ai reçu 40% de nouveaux patients en plus. Le ROI est incroyable."</div><div class="tem-author"><div class="tem-av" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">ML</div><div><div class="tem-name">Dr. M. Lahbabi</div><div class="tem-role">Gynécologue · Casablanca</div></div></div></div>
+      <div class="tem-card"><div class="tem-stars">★★★★★</div><div class="tem-text">"Mon assistante envoie les liens en 10 secondes. Les avis s'accumulent automatiquement. Simple et très rentable !"</div><div class="tem-author"><div class="tem-av" style="background:linear-gradient(135deg,#00c49a,#00a07e)">KT</div><div><div class="tem-name">Dr. K. Tazi</div><div class="tem-role">Généraliste · Rabat</div></div></div></div>
+      <div class="tem-card"><div class="tem-stars">★★★★★</div><div class="tem-text">"1499 MAD par mois et je génère 20 000 MAD de revenus supplémentaires. MediPulse est indispensable."</div><div class="tem-author"><div class="tem-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">SA</div><div><div class="tem-name">Dr. S. Alami</div><div class="tem-role">Dermatologue · Marrakech</div></div></div></div>
     </div>
   </div>
 </section>
@@ -547,10 +501,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   <div class="faq-inner">
     <div class="section-eyebrow">FAQ</div>
     <div class="section-title" style="margin-bottom:28px">Questions fréquentes</div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Comment fonctionne MediPulse ?<div class="faq-icon">+</div></div><div class="faq-a">Votre assistante entre le nom et le numéro du patient après chaque consultation. MediPulse génère automatiquement un message WhatsApp en arabe ou en français avec un lien vers votre questionnaire. Les réponses s'affichent en temps réel dans votre dashboard.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Combien de temps pour voir des résultats ?<div class="faq-icon">+</div></div><div class="faq-a">Nos clients voient leurs premiers avis Google dans la première semaine. Une amélioration significative est visible après 30 à 60 jours. La croissance des nouveaux patients se ressent après 60 à 90 jours.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Est-ce compliqué à mettre en place ?<div class="faq-icon">+</div></div><div class="faq-a">Non ! Notre équipe s'occupe de tout. En moins de 48h votre cabinet est configuré, votre assistante est formée et votre dashboard est opérationnel. Zéro compétence technique requise.</div></div>
-    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Y a-t-il un engagement minimum ?<div class="faq-icon">+</div></div><div class="faq-a">Aucun engagement ! Vous payez mois par mois et vous pouvez arrêter quand vous voulez. Nos clients restent parce qu'ils voient des résultats concrets.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Comment fonctionne MediPulse ?<div class="faq-icon">+</div></div><div class="faq-a">Votre assistante entre le nom et le numéro du patient après chaque consultation. MediPulse envoie automatiquement un message WhatsApp en arabe ou en français. Le patient clique et répond en 30 secondes. Vos avis Google s'accumulent automatiquement.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Combien de temps pour voir des résultats ?<div class="faq-icon">+</div></div><div class="faq-a">Vos premiers avis Google arrivent dans la première semaine. Une amélioration visible de la note après 30 à 60 jours. Des nouveaux patients supplémentaires après 60 à 90 jours.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Est-ce compliqué à mettre en place ?<div class="faq-icon">+</div></div><div class="faq-a">Non ! En moins de 48h votre cabinet est configuré, votre assistante est formée et votre dashboard est opérationnel. Notre équipe s'occupe de tout. Zéro compétence technique requise.</div></div>
+    <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Y a-t-il un engagement minimum ?<div class="faq-icon">+</div></div><div class="faq-a">Aucun engagement ! Vous payez mois par mois et vous arrêtez quand vous voulez. L'offre 3 mois est optionnelle — elle vous permet d'économiser 600 MAD si vous souhaitez vous engager sur la durée.</div></div>
   </div>
 </section>
 
@@ -561,9 +515,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
     <p>Rejoignez les médecins qui génèrent des avis Google automatiquement chaque jour au Maroc 🇲🇦</p>
     <button class="footer-cta-btn" onclick="ouvrirWA()">
       <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Démarrer sur WhatsApp
+      Obtenir ma démo gratuite →
     </button>
-    <div class="footer-note">Réponse en moins de 2h · Démo gratuite · Configuration offerte</div>
+    <div class="footer-note">Réponse en moins de 2h · Sans engagement · Configuration offerte</div>
   </div>
 </section>
 
@@ -582,12 +536,12 @@ function update(){
   const total=p*j,envois=Math.round(total*TAUX_ENVOI);
   const avis=Math.round(envois*TAUX_REPONSE),avis5=Math.round(avis*TAUX_5E);
   const np=Math.round(avis*TAUX_NEW),rev=np*pr,roi=rev>0?Math.round(rev/1499):0;
-  document.getElementById('r-avis').innerHTML=`${avis} <span>/ mois</span>`;
-  document.getElementById('r-avis-sub').textContent=`~${avis5} avis 5⭐`;
-  document.getElementById('r-patients').innerHTML=`+${np} <span>/ mois</span>`;
-  document.getElementById('r-revenus').innerHTML=`${rev.toLocaleString('fr-FR')} <span>MAD</span>`;
-  document.getElementById('r-roi').textContent=`x${roi}`;
-  document.getElementById('r-roi-sub').textContent=`Pour 1 499 MAD → ${rev.toLocaleString('fr-FR')} MAD générés`;
+  document.getElementById('r-avis').textContent=avis;
+  document.getElementById('r-avis-sub').textContent='~'+avis5+' avis 5⭐';
+  document.getElementById('r-patients').textContent='+'+np;
+  document.getElementById('r-revenus').textContent=rev.toLocaleString('fr-FR');
+  document.getElementById('r-roi').textContent='x'+roi;
+  document.getElementById('r-roi-sub').textContent='Pour 1 499 MAD → '+rev.toLocaleString('fr-FR')+' MAD générés';
   sl('sl-patients',5,60);sl('sl-jours',10,26);sl('sl-prix',150,600);
 }
 function sl(id,min,max){
@@ -631,7 +585,7 @@ function toggleFaq(el){
 
 // WHATSAPP
 function ouvrirWA(){
-  const msg=encodeURIComponent("Bonjour MediPulse 👋\n\nJe suis médecin au Maroc et je suis intéressé par votre solution.\n\nPouvez-vous me faire une démo ?");
+  const msg=encodeURIComponent("Bonjour MediPulse 👋\n\nJe suis médecin au Maroc et je suis intéressé par votre solution.\n\nPouvez-vous me faire une démo gratuite ?");
   window.open(`https://wa.me/212600000000?text=${msg}`,'_blank');
 }
 update();
