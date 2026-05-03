@@ -272,9 +272,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
       <!-- KPIs -->
       <div class="kpi-grid">
         <div class="kpi-card fire">
-          <div class="kpi-label">Bonus si objectif atteint</div>
-          <div class="kpi-val">2 990 MAD</div>
-          <div class="kpi-sub" style="color:rgba(255,255,255,.7)">→ Il te manque 7 cabinets</div>
+          <div class="kpi-label">Prochain bonus</div>
+          <div class="kpi-val">+250 MAD</div>
+          <div class="kpi-sub" style="color:rgba(255,255,255,.7)">→ Signe 2 cabinets de plus</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-label">Revenus ce mois</div>
@@ -498,7 +498,7 @@ function updateCountdown(){
     msg.innerHTML='<strong>Accélère !</strong> Il te reste <strong>'+diff+' jours</strong>. Signe <strong style="color:#f59e0b">1 cabinet tous les 2 jours</strong> pour débloquer ton bonus de <strong>2 990 MAD</strong>.';
   } else {
     icon.textContent='💪';
-    msg.innerHTML='<strong>Tu as signé 3 cabinets ce mois.</strong> Il t\'en manque <strong>7</strong> pour débloquer ton bonus de <strong style="color:#f59e0b">2 990 MAD</strong>. À ce rythme, tu vas le rater. Accélère !';
+    msg.innerHTML='<strong>Tu as signé 3 cabinets ce mois.</strong> Signe <strong>2 cabinets de plus</strong> pour débloquer ton bonus de <strong style="color:#f59e0b">250 MAD</strong> — puis <strong>500 MAD</strong> à 10 cabinets !. À ce rythme, tu vas le rater. Accélère !';
   }
 }
 
