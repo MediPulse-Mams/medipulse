@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MediPulse — Commercial</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -15,9 +15,10 @@
   --warn:#f59e0b;--warn-bg:#fef8e7;
   --danger:#ef4444;--danger-bg:#fef2f2;
   --sidebar:#0a1628;
+  --fire:#ff4d00;
 }
 html,body{height:100%;}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
 .shell{display:flex;min-height:100vh;}
 
 /* SIDEBAR */
@@ -25,9 +26,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .logo{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
 .logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:8px;display:grid;place-items:center;}
 .logo-icon svg{width:14px;height:14px;stroke:#fff;fill:none;}
-.logo-text{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:#fff;}
+.logo-text{font-weight:800;font-size:15px;color:#fff;}
 .logo-text em{color:#4d8bff;font-style:normal;}
-nav{padding:14px 10px;flex:1;overflow-y:auto;}
+nav{padding:14px 10px;flex:1;}
 .nav-section{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:0 8px;margin:14px 0 4px;}
 .nav-item{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:10px;cursor:pointer;color:rgba(255,255,255,.55);font-weight:500;font-size:13px;transition:all .15s;margin-bottom:2px;}
 .nav-item:hover{background:rgba(255,255,255,.07);color:#fff;}
@@ -37,143 +38,157 @@ nav{padding:14px 10px;flex:1;overflow-y:auto;}
 .u-av{width:32px;height:32px;background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;flex-shrink:0;}
 .u-name{font-weight:600;font-size:12px;color:#fff;}
 .u-role{color:rgba(255,255,255,.4);font-size:10px;}
-.logout{margin-left:auto;cursor:pointer;color:rgba(255,255,255,.3);font-size:14px;}
+.logout{margin-left:auto;cursor:pointer;color:rgba(255,255,255,.3);}
 .logout:hover{color:#fff;}
 
 /* MAIN */
 .main{flex:1;margin-left:220px;display:flex;flex-direction:column;}
 .topbar{height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 22px;gap:10px;position:sticky;top:0;z-index:100;}
-.topbar-title{font-family:'Playfair Display',serif;font-weight:700;font-size:17px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:12.5px;cursor:pointer;border:none;transition:all .15s;}
-.btn-primary{background:var(--primary);color:#fff;box-shadow:0 4px 12px rgba(0,87,255,.3);}
-.btn-primary:hover{transform:translateY(-1px);}
-.btn svg{width:13px;height:13px;}
+.topbar-title{font-weight:800;font-size:17px;flex:1;min-width:0;}
 .content{padding:20px 22px;flex:1;}
 
-/* KPI */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+/* VIEWS */
+.view{display:none;}
+.view.active{display:block;}
+
+/* ── MOTIVATION HERO ── */
+.motivation-hero{background:linear-gradient(135deg,#0a1628,#1a2d52);border-radius:20px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden;}
+.motivation-hero::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;background:radial-gradient(rgba(255,87,0,.15),transparent 70%);}
+.mh-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;}
+.mh-greeting{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:4px;}
+.mh-title{font-weight:800;font-size:22px;color:#fff;letter-spacing:-.5px;}
+.mh-subtitle{font-size:13px;color:rgba(255,255,255,.5);margin-top:4px;}
+.countdown-box{background:rgba(255,87,0,.15);border:1px solid rgba(255,87,0,.3);border-radius:12px;padding:12px 16px;text-align:center;}
+.countdown-val{font-weight:900;font-size:28px;color:#ff6b35;letter-spacing:-1px;line-height:1;}
+.countdown-lbl{font-size:10px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-top:3px;}
+
+/* OBJECTIF BAR */
+.obj-bar-wrap{margin-bottom:16px;}
+.obj-bar-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.obj-bar-label{font-size:13px;font-weight:600;color:rgba(255,255,255,.8);}
+.obj-bar-pct{font-weight:800;font-size:16px;color:#fff;}
+.obj-bar-bg{height:12px;background:rgba(255,255,255,.1);border-radius:20px;overflow:hidden;}
+.obj-bar-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#0057ff,#4d8bff);transition:width 1s ease;position:relative;}
+.obj-bar-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;background:rgba(255,255,255,.4);border-radius:2px;}
+.obj-bar-milestones{display:flex;justify-content:space-between;margin-top:6px;}
+.milestone{font-size:10px;color:rgba(255,255,255,.3);font-weight:500;}
+.milestone.reached{color:var(--success);}
+
+/* MESSAGE MOTIVATION */
+.mh-message{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;}
+.mh-message-icon{font-size:24px;flex-shrink:0;}
+.mh-message-text{font-size:13px;color:rgba(255,255,255,.75);line-height:1.5;}
+.mh-message-text strong{color:#fff;}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
 .kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;transition:all .2s;}
 .kpi-card:hover{box-shadow:0 8px 24px rgba(0,87,255,.1);transform:translateY(-2px);}
-.kpi-card.gold{background:linear-gradient(135deg,#f59e0b,#d97706);border:none;}
-.kpi-card.gold .kpi-label{color:rgba(255,255,255,.7);}
-.kpi-card.gold .kpi-val{color:#fff;}
-.kpi-card.gold .delta{background:rgba(255,255,255,.2);color:#fff;}
+.kpi-card.fire{background:linear-gradient(135deg,#ff4d00,#ff8c00);border:none;}
+.kpi-card.fire .kpi-label{color:rgba(255,255,255,.7);}
+.kpi-card.fire .kpi-val{color:#fff;}
 .kpi-label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:7px;}
-.kpi-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:7px;}
-.kpi-val sup{font-size:12px;vertical-align:super;font-family:'Plus Jakarta Sans',sans-serif;}
-.delta{display:inline-flex;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:20px;}
-.delta.up{color:var(--success);background:var(--success-bg);}
-.delta.down{color:var(--danger);background:var(--danger-bg);}
-.delta.neutral{color:var(--warn);background:var(--warn-bg);}
+.kpi-val{font-weight:800;font-size:26px;letter-spacing:-1px;line-height:1;margin-bottom:7px;}
+.kpi-sub{font-size:11px;color:var(--muted);}
+.kpi-sub.up{color:var(--success);}
+.kpi-sub.warn{color:var(--warn);}
 
-/* COMM HERO */
-.comm-hero{background:linear-gradient(135deg,#0a1628,#1a2d52);border-radius:16px;padding:20px;margin-bottom:18px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
-.comm-item{text-align:center;padding:14px;background:rgba(255,255,255,.06);border-radius:12px;border:1px solid rgba(255,255,255,.08);}
-.comm-val{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:4px;}
-.comm-lbl{font-size:11px;color:rgba(255,255,255,.5);font-weight:500;}
-.comm-delta{font-size:10px;font-weight:600;color:var(--success);margin-top:4px;}
+/* SIMULATEUR COMMERCIAL */
+.sim-commercial{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:20px;}
+.sim-com-header{padding:20px 24px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#0a1628,#0d2452);}
+.sim-com-title{font-weight:800;font-size:16px;color:#fff;margin-bottom:4px;}
+.sim-com-sub{font-size:12px;color:rgba(255,255,255,.45);}
+.sim-com-body{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.sim-com-inputs{padding:24px;border-right:1px solid var(--border);}
+.sim-com-results{padding:24px;background:#fafbff;}
+.sim-input-group{margin-bottom:20px;}
+.sim-input-group:last-child{margin-bottom:0;}
+.sim-input-label{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:8px;display:block;text-transform:uppercase;letter-spacing:.06em;}
+.sim-input-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.sim-input-val{font-weight:800;font-size:22px;color:var(--primary);letter-spacing:-1px;}
+input[type=range]{width:100%;height:4px;-webkit-appearance:none;background:var(--border);border-radius:10px;outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:var(--primary);border-radius:50%;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,87,255,.3);cursor:pointer;}
+.sim-result-item{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.sim-result-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.sim-result-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:5px;}
+.sim-result-val{font-weight:800;font-size:24px;color:var(--text);letter-spacing:-1px;}
+.sim-result-val.green{color:var(--success);}
+.sim-result-val.fire{color:var(--fire);}
+.sim-result-sub{font-size:11px;color:var(--muted);margin-top:3px;}
 
-/* CARDS */
-.row2{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;margin-bottom:14px;}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
-.card-head{padding:14px 18px 11px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
-.card-title{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;}
-.card-sub{color:var(--muted);font-size:11px;margin-top:1px;}
-.card-body{padding:14px 18px;}
+/* BONUS UNLOCK */
+.bonus-unlock{background:linear-gradient(135deg,rgba(0,196,154,.1),rgba(0,87,255,.05));border:1px solid rgba(0,196,154,.2);border-radius:14px;padding:16px;margin-top:16px;text-align:center;}
+.bu-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--success);margin-bottom:8px;}
+.bu-val{font-weight:900;font-size:28px;color:var(--success);letter-spacing:-1px;}
+.bu-sub{font-size:11px;color:var(--muted);margin-top:4px;}
 
-/* CAB ROWS */
-.cab-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+/* CABINETS LIST */
+.cab-list{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.cab-list-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.cab-list-title{font-weight:700;font-size:14px;}
+.cab-row{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--border);transition:background .12s;}
 .cab-row:last-child{border-bottom:none;}
-.cab-logo{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-family:'Playfair Display',serif;font-weight:700;font-size:13px;color:#fff;flex-shrink:0;}
+.cab-row:hover{background:var(--surface2);}
+.cab-logo{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:12px;color:#fff;flex-shrink:0;}
 .cab-info{flex:1;min-width:0;}
-.cab-name{font-weight:600;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.cab-loc{color:var(--muted);font-size:11px;}
-.cab-note{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;color:var(--primary);white-space:nowrap;}
-.cab-badge{font-size:10px;font-weight:700;padding:3px 7px;border-radius:20px;white-space:nowrap;}
+.cab-name{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cab-loc{color:var(--muted);font-size:11px;margin-top:1px;}
+.cab-comm{font-weight:800;font-size:14px;color:var(--success);white-space:nowrap;}
+.cab-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;white-space:nowrap;}
 .cab-badge.ok{background:var(--success-bg);color:var(--success);}
 .cab-badge.warn{background:var(--warn-bg);color:var(--warn);}
 
-/* OBJECTIF */
-.obj-wrap{margin-bottom:14px;}
-.obj-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
-.obj-label{font-size:13px;font-weight:600;}
-.obj-pct{font-family:'Playfair Display',serif;font-weight:700;font-size:13px;color:var(--primary);}
-.obj-bg{height:9px;background:var(--border);border-radius:10px;overflow:hidden;}
-.obj-fill{height:100%;border-radius:10px;background:linear-gradient(135deg,#0057ff,#4d8bff);}
-.obj-sub{font-size:11px;color:var(--muted);margin-top:3px;}
-
-/* ── TABLE desktop ── */
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.tbl{width:100%;border-collapse:collapse;min-width:400px;}
-.tbl th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:9px 13px;border-bottom:1px solid var(--border);background:var(--surface2);}
-.tbl td{padding:10px 13px;border-bottom:1px solid var(--border);font-size:12px;}
+/* COMMISSION TABLE */
+.comm-table{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface2);}
+.tbl td{padding:11px 16px;border-bottom:1px solid var(--border);font-size:13px;}
 .tbl tr:last-child td{border-bottom:none;}
 .tbl tr:hover td{background:var(--surface2);}
+.tbl-wrap{overflow-x:auto;}
 
-/* ── MOBILE CARDS (remplacent les tableaux) ── */
+/* MOB CARDS */
 .mob-cards{display:none;}
 .mob-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;}
-.mob-card:last-child{margin-bottom:0;}
 .mob-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border);}
 .mob-card-title{font-weight:700;font-size:13.5px;}
 .mob-card-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
 .mob-card-row:last-child{margin-bottom:0;}
 .mob-card-lbl{font-size:11.5px;color:var(--muted);}
 .mob-card-val{font-size:12.5px;font-weight:600;}
-
-/* BADGE */
-.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700;}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700;}
 .badge.ok{background:var(--success-bg);color:var(--success);}
 .badge.mid{background:var(--warn-bg);color:var(--warn);}
-.badge.bad{background:var(--danger-bg);color:var(--danger);}
 
-/* VIEWS */
-.view{display:none;}
-.view.active{display:block;}
-
-/* ══ BOTTOM NAV ══ */
+/* BOTTOM NAV */
 .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:70px;background:var(--sidebar);border-top:1px solid rgba(255,255,255,.1);z-index:300;box-shadow:0 -4px 20px rgba(0,0,0,.3);}
-.bottom-nav-inner{display:flex;height:100%;padding:6px 8px;gap:4px;}
-.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:rgba(255,255,255,.45);font-size:9px;font-weight:600;-webkit-tap-highlight-color:transparent;border-radius:12px;transition:all .2s;padding:6px 4px;}
+.bottom-nav-inner{display:flex;height:100%;padding:6px 6px;gap:3px;}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:rgba(255,255,255,.45);font-size:9px;font-weight:600;-webkit-tap-highlight-color:transparent;border-radius:12px;transition:all .2s;padding:6px 2px;}
 .bn-item:active{transform:scale(.95);}
-.bn-item svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;}
+.bn-item svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2;}
 .bn-item.active{color:#fff;background:var(--primary);box-shadow:0 4px 12px rgba(0,87,255,.4);}
-.bn-item span{font-size:9.5px;font-weight:600;line-height:1;}
+.bn-item span{font-size:9px;font-weight:600;line-height:1;text-align:center;}
 
 /* RESPONSIVE */
-@media(max-width:1024px){
-  .kpi-grid{grid-template-columns:repeat(2,1fr);}
-  .row2{grid-template-columns:1fr;}
-  .comm-hero{grid-template-columns:1fr 1fr;}
-}
+@media(max-width:1024px){.kpi-grid{grid-template-columns:1fr 1fr;}.sim-com-body{grid-template-columns:1fr;}.sim-com-inputs{border-right:none;border-bottom:1px solid var(--border);}}
 @media(max-width:768px){
-  .sidebar{display:none;}
-  .main{margin-left:0;}
+  .sidebar{display:none;}.main{margin-left:0;}
   .bottom-nav{display:flex;}
   .content{padding:14px 14px calc(70px + 14px);}
   .topbar{padding:0 14px;height:52px;}
-  .topbar-title{font-size:15px;}
-  .hide-mob{display:none;}
-  .kpi-grid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-  .kpi-card{padding:14px;}
-  .kpi-val{font-size:22px;}
-  .row2{grid-template-columns:1fr;gap:10px;}
-  .comm-hero{grid-template-columns:1fr;gap:8px;padding:14px;}
-  .comm-val{font-size:18px;}
-  .card-head{padding:12px 14px 10px;}
-  .card-body{padding:12px 14px;}
-  /* Cache tableaux, montre cartes */
-  .tbl-wrap{display:none;}
-  .mob-cards{display:block;}
+  .kpi-grid{grid-template-columns:1fr 1fr;gap:10px;}
+  .kpi-card{padding:14px;}.kpi-val{font-size:20px;}
+  .tbl-wrap{display:none;}.mob-cards{display:block;}
+  .motivation-hero{padding:20px;}
+  .mh-title{font-size:18px;}
 }
-@media(max-width:400px){
-  .kpi-grid{grid-template-columns:1fr;}
-}
+@media(max-width:400px){.kpi-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 <div class="shell">
 
+<!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="logo">
     <div class="logo-icon"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
@@ -185,22 +200,17 @@ nav{padding:14px 10px;flex:1;overflow-y:auto;}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
       Dashboard
     </div>
+    <div class="nav-item" onclick="go('simulateur',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg>
+      Simulateur revenus
+    </div>
     <div class="nav-item" onclick="go('cabinets',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg>
       Mes cabinets
     </div>
     <div class="nav-item" onclick="go('commissions',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14l6-6m0 0l-3-3m3 3l-3 3M3 7a4 4 0 014-4h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7z"/></svg>
       Commissions
-    </div>
-    <div class="nav-item" onclick="go('objectif',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-      Objectifs
-    </div>
-    <div class="nav-section">Compte</div>
-    <div class="nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>
-      Paramètres
     </div>
   </nav>
   <div class="sidebar-user">
@@ -212,54 +222,167 @@ nav{padding:14px 10px;flex:1;overflow-y:auto;}
 
 <main class="main">
   <div class="topbar">
-    <div style="flex:1;min-width:0">
-      <div class="topbar-title" id="t-title">Mon Dashboard 💼</div>
-    </div>
-    <button class="btn btn-primary hide-mob">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      Nouveau prospect
-    </button>
+    <div style="flex:1;min-width:0"><div class="topbar-title" id="t-title">Mon Dashboard 💼</div></div>
   </div>
 
   <div class="content">
 
     <!-- ── DASHBOARD ── -->
     <div class="view active" id="view-dashboard">
-      <div class="comm-hero">
-        <div class="comm-item"><div class="comm-val">2 990 MAD</div><div class="comm-lbl">Commissions ce mois</div><div class="comm-delta">↑ +890 MAD</div></div>
-        <div class="comm-item"><div class="comm-val">10</div><div class="comm-lbl">Cabinets actifs</div><div class="comm-delta">↑ +2 ce mois</div></div>
-        <div class="comm-item"><div class="comm-val">299 MAD</div><div class="comm-lbl">Récurrent mensuel</div><div class="comm-delta">↑ Garanti</div></div>
-      </div>
-      <div class="kpi-grid">
-        <div class="kpi-card gold"><div class="kpi-label">Revenus ce mois</div><div class="kpi-val">2 990<sup>MAD</sup></div><span class="delta">↑ +42%</span></div>
-        <div class="kpi-card"><div class="kpi-label">Cabinets signés</div><div class="kpi-val" style="color:var(--primary)">10</div><span class="delta up">↑ +2 ce mois</span></div>
-        <div class="kpi-card"><div class="kpi-label">Objectif</div><div class="kpi-val" style="color:var(--warn)">67<sup>%</sup></div><span class="delta neutral">→ 5/15</span></div>
-        <div class="kpi-card"><div class="kpi-label">Rétention</div><div class="kpi-val" style="color:var(--success)">90<sup>%</sup></div><span class="delta up">↑ Excellent</span></div>
-      </div>
-      <div class="row2">
-        <div class="card">
-          <div class="card-head">
-            <div><div class="card-title">Mes cabinets</div><div class="card-sub">10 clients actifs</div></div>
-            <span style="font-size:11.5px;color:var(--primary);font-weight:600;cursor:pointer" onclick="go('cabinets',null)">Voir tout →</span>
+
+      <!-- MOTIVATION HERO -->
+      <div class="motivation-hero">
+        <div class="mh-top">
+          <div>
+            <div class="mh-greeting">Bonjour Youssef 👋</div>
+            <div class="mh-title" id="mh-title">Tu es à 7 cabinets du bonus 🔥</div>
+            <div class="mh-subtitle" id="mh-subtitle">Signe 1 cabinet par jour et tu le débloque cette semaine</div>
           </div>
-          <div class="card-body" style="padding-top:4px;padding-bottom:4px">
-            <div class="cab-row"><div class="cab-logo" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">CH</div><div class="cab-info"><div class="cab-name">Cabinet Hassan II</div><div class="cab-loc">📍 Casablanca</div></div><div class="cab-note">4.8 ⭐</div><span class="cab-badge ok">Actif</span></div>
-            <div class="cab-row"><div class="cab-logo" style="background:linear-gradient(135deg,#00c49a,#00a07e)">CA</div><div class="cab-info"><div class="cab-name">Clinique Agdal</div><div class="cab-loc">📍 Rabat</div></div><div class="cab-note">3.8 ⭐</div><span class="cab-badge warn">À suivre</span></div>
-            <div class="cab-row"><div class="cab-logo" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AF</div><div class="cab-info"><div class="cab-name">Cabinet Al Fath</div><div class="cab-loc">📍 Casablanca</div></div><div class="cab-note">4.3 ⭐</div><span class="cab-badge ok">Actif</span></div>
-            <div class="cab-row"><div class="cab-logo" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">CM</div><div class="cab-info"><div class="cab-name">Clinique Marjane</div><div class="cab-loc">📍 Marrakech</div></div><div class="cab-note">4.6 ⭐</div><span class="cab-badge ok">Actif</span></div>
+          <div class="countdown-box">
+            <div class="countdown-val" id="countdown-days">12</div>
+            <div class="countdown-lbl">jours restants</div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-head"><div><div class="card-title">💰 Commissions</div><div class="card-sub">Ce mois</div></div></div>
-          <div class="card-body">
-            <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)"><span style="font-size:12px;font-weight:500">Nouveaux (2)</span><span style="font-family:'Playfair Display',serif;font-weight:700;color:var(--success)">+179 MAD</span></div>
-            <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)"><span style="font-size:12px;font-weight:500">Récurrent (10)</span><span style="font-family:'Playfair Display',serif;font-weight:700;color:var(--primary)">+299 MAD</span></div>
-            <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)"><span style="font-size:12px;font-weight:500">Bonus objectif</span><span style="font-family:'Playfair Display',serif;font-weight:700;color:var(--muted)">0 MAD</span></div>
-            <div style="display:flex;justify-content:space-between;padding:12px 0 0"><span style="font-size:13px;font-weight:700">Total</span><span style="font-family:'Playfair Display',serif;font-weight:800;font-size:18px;color:var(--warn)">478 MAD</span></div>
-            <div style="background:var(--success-bg);border-radius:9px;padding:11px;text-align:center;margin-top:12px">
-              <div style="font-size:11px;color:var(--success);font-weight:600">🎯 Atteignez 15 cabinets</div>
-              <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:18px;color:var(--success);margin:3px 0">+2 990 MAD bonus</div>
+
+        <div class="obj-bar-wrap">
+          <div class="obj-bar-top">
+            <span class="obj-bar-label">Progression vers l'objectif (10 cabinets)</span>
+            <span class="obj-bar-pct" id="obj-pct">30%</span>
+          </div>
+          <div class="obj-bar-bg">
+            <div class="obj-bar-fill" id="obj-bar" style="width:30%"></div>
+          </div>
+          <div class="obj-bar-milestones">
+            <span class="milestone reached">0</span>
+            <span class="milestone reached">3 ✓</span>
+            <span class="milestone">5</span>
+            <span class="milestone">7</span>
+            <span class="milestone">10 🏆</span>
+          </div>
+        </div>
+
+        <div class="mh-message">
+          <div class="mh-message-icon" id="mh-icon">💪</div>
+          <div class="mh-message-text" id="mh-message">
+            <strong>Tu as signé 3 cabinets ce mois.</strong> Il t'en manque <strong>7</strong> pour débloquer ton bonus de <strong style="color:#f59e0b">2 990 MAD</strong>. À ce rythme, tu vas le rater. Accélère !
+          </div>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card fire">
+          <div class="kpi-label">Bonus si objectif atteint</div>
+          <div class="kpi-val">2 990 MAD</div>
+          <div class="kpi-sub" style="color:rgba(255,255,255,.7)">→ Il te manque 7 cabinets</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Revenus ce mois</div>
+          <div class="kpi-val" style="color:var(--primary)">478 MAD</div>
+          <div class="kpi-sub warn">↓ En dessous de l'objectif</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Cabinets signés</div>
+          <div class="kpi-val" style="color:var(--warn)">3 / 10</div>
+          <div class="kpi-sub warn">→ 7 manquants</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Récurrent garanti</div>
+          <div class="kpi-val" style="color:var(--success)">299 MAD</div>
+          <div class="kpi-sub up">↑ Chaque mois à vie</div>
+        </div>
+      </div>
+
+      <!-- CABINETS -->
+      <div class="cab-list">
+        <div class="cab-list-head">
+          <div class="cab-list-title">Mes cabinets actifs</div>
+          <span style="font-size:12px;color:var(--muted)">3 cabinets · 299 MAD récurrent/mois</span>
+        </div>
+        <div class="cab-row"><div class="cab-logo" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">CH</div><div class="cab-info"><div class="cab-name">Cabinet Hassan II</div><div class="cab-loc">📍 Casablanca</div></div><div class="cab-comm">+30 MAD/mois</div><span class="cab-badge ok">Actif</span></div>
+        <div class="cab-row"><div class="cab-logo" style="background:linear-gradient(135deg,#00c49a,#00a07e)">CA</div><div class="cab-info"><div class="cab-name">Clinique Agdal</div><div class="cab-loc">📍 Rabat</div></div><div class="cab-comm">+30 MAD/mois</div><span class="cab-badge ok">Actif</span></div>
+        <div class="cab-row"><div class="cab-logo" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AF</div><div class="cab-info"><div class="cab-name">Cabinet Al Fath</div><div class="cab-loc">📍 Casablanca</div></div><div class="cab-comm">+30 MAD/mois</div><span class="cab-badge warn">À suivre</span></div>
+      </div>
+
+    </div>
+
+    <!-- ── SIMULATEUR REVENUS ── -->
+    <div class="view" id="view-simulateur">
+      <div style="margin-bottom:20px">
+        <div style="font-weight:800;font-size:20px;letter-spacing:-.5px;margin-bottom:4px">💰 Simulateur de revenus</div>
+        <div style="color:var(--muted);font-size:13px">Combien peux-tu gagner selon tes efforts ?</div>
+      </div>
+
+      <div class="sim-commercial">
+        <div class="sim-com-header">
+          <div class="sim-com-title">🎯 Si je signe X cabinets ce mois...</div>
+          <div class="sim-com-sub">Bouge les curseurs pour voir ton potentiel en temps réel</div>
+        </div>
+        <div class="sim-com-body">
+          <div class="sim-com-inputs">
+            <div class="sim-input-group">
+              <label class="sim-input-label">Nouveaux cabinets ce mois</label>
+              <div class="sim-input-row">
+                <span style="font-size:13px;color:var(--muted)">Combien tu vas signer ?</span>
+                <span class="sim-input-val" id="sim-nouveaux">5</span>
+              </div>
+              <input type="range" id="sl-nouveaux" min="0" max="20" value="5" oninput="updateSim()">
+              <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px"><span>0</span><span>20</span></div>
             </div>
+            <div class="sim-input-group">
+              <label class="sim-input-label">Cabinets actifs total</label>
+              <div class="sim-input-row">
+                <span style="font-size:13px;color:var(--muted)">Portefeuille existant</span>
+                <span class="sim-input-val" id="sim-actifs">3</span>
+              </div>
+              <input type="range" id="sl-actifs" min="0" max="30" value="3" oninput="updateSim()">
+              <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px"><span>0</span><span>30</span></div>
+            </div>
+          </div>
+
+          <div class="sim-com-results">
+            <div class="sim-result-item">
+              <div class="sim-result-label">Commission nouveaux clients (30%)</div>
+              <div class="sim-result-val fire" id="sim-r-nouveaux">2 247 MAD</div>
+              <div class="sim-result-sub">5 cabinets × 1 499 × 30%</div>
+            </div>
+            <div class="sim-result-item">
+              <div class="sim-result-label">Récurrent mensuel (10%)</div>
+              <div class="sim-result-val green" id="sim-r-recurrent">450 MAD</div>
+              <div class="sim-result-sub" id="sim-r-recurrent-sub">3 cabinets × 1 499 × 10%</div>
+            </div>
+            <div class="sim-result-item">
+              <div class="sim-result-label">Total ce mois</div>
+              <div class="sim-result-val" id="sim-r-total" style="font-size:32px;color:var(--primary)">2 697 MAD</div>
+              <div class="sim-result-sub">Nouveaux + récurrent</div>
+            </div>
+            <div class="bonus-unlock" id="sim-bonus-wrap">
+              <div class="bu-title">🏆 Bonus objectif débloqué !</div>
+              <div class="bu-val" id="sim-r-bonus">+2 990 MAD</div>
+              <div class="bu-sub">Si tu atteins 10 cabinets ce mois</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECTION ANNUELLE -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;">
+        <div style="font-weight:700;font-size:14px;margin-bottom:16px;">📈 Projection si tu maintiens ce rythme</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+          <div style="text-align:center;background:var(--surface2);border-radius:12px;padding:16px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Dans 3 mois</div>
+            <div style="font-weight:800;font-size:22px;color:var(--primary);letter-spacing:-1px;" id="proj-3m">8 091 MAD</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px;">de revenus cumulés</div>
+          </div>
+          <div style="text-align:center;background:var(--surface2);border-radius:12px;padding:16px;">
+            <div style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Dans 6 mois</div>
+            <div style="font-weight:800;font-size:22px;color:var(--success);letter-spacing:-1px;" id="proj-6m">16 182 MAD</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px;">de revenus cumulés</div>
+          </div>
+          <div style="text-align:center;background:linear-gradient(135deg,rgba(255,87,0,.1),rgba(255,140,0,.05));border:1px solid rgba(255,87,0,.2);border-radius:12px;padding:16px;">
+            <div style="font-size:11px;color:#ff6b35;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Dans 12 mois 🔥</div>
+            <div style="font-weight:800;font-size:22px;color:#ff4d00;letter-spacing:-1px;" id="proj-12m">32 364 MAD</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:3px;">de revenus cumulés</div>
           </div>
         </div>
       </div>
@@ -268,116 +391,61 @@ nav{padding:14px 10px;flex:1;overflow-y:auto;}
     <!-- ── CABINETS ── -->
     <div class="view" id="view-cabinets">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-        <div><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Mes cabinets</div><div style="color:var(--muted);font-size:12px;margin-top:2px">10 clients actifs</div></div>
-        <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Ajouter</button>
+        <div><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">Mes cabinets</div><div style="color:var(--muted);font-size:12px">3 clients actifs · 299 MAD récurrent/mois</div></div>
       </div>
-      <!-- Desktop table -->
-      <div class="card tbl-wrap">
-        <table class="tbl">
-          <thead><tr><th>Cabinet</th><th>Ville</th><th>Note</th><th>Patients</th><th>Comm/mois</th><th>Statut</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Cabinet Hassan II</strong></td><td>🏙️ Casablanca</td><td>⭐ 4.8</td><td>312</td><td style="color:var(--success);font-weight:700">30 MAD</td><td><span class="badge ok">Actif</span></td></tr>
-            <tr><td><strong>Clinique Agdal</strong></td><td>🏛️ Rabat</td><td>⭐ 3.8</td><td>428</td><td style="color:var(--success);font-weight:700">30 MAD</td><td><span class="badge mid">À suivre</span></td></tr>
-            <tr><td><strong>Cabinet Al Fath</strong></td><td>🏙️ Casablanca</td><td>⭐ 4.3</td><td>198</td><td style="color:var(--success);font-weight:700">30 MAD</td><td><span class="badge ok">Actif</span></td></tr>
-            <tr><td><strong>Clinique Marjane</strong></td><td>🌴 Marrakech</td><td>⭐ 4.6</td><td>156</td><td style="color:var(--success);font-weight:700">30 MAD</td><td><span class="badge ok">Actif</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- Mobile cards -->
-      <div class="mob-cards">
-        <div class="mob-card">
-          <div class="mob-card-top"><span class="mob-card-title">🏥 Cabinet Hassan II</span><span class="badge ok">Actif</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">📍 Ville</span><span class="mob-card-val">Casablanca</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">⭐ Note</span><span class="mob-card-val">4.8 / 5</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">👥 Patients</span><span class="mob-card-val">312</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">💰 Commission</span><span class="mob-card-val" style="color:var(--success);font-weight:700">30 MAD/mois</span></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:13px">
+            <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#0057ff,#4d8bff);display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff">CH</div>
+            <div><div style="font-weight:700;font-size:13px">Cabinet Hassan II</div><div style="color:var(--muted);font-size:11px">📍 Casablanca · Dr. Ahmed Benali</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;text-align:center">
+            <div style="background:var(--surface2);border-radius:8px;padding:8px 4px"><div style="font-weight:800;font-size:16px">4.8</div><div style="font-size:9.5px;color:var(--muted)">Note</div></div>
+            <div style="background:var(--surface2);border-radius:8px;padding:8px 4px"><div style="font-weight:800;font-size:16px">312</div><div style="font-size:9.5px;color:var(--muted)">Patients</div></div>
+            <div style="background:var(--success-bg);border-radius:8px;padding:8px 4px"><div style="font-weight:800;font-size:16px;color:var(--success)">30</div><div style="font-size:9.5px;color:var(--success)">MAD/mois</div></div>
+          </div>
         </div>
-        <div class="mob-card">
-          <div class="mob-card-top"><span class="mob-card-title">🏥 Clinique Agdal</span><span class="badge mid">À suivre</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">📍 Ville</span><span class="mob-card-val">Rabat</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">⭐ Note</span><span class="mob-card-val">3.8 / 5</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">👥 Patients</span><span class="mob-card-val">428</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">💰 Commission</span><span class="mob-card-val" style="color:var(--success);font-weight:700">30 MAD/mois</span></div>
-        </div>
-        <div class="mob-card">
-          <div class="mob-card-top"><span class="mob-card-title">🏥 Cabinet Al Fath</span><span class="badge ok">Actif</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">📍 Ville</span><span class="mob-card-val">Casablanca</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">⭐ Note</span><span class="mob-card-val">4.3 / 5</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">👥 Patients</span><span class="mob-card-val">198</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">💰 Commission</span><span class="mob-card-val" style="color:var(--success);font-weight:700">30 MAD/mois</span></div>
-        </div>
-        <div class="mob-card">
-          <div class="mob-card-top"><span class="mob-card-title">🏥 Clinique Marjane</span><span class="badge ok">Actif</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">📍 Ville</span><span class="mob-card-val">Marrakech</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">⭐ Note</span><span class="mob-card-val">4.6 / 5</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">👥 Patients</span><span class="mob-card-val">156</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">💰 Commission</span><span class="mob-card-val" style="color:var(--success);font-weight:700">30 MAD/mois</span></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;">
+          <div style="display:flex;align-items:center;gap:11px;margin-bottom:13px">
+            <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#00c49a,#00a07e);display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff">CA</div>
+            <div><div style="font-weight:700;font-size:13px">Clinique Agdal</div><div style="color:var(--muted);font-size:11px">📍 Rabat · Dr. Leila Fassi</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;text-align:center">
+            <div style="background:var(--surface2);border-radius:8px;padding:8px 4px"><div style="font-weight:800;font-size:16px">3.8</div><div style="font-size:9.5px;color:var(--muted)">Note</div></div>
+            <div style="background:var(--surface2);border-radius:8px;padding:8px 4px"><div style="font-weight:800;font-size:16px">428</div><div style="font-size:9.5px;color:var(--muted)">Patients</div></div>
+            <div style="background:var(--success-bg);border-radius:8px;padding:8px 4px"><div style="font-weight:800;font-size:16px;color:var(--success)">30</div><div style="font-size:9.5px;color:var(--success)">MAD/mois</div></div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- ── COMMISSIONS ── -->
     <div class="view" id="view-commissions">
-      <div style="margin-bottom:16px">
-        <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Mes commissions</div>
-        <div style="color:var(--muted);font-size:12px;margin-top:2px">Historique complet</div>
-      </div>
-      <!-- Desktop table -->
-      <div class="card tbl-wrap">
+      <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">Mes commissions</div><div style="color:var(--muted);font-size:12px">Historique complet</div></div>
+      <!-- Desktop -->
+      <div class="comm-table tbl-wrap">
         <table class="tbl">
           <thead><tr><th>Mois</th><th>Nouveaux</th><th>Récurrent</th><th>Bonus</th><th>Total</th><th>Statut</th></tr></thead>
           <tbody>
-            <tr><td><strong>Avril 2026</strong></td><td style="color:var(--success)">+179 MAD</td><td style="color:var(--primary)">+299 MAD</td><td style="color:var(--muted)">0 MAD</td><td><strong style="color:var(--warn)">478 MAD</strong></td><td><span class="badge mid">En cours</span></td></tr>
-            <tr><td><strong>Mars 2026</strong></td><td style="color:var(--success)">+359 MAD</td><td style="color:var(--primary)">+239 MAD</td><td style="color:var(--muted)">0 MAD</td><td><strong>598 MAD</strong></td><td><span class="badge ok">✓ Payé</span></td></tr>
-            <tr><td><strong>Fév 2026</strong></td><td style="color:var(--success)">+179 MAD</td><td style="color:var(--primary)">+179 MAD</td><td style="color:var(--muted)">0 MAD</td><td><strong>358 MAD</strong></td><td><span class="badge ok">✓ Payé</span></td></tr>
-            <tr><td><strong>Jan 2026</strong></td><td style="color:var(--success)">+539 MAD</td><td style="color:var(--primary)">+90 MAD</td><td style="color:var(--muted)">0 MAD</td><td><strong>629 MAD</strong></td><td><span class="badge ok">✓ Payé</span></td></tr>
+            <tr><td><strong>Mai 2026</strong></td><td style="color:var(--fire)">+2 247 MAD</td><td style="color:var(--success)">+90 MAD</td><td style="color:var(--muted)">—</td><td><strong style="color:var(--primary)">2 337 MAD</strong></td><td><span class="badge mid">En cours</span></td></tr>
+            <tr><td><strong>Avril 2026</strong></td><td style="color:var(--fire)">+1 349 MAD</td><td style="color:var(--success)">+60 MAD</td><td style="color:var(--muted)">—</td><td><strong>1 409 MAD</strong></td><td><span class="badge ok">✓ Payé</span></td></tr>
+            <tr><td><strong>Mars 2026</strong></td><td style="color:var(--fire)">+1 799 MAD</td><td style="color:var(--success)">+30 MAD</td><td style="color:var(--muted)">—</td><td><strong>1 829 MAD</strong></td><td><span class="badge ok">✓ Payé</span></td></tr>
           </tbody>
         </table>
       </div>
-      <!-- Mobile cards -->
+      <!-- Mobile -->
       <div class="mob-cards">
         <div class="mob-card">
-          <div class="mob-card-top"><span class="mob-card-title">📅 Avril 2026</span><span class="badge mid">En cours</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">Nouveaux clients</span><span class="mob-card-val" style="color:var(--success)">+179 MAD</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">Récurrent</span><span class="mob-card-val" style="color:var(--primary)">+299 MAD</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">Bonus</span><span class="mob-card-val" style="color:var(--muted)">0 MAD</span></div>
-          <div class="mob-card-row" style="padding-top:8px;border-top:1px solid var(--border);margin-top:4px"><span class="mob-card-lbl" style="font-weight:700;color:var(--text)">Total</span><span style="font-family:'Playfair Display',serif;font-weight:800;font-size:16px;color:var(--warn)">478 MAD</span></div>
+          <div class="mob-card-top"><span class="mob-card-title">📅 Mai 2026</span><span class="badge mid">En cours</span></div>
+          <div class="mob-card-row"><span class="mob-card-lbl">Nouveaux</span><span class="mob-card-val" style="color:var(--fire)">+2 247 MAD</span></div>
+          <div class="mob-card-row"><span class="mob-card-lbl">Récurrent</span><span class="mob-card-val" style="color:var(--success)">+90 MAD</span></div>
+          <div class="mob-card-row" style="padding-top:8px;border-top:1px solid var(--border);margin-top:4px"><span class="mob-card-lbl" style="font-weight:700;color:var(--text)">Total</span><span style="font-weight:800;font-size:16px;color:var(--primary)">2 337 MAD</span></div>
         </div>
         <div class="mob-card">
-          <div class="mob-card-top"><span class="mob-card-title">📅 Mars 2026</span><span class="badge ok">✓ Payé</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">Nouveaux clients</span><span class="mob-card-val" style="color:var(--success)">+359 MAD</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">Récurrent</span><span class="mob-card-val" style="color:var(--primary)">+239 MAD</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">Bonus</span><span class="mob-card-val" style="color:var(--muted)">0 MAD</span></div>
-          <div class="mob-card-row" style="padding-top:8px;border-top:1px solid var(--border);margin-top:4px"><span class="mob-card-lbl" style="font-weight:700;color:var(--text)">Total</span><span style="font-family:'Playfair Display',serif;font-weight:800;font-size:16px;color:var(--text)">598 MAD</span></div>
-        </div>
-        <div class="mob-card">
-          <div class="mob-card-top"><span class="mob-card-title">📅 Février 2026</span><span class="badge ok">✓ Payé</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">Nouveaux clients</span><span class="mob-card-val" style="color:var(--success)">+179 MAD</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">Récurrent</span><span class="mob-card-val" style="color:var(--primary)">+179 MAD</span></div>
-          <div class="mob-card-row"><span class="mob-card-lbl">Bonus</span><span class="mob-card-val" style="color:var(--muted)">0 MAD</span></div>
-          <div class="mob-card-row" style="padding-top:8px;border-top:1px solid var(--border);margin-top:4px"><span class="mob-card-lbl" style="font-weight:700;color:var(--text)">Total</span><span style="font-family:'Playfair Display',serif;font-weight:800;font-size:16px;color:var(--text)">358 MAD</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── OBJECTIF ── -->
-    <div class="view" id="view-objectif">
-      <div style="margin-bottom:16px">
-        <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">🎯 Mes objectifs</div>
-        <div style="color:var(--muted);font-size:12px;margin-top:2px">Avril 2026</div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <div class="obj-wrap">
-            <div class="obj-row"><span class="obj-label">Cabinets signés</span><span class="obj-pct">5 / 15</span></div>
-            <div class="obj-bg"><div class="obj-fill" style="width:33%"></div></div>
-            <div class="obj-sub">Il vous reste 10 cabinets pour le bonus de 2 990 MAD</div>
-          </div>
-          <div class="obj-wrap" style="margin-bottom:0">
-            <div class="obj-row"><span class="obj-label">Revenus récurrents</span><span class="obj-pct">2 990 / 4 485 MAD</span></div>
-            <div class="obj-bg"><div class="obj-fill" style="width:67%;background:linear-gradient(135deg,#00c49a,#00a07e)"></div></div>
-            <div class="obj-sub">Revenus garantis chaque mois tant que vos clients restent actifs</div>
-          </div>
+          <div class="mob-card-top"><span class="mob-card-title">📅 Avril 2026</span><span class="badge ok">✓ Payé</span></div>
+          <div class="mob-card-row"><span class="mob-card-lbl">Nouveaux</span><span class="mob-card-val" style="color:var(--fire)">+1 349 MAD</span></div>
+          <div class="mob-card-row"><span class="mob-card-lbl">Récurrent</span><span class="mob-card-val" style="color:var(--success)">+60 MAD</span></div>
+          <div class="mob-card-row" style="padding-top:8px;border-top:1px solid var(--border);margin-top:4px"><span class="mob-card-lbl" style="font-weight:700;color:var(--text)">Total</span><span style="font-weight:800;font-size:16px">1 409 MAD</span></div>
         </div>
       </div>
     </div>
@@ -389,43 +457,92 @@ nav{padding:14px 10px;flex:1;overflow-y:auto;}
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <div class="bn-item active" id="bn-dashboard" onclick="go('dashboard',this)">
-      <svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
-      <span>Dashboard</span>
-    </div>
-    <div class="bn-item" id="bn-cabinets" onclick="go('cabinets',this)">
-      <svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg>
-      <span>Cabinets</span>
-    </div>
-    <div class="bn-item" id="bn-commissions" onclick="go('commissions',this)">
-      <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg>
-      <span>Commissions</span>
-    </div>
-    <div class="bn-item" id="bn-objectif" onclick="go('objectif',this)">
-      <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-      <span>Objectifs</span>
-    </div>
+    <div class="bn-item active" id="bn-dashboard" onclick="go('dashboard',this)"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg><span>Dashboard</span></div>
+    <div class="bn-item" id="bn-simulateur" onclick="go('simulateur',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg><span>Simulateur</span></div>
+    <div class="bn-item" id="bn-cabinets" onclick="go('cabinets',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg><span>Cabinets</span></div>
+    <div class="bn-item" id="bn-commissions" onclick="go('commissions',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 14l6-6m0 0l-3-3m3 3l-3 3M3 7a4 4 0 014-4h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7z"/></svg><span>Commissions</span></div>
   </div>
 </nav>
 
 <script>
-const TITLES={
-  dashboard:"Mon Dashboard 💼",
-  cabinets:"Mes cabinets",
-  commissions:"Mes commissions",
-  objectif:"Mes objectifs 🎯"
-};
+// NAVIGATION
+const T={dashboard:'Mon Dashboard 💼',simulateur:'💰 Simulateur revenus',cabinets:'Mes cabinets',commissions:'Mes commissions'};
 function go(name,el){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   if(el&&el.classList.contains('nav-item'))el.classList.add('active');
   document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
-  const bn=document.getElementById('bn-'+name);
-  if(bn)bn.classList.add('active');
-  if(TITLES[name])document.getElementById('t-title').textContent=TITLES[name];
+  const bn=document.getElementById('bn-'+name);if(bn)bn.classList.add('active');
+  if(T[name])document.getElementById('t-title').textContent=T[name];
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
+// COUNTDOWN FIN DE MOIS
+function updateCountdown(){
+  const now=new Date();
+  const endOfMonth=new Date(now.getFullYear(),now.getMonth()+1,0);
+  const diff=Math.ceil((endOfMonth-now)/(1000*60*60*24));
+  document.getElementById('countdown-days').textContent=diff;
+  
+  // Message selon urgence
+  const icon=document.getElementById('mh-icon');
+  const msg=document.getElementById('mh-message');
+  if(diff<=5){
+    icon.textContent='🚨';
+    msg.innerHTML='<strong>URGENT !</strong> Il ne reste que <strong>'+diff+' jours</strong> ce mois. Tu dois signer <strong style="color:#f59e0b">'+Math.ceil(7/diff)+' cabinet(s) par jour</strong> pour atteindre ton objectif !';
+  } else if(diff<=10){
+    icon.textContent='⚡';
+    msg.innerHTML='<strong>Accélère !</strong> Il te reste <strong>'+diff+' jours</strong>. Signe <strong style="color:#f59e0b">1 cabinet tous les 2 jours</strong> pour débloquer ton bonus de <strong>2 990 MAD</strong>.';
+  } else {
+    icon.textContent='💪';
+    msg.innerHTML='<strong>Tu as signé 3 cabinets ce mois.</strong> Il t\'en manque <strong>7</strong> pour débloquer ton bonus de <strong style="color:#f59e0b">2 990 MAD</strong>. À ce rythme, tu vas le rater. Accélère !';
+  }
+}
+
+// SIMULATEUR REVENUS
+function updateSim(){
+  const nouveaux=+document.getElementById('sl-nouveaux').value;
+  const actifs=+document.getElementById('sl-actifs').value;
+  document.getElementById('sim-nouveaux').textContent=nouveaux;
+  document.getElementById('sim-actifs').textContent=actifs;
+
+  const commNouveaux=Math.round(nouveaux*1499*0.30);
+  const commRecurrent=Math.round(actifs*1499*0.10);
+  const total=commNouveaux+commRecurrent;
+  const totalAvecBonus=total+(nouveaux+actifs>=10?2990:0);
+
+  document.getElementById('sim-r-nouveaux').textContent=commNouveaux.toLocaleString('fr-FR')+' MAD';
+  document.getElementById('sim-r-recurrent').textContent=commRecurrent.toLocaleString('fr-FR')+' MAD';
+  document.getElementById('sim-r-recurrent-sub').textContent=actifs+' cabinets × 1 499 × 10%';
+  document.getElementById('sim-r-total').textContent=total.toLocaleString('fr-FR')+' MAD';
+
+  const bonusWrap=document.getElementById('sim-bonus-wrap');
+  if(nouveaux+actifs>=10){
+    bonusWrap.style.display='block';
+    document.getElementById('sim-r-bonus').textContent='+2 990 MAD';
+  } else {
+    bonusWrap.style.display='none';
+  }
+
+  // Projections
+  document.getElementById('proj-3m').textContent=(total*3).toLocaleString('fr-FR')+' MAD';
+  document.getElementById('proj-6m').textContent=(total*6).toLocaleString('fr-FR')+' MAD';
+  document.getElementById('proj-12m').textContent=(total*12).toLocaleString('fr-FR')+' MAD';
+
+  // Slider progress
+  slProgress('sl-nouveaux',0,20);
+  slProgress('sl-actifs',0,30);
+}
+
+function slProgress(id,min,max){
+  const s=document.getElementById(id);
+  const pct=((s.value-min)/(max-min))*100;
+  s.style.background=`linear-gradient(to right,#0057ff ${pct}%,#e4ecf7 ${pct}%)`;
+}
+
+updateCountdown();
+updateSim();
 </script>
 </body>
 </html>
