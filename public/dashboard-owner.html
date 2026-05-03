@@ -4,399 +4,453 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MediPulse — Owner</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{--bg:#f8fafd;--surface:#fff;--surface2:#f1f5fb;--border:#e4ecf7;--text:#0a1628;--muted:#6b7fa3;--primary:#0057ff;--primary-lt:#e6eeff;--success:#00c49a;--success-bg:#e6faf5;--warn:#f59e0b;--warn-bg:#fef8e7;--danger:#ef4444;--danger-bg:#fef2f2;--sidebar:#0a1628;}
+:root{
+  --bg:#f8fafd;--surface:#fff;--surface2:#f1f5fb;--border:#e4ecf7;
+  --text:#0a1628;--muted:#6b7fa3;--light:#b0bdd4;
+  --primary:#0057ff;--primary-lt:#e6eeff;
+  --success:#00c49a;--success-bg:#e6faf5;
+  --warn:#f59e0b;--warn-bg:#fef8e7;
+  --danger:#ef4444;--danger-bg:#fef2f2;
+  --sidebar:#0a1628;
+}
 html,body{height:100%;}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
 .shell{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
 .sidebar{width:220px;background:var(--sidebar);display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:200;}
 .logo{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
 .logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:8px;display:grid;place-items:center;}
 .logo-icon svg{width:14px;height:14px;stroke:#fff;fill:none;}
-.logo-text{font-family:'Playfair Display',serif;font-weight:700;font-size:15px;color:#fff;}
+.logo-text{font-weight:800;font-size:15px;color:#fff;}
 .logo-text em{color:#4d8bff;font-style:normal;}
-nav{padding:14px 10px;flex:1;overflow-y:auto;}
+nav{padding:14px 10px;flex:1;}
 .nav-section{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:0 8px;margin:14px 0 4px;}
 .nav-item{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:10px;cursor:pointer;color:rgba(255,255,255,.55);font-weight:500;font-size:13px;transition:all .15s;margin-bottom:2px;}
 .nav-item:hover{background:rgba(255,255,255,.07);color:#fff;}
 .nav-item.active{background:var(--primary);color:#fff;}
 .nav-item svg{width:16px;height:16px;flex-shrink:0;}
-.nav-badge{margin-left:auto;background:var(--danger);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:20px;}
 .sidebar-user{padding:14px 12px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
-.u-av{width:32px;height:32px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;flex-shrink:0;}
+.u-av{width:32px;height:32px;background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;flex-shrink:0;}
 .u-name{font-weight:600;font-size:12px;color:#fff;}
 .u-role{color:rgba(255,255,255,.4);font-size:10px;}
-.logout{margin-left:auto;cursor:pointer;color:rgba(255,255,255,.3);font-size:14px;}
+.logout{margin-left:auto;cursor:pointer;color:rgba(255,255,255,.3);}
+.logout:hover{color:#fff;}
+
+/* MAIN */
 .main{flex:1;margin-left:220px;display:flex;flex-direction:column;}
 .topbar{height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 22px;gap:10px;position:sticky;top:0;z-index:100;}
-.topbar-title{font-family:'Playfair Display',serif;font-weight:700;font-size:17px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:12.5px;cursor:pointer;border:none;transition:all .15s;}
-.btn-primary{background:var(--primary);color:#fff;}
-.btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border);}
-.btn svg{width:13px;height:13px;}
+.topbar-title{font-weight:800;font-size:17px;flex:1;}
+.btn-primary{background:var(--primary);color:#fff;padding:8px 16px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;border:none;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:6px;transition:all .2s;}
+.btn-primary:hover{background:#0046cc;}
 .content{padding:20px 22px;flex:1;}
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
-.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;transition:all .2s;}
-.kpi-card.featured{background:linear-gradient(135deg,#0057ff,#3d7bff);border:none;}
-.kpi-card.featured .kpi-label{color:rgba(255,255,255,.7);}
-.kpi-card.featured .kpi-val{color:#fff;}
-.kpi-card.featured .delta{background:rgba(255,255,255,.2);color:#fff;}
-.kpi-label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:7px;}
-.kpi-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:7px;}
-.kpi-val sup{font-size:12px;vertical-align:super;font-family:'Plus Jakarta Sans',sans-serif;}
-.delta{display:inline-flex;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:20px;}
-.delta.up{color:var(--success);background:var(--success-bg);}
-.delta.down{color:var(--danger);background:var(--danger-bg);}
-.delta.neutral{color:var(--warn);background:var(--warn-bg);}
-.villes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
-.ville{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
-.ville-val{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:var(--primary);}
-.ville-lbl{font-size:11px;color:var(--muted);margin-top:2px;}
-.row2{display:grid;grid-template-columns:1.7fr 1fr;gap:14px;margin-bottom:14px;}
-.row2.equal{grid-template-columns:1fr 1fr;}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
-.card-head{padding:14px 18px 11px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
-.card-title{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;}
-.card-sub{color:var(--muted);font-size:11px;margin-top:1px;}
-.card-body{padding:14px 18px;}
-.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10.5px;font-weight:600;background:var(--primary-lt);color:var(--primary);}
-select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:5px 9px;font-size:11.5px;color:var(--text);cursor:pointer;outline:none;font-family:'Plus Jakarta Sans',sans-serif;}
-.chart-wrap{height:140px;}
-.chart-wrap svg{width:100%;height:100%;}
-.chart-legend{display:flex;gap:14px;margin-top:7px;}
-.chart-legend span{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);}
-.chart-legend i{width:16px;height:3px;border-radius:3px;display:inline-block;}
-.donut-row{display:flex;align-items:center;gap:14px;}
-.leg-item{display:flex;align-items:center;gap:7px;font-size:12px;margin-bottom:6px;font-weight:500;}
-.leg-dot{width:8px;height:8px;border-radius:3px;flex-shrink:0;}
-.leg-pct{margin-left:auto;font-weight:700;}
-.sb-item{margin-bottom:8px;}
-.sb-row{display:flex;justify-content:space-between;margin-bottom:3px;font-size:11.5px;}
-.sb-count{color:var(--muted);}
-.sb-bg{height:5px;background:var(--border);border-radius:10px;overflow:hidden;}
-.sb-fill{height:100%;border-radius:10px;}
-.p-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
-.p-row:last-child{border-bottom:none;}
-.p-av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700;flex-shrink:0;}
-.p-info{flex:1;min-width:0;}
-.p-name{font-weight:600;font-size:12.5px;}
-.p-meta{color:var(--muted);font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.stars{font-size:10.5px;color:#f59e0b;white-space:nowrap;}
-.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700;white-space:nowrap;}
-.badge::before{content:'';width:5px;height:5px;border-radius:50%;}
-.badge.ok{background:var(--success-bg);color:var(--success);}
-.badge.ok::before{background:var(--success);}
-.badge.mid{background:var(--warn-bg);color:var(--warn);}
-.badge.mid::before{background:var(--warn);}
-.badge.bad{background:var(--danger-bg);color:var(--danger);}
-.badge.bad::before{background:var(--danger);}
-.alert{border-radius:9px;padding:11px 13px;display:flex;align-items:flex-start;gap:9px;margin-bottom:8px;border:1px solid;}
-.alert:last-child{margin-bottom:0;}
-.alert.danger{background:#fff5f5;border-color:#fca5a5;}
-.alert.warn{background:#fffbeb;border-color:#fcd34d;}
-.alert-icon{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;flex-shrink:0;}
-.alert-icon svg{width:12px;height:12px;}
-.alert.danger .alert-icon{background:var(--danger-bg);color:var(--danger);}
-.alert.warn .alert-icon{background:var(--warn-bg);color:var(--warn);}
-.alert-body{flex:1;min-width:0;}
-.alert-title{font-weight:700;font-size:12px;}
-.alert.danger .alert-title{color:var(--danger);}
-.alert.warn .alert-title{color:var(--warn);}
-.alert-desc{font-size:11px;color:var(--muted);}
-.alert-cta{font-size:11px;font-weight:700;color:var(--primary);cursor:pointer;padding:3px 7px;white-space:nowrap;flex-shrink:0;}
-.cab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
-.cab-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:all .2s;}
-.cab-card:hover{box-shadow:0 8px 24px rgba(0,87,255,.1);transform:translateY(-2px);}
-.cab-top{display:flex;align-items:center;gap:11px;margin-bottom:13px;}
-.cab-logo{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-family:'Playfair Display',serif;font-weight:700;font-size:14px;color:#fff;flex-shrink:0;}
-.cab-name{font-family:'Playfair Display',serif;font-weight:700;font-size:13px;}
-.cab-loc{color:var(--muted);font-size:11px;}
-.cab-status{margin-left:auto;font-size:10px;font-weight:700;background:var(--success-bg);color:var(--success);padding:3px 7px;border-radius:20px;white-space:nowrap;}
-.cab-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;text-align:center;}
-.cab-stat{background:var(--surface2);border-radius:8px;padding:8px 4px;}
-.cab-val{font-family:'Playfair Display',serif;font-weight:700;font-size:17px;line-height:1;}
-.cab-lbl{font-size:9.5px;color:var(--muted);margin-top:2px;}
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.tbl{width:100%;border-collapse:collapse;min-width:480px;}
-.tbl th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:9px 13px;border-bottom:1px solid var(--border);background:var(--surface2);}
-.tbl td{padding:10px 13px;border-bottom:1px solid var(--border);font-size:12px;}
-.tbl tr:last-child td{border-bottom:none;}
-.tbl tr:hover td{background:var(--surface2);}
-.mob-cards{display:none;}
-.mob-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;}
-.mob-card:last-child{margin-bottom:0;}
-.mob-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border);}
-.mob-card-title{font-weight:700;font-size:13.5px;}
-.mob-card-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-.mob-card-row:last-child{margin-bottom:0;}
-.mob-card-lbl{font-size:11.5px;color:var(--muted);}
-.mob-card-val{font-size:12.5px;font-weight:600;}
-.loading{text-align:center;padding:20px;color:var(--muted);font-size:13px;}
+
+/* VIEWS */
 .view{display:none;}
 .view.active{display:block;}
-.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:70px;background:var(--sidebar);border-top:1px solid rgba(255,255,255,.1);z-index:300;box-shadow:0 -4px 20px rgba(0,0,0,.3);}
-.bottom-nav-inner{display:flex;height:100%;padding:6px 6px;gap:3px;}
-.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:rgba(255,255,255,.45);font-size:9px;font-weight:600;-webkit-tap-highlight-color:transparent;border-radius:12px;transition:all .2s;padding:6px 2px;}
-.bn-item:active{transform:scale(.95);}
-.bn-item svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2;}
-.bn-item.active{color:#fff;background:var(--primary);box-shadow:0 4px 12px rgba(0,87,255,.4);}
-.bn-item span{font-size:9px;font-weight:600;line-height:1;text-align:center;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-.kpi-card{animation:fadeUp .3s ease both;}
-.kpi-card:nth-child(1){animation-delay:.04s;}.kpi-card:nth-child(2){animation-delay:.08s;}.kpi-card:nth-child(3){animation-delay:.12s;}.kpi-card:nth-child(4){animation-delay:.16s;}
-@media(max-width:1024px){.kpi-grid{grid-template-columns:1fr 1fr;}.row2,.row2.equal{grid-template-columns:1fr;}}
+
+/* HERO REVENUS */
+.revenue-hero{background:linear-gradient(135deg,#0a1628,#0d2452);border-radius:20px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden;}
+.revenue-hero::before{content:'';position:absolute;right:-40px;top:-40px;width:220px;height:220px;background:radial-gradient(rgba(77,139,255,.2),transparent 70%);pointer-events:none;}
+.rh-inner{position:relative;z-index:1;}
+.rh-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:20px;}
+.rh-label{font-size:12px;color:rgba(255,255,255,.45);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;}
+.rh-val{font-weight:900;font-size:40px;color:#fff;letter-spacing:-2px;line-height:1;}
+.rh-sub{font-size:12px;color:rgba(255,255,255,.45);margin-top:4px;}
+.rh-trend{font-size:12px;color:var(--success);font-weight:600;margin-top:4px;}
+.rh-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.rh-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;}
+.rh-stat-val{font-weight:800;font-size:22px;color:#fff;letter-spacing:-1px;margin-bottom:4px;}
+.rh-stat-lbl{font-size:11px;color:rgba(255,255,255,.4);}
+.rh-stat-sub{font-size:11px;color:var(--success);margin-top:2px;}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;transition:all .2s;}
+.kpi-card:hover{box-shadow:0 8px 24px rgba(0,87,255,.08);transform:translateY(-1px);}
+.kpi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:7px;}
+.kpi-val{font-weight:800;font-size:24px;letter-spacing:-1px;line-height:1;margin-bottom:5px;}
+.kpi-sub{font-size:11px;color:var(--muted);}
+.kpi-sub.up{color:var(--success);}
+.kpi-sub.down{color:var(--danger);}
+.kpi-sub.warn{color:var(--warn);}
+
+/* ALERTES */
+.alertes-section{margin-bottom:20px;}
+.alertes-title{font-weight:700;font-size:14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.alerte-badge{background:var(--danger-bg);color:var(--danger);font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.alerte-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;transition:all .2s;}
+.alerte-card:hover{border-color:var(--danger);box-shadow:0 4px 16px rgba(239,68,68,.08);}
+.alerte-card.warn{border-left:3px solid var(--danger);}
+.alerte-card.medium{border-left:3px solid var(--warn);}
+.alerte-icon{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:16px;flex-shrink:0;}
+.alerte-icon.red{background:var(--danger-bg);}
+.alerte-icon.orange{background:var(--warn-bg);}
+.alerte-info{flex:1;min-width:0;}
+.alerte-name{font-weight:600;font-size:13px;margin-bottom:2px;}
+.alerte-desc{font-size:12px;color:var(--muted);}
+.alerte-action{font-size:12px;font-weight:600;color:var(--primary);cursor:pointer;white-space:nowrap;}
+.alerte-action:hover{text-decoration:underline;}
+
+/* CABINETS TABLE */
+.cab-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px;}
+.cab-table-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.cab-table-title{font-weight:700;font-size:14px;}
+.search-input{padding:7px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;width:200px;transition:border-color .2s;}
+.search-input:focus{border-color:var(--primary);}
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface2);}
+.tbl td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--surface2);}
+.cab-logo{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;font-weight:800;font-size:11px;color:#fff;flex-shrink:0;}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:10.5px;font-weight:700;}
+.badge.ok{background:var(--success-bg);color:var(--success);}
+.badge.warn{background:var(--warn-bg);color:var(--warn);}
+.badge.danger{background:var(--danger-bg);color:var(--danger);}
+
+/* COMMERCIAUX */
+.comm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:20px;}
+.comm-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;}
+.comm-card-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+.comm-av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.comm-name{font-weight:700;font-size:14px;}
+.comm-location{font-size:11px;color:var(--muted);margin-top:1px;}
+.comm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;}
+.comm-stat-val{font-weight:800;font-size:18px;letter-spacing:-.5px;}
+.comm-stat-lbl{font-size:10px;color:var(--muted);margin-top:2px;}
+
+/* REVENUS CHART */
+.chart-section{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:20px;}
+.chart-title{font-weight:700;font-size:14px;margin-bottom:16px;}
+.chart-bars{display:flex;align-items:flex-end;gap:8px;height:120px;}
+.chart-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.chart-bar{width:100%;border-radius:6px 6px 0 0;background:var(--primary);transition:all .3s;cursor:pointer;position:relative;}
+.chart-bar:hover{background:#0046cc;}
+.chart-bar-val{font-size:9px;font-weight:700;color:var(--muted);text-align:center;}
+.chart-bar-lbl{font-size:9px;color:var(--muted);text-align:center;}
+
+/* BOTTOM NAV */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:70px;background:var(--sidebar);border-top:1px solid rgba(255,255,255,.1);z-index:300;}
+.bottom-nav-inner{display:flex;height:100%;padding:6px;gap:3px;}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:rgba(255,255,255,.45);font-size:9px;font-weight:600;border-radius:12px;transition:all .2s;padding:6px 2px;}
+.bn-item svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;}
+.bn-item.active{color:#fff;background:var(--primary);}
+
+/* MOB */
+.mob-only{display:none;}
+@media(max-width:1024px){.kpi-grid{grid-template-columns:1fr 1fr;}.rh-stats{grid-template-columns:1fr 1fr;}}
 @media(max-width:768px){
   .sidebar{display:none;}.main{margin-left:0;}
   .bottom-nav{display:flex;}
   .content{padding:14px 14px calc(70px + 14px);}
   .topbar{padding:0 14px;height:52px;}
-  .topbar-title{font-size:15px;}
-  .hide-mob{display:none;}
-  .kpi-grid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-  .kpi-card{padding:14px;}.kpi-val{font-size:20px;}
-  .villes{grid-template-columns:1fr 1fr;}
-  .row2,.row2.equal{grid-template-columns:1fr;gap:10px;}
-  .card-head{padding:12px 14px 10px;}.card-body{padding:12px 14px;}
-  .cab-grid{grid-template-columns:1fr;}
-  .tbl-wrap{display:none;}.mob-cards{display:block;}
+  .kpi-grid{grid-template-columns:1fr 1fr;gap:10px;}
+  .kpi-val{font-size:20px;}
+  .rh-val{font-size:30px;}
+  .rh-stats{grid-template-columns:1fr;}
+  .tbl{display:none;}
+  .mob-only{display:block;}
+  .comm-grid{grid-template-columns:1fr;}
 }
-@media(max-width:400px){.kpi-grid{grid-template-columns:1fr;}.villes{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 <div class="shell">
+
+<!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="logo">
     <div class="logo-icon"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
     <span class="logo-text">Medi<em>Pulse</em></span>
   </div>
   <nav>
-    <div class="nav-section">Principal</div>
-    <div class="nav-item active" onclick="go('dashboard',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</div>
-    <div class="nav-item" onclick="go('cabinets',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg>Cabinets <span class="nav-badge">8</span></div>
-    <div class="nav-item" onclick="go('patients',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Patients</div>
-    <div class="nav-item" onclick="go('alertes',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>Alertes <span class="nav-badge" id="badge-alertes">14</span></div>
-    <div class="nav-section">Équipe</div>
-    <div class="nav-item" onclick="go('commerciaux',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Commerciaux</div>
-    <div class="nav-item" onclick="go('stats',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Statistiques</div>
-    <div class="nav-section">Système</div>
-    <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg>Paramètres</div>
+    <div class="nav-section">Vue globale</div>
+    <div class="nav-item active" onclick="go('dashboard',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-item" onclick="go('cabinets',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg>
+      Tous les cabinets
+    </div>
+    <div class="nav-item" onclick="go('commerciaux',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
+      Commerciaux
+    </div>
+    <div class="nav-item" onclick="go('revenus',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg>
+      Revenus
+    </div>
+    <div class="nav-item" onclick="go('alertes',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      Alertes
+      <span style="margin-left:auto;background:var(--danger);color:#fff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:20px;">2</span>
+    </div>
   </nav>
   <div class="sidebar-user">
-    <div class="u-av">AD</div>
-    <div><div class="u-name">Admin Owner</div><div class="u-role">🇲🇦 Super admin</div></div>
+    <div class="u-av">MO</div>
+    <div><div class="u-name">Mohammed Owner</div><div class="u-role">👑 Fondateur MediPulse</div></div>
     <span class="logout" onclick="window.location.href='/'">⏻</span>
   </div>
 </aside>
 
 <main class="main">
   <div class="topbar">
-    <div style="flex:1;min-width:0"><div class="topbar-title" id="t-title">Vue d'ensemble 👑</div></div>
-    <button class="btn btn-outline hide-mob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export</button>
-    <!-- MODAL NOUVEAU CABINET -->
-<div id="modal-cabinet" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;">
-  <div style="background:#fff;border-radius:20px;padding:32px;width:100%;max-width:480px;box-shadow:0 24px 80px rgba(0,0,0,.3);">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-      <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:20px;">➕ Nouveau cabinet</div>
-      <span onclick="fermerModal()" style="cursor:pointer;font-size:20px;color:var(--muted);">✕</span>
-    </div>
-    <div style="margin-bottom:14px;">
-      <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:block;">Nom du cabinet</label>
-      <input id="cab-nom" type="text" placeholder="Ex: Cabinet Dr Hassan" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;outline:none;">
-    </div>
-    <div style="margin-bottom:14px;">
-      <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:block;">Nom du médecin</label>
-      <input id="cab-medecin" type="text" placeholder="Ex: Dr Ahmed Hassan" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;outline:none;">
-    </div>
-    <div style="margin-bottom:14px;">
-      <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:block;">Ville</label>
-      <select id="cab-ville" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;outline:none;background:#fff;cursor:pointer;">
-        <option>Casablanca</option>
-        <option>Rabat</option>
-        <option>Marrakech</option>
-        <option>Fès</option>
-        <option>Tanger</option>
-        <option>Agadir</option>
-        <option>Meknès</option>
-        <option>Oujda</option>
-      </select>
-    </div>
-    <div style="margin-bottom:14px;">
-      <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:block;">Email médecin</label>
-      <input id="cab-email" type="email" placeholder="medecin@cabinet.ma" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;outline:none;">
-    </div>
-    <div style="margin-bottom:14px;">
-      <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:block;">Google Sheet ID</label>
-      <input id="cab-sheet" type="text" placeholder="Ex: 1LV7RMfmxJXopO942FBen..." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;outline:none;">
-      <div style="font-size:11px;color:var(--muted);margin-top:4px;">Trouvez l'ID dans l'URL de votre Google Sheet</div>
-    </div>
-    <div style="margin-bottom:20px;">
-      <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:block;">Plan</label>
-      <select id="cab-plan" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;outline:none;background:#fff;cursor:pointer;">
-        <option value="299">Starter — 299 MAD/mois</option>
-        <option value="599">Pro — 599 MAD/mois</option>
-        <option value="1499">Clinique — 1499 MAD/mois</option>
-      </select>
-    </div>
-    <div id="modal-success" style="display:none;background:var(--success-bg);border:1px solid var(--success);border-radius:9px;padding:12px;text-align:center;margin-bottom:14px;">
-      <div style="font-weight:700;color:var(--success)">✅ Cabinet ajouté avec succès !</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:3px">Email de bienvenue envoyé au médecin</div>
-    </div>
-    <button onclick="ajouterCabinet()" style="width:100%;padding:13px;background:linear-gradient(135deg,#0057ff,#4d8bff);color:#fff;border:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px;cursor:pointer;">
-      ➕ Ajouter le cabinet
+    <div style="flex:1"><div class="topbar-title" id="t-title">Vue globale 👑</div></div>
+    <button class="btn-primary" onclick="go('cabinets',document.querySelector('.nav-item:nth-child(2)'))">
+      + Nouveau cabinet
     </button>
-  </div>
-</div>
-
-<!-- BOTTOM NAV -->
   </div>
 
   <div class="content">
 
-    <!-- DASHBOARD -->
+    <!-- ── DASHBOARD ── -->
     <div class="view active" id="view-dashboard">
+
+      <!-- HERO REVENUS -->
+      <div class="revenue-hero">
+        <div class="rh-inner">
+          <div class="rh-top">
+            <div>
+              <div class="rh-label">Revenus MediPulse ce mois</div>
+              <div class="rh-val">14 990 MAD</div>
+              <div class="rh-trend">↑ +2 998 MAD vs mois dernier</div>
+              <div class="rh-sub">10 cabinets actifs · Marge nette ~83%</div>
+            </div>
+            <div style="text-align:right">
+              <div class="rh-label">Récurrent garanti</div>
+              <div style="font-weight:900;font-size:28px;color:var(--success);letter-spacing:-1px">14 990 MAD</div>
+              <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:4px">Chaque mois tant que les cabinets sont actifs</div>
+            </div>
+          </div>
+          <div class="rh-stats">
+            <div class="rh-stat">
+              <div class="rh-stat-val">10</div>
+              <div class="rh-stat-lbl">Cabinets actifs</div>
+              <div class="rh-stat-sub">↑ +2 ce mois</div>
+            </div>
+            <div class="rh-stat">
+              <div class="rh-stat-val">1 249 MAD</div>
+              <div class="rh-stat-lbl">Marge nette / cabinet</div>
+              <div class="rh-stat-sub">Après commissions</div>
+            </div>
+            <div class="rh-stat">
+              <div class="rh-stat-val">83%</div>
+              <div class="rh-stat-lbl">Marge globale</div>
+              <div class="rh-stat-sub">↑ Excellent</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPIs -->
       <div class="kpi-grid">
-        <div class="kpi-card featured"><div class="kpi-label">Patients</div><div class="kpi-val" id="kpi-patients">...</div><span class="delta">Ce mois</span></div>
-        <div class="kpi-card"><div class="kpi-label">Satisfaction</div><div class="kpi-val" id="kpi-satisfaction" style="color:var(--primary)">...</div><span class="delta up">↑ Chargement</span></div>
-        <div class="kpi-card"><div class="kpi-label">Avis moyens</div><div class="kpi-val" id="kpi-moyens" style="color:var(--warn)">...</div><span class="delta neutral">→ Stable</span></div>
-        <div class="kpi-card"><div class="kpi-label">Alertes</div><div class="kpi-val" id="kpi-alertes" style="color:var(--danger)">...</div><span class="delta down">↑ Actives</span></div>
-      </div>
-
-      <div class="villes">
-        <div class="ville"><div class="ville-val">🏙️ 5</div><div class="ville-lbl">Cabinets Casa</div></div>
-        <div class="ville"><div class="ville-val">🏛️ 2</div><div class="ville-lbl">Cabinets Rabat</div></div>
-        <div class="ville"><div class="ville-val">🌴 1</div><div class="ville-lbl">Marrakech</div></div>
-      </div>
-
-      <div class="row2">
-        <div class="card">
-          <div class="card-head"><div><div class="card-title">Évolution des avis</div><div class="card-sub">6 derniers mois</div></div><select class="ctrl"><option>Tous</option><option>Casablanca</option><option>Rabat</option></select></div>
-          <div class="card-body">
-            <div class="chart-wrap">
-              <svg viewBox="0 0 400 120" preserveAspectRatio="none">
-                <defs><linearGradient id="gB" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0057ff" stop-opacity=".18"/><stop offset="100%" stop-color="#0057ff" stop-opacity="0"/></linearGradient><linearGradient id="gG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00c49a" stop-opacity=".15"/><stop offset="100%" stop-color="#00c49a" stop-opacity="0"/></linearGradient></defs>
-                <line x1="0" y1="95" x2="400" y2="95" stroke="#e4ecf7" stroke-width="1"/>
-                <line x1="0" y1="65" x2="400" y2="65" stroke="#e4ecf7" stroke-width="1"/>
-                <line x1="0" y1="35" x2="400" y2="35" stroke="#e4ecf7" stroke-width="1"/>
-                <text x="4" y="110" font-size="10" fill="#b0bdd4">Nov</text><text x="68" y="110" font-size="10" fill="#b0bdd4">Déc</text><text x="136" y="110" font-size="10" fill="#b0bdd4">Jan</text><text x="204" y="110" font-size="10" fill="#b0bdd4">Fév</text><text x="272" y="110" font-size="10" fill="#b0bdd4">Mar</text><text x="340" y="110" font-size="10" fill="#b0bdd4">Avr</text>
-                <path d="M0,80 C60,70 120,55 180,45 C240,35 300,22 400,10 L400,98 L0,98Z" fill="url(#gB)"/>
-                <path d="M0,80 C60,70 120,55 180,45 C240,35 300,22 400,10" fill="none" stroke="#0057ff" stroke-width="2.5" stroke-linecap="round"/>
-                <path d="M0,92 C60,94 120,88 180,84 C240,80 300,77 400,72 L400,98 L0,98Z" fill="url(#gG)"/>
-                <path d="M0,92 C60,94 120,88 180,84 C240,80 300,77 400,72" fill="none" stroke="#00c49a" stroke-width="2" stroke-linecap="round"/>
-                <circle cx="400" cy="10" r="4" fill="#0057ff" stroke="#fff" stroke-width="2"/>
-                <circle cx="400" cy="72" r="3.5" fill="#00c49a" stroke="#fff" stroke-width="2"/>
-              </svg>
-            </div>
-            <div class="chart-legend"><span><i style="background:#0057ff"></i>Satisfaits</span><span><i style="background:#00c49a"></i>Négatifs</span></div>
-          </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Cabinets actifs</div>
+          <div class="kpi-val" style="color:var(--primary)">10</div>
+          <div class="kpi-sub up">↑ +2 ce mois</div>
         </div>
-        <div class="card">
-          <div class="card-head"><div><div class="card-title">Répartition</div><div class="card-sub">Ce mois</div></div></div>
-          <div class="card-body">
-            <div class="donut-row">
-              <svg width="80" height="80" viewBox="0 0 80 80" style="flex-shrink:0">
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#e4ecf7" stroke-width="12"/>
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#0057ff" stroke-width="12" stroke-dasharray="135 54" stroke-dashoffset="65" transform="rotate(-90 40 40)"/>
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#f59e0b" stroke-width="12" stroke-dasharray="34 155" stroke-dashoffset="-71" transform="rotate(-90 40 40)"/>
-                <circle cx="40" cy="40" r="30" fill="none" stroke="#ef4444" stroke-width="12" stroke-dasharray="19 170" stroke-dashoffset="-106" transform="rotate(-90 40 40)"/>
-                <text x="40" y="36" text-anchor="middle" font-size="12" font-weight="800" font-family="Playfair Display" fill="#0a1628" id="donut-pct">74%</text>
-                <text x="40" y="47" text-anchor="middle" font-size="7" fill="#6b7fa3">Satisfaits</text>
-              </svg>
-              <div style="flex:1">
-                <div class="leg-item"><div class="leg-dot" style="background:#0057ff"></div>Satisfaits<span class="leg-pct" id="leg-satisfait">74%</span></div>
-                <div class="leg-item"><div class="leg-dot" style="background:#f59e0b"></div>Moyens<span class="leg-pct" id="leg-moyen">17%</span></div>
-                <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Négatifs<span class="leg-pct" id="leg-negatif">9%</span></div>
-              </div>
-            </div>
-            <div style="margin-top:10px">
-              <div class="sb-item"><div class="sb-row"><span>⭐⭐⭐⭐⭐</span><span class="sb-count" id="sb-5">-</span></div><div class="sb-bg"><div class="sb-fill" style="width:67%;background:#0057ff"></div></div></div>
-              <div class="sb-item"><div class="sb-row"><span>⭐⭐⭐⭐</span><span class="sb-count" id="sb-4">-</span></div><div class="sb-bg"><div class="sb-fill" style="width:43%;background:#4d8bff"></div></div></div>
-              <div class="sb-item"><div class="sb-row"><span>⭐⭐⭐</span><span class="sb-count" id="sb-3">-</span></div><div class="sb-bg"><div class="sb-fill" style="width:28%;background:#f59e0b"></div></div></div>
-              <div class="sb-item"><div class="sb-row"><span>⭐⭐</span><span class="sb-count" id="sb-2">-</span></div><div class="sb-bg"><div class="sb-fill" style="width:13%;background:#f87171"></div></div></div>
-              <div class="sb-item"><div class="sb-row"><span>⭐</span><span class="sb-count" id="sb-1">-</span></div><div class="sb-bg"><div class="sb-fill" style="width:6%;background:#ef4444"></div></div></div>
-            </div>
-          </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Avis générés total</div>
+          <div class="kpi-val" style="color:var(--success)">1 247</div>
+          <div class="kpi-sub up">↑ +312 ce mois</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Cabinets en alerte</div>
+          <div class="kpi-val" style="color:var(--danger)">2</div>
+          <div class="kpi-sub down">↓ Note < 3.5⭐</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Commerciaux actifs</div>
+          <div class="kpi-val" style="color:var(--warn)">3</div>
+          <div class="kpi-sub warn">→ 2 sous objectif</div>
         </div>
       </div>
 
-      <div class="row2 equal">
-        <div class="card">
-          <div class="card-head"><div><div class="card-title">Patients récents</div><div class="card-sub">Dernières réponses Google Sheet</div></div><span style="font-size:11.5px;color:var(--primary);font-weight:600;cursor:pointer" onclick="go('patients',null)">Voir tout →</span></div>
-          <div class="card-body" id="patients-list" style="padding-top:4px;padding-bottom:4px">
-            <div class="loading">⏳ Chargement des données...</div>
-          </div>
+      <!-- ALERTES -->
+      <div class="alertes-section">
+        <div class="alertes-title">
+          🚨 Alertes cabinets
+          <span class="alerte-badge">2 urgentes</span>
         </div>
-        <div class="card">
-          <div class="card-head"><div><div class="card-title">🔔 Alertes</div><div class="card-sub">Patients insatisfaits</div></div><span class="tag" id="tag-alertes">...</span></div>
-          <div class="card-body" id="alertes-list">
-            <div class="loading">⏳ Chargement...</div>
+        <div class="alerte-card warn">
+          <div class="alerte-icon red">⭐</div>
+          <div class="alerte-info">
+            <div class="alerte-name">Clinique Agdal — Rabat</div>
+            <div class="alerte-desc">Note Google : 3.2⭐ · 2 avis négatifs cette semaine · Assistante inactive depuis 3 jours</div>
+          </div>
+          <div class="alerte-action">Contacter →</div>
+        </div>
+        <div class="alerte-card medium">
+          <div class="alerte-icon orange">📉</div>
+          <div class="alerte-info">
+            <div class="alerte-name">Cabinet Al Fath — Casablanca</div>
+            <div class="alerte-desc">Taux de réponse : 12% · Seulement 3 avis ce mois · Objectif : 20</div>
+          </div>
+          <div class="alerte-action">Voir détails →</div>
+        </div>
+      </div>
+
+      <!-- CHART REVENUS -->
+      <div class="chart-section">
+        <div class="chart-title">📈 Revenus des 6 derniers mois</div>
+        <div class="chart-bars" id="chart-bars"></div>
+      </div>
+
+      <!-- TOP CABINETS -->
+      <div class="cab-table-wrap">
+        <div class="cab-table-head">
+          <div class="cab-table-title">Top cabinets ce mois</div>
+        </div>
+        <table class="tbl">
+          <thead><tr><th>Cabinet</th><th>Ville</th><th>Note</th><th>Avis/mois</th><th>Statut</th></tr></thead>
+          <tbody>
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">CH</div>Cabinet Hassan II</div></td><td>Casablanca</td><td style="color:var(--warn)">⭐ 4.8</td><td style="color:var(--success);font-weight:700">+47</td><td><span class="badge ok">Excellent</span></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">CM</div>Clinique Marjane</div></td><td>Marrakech</td><td style="color:var(--warn)">⭐ 4.6</td><td style="color:var(--success);font-weight:700">+38</td><td><span class="badge ok">Excellent</span></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#00c49a,#00a07e)">CA</div>Clinique Agdal</div></td><td>Rabat</td><td style="color:var(--danger)">⭐ 3.2</td><td style="color:var(--danger);font-weight:700">+4</td><td><span class="badge danger">⚠️ Alerte</span></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AF</div>Cabinet Al Fath</div></td><td>Casablanca</td><td style="color:var(--warn)">⭐ 4.3</td><td style="color:var(--warn);font-weight:700">+12</td><td><span class="badge warn">À suivre</span></td></tr>
+          </tbody>
+        </table>
+        <!-- Mobile -->
+        <div class="mob-only" style="padding:12px">
+          <div style="background:var(--surface2);border-radius:10px;padding:12px;margin-bottom:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-weight:700">Cabinet Hassan II</span><span class="badge ok">Excellent</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)"><span>Casablanca · 4.8⭐</span><span style="color:var(--success);font-weight:700">+47 avis</span></div>
+          </div>
+          <div style="background:var(--surface2);border-radius:10px;padding:12px;margin-bottom:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-weight:700">Clinique Agdal</span><span class="badge danger">⚠️ Alerte</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)"><span>Rabat · 3.2⭐</span><span style="color:var(--danger);font-weight:700">+4 avis</span></div>
           </div>
         </div>
       </div>
+
     </div>
 
-    <!-- CABINETS -->
+    <!-- ── CABINETS ── -->
     <div class="view" id="view-cabinets">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-        <div><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Cabinets 🇲🇦</div><div style="color:var(--muted);font-size:12px">8 clients actifs</div></div>
-        <button class="btn btn-primary" onclick="ouvrirModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Ajouter</button>
+        <div><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">Tous les cabinets</div><div style="color:var(--muted);font-size:12px">10 cabinets · 14 990 MAD/mois</div></div>
+        <input class="search-input" placeholder="🔍 Rechercher..." oninput="filterCabs(this.value)">
       </div>
-      <div class="cab-grid">
-        <div class="cab-card"><div class="cab-top"><div class="cab-logo" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">CH</div><div><div class="cab-name">Cabinet Hassan II</div><div class="cab-loc">📍 Casablanca · Dr. Ahmed Benali</div></div><div class="cab-status">Actif</div></div><div class="cab-stats"><div class="cab-stat"><div class="cab-val">4.8</div><div class="cab-lbl">Note</div></div><div class="cab-stat"><div class="cab-val">312</div><div class="cab-lbl">Patients</div></div><div class="cab-stat" style="background:var(--danger-bg)"><div class="cab-val" style="color:var(--danger)">5</div><div class="cab-lbl" style="color:var(--danger)">Alertes</div></div></div></div>
-        <div class="cab-card"><div class="cab-top"><div class="cab-logo" style="background:linear-gradient(135deg,#00c49a,#00a07e)">CA</div><div><div class="cab-name">Clinique Agdal</div><div class="cab-loc">📍 Rabat · Dr. Leila Fassi</div></div><div class="cab-status">Actif</div></div><div class="cab-stats"><div class="cab-stat"><div class="cab-val">3.8</div><div class="cab-lbl">Note</div></div><div class="cab-stat"><div class="cab-val">428</div><div class="cab-lbl">Patients</div></div><div class="cab-stat" style="background:var(--danger-bg)"><div class="cab-val" style="color:var(--danger)">9</div><div class="cab-lbl" style="color:var(--danger)">Alertes</div></div></div></div>
-        <div class="cab-card"><div class="cab-top"><div class="cab-logo" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AF</div><div><div class="cab-name">Cabinet Al Fath</div><div class="cab-loc">📍 Casablanca · Dr. Youssef Tazi</div></div><div class="cab-status">Actif</div></div><div class="cab-stats"><div class="cab-stat"><div class="cab-val">4.3</div><div class="cab-lbl">Note</div></div><div class="cab-stat"><div class="cab-val">198</div><div class="cab-lbl">Patients</div></div><div class="cab-stat" style="background:var(--warn-bg)"><div class="cab-val" style="color:var(--warn)">3</div><div class="cab-lbl" style="color:var(--warn)">Alertes</div></div></div></div>
-        <div class="cab-card"><div class="cab-top"><div class="cab-logo" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">CM</div><div><div class="cab-name">Clinique Marjane</div><div class="cab-loc">📍 Marrakech · Dr. Sara Alami</div></div><div class="cab-status">Actif</div></div><div class="cab-stats"><div class="cab-stat"><div class="cab-val">4.6</div><div class="cab-lbl">Note</div></div><div class="cab-stat"><div class="cab-val">156</div><div class="cab-lbl">Patients</div></div><div class="cab-stat" style="background:var(--success-bg)"><div class="cab-val" style="color:var(--success)">0</div><div class="cab-lbl" style="color:var(--success)">Alertes</div></div></div></div>
+      <div class="cab-table-wrap">
+        <table class="tbl" id="cabs-table">
+          <thead><tr><th>Cabinet</th><th>Ville</th><th>Commercial</th><th>Note</th><th>Avis/mois</th><th>Revenus</th><th>Statut</th></tr></thead>
+          <tbody id="cabs-tbody">
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">CH</div>Cabinet Hassan II</div></td><td>Casablanca</td><td>Youssef B.</td><td style="color:var(--warn)">⭐ 4.8</td><td style="color:var(--success);font-weight:700">47</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge ok">Actif</span></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">CM</div>Clinique Marjane</div></td><td>Marrakech</td><td>Sara K.</td><td style="color:var(--warn)">⭐ 4.6</td><td style="color:var(--success);font-weight:700">38</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge ok">Actif</span></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#00c49a,#00a07e)">CA</div>Clinique Agdal</div></td><td>Rabat</td><td>Youssef B.</td><td style="color:var(--danger)">⭐ 3.2</td><td style="color:var(--danger);font-weight:700">4</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge danger">⚠️ Alerte</span></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AF</div>Cabinet Al Fath</div></td><td>Casablanca</td><td>Omar T.</td><td style="color:var(--warn)">⭐ 4.3</td><td style="color:var(--warn);font-weight:700">12</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge warn">À suivre</span></td></tr>
+            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#ec4899,#db2777)">CF</div>Cabinet Fès Centre</div></td><td>Fès</td><td>Sara K.</td><td style="color:var(--warn)">⭐ 4.5</td><td style="color:var(--success);font-weight:700">28</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge ok">Actif</span></td></tr>
+          </tbody>
+        </table>
+        <div class="mob-only" id="cabs-mob" style="padding:12px"></div>
       </div>
     </div>
 
-    <!-- PATIENTS -->
-    <div class="view" id="view-patients">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-        <div><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">Patients</div><div style="color:var(--muted);font-size:12px" id="patients-count">Chargement...</div></div>
-        <select class="ctrl" id="filtre-statut"><option value="">Tous</option><option value="ok">Satisfait</option><option value="mid">Moyen</option><option value="bad">Insatisfait</option></select>
+    <!-- ── COMMERCIAUX ── -->
+    <div class="view" id="view-commerciaux">
+      <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">Mes commerciaux</div><div style="color:var(--muted);font-size:12px">3 commerciaux · Performance ce mois</div></div>
+      <div class="comm-grid">
+        <div class="comm-card">
+          <div class="comm-card-top">
+            <div class="comm-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">YB</div>
+            <div>
+              <div class="comm-name">Youssef Bennani</div>
+              <div class="comm-location">📍 Casablanca</div>
+            </div>
+            <span class="badge ok" style="margin-left:auto">🔥 Top</span>
+          </div>
+          <div class="comm-stats">
+            <div><div class="comm-stat-val" style="color:var(--primary)">5</div><div class="comm-stat-lbl">Cabinets</div></div>
+            <div><div class="comm-stat-val" style="color:var(--success)">2 247</div><div class="comm-stat-lbl">MAD gagné</div></div>
+            <div><div class="comm-stat-val" style="color:var(--warn)">50%</div><div class="comm-stat-lbl">Objectif</div></div>
+          </div>
+        </div>
+        <div class="comm-card">
+          <div class="comm-card-top">
+            <div class="comm-av" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">SK</div>
+            <div>
+              <div class="comm-name">Sara Khalil</div>
+              <div class="comm-location">📍 Marrakech</div>
+            </div>
+            <span class="badge warn" style="margin-left:auto">En cours</span>
+          </div>
+          <div class="comm-stats">
+            <div><div class="comm-stat-val" style="color:var(--primary)">3</div><div class="comm-stat-lbl">Cabinets</div></div>
+            <div><div class="comm-stat-val" style="color:var(--success)">1 349</div><div class="comm-stat-lbl">MAD gagné</div></div>
+            <div><div class="comm-stat-val" style="color:var(--warn)">30%</div><div class="comm-stat-lbl">Objectif</div></div>
+          </div>
+        </div>
+        <div class="comm-card">
+          <div class="comm-card-top">
+            <div class="comm-av" style="background:linear-gradient(135deg,#00c49a,#00a07e)">OT</div>
+            <div>
+              <div class="comm-name">Omar Tahiri</div>
+              <div class="comm-location">📍 Rabat</div>
+            </div>
+            <span class="badge danger" style="margin-left:auto">⚠️ Faible</span>
+          </div>
+          <div class="comm-stats">
+            <div><div class="comm-stat-val" style="color:var(--danger)">1</div><div class="comm-stat-lbl">Cabinets</div></div>
+            <div><div class="comm-stat-val" style="color:var(--warn)">449</div><div class="comm-stat-lbl">MAD gagné</div></div>
+            <div><div class="comm-stat-val" style="color:var(--danger)">10%</div><div class="comm-stat-lbl">Objectif</div></div>
+          </div>
+        </div>
       </div>
-      <!-- Desktop -->
-      <div class="card tbl-wrap">
+    </div>
+
+    <!-- ── REVENUS ── -->
+    <div class="view" id="view-revenus">
+      <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">Revenus MediPulse 💰</div><div style="color:var(--muted);font-size:12px">Historique et projections</div></div>
+      <div class="kpi-grid" style="margin-bottom:20px">
+        <div class="kpi-card"><div class="kpi-label">Ce mois</div><div class="kpi-val" style="color:var(--primary)">14 990 MAD</div><div class="kpi-sub up">↑ +25% vs dernier mois</div></div>
+        <div class="kpi-card"><div class="kpi-label">Marge nette</div><div class="kpi-val" style="color:var(--success)">12 440 MAD</div><div class="kpi-sub up">↑ 83% de marge</div></div>
+        <div class="kpi-card"><div class="kpi-label">Commissions payées</div><div class="kpi-val" style="color:var(--warn)">2 550 MAD</div><div class="kpi-sub warn">→ 3 commerciaux</div></div>
+        <div class="kpi-card"><div class="kpi-label">Projection 12 mois</div><div class="kpi-val" style="color:var(--primary)">179 880 MAD</div><div class="kpi-sub up">↑ Si rythme maintenu</div></div>
+      </div>
+      <div class="chart-section">
+        <div class="chart-title">📈 Évolution des revenus</div>
+        <div class="chart-bars" id="chart-bars-2"></div>
+      </div>
+      <div class="cab-table-wrap">
+        <div class="cab-table-head"><div class="cab-table-title">Détail par mois</div></div>
         <table class="tbl">
-          <thead><tr><th>Patient</th><th>Note</th><th>Langue</th><th>Statut</th><th>Commentaire</th><th>Date</th></tr></thead>
-          <tbody id="patients-table-body">
-            <tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted)">⏳ Chargement...</td></tr>
+          <thead><tr><th>Mois</th><th>Cabinets</th><th>Revenus bruts</th><th>Commissions</th><th>Charges</th><th>Marge nette</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Mai 2026</strong></td><td>10</td><td style="color:var(--primary);font-weight:700">14 990 MAD</td><td style="color:var(--warn)">-2 550 MAD</td><td style="color:var(--muted)">-1 000 MAD</td><td style="color:var(--success);font-weight:700">11 440 MAD</td></tr>
+            <tr><td><strong>Avril 2026</strong></td><td>8</td><td style="color:var(--primary);font-weight:700">11 992 MAD</td><td style="color:var(--warn)">-2 045 MAD</td><td style="color:var(--muted)">-800 MAD</td><td style="color:var(--success);font-weight:700">9 147 MAD</td></tr>
+            <tr><td><strong>Mars 2026</strong></td><td>6</td><td style="color:var(--primary);font-weight:700">8 994 MAD</td><td style="color:var(--warn)">-1 530 MAD</td><td style="color:var(--muted)">-600 MAD</td><td style="color:var(--success);font-weight:700">6 864 MAD</td></tr>
           </tbody>
         </table>
       </div>
-      <!-- Mobile -->
-      <div class="mob-cards" id="patients-mob-cards">
-        <div class="loading">⏳ Chargement...</div>
-      </div>
     </div>
 
-    <!-- ALERTES -->
+    <!-- ── ALERTES ── -->
     <div class="view" id="view-alertes">
-      <div style="margin-bottom:16px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">🔔 Toutes les alertes</div><div style="color:var(--muted);font-size:12px" id="alertes-count">Chargement...</div></div>
-      <div class="card"><div class="card-body" id="alertes-full-list"><div class="loading">⏳ Chargement...</div></div></div>
-    </div>
-
-    <!-- COMMERCIAUX -->
-    <div class="view" id="view-commerciaux">
-      <div style="margin-bottom:16px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">💼 Commerciaux</div><div style="color:var(--muted);font-size:12px">3 actifs</div></div>
-      <div class="cab-grid">
-        <div class="cab-card"><div class="cab-top"><div class="cab-logo" style="background:linear-gradient(135deg,#f59e0b,#d97706)">YB</div><div><div class="cab-name">Youssef Bennani</div><div class="cab-loc">💼 Casablanca</div></div><span style="background:var(--success-bg);color:var(--success);font-size:10px;font-weight:700;padding:3px 7px;border-radius:20px">Actif</span></div><div class="cab-stats"><div class="cab-stat"><div class="cab-val">10</div><div class="cab-lbl">Cabinets</div></div><div class="cab-stat"><div class="cab-val" style="color:var(--success)">478</div><div class="cab-lbl">MAD/mois</div></div><div class="cab-stat"><div class="cab-val">90%</div><div class="cab-lbl">Rétention</div></div></div></div>
-        <div class="cab-card"><div class="cab-top"><div class="cab-logo" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">KE</div><div><div class="cab-name">Karim El Fassi</div><div class="cab-loc">💼 Rabat</div></div><span style="background:var(--success-bg);color:var(--success);font-size:10px;font-weight:700;padding:3px 7px;border-radius:20px">Actif</span></div><div class="cab-stats"><div class="cab-stat"><div class="cab-val">7</div><div class="cab-lbl">Cabinets</div></div><div class="cab-stat"><div class="cab-val" style="color:var(--success)">340</div><div class="cab-lbl">MAD/mois</div></div><div class="cab-stat"><div class="cab-val">85%</div><div class="cab-lbl">Rétention</div></div></div></div>
+      <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">🚨 Alertes</div><div style="color:var(--muted);font-size:12px">2 cabinets nécessitent une attention immédiate</div></div>
+      <div class="alerte-card warn" style="margin-bottom:10px">
+        <div class="alerte-icon red">⭐</div>
+        <div class="alerte-info">
+          <div class="alerte-name">Clinique Agdal — Rabat</div>
+          <div class="alerte-desc">Note Google : 3.2⭐ · 2 avis négatifs cette semaine · Assistante inactive depuis 3 jours · Taux de réponse : 8%</div>
+        </div>
+        <div class="alerte-action">Contacter →</div>
       </div>
-    </div>
-
-    <!-- STATS -->
-    <div class="view" id="view-stats">
-      <div style="margin-bottom:16px"><div style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px">📊 Statistiques</div></div>
-      <div class="row2 equal">
-        <div class="card"><div class="card-head"><div><div class="card-title">Revenus mensuels</div></div></div><div class="card-body"><div style="text-align:center;padding:20px 0"><div style="font-family:'Playfair Display',serif;font-size:34px;font-weight:800;color:var(--success)">2 392 MAD</div><div style="color:var(--muted);font-size:12px;margin-top:4px">8 cabinets × 299 MAD</div><div style="margin-top:12px;display:inline-flex;align-items:center;gap:5px;background:var(--success-bg);color:var(--success);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600">↑ +598 MAD vs mars</div></div></div></div>
-        <div class="card"><div class="card-head"><div><div class="card-title">Croissance</div></div></div><div class="card-body">
-          <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px;font-weight:500"><span>Cabinets actifs</span><span style="color:var(--primary)">8/10</span></div><div style="height:8px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:80%;height:100%;background:var(--primary);border-radius:10px"></div></div></div>
-          <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px;font-weight:500"><span>Satisfaction moy.</span><span id="stat-satisfaction" style="color:var(--success)">...</span></div><div style="height:8px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:92%;height:100%;background:var(--success);border-radius:10px"></div></div></div>
-          <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:12px;font-weight:500"><span>Taux réponse</span><span style="color:var(--warn)">38%</span></div><div style="height:8px;background:var(--border);border-radius:10px;overflow:hidden"><div style="width:38%;height:100%;background:var(--warn);border-radius:10px"></div></div></div>
-        </div></div>
+      <div class="alerte-card medium" style="margin-bottom:10px">
+        <div class="alerte-icon orange">📉</div>
+        <div class="alerte-info">
+          <div class="alerte-name">Cabinet Al Fath — Casablanca</div>
+          <div class="alerte-desc">Taux de réponse : 12% · Seulement 3 avis ce mois · Objectif : 20 · Risque de churn élevé</div>
+        </div>
+        <div class="alerte-action">Voir détails →</div>
+      </div>
+      <div style="background:var(--success-bg);border:1px solid rgba(0,196,154,.2);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px">
+        <div style="font-size:20px">✅</div>
+        <div><div style="font-weight:600;font-size:13px;color:var(--success)">8 cabinets en bonne santé</div><div style="font-size:12px;color:var(--muted)">Note moyenne 4.5⭐ · Taux de réponse moyen 38%</div></div>
       </div>
     </div>
 
@@ -409,340 +463,14 @@ select.ctrl{background:var(--surface2);border:1.5px solid var(--border);border-r
   <div class="bottom-nav-inner">
     <div class="bn-item active" id="bn-dashboard" onclick="go('dashboard',this)"><svg viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg><span>Dashboard</span></div>
     <div class="bn-item" id="bn-cabinets" onclick="go('cabinets',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg><span>Cabinets</span></div>
-    <div class="bn-item" id="bn-patients" onclick="go('patients',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Patients</span></div>
-    <div class="bn-item" id="bn-alertes" onclick="go('alertes',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg><span>Alertes</span></div>
-    <div class="bn-item" id="bn-stats" onclick="go('stats',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span>Stats</span></div>
+    <div class="bn-item" id="bn-commerciaux" onclick="go('commerciaux',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg><span>Commerciaux</span></div>
+    <div class="bn-item" id="bn-alertes" onclick="go('alertes',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><span>Alertes</span></div>
   </div>
 </nav>
 
 <script>
-// ═══ GOOGLE SHEETS CONFIG ═══
-const SHEET_ID = '1LV7RMfmxJXopO942FBenTQYTGcMUxZT_4QYypQrHeMU';
-const SHEET_NAME = 'Fusion AR & FR';
-const API_KEY = 'AIzaSyCy3jfMxuWxeQXE0L7rLm3AZbNwCQegneM';
-
-let allRows = [];
-
-function getNote(str) {
-  if(!str) return 0;
-  const stars = (str.match(/\u2B50/g)||str.match(/★/g)||str.match(/[\u2B50\u2605\u2736]/g)||[]).length;
-  if(stars > 0) return stars;
-  const n = parseInt(str);
-  return isNaN(n) ? 0 : n;
-}
-
-function getStatut(note) {
-  if(note >= 4) return {cls:'ok', label:'Satisfait'};
-  if(note === 3) return {cls:'mid', label:'Moyen'};
-  return {cls:'bad', label:'Insatisfait'};
-}
-
-function getInitiales(nom) {
-  return (nom||'?').split(' ').map(n=>n[0]||'').join('').toUpperCase().slice(0,2) || '??';
-}
-
-async function loadSheetData() {
-  try {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_NAME)}?key=${API_KEY}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    if(!data.values) return;
-    allRows = data.values.slice(1).filter(r => r[0]);
-
-    const total = allRows.length;
-    let s5=0,s4=0,s3=0,s2=0,s1=0;
-    let totalNote=0, insatisfait=0, moyen=0, satisfait=0;
-
-    allRows.forEach(row => {
-      const note = getNote(row[1]);
-      totalNote += note;
-      if(note===5) s5++;
-      else if(note===4) s4++;
-      else if(note===3){s3++;moyen++;}
-      else if(note===2){s2++;insatisfait++;}
-      else if(note===1){s1++;insatisfait++;}
-      if(note>=4) satisfait++;
-    });
-
-    const avg = total>0 ? (totalNote/total).toFixed(1) : '0.0';
-    const pctS = total>0 ? Math.round(satisfait/total*100) : 0;
-    const pctM = total>0 ? Math.round(moyen/total*100) : 0;
-    const pctN = total>0 ? Math.round(insatisfait/total*100) : 0;
-
-    // KPIs
-    document.getElementById('kpi-patients').textContent = total;
-    document.getElementById('kpi-satisfaction').textContent = avg+'/5';
-    document.getElementById('kpi-moyens').textContent = moyen;
-    document.getElementById('kpi-alertes').textContent = insatisfait;
-    document.getElementById('badge-alertes').textContent = insatisfait;
-    document.getElementById('tag-alertes').textContent = insatisfait+' actives';
-
-    // Stats
-    const statSat = document.getElementById('stat-satisfaction');
-    if(statSat) statSat.textContent = avg+'/5';
-
-    // Donut
-    document.getElementById('donut-pct').textContent = pctS+'%';
-    document.getElementById('leg-satisfait').textContent = pctS+'%';
-    document.getElementById('leg-moyen').textContent = pctM+'%';
-    document.getElementById('leg-negatif').textContent = pctN+'%';
-
-    // Star bars
-    document.getElementById('sb-5').textContent = s5;
-    document.getElementById('sb-4').textContent = s4;
-    document.getElementById('sb-3').textContent = s3;
-    document.getElementById('sb-2').textContent = s2;
-    document.getElementById('sb-1').textContent = s1;
-
-    // Patients récents
-    renderPatientsList(allRows.slice(-5).reverse(), 'patients-list', true);
-
-    // Alertes dashboard
-    renderAlertes(allRows.filter(r=>getNote(r[1])<3).slice(-5), 'alertes-list');
-
-    // Patients page
-    document.getElementById('patients-count').textContent = total+' réponses collectées';
-    renderPatientsTable(allRows);
-
-    // Alertes page
-    const insRows = allRows.filter(r=>getNote(r[1])<3);
-    document.getElementById('alertes-count').textContent = insRows.length+' alertes actives';
-    renderAlertesFull(insRows);
-
-  } catch(e) {
-    console.error('Erreur Google Sheets:', e);
-  }
-}
-
-function renderPatientsList(rows, containerId, mini=false) {
-  const el = document.getElementById(containerId);
-  if(!el) return;
-  if(rows.length===0){el.innerHTML='<div class="loading">Aucune donnée</div>';return;}
-  el.innerHTML = rows.map(row => {
-    const nom = row[2]||'Anonyme';
-    const note = getNote(row[1]);
-    const date = row[0]||'';
-    const {cls,label} = getStatut(note);
-    const stars = '★'.repeat(Math.min(note,5))+'☆'.repeat(Math.max(0,5-note));
-    const init = getInitiales(nom);
-    const colors = {ok:'#e6eeff;color:#0057ff',mid:'#fef8e7;color:#f59e0b',bad:'#fef2f2;color:#ef4444'};
-    return `<div class="p-row">
-      <div class="p-av" style="background:${colors[cls].split(';')[0].split(':')[1]};color:${colors[cls].split(';')[1].split(':')[1]}">${init}</div>
-      <div class="p-info"><div class="p-name">${nom}</div><div class="p-meta">${date}</div></div>
-      <div class="stars">${stars}</div>
-      <span class="badge ${cls}">${label}</span>
-    </div>`;
-  }).join('');
-}
-
-function renderAlertes(rows, containerId) {
-  const el = document.getElementById(containerId);
-  if(!el) return;
-  if(rows.length===0){el.innerHTML='<div style="color:var(--success);font-weight:600;text-align:center;padding:16px">✅ Aucune alerte !</div>';return;}
-  el.innerHTML = rows.map(row => {
-    const nom = row[2]||'Anonyme';
-    const note = getNote(row[1]);
-    const date = row[0]||'';
-    const cls = note<=1?'danger':'warn';
-    return `<div class="alert ${cls}">
-      <div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-      <div class="alert-body"><div class="alert-title">${nom} — ${note}/5 ⭐</div><div class="alert-desc">${date}</div></div>
-      <span class="alert-cta">Agir →</span>
-    </div>`;
-  }).join('');
-}
-
-function renderAlertesFull(rows) {
-  const el = document.getElementById('alertes-full-list');
-  if(!el) return;
-  if(rows.length===0){el.innerHTML='<div style="color:var(--success);font-weight:600;text-align:center;padding:24px">✅ Aucune alerte active !</div>';return;}
-  el.innerHTML = rows.map(row => {
-    const nom = row[2]||'Anonyme';
-    const note = getNote(row[1]);
-    const date = row[0]||'';
-    const commentaire = row[3]||'';
-    const cls = note<=1?'danger':'warn';
-    return `<div class="alert ${cls}" style="margin-bottom:10px">
-      <div class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-      <div class="alert-body"><div class="alert-title">${nom} — ${note}/5 ⭐</div><div class="alert-desc">${commentaire||'Action recommandée'} · ${date}</div></div>
-      <span class="alert-cta">Agir →</span>
-    </div>`;
-  }).join('');
-}
-
-function renderPatientsTable(rows) {
-  const tbody = document.getElementById('patients-table-body');
-  const mobCards = document.getElementById('patients-mob-cards');
-  if(!tbody) return;
-  if(rows.length===0){
-    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted)">Aucune donnée</td></tr>';
-    return;
-  }
-  tbody.innerHTML = rows.slice().reverse().map(row => {
-    const nom = row[2]||'Anonyme';
-    const note = getNote(row[1]);
-    const langue = row[4]||'';
-    const commentaire = row[3]||'';
-    const date = row[0]||'';
-    const {cls,label} = getStatut(note);
-    const stars = '★'.repeat(Math.min(note,5));
-    const bg = cls==='bad'?'background:#fff5f5':'';
-    return `<tr style="${bg}">
-      <td><strong>${nom}</strong></td>
-      <td>${stars}</td>
-      <td><span style="font-size:10px;padding:2px 6px;border-radius:4px;background:var(--surface2)">${langue}</span></td>
-      <td><span class="badge ${cls}">${label}</span></td>
-      <td style="color:var(--muted);font-style:italic">${commentaire?'"'+commentaire+'"':''}</td>
-      <td style="color:var(--muted)">${date}</td>
-    </tr>`;
-  }).join('');
-
-  if(mobCards) {
-    mobCards.innerHTML = rows.slice().reverse().slice(0,20).map(row => {
-      const nom = row[2]||'Anonyme';
-      const note = getNote(row[1]);
-      const langue = row[4]||'';
-      const commentaire = row[3]||'';
-      const date = row[0]||'';
-      const {cls,label} = getStatut(note);
-      const stars = '★'.repeat(Math.min(note,5));
-      const borderColor = cls==='bad'?'border-color:#fca5a5':'';
-      return `<div class="mob-card" style="${borderColor}">
-        <div class="mob-card-top"><span class="mob-card-title">${nom}</span><span class="badge ${cls}">${label}</span></div>
-        <div class="mob-card-row"><span class="mob-card-lbl">Note</span><span class="mob-card-val">${stars}</span></div>
-        <div class="mob-card-row"><span class="mob-card-lbl">Langue</span><span class="mob-card-val">${langue}</span></div>
-        ${commentaire?`<div class="mob-card-row"><span class="mob-card-lbl">Commentaire</span><span class="mob-card-val" style="color:var(--muted);font-style:italic">"${commentaire}"</span></div>`:''}
-        <div class="mob-card-row"><span class="mob-card-lbl">Date</span><span class="mob-card-val">${date}</span></div>
-      </div>`;
-    }).join('');
-  }
-}
-
-// Navigation
-function ouvrirModal(){document.getElementById('modal-cabinet').style.display='flex';}
-function fermerModal(){document.getElementById('modal-cabinet').style.display='none';document.getElementById('modal-success').style.display='none';}
-
-async function ajouterCabinet(){
-  const nom = document.getElementById('cab-nom').value.trim();
-  const medecin = document.getElementById('cab-medecin').value.trim();
-  const ville = document.getElementById('cab-ville').value;
-  const email = document.getElementById('cab-email').value.trim();
-  const sheet = document.getElementById('cab-sheet').value.trim();
-  const plan = document.getElementById('cab-plan').value;
-
-  if(!nom||!medecin||!email||!sheet){alert('Veuillez remplir tous les champs !');return;}
-
-  // Créer utilisateur Supabase
-  try{
-    const res = await fetch('https://czttvnvcetgmjfqishig.supabase.co/auth/v1/admin/users',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','apikey':'sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m','Authorization':'Bearer sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m'},
-      body:JSON.stringify({email:email,password:'medecin123',email_confirm:true})
-    });
-
-    // Affiche succès
-    document.getElementById('modal-success').style.display='block';
-    
-    // Log dans console pour garder trace
-    console.log('Nouveau cabinet:', {nom, medecin, ville, email, sheet, plan});
-    
-    // Reset form
-    setTimeout(()=>{
-      document.getElementById('cab-nom').value='';
-      document.getElementById('cab-medecin').value='';
-      document.getElementById('cab-email').value='';
-      document.getElementById('cab-sheet').value='';
-      fermerModal();
-    },3000);
-
-  }catch(e){
-    alert('Erreur: '+e.message);
-  }
-}
-
-function ouvrirModal(){document.getElementById('modal-cabinet').style.display='flex';}
-function fermerModal(){document.getElementById('modal-cabinet').style.display='none';document.getElementById('modal-success').style.display='none';}
-
-async function ajouterCabinet(){
-  const nom = document.getElementById('cab-nom').value.trim();
-  const medecin = document.getElementById('cab-medecin').value.trim();
-  const ville = document.getElementById('cab-ville').value;
-  const email = document.getElementById('cab-email').value.trim();
-  const sheet = document.getElementById('cab-sheet').value.trim();
-  const plan = document.getElementById('cab-plan').value;
-
-  if(!nom||!medecin||!email||!sheet){alert('Veuillez remplir tous les champs !');return;}
-
-  // Créer utilisateur Supabase
-  try{
-    const res = await fetch('https://czttvnvcetgmjfqishig.supabase.co/auth/v1/admin/users',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','apikey':'sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m','Authorization':'Bearer sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m'},
-      body:JSON.stringify({email:email,password:'medecin123',email_confirm:true})
-    });
-
-    // Affiche succès
-    document.getElementById('modal-success').style.display='block';
-    
-    // Log dans console pour garder trace
-    console.log('Nouveau cabinet:', {nom, medecin, ville, email, sheet, plan});
-    
-    // Reset form
-    setTimeout(()=>{
-      document.getElementById('cab-nom').value='';
-      document.getElementById('cab-medecin').value='';
-      document.getElementById('cab-email').value='';
-      document.getElementById('cab-sheet').value='';
-      fermerModal();
-    },3000);
-
-  }catch(e){
-    alert('Erreur: '+e.message);
-  }
-}
-
-function ouvrirModal(){document.getElementById('modal-cabinet').style.display='flex';}
-function fermerModal(){document.getElementById('modal-cabinet').style.display='none';document.getElementById('modal-success').style.display='none';}
-
-async function ajouterCabinet(){
-  const nom = document.getElementById('cab-nom').value.trim();
-  const medecin = document.getElementById('cab-medecin').value.trim();
-  const ville = document.getElementById('cab-ville').value;
-  const email = document.getElementById('cab-email').value.trim();
-  const sheet = document.getElementById('cab-sheet').value.trim();
-  const plan = document.getElementById('cab-plan').value;
-
-  if(!nom||!medecin||!email||!sheet){alert('Veuillez remplir tous les champs !');return;}
-
-  // Créer utilisateur Supabase
-  try{
-    const res = await fetch('https://czttvnvcetgmjfqishig.supabase.co/auth/v1/admin/users',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','apikey':'sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m','Authorization':'Bearer sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m'},
-      body:JSON.stringify({email:email,password:'medecin123',email_confirm:true})
-    });
-
-    // Affiche succès
-    document.getElementById('modal-success').style.display='block';
-    
-    // Log dans console pour garder trace
-    console.log('Nouveau cabinet:', {nom, medecin, ville, email, sheet, plan});
-    
-    // Reset form
-    setTimeout(()=>{
-      document.getElementById('cab-nom').value='';
-      document.getElementById('cab-medecin').value='';
-      document.getElementById('cab-email').value='';
-      document.getElementById('cab-sheet').value='';
-      fermerModal();
-    },3000);
-
-  }catch(e){
-    alert('Erreur: '+e.message);
-  }
-}
-
-const T={dashboard:"Vue d'ensemble 👑",cabinets:"Cabinets 🇲🇦",patients:"Patients",alertes:"🔔 Alertes",commerciaux:"💼 Commerciaux",stats:"📊 Statistiques"};
+// NAVIGATION
+const T={dashboard:'Vue globale 👑',cabinets:'Tous les cabinets',commerciaux:'Mes commerciaux',revenus:'Revenus 💰',alertes:'🚨 Alertes'};
 function go(name,el){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
@@ -754,9 +482,38 @@ function go(name,el){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// Chargement initial + refresh toutes les 30s
-loadSheetData();
-setInterval(loadSheetData, 30000);
+// CHART
+const months=['Nov','Déc','Jan','Fév','Mar','Avr','Mai'];
+const revenues=[3000,4498,5996,8994,9992,11992,14990];
+const maxRev=Math.max(...revenues);
+
+function buildChart(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.innerHTML='';
+  months.forEach((m,i)=>{
+    const pct=Math.round((revenues[i]/maxRev)*100);
+    const wrap=document.createElement('div');
+    wrap.className='chart-bar-wrap';
+    wrap.innerHTML=`
+      <div class="chart-bar-val">${(revenues[i]/1000).toFixed(1)}k</div>
+      <div class="chart-bar" style="height:${pct}%;background:${i===months.length-1?'var(--success)':'var(--primary)'}"></div>
+      <div class="chart-bar-lbl">${m}</div>
+    `;
+    el.appendChild(wrap);
+  });
+}
+
+// SEARCH CABINETS
+function filterCabs(q){
+  const rows=document.querySelectorAll('#cabs-tbody tr');
+  rows.forEach(r=>{
+    r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';
+  });
+}
+
+buildChart('chart-bars');
+buildChart('chart-bars-2');
 </script>
 </body>
 </html>
