@@ -359,7 +359,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
             <div class="bonus-unlock" id="sim-bonus-wrap">
               <div class="bu-title">🏆 Bonus objectif débloqué !</div>
               <div class="bu-val" id="sim-r-bonus">+2 990 MAD</div>
-              <div class="bu-sub">Si tu atteins 10 cabinets ce mois</div>
+              <div class="bu-sub">
+  Paliers : 5 cab → +250 MAD · 10 cab → +500 MAD · 15 cab → +750 MAD
+</div>
             </div>
           </div>
         </div>
@@ -519,9 +521,17 @@ function updateSim(){
   document.getElementById('sim-r-total').textContent=total.toLocaleString('fr-FR')+' MAD';
 
   const bonusWrap=document.getElementById('sim-bonus-wrap');
-  if(nouveaux+actifs>=10){
+  const totalCab=nouveaux+actifs;
+  let bonus=0,bonusLabel='';
+  if(totalCab>=15){bonus=750;bonusLabel='🏆 Palier 15 cabinets atteint !';}
+  else if(totalCab>=10){bonus=500;bonusLabel='🥇 Palier 10 cabinets atteint !';}
+  else if(totalCab>=5){bonus=250;bonusLabel='🥈 Palier 5 cabinets atteint !';}
+  
+  if(bonus>0){
     bonusWrap.style.display='block';
-    document.getElementById('sim-r-bonus').textContent='+2 990 MAD';
+    document.getElementById('sim-r-bonus').textContent='+'+bonus+' MAD';
+    document.querySelector('.bu-title').textContent=bonusLabel;
+    document.querySelector('.bu-sub').textContent='Bonus débloqué sur '+totalCab+' cabinets signés';
   } else {
     bonusWrap.style.display='none';
   }
