@@ -257,9 +257,40 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   .content{display:none;}
 
   /* Show mobile */
-  .mob-app{display:block;padding-bottom:calc(70px + env(safe-area-inset-bottom));}
+  .mob-app{display:block;padding-bottom:calc(80px + env(safe-area-inset-bottom));width:100%;overflow-x:hidden;}
   .bottom-nav{display:block;}
   .fab{display:flex;}
+
+  /* Fix mobile layout */
+  .app-header{padding:20px 16px 0;width:100%;}
+  .app-quick-stats{padding:0 16px 16px;gap:8px;}
+  .app-stat{padding:12px 6px;}
+  .app-stat-val{font-size:18px;}
+  .app-hero-card{padding:16px;}
+  .app-hero-val{font-size:32px;}
+  .mob-app > div{width:100%;overflow-x:hidden;}
+  .app-card{margin:0;border-radius:16px;}
+  .mob-cab-row{padding:12px 14px;}
+  .mob-cab-name{font-size:13px;}
+  .mob-sim-card{border-radius:16px;}
+  .mob-comm-card{border-radius:14px;}
+
+  /* Fix scroll */
+  html,body{overflow-x:hidden;width:100%;}
+  
+  /* Fix bottom nav */
+  .bottom-nav-bg{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    padding:8px 12px;
+    background:rgba(255,255,255,.98);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-top:1px solid var(--border);
+    box-shadow:0 -4px 20px rgba(0,0,0,.08);
+  }
 }
 </style>
 </head>
