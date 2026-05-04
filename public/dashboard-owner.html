@@ -52,25 +52,24 @@ nav{padding:14px 10px;flex:1;}
 .view{display:none;}
 .view.active{display:block;}
 
-/* HERO REVENUS */
+/* HERO */
 .revenue-hero{background:linear-gradient(135deg,#0a1628,#0d2452);border-radius:20px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden;}
 .revenue-hero::before{content:'';position:absolute;right:-40px;top:-40px;width:220px;height:220px;background:radial-gradient(rgba(77,139,255,.2),transparent 70%);pointer-events:none;}
 .rh-inner{position:relative;z-index:1;}
 .rh-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:20px;}
 .rh-label{font-size:12px;color:rgba(255,255,255,.45);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;}
 .rh-val{font-weight:900;font-size:40px;color:#fff;letter-spacing:-2px;line-height:1;}
-.rh-sub{font-size:12px;color:rgba(255,255,255,.45);margin-top:4px;}
 .rh-trend{font-size:12px;color:var(--success);font-weight:600;margin-top:4px;}
+.rh-sub{font-size:12px;color:rgba(255,255,255,.45);margin-top:4px;}
 .rh-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 .rh-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;}
 .rh-stat-val{font-weight:800;font-size:22px;color:#fff;letter-spacing:-1px;margin-bottom:4px;}
 .rh-stat-lbl{font-size:11px;color:rgba(255,255,255,.4);}
 .rh-stat-sub{font-size:11px;color:var(--success);margin-top:2px;}
 
-/* KPI GRID */
+/* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
-.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;transition:all .2s;}
-.kpi-card:hover{box-shadow:0 8px 24px rgba(0,87,255,.08);transform:translateY(-1px);}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;}
 .kpi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:7px;}
 .kpi-val{font-weight:800;font-size:24px;letter-spacing:-1px;line-height:1;margin-bottom:5px;}
 .kpi-sub{font-size:11px;color:var(--muted);}
@@ -82,8 +81,7 @@ nav{padding:14px 10px;flex:1;}
 .alertes-section{margin-bottom:20px;}
 .alertes-title{font-weight:700;font-size:14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
 .alerte-badge{background:var(--danger-bg);color:var(--danger);font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;}
-.alerte-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;transition:all .2s;}
-.alerte-card:hover{border-color:var(--danger);box-shadow:0 4px 16px rgba(239,68,68,.08);}
+.alerte-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
 .alerte-card.warn{border-left:3px solid var(--danger);}
 .alerte-card.medium{border-left:3px solid var(--warn);}
 .alerte-icon{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:16px;flex-shrink:0;}
@@ -93,13 +91,12 @@ nav{padding:14px 10px;flex:1;}
 .alerte-name{font-weight:600;font-size:13px;margin-bottom:2px;}
 .alerte-desc{font-size:12px;color:var(--muted);}
 .alerte-action{font-size:12px;font-weight:600;color:var(--primary);cursor:pointer;white-space:nowrap;}
-.alerte-action:hover{text-decoration:underline;}
 
-/* CABINETS TABLE */
+/* TABLE */
 .cab-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px;}
 .cab-table-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
 .cab-table-title{font-weight:700;font-size:14px;}
-.search-input{padding:7px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;width:200px;transition:border-color .2s;}
+.search-input{padding:7px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;width:200px;}
 .search-input:focus{border-color:var(--primary);}
 .tbl{width:100%;border-collapse:collapse;}
 .tbl th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface2);}
@@ -123,13 +120,12 @@ nav{padding:14px 10px;flex:1;}
 .comm-stat-val{font-weight:800;font-size:18px;letter-spacing:-.5px;}
 .comm-stat-lbl{font-size:10px;color:var(--muted);margin-top:2px;}
 
-/* REVENUS CHART */
+/* CHART */
 .chart-section{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:20px;}
 .chart-title{font-weight:700;font-size:14px;margin-bottom:16px;}
 .chart-bars{display:flex;align-items:flex-end;gap:8px;height:120px;}
 .chart-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
-.chart-bar{width:100%;border-radius:6px 6px 0 0;background:var(--primary);transition:all .3s;cursor:pointer;position:relative;}
-.chart-bar:hover{background:#0046cc;}
+.chart-bar{width:100%;border-radius:6px 6px 0 0;background:var(--primary);transition:all .3s;cursor:pointer;}
 .chart-bar-val{font-size:9px;font-weight:700;color:var(--muted);text-align:center;}
 .chart-bar-lbl{font-size:9px;color:var(--muted);text-align:center;}
 
@@ -139,9 +135,8 @@ nav{padding:14px 10px;flex:1;}
 .bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:rgba(255,255,255,.45);font-size:9px;font-weight:600;border-radius:12px;transition:all .2s;padding:6px 2px;}
 .bn-item svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;}
 .bn-item.active{color:#fff;background:var(--primary);}
-
-/* MOB */
 .mob-only{display:none;}
+
 @media(max-width:1024px){.kpi-grid{grid-template-columns:1fr 1fr;}.rh-stats{grid-template-columns:1fr 1fr;}}
 @media(max-width:768px){
   .sidebar{display:none;}.main{margin-left:0;}
@@ -152,8 +147,7 @@ nav{padding:14px 10px;flex:1;}
   .kpi-val{font-size:20px;}
   .rh-val{font-size:30px;}
   .rh-stats{grid-template-columns:1fr;}
-  .tbl{display:none;}
-  .mob-only{display:block;}
+  .tbl{display:none;}.mob-only{display:block;}
   .comm-grid{grid-template-columns:1fr;}
 }
 </style>
@@ -161,7 +155,6 @@ nav{padding:14px 10px;flex:1;}
 <body>
 <div class="shell">
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="logo">
     <div class="logo-icon"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
@@ -201,17 +194,13 @@ nav{padding:14px 10px;flex:1;}
 <main class="main">
   <div class="topbar">
     <div style="flex:1"><div class="topbar-title" id="t-title">Vue globale 👑</div></div>
-    <button class="btn-primary" onclick="openModal()">
-      + Nouveau cabinet
-    </button>
+    <button class="btn-primary" onclick="openModal()">+ Nouveau cabinet</button>
   </div>
 
   <div class="content">
 
-    <!-- ── DASHBOARD ── -->
+    <!-- DASHBOARD -->
     <div class="view active" id="view-dashboard">
-
-      <!-- HERO REVENUS -->
       <div class="revenue-hero">
         <div class="rh-inner">
           <div class="rh-top">
@@ -228,230 +217,98 @@ nav{padding:14px 10px;flex:1;}
             </div>
           </div>
           <div class="rh-stats">
-            <div class="rh-stat">
-              <div class="rh-stat-val">10</div>
-              <div class="rh-stat-lbl">Cabinets actifs</div>
-              <div class="rh-stat-sub">↑ +2 ce mois</div>
-            </div>
-            <div class="rh-stat">
-              <div class="rh-stat-val">1 249 MAD</div>
-              <div class="rh-stat-lbl">Marge nette / cabinet</div>
-              <div class="rh-stat-sub">Après commissions</div>
-            </div>
-            <div class="rh-stat">
-              <div class="rh-stat-val">83%</div>
-              <div class="rh-stat-lbl">Marge globale</div>
-              <div class="rh-stat-sub">↑ Excellent</div>
-            </div>
+            <div class="rh-stat"><div class="rh-stat-val">10</div><div class="rh-stat-lbl">Cabinets actifs</div><div class="rh-stat-sub">↑ +2 ce mois</div></div>
+            <div class="rh-stat"><div class="rh-stat-val">1 249 MAD</div><div class="rh-stat-lbl">Marge nette / cabinet</div><div class="rh-stat-sub">Après commissions</div></div>
+            <div class="rh-stat"><div class="rh-stat-val">83%</div><div class="rh-stat-lbl">Marge globale</div><div class="rh-stat-sub">↑ Excellent</div></div>
           </div>
         </div>
       </div>
 
-      <!-- KPIs -->
       <div class="kpi-grid">
-        <div class="kpi-card">
-          <div class="kpi-label">Cabinets actifs</div>
-          <div class="kpi-val" style="color:var(--primary)">10</div>
-          <div class="kpi-sub up">↑ +2 ce mois</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Avis générés total</div>
-          <div class="kpi-val" style="color:var(--success)">1 247</div>
-          <div class="kpi-sub up">↑ +312 ce mois</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Cabinets en alerte</div>
-          <div class="kpi-val" style="color:var(--danger)">2</div>
-          <div class="kpi-sub down">↓ Note < 3.5⭐</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-label">Commerciaux actifs</div>
-          <div class="kpi-val" style="color:var(--warn)">3</div>
-          <div class="kpi-sub warn">→ 2 sous objectif</div>
-        </div>
+        <div class="kpi-card"><div class="kpi-label">Cabinets actifs</div><div class="kpi-val" style="color:var(--primary)">10</div><div class="kpi-sub up">↑ +2 ce mois</div></div>
+        <div class="kpi-card"><div class="kpi-label">Avis générés total</div><div class="kpi-val" style="color:var(--success)">1 247</div><div class="kpi-sub up">↑ +312 ce mois</div></div>
+        <div class="kpi-card"><div class="kpi-label">Cabinets en alerte</div><div class="kpi-val" style="color:var(--danger)">2</div><div class="kpi-sub down">↓ Note < 3.5⭐</div></div>
+        <div class="kpi-card"><div class="kpi-label">Commerciaux actifs</div><div class="kpi-val" style="color:var(--warn)">3</div><div class="kpi-sub warn">→ 2 sous objectif</div></div>
       </div>
 
-      <!-- ALERTES -->
       <div class="alertes-section">
-        <div class="alertes-title">
-          🚨 Alertes cabinets
-          <span class="alerte-badge">2 urgentes</span>
-        </div>
-        <div class="alerte-card warn">
-          <div class="alerte-icon red">⭐</div>
-          <div class="alerte-info">
-            <div class="alerte-name">Clinique Agdal — Rabat</div>
-            <div class="alerte-desc">Note Google : 3.2⭐ · 2 avis négatifs cette semaine · Assistante inactive depuis 3 jours</div>
-          </div>
-          <div class="alerte-action">Contacter →</div>
-        </div>
-        <div class="alerte-card medium">
-          <div class="alerte-icon orange">📉</div>
-          <div class="alerte-info">
-            <div class="alerte-name">Cabinet Al Fath — Casablanca</div>
-            <div class="alerte-desc">Taux de réponse : 12% · Seulement 3 avis ce mois · Objectif : 20</div>
-          </div>
-          <div class="alerte-action">Voir détails →</div>
-        </div>
+        <div class="alertes-title">🚨 Alertes cabinets <span class="alerte-badge">2 urgentes</span></div>
+        <div class="alerte-card warn"><div class="alerte-icon red">⭐</div><div class="alerte-info"><div class="alerte-name">Clinique Agdal — Rabat</div><div class="alerte-desc">Note Google : 3.2⭐ · 2 avis négatifs · Assistante inactive depuis 3 jours</div></div><div class="alerte-action">Contacter →</div></div>
+        <div class="alerte-card medium"><div class="alerte-icon orange">📉</div><div class="alerte-info"><div class="alerte-name">Cabinet Al Fath — Casablanca</div><div class="alerte-desc">Taux de réponse : 12% · Seulement 3 avis ce mois · Objectif : 20</div></div><div class="alerte-action">Voir détails →</div></div>
       </div>
 
-      <!-- CHART REVENUS -->
       <div class="chart-section">
         <div class="chart-title">📈 Revenus des 6 derniers mois</div>
         <div class="chart-bars" id="chart-bars"></div>
       </div>
 
-      <!-- TOP CABINETS -->
       <div class="cab-table-wrap">
-        <div class="cab-table-head">
-          <div class="cab-table-title">Top cabinets ce mois</div>
-        </div>
+        <div class="cab-table-head"><div class="cab-table-title">Top cabinets ce mois</div></div>
         <table class="tbl">
           <thead><tr><th>Cabinet</th><th>Ville</th><th>Note</th><th>Avis/mois</th><th>Statut</th></tr></thead>
           <tbody>
             <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">CH</div>Cabinet Hassan II</div></td><td>Casablanca</td><td style="color:var(--warn)">⭐ 4.8</td><td style="color:var(--success);font-weight:700">+47</td><td><span class="badge ok">Excellent</span></td></tr>
             <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">CM</div>Clinique Marjane</div></td><td>Marrakech</td><td style="color:var(--warn)">⭐ 4.6</td><td style="color:var(--success);font-weight:700">+38</td><td><span class="badge ok">Excellent</span></td></tr>
             <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#00c49a,#00a07e)">CA</div>Clinique Agdal</div></td><td>Rabat</td><td style="color:var(--danger)">⭐ 3.2</td><td style="color:var(--danger);font-weight:700">+4</td><td><span class="badge danger">⚠️ Alerte</span></td></tr>
-            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AF</div>Cabinet Al Fath</div></td><td>Casablanca</td><td style="color:var(--warn)">⭐ 4.3</td><td style="color:var(--warn);font-weight:700">+12</td><td><span class="badge warn">À suivre</span></td></tr>
           </tbody>
         </table>
-        <!-- Mobile -->
         <div class="mob-only" style="padding:12px">
-          <div style="background:var(--surface2);border-radius:10px;padding:12px;margin-bottom:8px">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-weight:700">Cabinet Hassan II</span><span class="badge ok">Excellent</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)"><span>Casablanca · 4.8⭐</span><span style="color:var(--success);font-weight:700">+47 avis</span></div>
-          </div>
-          <div style="background:var(--surface2);border-radius:10px;padding:12px;margin-bottom:8px">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-weight:700">Clinique Agdal</span><span class="badge danger">⚠️ Alerte</span></div>
-            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)"><span>Rabat · 3.2⭐</span><span style="color:var(--danger);font-weight:700">+4 avis</span></div>
-          </div>
+          <div style="background:var(--surface2);border-radius:10px;padding:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-weight:700">Cabinet Hassan II</span><span class="badge ok">Excellent</span></div><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)"><span>Casablanca · 4.8⭐</span><span style="color:var(--success);font-weight:700">+47 avis</span></div></div>
+          <div style="background:var(--surface2);border-radius:10px;padding:12px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-weight:700">Clinique Agdal</span><span class="badge danger">⚠️ Alerte</span></div><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted)"><span>Rabat · 3.2⭐</span><span style="color:var(--danger);font-weight:700">+4 avis</span></div></div>
         </div>
       </div>
-
     </div>
 
-    <!-- ── CABINETS ── -->
+    <!-- CABINETS -->
     <div class="view" id="view-cabinets">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
         <div><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">Tous les cabinets</div><div style="color:var(--muted);font-size:12px">10 cabinets · 14 990 MAD/mois</div></div>
         <input class="search-input" placeholder="🔍 Rechercher..." oninput="filterCabs(this.value)">
       </div>
       <div class="cab-table-wrap">
-        <table class="tbl" id="cabs-table">
+        <table class="tbl">
           <thead><tr><th>Cabinet</th><th>Ville</th><th>Commercial</th><th>Note</th><th>Avis/mois</th><th>Revenus</th><th>Statut</th></tr></thead>
           <tbody id="cabs-tbody">
             <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">CH</div>Cabinet Hassan II</div></td><td>Casablanca</td><td>Youssef B.</td><td style="color:var(--warn)">⭐ 4.8</td><td style="color:var(--success);font-weight:700">47</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge ok">Actif</span></td></tr>
             <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">CM</div>Clinique Marjane</div></td><td>Marrakech</td><td>Sara K.</td><td style="color:var(--warn)">⭐ 4.6</td><td style="color:var(--success);font-weight:700">38</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge ok">Actif</span></td></tr>
             <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#00c49a,#00a07e)">CA</div>Clinique Agdal</div></td><td>Rabat</td><td>Youssef B.</td><td style="color:var(--danger)">⭐ 3.2</td><td style="color:var(--danger);font-weight:700">4</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge danger">⚠️ Alerte</span></td></tr>
             <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AF</div>Cabinet Al Fath</div></td><td>Casablanca</td><td>Omar T.</td><td style="color:var(--warn)">⭐ 4.3</td><td style="color:var(--warn);font-weight:700">12</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge warn">À suivre</span></td></tr>
-            <tr><td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,#ec4899,#db2777)">CF</div>Cabinet Fès Centre</div></td><td>Fès</td><td>Sara K.</td><td style="color:var(--warn)">⭐ 4.5</td><td style="color:var(--success);font-weight:700">28</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge ok">Actif</span></td></tr>
           </tbody>
         </table>
-        <div class="mob-only" id="cabs-mob" style="padding:12px"></div>
       </div>
     </div>
 
-    <!-- ── COMMERCIAUX ── -->
+    <!-- COMMERCIAUX -->
     <div class="view" id="view-commerciaux">
       <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">Mes commerciaux</div><div style="color:var(--muted);font-size:12px">3 commerciaux · Performance ce mois</div></div>
       <div class="comm-grid">
-        <div class="comm-card">
-          <div class="comm-card-top">
-            <div class="comm-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">YB</div>
-            <div>
-              <div class="comm-name">Youssef Bennani</div>
-              <div class="comm-location">📍 Casablanca</div>
-            </div>
-            <span class="badge ok" style="margin-left:auto">🔥 Top</span>
-          </div>
-          <div class="comm-stats">
-            <div><div class="comm-stat-val" style="color:var(--primary)">5</div><div class="comm-stat-lbl">Cabinets</div></div>
-            <div><div class="comm-stat-val" style="color:var(--success)">2 247</div><div class="comm-stat-lbl">MAD gagné</div></div>
-            <div><div class="comm-stat-val" style="color:var(--warn)">50%</div><div class="comm-stat-lbl">Objectif</div></div>
-          </div>
-        </div>
-        <div class="comm-card">
-          <div class="comm-card-top">
-            <div class="comm-av" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">SK</div>
-            <div>
-              <div class="comm-name">Sara Khalil</div>
-              <div class="comm-location">📍 Marrakech</div>
-            </div>
-            <span class="badge warn" style="margin-left:auto">En cours</span>
-          </div>
-          <div class="comm-stats">
-            <div><div class="comm-stat-val" style="color:var(--primary)">3</div><div class="comm-stat-lbl">Cabinets</div></div>
-            <div><div class="comm-stat-val" style="color:var(--success)">1 349</div><div class="comm-stat-lbl">MAD gagné</div></div>
-            <div><div class="comm-stat-val" style="color:var(--warn)">30%</div><div class="comm-stat-lbl">Objectif</div></div>
-          </div>
-        </div>
-        <div class="comm-card">
-          <div class="comm-card-top">
-            <div class="comm-av" style="background:linear-gradient(135deg,#00c49a,#00a07e)">OT</div>
-            <div>
-              <div class="comm-name">Omar Tahiri</div>
-              <div class="comm-location">📍 Rabat</div>
-            </div>
-            <span class="badge danger" style="margin-left:auto">⚠️ Faible</span>
-          </div>
-          <div class="comm-stats">
-            <div><div class="comm-stat-val" style="color:var(--danger)">1</div><div class="comm-stat-lbl">Cabinets</div></div>
-            <div><div class="comm-stat-val" style="color:var(--warn)">449</div><div class="comm-stat-lbl">MAD gagné</div></div>
-            <div><div class="comm-stat-val" style="color:var(--danger)">10%</div><div class="comm-stat-lbl">Objectif</div></div>
-          </div>
-        </div>
+        <div class="comm-card"><div class="comm-card-top"><div class="comm-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">YB</div><div><div class="comm-name">Youssef Bennani</div><div class="comm-location">📍 Casablanca</div></div><span class="badge ok" style="margin-left:auto">🔥 Top</span></div><div class="comm-stats"><div><div class="comm-stat-val" style="color:var(--primary)">5</div><div class="comm-stat-lbl">Cabinets</div></div><div><div class="comm-stat-val" style="color:var(--success)">2 247</div><div class="comm-stat-lbl">MAD gagné</div></div><div><div class="comm-stat-val" style="color:var(--warn)">50%</div><div class="comm-stat-lbl">Objectif</div></div></div></div>
+        <div class="comm-card"><div class="comm-card-top"><div class="comm-av" style="background:linear-gradient(135deg,#0057ff,#4d8bff)">SK</div><div><div class="comm-name">Sara Khalil</div><div class="comm-location">📍 Marrakech</div></div><span class="badge warn" style="margin-left:auto">En cours</span></div><div class="comm-stats"><div><div class="comm-stat-val" style="color:var(--primary)">3</div><div class="comm-stat-lbl">Cabinets</div></div><div><div class="comm-stat-val" style="color:var(--success)">1 349</div><div class="comm-stat-lbl">MAD gagné</div></div><div><div class="comm-stat-val" style="color:var(--warn)">30%</div><div class="comm-stat-lbl">Objectif</div></div></div></div>
+        <div class="comm-card"><div class="comm-card-top"><div class="comm-av" style="background:linear-gradient(135deg,#00c49a,#00a07e)">OT</div><div><div class="comm-name">Omar Tahiri</div><div class="comm-location">📍 Rabat</div></div><span class="badge danger" style="margin-left:auto">⚠️ Faible</span></div><div class="comm-stats"><div><div class="comm-stat-val" style="color:var(--danger)">1</div><div class="comm-stat-lbl">Cabinets</div></div><div><div class="comm-stat-val" style="color:var(--warn)">449</div><div class="comm-stat-lbl">MAD gagné</div></div><div><div class="comm-stat-val" style="color:var(--danger)">10%</div><div class="comm-stat-lbl">Objectif</div></div></div></div>
       </div>
     </div>
 
-    <!-- ── REVENUS ── -->
+    <!-- REVENUS -->
     <div class="view" id="view-revenus">
-      <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">Revenus MediPulse 💰</div><div style="color:var(--muted);font-size:12px">Historique et projections</div></div>
+      <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">Revenus MediPulse 💰</div></div>
       <div class="kpi-grid" style="margin-bottom:20px">
-        <div class="kpi-card"><div class="kpi-label">Ce mois</div><div class="kpi-val" style="color:var(--primary)">14 990 MAD</div><div class="kpi-sub up">↑ +25% vs dernier mois</div></div>
-        <div class="kpi-card"><div class="kpi-label">Marge nette</div><div class="kpi-val" style="color:var(--success)">12 440 MAD</div><div class="kpi-sub up">↑ 83% de marge</div></div>
-        <div class="kpi-card"><div class="kpi-label">Commissions payées</div><div class="kpi-val" style="color:var(--warn)">2 550 MAD</div><div class="kpi-sub warn">→ 3 commerciaux</div></div>
+        <div class="kpi-card"><div class="kpi-label">Ce mois</div><div class="kpi-val" style="color:var(--primary)">14 990 MAD</div><div class="kpi-sub up">↑ +25%</div></div>
+        <div class="kpi-card"><div class="kpi-label">Marge nette</div><div class="kpi-val" style="color:var(--success)">12 440 MAD</div><div class="kpi-sub up">↑ 83%</div></div>
+        <div class="kpi-card"><div class="kpi-label">Commissions</div><div class="kpi-val" style="color:var(--warn)">2 550 MAD</div><div class="kpi-sub warn">→ 3 commerciaux</div></div>
         <div class="kpi-card"><div class="kpi-label">Projection 12 mois</div><div class="kpi-val" style="color:var(--primary)">179 880 MAD</div><div class="kpi-sub up">↑ Si rythme maintenu</div></div>
       </div>
       <div class="chart-section">
         <div class="chart-title">📈 Évolution des revenus</div>
         <div class="chart-bars" id="chart-bars-2"></div>
       </div>
-      <div class="cab-table-wrap">
-        <div class="cab-table-head"><div class="cab-table-title">Détail par mois</div></div>
-        <table class="tbl">
-          <thead><tr><th>Mois</th><th>Cabinets</th><th>Revenus bruts</th><th>Commissions</th><th>Charges</th><th>Marge nette</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Mai 2026</strong></td><td>10</td><td style="color:var(--primary);font-weight:700">14 990 MAD</td><td style="color:var(--warn)">-2 550 MAD</td><td style="color:var(--muted)">-1 000 MAD</td><td style="color:var(--success);font-weight:700">11 440 MAD</td></tr>
-            <tr><td><strong>Avril 2026</strong></td><td>8</td><td style="color:var(--primary);font-weight:700">11 992 MAD</td><td style="color:var(--warn)">-2 045 MAD</td><td style="color:var(--muted)">-800 MAD</td><td style="color:var(--success);font-weight:700">9 147 MAD</td></tr>
-            <tr><td><strong>Mars 2026</strong></td><td>6</td><td style="color:var(--primary);font-weight:700">8 994 MAD</td><td style="color:var(--warn)">-1 530 MAD</td><td style="color:var(--muted)">-600 MAD</td><td style="color:var(--success);font-weight:700">6 864 MAD</td></tr>
-          </tbody>
-        </table>
-      </div>
     </div>
 
-    <!-- ── ALERTES ── -->
+    <!-- ALERTES -->
     <div class="view" id="view-alertes">
       <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">🚨 Alertes</div><div style="color:var(--muted);font-size:12px">2 cabinets nécessitent une attention immédiate</div></div>
-      <div class="alerte-card warn" style="margin-bottom:10px">
-        <div class="alerte-icon red">⭐</div>
-        <div class="alerte-info">
-          <div class="alerte-name">Clinique Agdal — Rabat</div>
-          <div class="alerte-desc">Note Google : 3.2⭐ · 2 avis négatifs cette semaine · Assistante inactive depuis 3 jours · Taux de réponse : 8%</div>
-        </div>
-        <div class="alerte-action">Contacter →</div>
-      </div>
-      <div class="alerte-card medium" style="margin-bottom:10px">
-        <div class="alerte-icon orange">📉</div>
-        <div class="alerte-info">
-          <div class="alerte-name">Cabinet Al Fath — Casablanca</div>
-          <div class="alerte-desc">Taux de réponse : 12% · Seulement 3 avis ce mois · Objectif : 20 · Risque de churn élevé</div>
-        </div>
-        <div class="alerte-action">Voir détails →</div>
-      </div>
-      <div style="background:var(--success-bg);border:1px solid rgba(0,196,154,.2);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px">
-        <div style="font-size:20px">✅</div>
-        <div><div style="font-weight:600;font-size:13px;color:var(--success)">8 cabinets en bonne santé</div><div style="font-size:12px;color:var(--muted)">Note moyenne 4.5⭐ · Taux de réponse moyen 38%</div></div>
-      </div>
+      <div class="alerte-card warn" style="margin-bottom:10px"><div class="alerte-icon red">⭐</div><div class="alerte-info"><div class="alerte-name">Clinique Agdal — Rabat</div><div class="alerte-desc">Note Google : 3.2⭐ · 2 avis négatifs · Assistante inactive depuis 3 jours</div></div><div class="alerte-action">Contacter →</div></div>
+      <div class="alerte-card medium" style="margin-bottom:10px"><div class="alerte-icon orange">📉</div><div class="alerte-info"><div class="alerte-name">Cabinet Al Fath — Casablanca</div><div class="alerte-desc">Taux de réponse : 12% · 3 avis ce mois · Risque de churn</div></div><div class="alerte-action">Voir détails →</div></div>
+      <div style="background:var(--success-bg);border:1px solid rgba(0,196,154,.2);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px"><div style="font-size:20px">✅</div><div><div style="font-weight:600;font-size:13px;color:var(--success)">8 cabinets en bonne santé</div><div style="font-size:12px;color:var(--muted)">Note moyenne 4.5⭐ · Taux de réponse moyen 38%</div></div></div>
     </div>
 
   </div>
@@ -468,8 +325,45 @@ nav{padding:14px 10px;flex:1;}
   </div>
 </nav>
 
+<!-- MODAL -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:16px;">
+  <div style="background:#fff;border-radius:20px;padding:28px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div style="font-weight:800;font-size:18px;color:#0a1628;">+ Nouveau cabinet</div>
+      <div onclick="closeModal()" style="cursor:pointer;width:28px;height:28px;background:#f1f5fb;border-radius:50%;display:grid;place-items:center;font-size:16px;color:#0a1628;">×</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div><label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#6b7fa3;display:block;margin-bottom:6px;">Nom du cabinet</label><input id="m-cabinet" type="text" placeholder="Ex: Cabinet Hassan II" style="width:100%;padding:10px 14px;border:1px solid #e4ecf7;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;color:#0a1628;" onfocus="this.style.borderColor='#0057ff'" onblur="this.style.borderColor='#e4ecf7'"></div>
+      <div><label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#6b7fa3;display:block;margin-bottom:6px;">Nom du médecin</label><input id="m-medecin" type="text" placeholder="Ex: Dr. Ahmed Benali" style="width:100%;padding:10px 14px;border:1px solid #e4ecf7;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;color:#0a1628;" onfocus="this.style.borderColor='#0057ff'" onblur="this.style.borderColor='#e4ecf7'"></div>
+      <div><label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#6b7fa3;display:block;margin-bottom:6px;">Email du médecin</label><input id="m-email" type="email" placeholder="Ex: docteur@gmail.com" style="width:100%;padding:10px 14px;border:1px solid #e4ecf7;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;color:#0a1628;" onfocus="this.style.borderColor='#0057ff'" onblur="this.style.borderColor='#e4ecf7'"></div>
+      <div><label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#6b7fa3;display:block;margin-bottom:6px;">Spécialité</label>
+        <select id="m-specialite" style="width:100%;padding:10px 14px;border:1px solid #e4ecf7;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:#fff;color:#0a1628;">
+          <option>Médecin généraliste</option><option>Gynécologie-Obstétrique</option><option>Pédiatrie</option><option>Dermatologie</option><option>Médecine esthétique</option><option>Cardiologie</option><option>Ophtalmologie</option><option>Dentiste / Stomatologie</option><option>Orthopédie</option><option>Neurologie</option><option>Gastro-entérologie</option><option>Pneumologie</option><option>Urologie</option><option>ORL</option><option>Endocrinologie</option><option>Rhumatologie</option><option>Psychiatrie</option><option>Radiologie</option><option>Chirurgie générale</option><option>Chirurgie esthétique</option><option>Néphrologie</option><option>Hématologie</option><option>Oncologie</option><option>Infectiologie</option><option>Médecine interne</option><option>Kinésithérapie</option><option>Nutrition / Diététique</option><option>Autre</option>
+        </select>
+      </div>
+      <div><label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#6b7fa3;display:block;margin-bottom:6px;">Ville</label>
+        <select id="m-ville" style="width:100%;padding:10px 14px;border:1px solid #e4ecf7;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:#fff;color:#0a1628;">
+          <option>Casablanca</option><option>Rabat</option><option>Marrakech</option><option>Fès</option><option>Tanger</option><option>Agadir</option><option>Oujda</option><option>Meknès</option><option>Kenitra</option><option>Tétouan</option>
+        </select>
+      </div>
+      <div><label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#6b7fa3;display:block;margin-bottom:6px;">Téléphone</label><input id="m-tel" type="tel" placeholder="Ex: 0612345678" style="width:100%;padding:10px 14px;border:1px solid #e4ecf7;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;color:#0a1628;" onfocus="this.style.borderColor='#0057ff'" onblur="this.style.borderColor='#e4ecf7'"></div>
+      <div><label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#6b7fa3;display:block;margin-bottom:6px;">Commercial assigné</label>
+        <select id="m-commercial" style="width:100%;padding:10px 14px;border:1px solid #e4ecf7;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:#fff;color:#0a1628;">
+          <option>Youssef Bennani</option><option>Sara Khalil</option><option>Omar Tahiri</option>
+        </select>
+      </div>
+      <div id="modal-status" style="display:none;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;text-align:center;"></div>
+      <div style="display:flex;gap:10px;margin-top:6px;">
+        <button onclick="closeModal()" style="flex:1;padding:12px;border:1px solid #e4ecf7;border-radius:10px;font-family:'Inter',sans-serif;font-weight:600;font-size:14px;cursor:pointer;background:#fff;color:#6b7fa3;">Annuler</button>
+        <button id="btn-ajouter" onclick="ajouterCabinet()" style="flex:2;padding:12px;border:none;border-radius:10px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;cursor:pointer;background:#0057ff;color:#fff;">✓ Créer le cabinet</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-// NAVIGATION
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwYr7q7WCTCVaiP08KGnPOKiChyOZNg9wCLFpC1d84evPkyGjDskevv4n2h1Y48nWv7/exec';
+
 const T={dashboard:'Vue globale 👑',cabinets:'Tous les cabinets',commerciaux:'Mes commerciaux',revenus:'Revenus 💰',alertes:'🚨 Alertes'};
 function go(name,el){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
@@ -482,11 +376,88 @@ function go(name,el){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// CHART
+function openModal(){
+  document.getElementById('modal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modal').style.display='none';
+  document.body.style.overflow='';
+}
+
+async function ajouterCabinet(){
+  const cab=document.getElementById('m-cabinet').value.trim();
+  const med=document.getElementById('m-medecin').value.trim();
+  const email=document.getElementById('m-email').value.trim();
+  const spec=document.getElementById('m-specialite').value;
+  const ville=document.getElementById('m-ville').value;
+  const tel=document.getElementById('m-tel').value.trim();
+
+  if(!cab||!med||!email){
+    showStatus('❌ Remplissez le nom du cabinet, du médecin et l\'email !','#fef2f2','#ef4444');
+    return;
+  }
+
+  const btn=document.getElementById('btn-ajouter');
+  btn.textContent='⏳ Création en cours...';
+  btn.disabled=true;
+  showStatus('⏳ Création du Sheet, des Forms et envoi de l\'email...','#e6eeff','#0057ff');
+
+  try {
+    const res=await fetch(SCRIPT_URL,{
+      method:'POST',
+      body:JSON.stringify({nomCabinet:cab,nomMedecin:med,email,specialite:spec,ville,tel})
+    });
+    const data=await res.json();
+
+    if(data.success){
+      showStatus('✅ Cabinet créé ! Sheet + Forms + Email envoyé au médecin 🎉','#e6faf5','#00c49a');
+
+      // Ajouter dans le tableau
+      const tbody=document.getElementById('cabs-tbody');
+      const initials=cab.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+      const colors=['#0057ff','#00c49a','#f59e0b','#7c3aed','#ec4899','#ef4444'];
+      const color=colors[Math.floor(Math.random()*colors.length)];
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,${color},${color}99)">${initials}</div>${cab}</div></td><td>${ville}</td><td>—</td><td style="color:var(--muted)">⭐ —</td><td style="color:var(--muted)">0</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge warn">Nouveau</span></td>`;
+      tbody.insertBefore(tr,tbody.firstChild);
+
+      setTimeout(()=>{
+        closeModal();
+        btn.textContent='✓ Créer le cabinet';
+        btn.disabled=false;
+        document.getElementById('m-cabinet').value='';
+        document.getElementById('m-medecin').value='';
+        document.getElementById('m-email').value='';
+        document.getElementById('m-tel').value='';
+      },2000);
+    } else {
+      throw new Error(data.error||'Erreur inconnue');
+    }
+  } catch(err){
+    showStatus('⚠️ Créé localement — vérifiez votre Drive !','#fef8e7','#f59e0b');
+    btn.textContent='✓ Créer le cabinet';
+    btn.disabled=false;
+  }
+}
+
+function showStatus(msg,bg,color){
+  const el=document.getElementById('modal-status');
+  el.style.display='block';
+  el.style.background=bg;
+  el.style.color=color;
+  el.textContent=msg;
+}
+
+function filterCabs(q){
+  document.querySelectorAll('#cabs-tbody tr').forEach(r=>{
+    r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';
+  });
+}
+
 const months=['Nov','Déc','Jan','Fév','Mar','Avr','Mai'];
 const revenues=[3000,4498,5996,8994,9992,11992,14990];
 const maxRev=Math.max(...revenues);
-
 function buildChart(id){
   const el=document.getElementById(id);
   if(!el)return;
@@ -495,345 +466,12 @@ function buildChart(id){
     const pct=Math.round((revenues[i]/maxRev)*100);
     const wrap=document.createElement('div');
     wrap.className='chart-bar-wrap';
-    wrap.innerHTML=`
-      <div class="chart-bar-val">${(revenues[i]/1000).toFixed(1)}k</div>
-      <div class="chart-bar" style="height:${pct}%;background:${i===months.length-1?'var(--success)':'var(--primary)'}"></div>
-      <div class="chart-bar-lbl">${m}</div>
-    `;
+    wrap.innerHTML=`<div class="chart-bar-val">${(revenues[i]/1000).toFixed(1)}k</div><div class="chart-bar" style="height:${pct}%;background:${i===months.length-1?'var(--success)':'var(--primary)'}"></div><div class="chart-bar-lbl">${m}</div>`;
     el.appendChild(wrap);
   });
 }
-
-// SEARCH CABINETS
-function filterCabs(q){
-  const rows=document.querySelectorAll('#cabs-tbody tr');
-  rows.forEach(r=>{
-    r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';
-  });
-}
-
 buildChart('chart-bars');
 buildChart('chart-bars-2');
-</script>
-<!-- MODAL -->
-<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:16px;">
-  <div style="background:#fff;border-radius:20px;padding:28px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-      <div style="font-weight:800;font-size:18px;">+ Nouveau cabinet</div>
-      <div onclick="closeModal()" style="cursor:pointer;width:28px;height:28px;background:var(--surface2);border-radius:50%;display:grid;place-items:center;font-size:16px;">×</div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px;">
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Nom du cabinet</label>
-        <input id="m-cabinet" type="text" placeholder="Ex: Cabinet Hassan II" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Nom du médecin</label>
-        <input id="m-medecin" type="text" placeholder="Ex: Dr. Ahmed Benali" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Spécialité</label>
-        <select id="m-specialite" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:#fff;">
-          <option>Médecin généraliste</option>
-          <option>Gynécologie-Obstétrique</option>
-          <option>Pédiatrie</option>
-          <option>Dermatologie</option>
-          <option>Médecine esthétique</option>
-          <option>Cardiologie</option>
-          <option>Ophtalmologie</option>
-          <option>Dentiste / Stomatologie</option>
-          <option>Orthopédie</option>
-          <option>Neurologie</option>
-          <option>Gastro-entérologie</option>
-          <option>Pneumologie</option>
-          <option>Urologie</option>
-          <option>ORL</option>
-          <option>Endocrinologie</option>
-          <option>Rhumatologie</option>
-          <option>Psychiatrie</option>
-          <option>Radiologie</option>
-          <option>Chirurgie générale</option>
-          <option>Chirurgie esthétique</option>
-          <option>Néphrologie</option>
-          <option>Hématologie</option>
-          <option>Oncologie</option>
-          <option>Infectiologie</option>
-          <option>Médecine interne</option>
-          <option>Kinésithérapie</option>
-          <option>Nutrition / Diététique</option>
-          <option>Autre</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Ville</label>
-        <select id="m-ville" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:#fff;">
-          <option>Casablanca</option>
-          <option>Rabat</option>
-          <option>Marrakech</option>
-          <option>Fès</option>
-          <option>Tanger</option>
-          <option>Agadir</option>
-          <option>Oujda</option>
-          <option>Meknès</option>
-          <option>Kenitra</option>
-          <option>Tétouan</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Téléphone</label>
-        <input id="m-tel" type="tel" placeholder="Ex: 0612345678" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Commercial assigné</label>
-        <select id="m-commercial" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:#fff;">
-          <option>Youssef Bennani</option>
-          <option>Sara Khalil</option>
-          <option>Omar Tahiri</option>
-        </select>
-      </div>
-      <div style="display:flex;gap:10px;margin-top:6px;">
-        <button onclick="closeModal()" style="flex:1;padding:12px;border:1px solid var(--border);border-radius:10px;font-family:'Inter',sans-serif;font-weight:600;font-size:14px;cursor:pointer;background:#fff;color:var(--muted);">Annuler</button>
-        <button onclick="ajouterCabinet()" style="flex:2;padding:12px;border:none;border-radius:10px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;cursor:pointer;background:var(--primary);color:#fff;">✓ Ajouter le cabinet</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-function openModal(){
-  const m=document.getElementById('modal');
-  m.style.display='flex';
-  document.body.style.overflow='hidden';
-}
-function closeModal(){
-  document.getElementById('modal').style.display='none';
-  document.body.style.overflow='';
-}
-function ajouterCabinet(){
-  const cab=document.getElementById('m-cabinet').value;
-  const med=document.getElementById('m-medecin').value;
-  const ville=document.getElementById('m-ville').value;
-  const comm=document.getElementById('m-commercial').value;
-  if(!cab||!med){alert('Remplissez au moins le nom du cabinet et du médecin !');return;}
-  const tbody=document.getElementById('cabs-tbody');
-  const initials=cab.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-  const colors=['#0057ff','#00c49a','#f59e0b','#7c3aed','#ec4899','#ef4444'];
-  const color=colors[Math.floor(Math.random()*colors.length)];
-  const tr=document.createElement('tr');
-  tr.innerHTML=`<td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,${color},${color}99)">${initials}</div>${cab}</div></td><td>${ville}</td><td>${comm.split(' ')[0]}</td><td style="color:var(--muted)">⭐ —</td><td style="color:var(--muted)">0</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge warn">Nouveau</span></td>`;
-  tbody.insertBefore(tr,tbody.firstChild);
-  closeModal();
-  const notif=document.createElement('div');
-  notif.style.cssText='position:fixed;bottom:20px;right:20px;background:#0a1628;color:#fff;padding:14px 18px;border-radius:12px;font-size:13px;font-weight:600;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.2);';
-  notif.innerHTML='✅ Cabinet ajouté avec succès !';
-  document.body.appendChild(notif);
-  setTimeout(()=>notif.remove(),3000);
-  document.getElementById('m-cabinet').value='';
-  document.getElementById('m-medecin').value='';
-  document.getElementById('m-tel').value='';
-}
-</script>
-<!-- MODAL -->
-<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:16px;">
-  <div style="background:#fff;border-radius:20px;padding:28px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-      <div style="font-weight:800;font-size:18px;">+ Nouveau cabinet</div>
-      <div onclick="closeModal()" style="cursor:pointer;width:28px;height:28px;background:var(--surface2);border-radius:50%;display:grid;place-items:center;font-size:16px;">×</div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px;">
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Nom du cabinet</label>
-        <input id="m-cabinet" type="text" placeholder="Ex: Cabinet Hassan II" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Nom du médecin</label>
-        <input id="m-medecin" type="text" placeholder="Ex: Dr. Ahmed Benali" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Spécialité</label>
-        <select id="m-specialite" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:#fff;">
-          <option>Médecin généraliste</option>
-          <option>Gynécologie</option>
-          <option>Pédiatrie</option>
-          <option>Dermatologie</option>
-          <option>Cardiologie</option>
-          <option>Ophtalmologie</option>
-          <option>Dentiste</option>
-          <option>Orthopédie</option>
-          <option>Neurologie</option>
-          <option>Gastro-entérologie</option>
-          <option>Autre</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Ville</label>
-        <select id="m-ville" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:#fff;">
-          <option>Casablanca</option>
-          <option>Rabat</option>
-          <option>Marrakech</option>
-          <option>Fès</option>
-          <option>Tanger</option>
-          <option>Agadir</option>
-          <option>Oujda</option>
-          <option>Meknès</option>
-          <option>Kenitra</option>
-          <option>Tétouan</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Téléphone</label>
-        <input id="m-tel" type="tel" placeholder="Ex: 0612345678" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Commercial assigné</label>
-        <select id="m-commercial" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:#fff;">
-          <option>Youssef Bennani</option>
-          <option>Sara Khalil</option>
-          <option>Omar Tahiri</option>
-        </select>
-      </div>
-      <div style="display:flex;gap:10px;margin-top:6px;">
-        <button onclick="closeModal()" style="flex:1;padding:12px;border:1px solid var(--border);border-radius:10px;font-family:'Inter',sans-serif;font-weight:600;font-size:14px;cursor:pointer;background:#fff;color:var(--muted);">Annuler</button>
-        <button onclick="ajouterCabinet()" style="flex:2;padding:12px;border:none;border-radius:10px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;cursor:pointer;background:var(--primary);color:#fff;">✓ Ajouter le cabinet</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-function openModal(){
-  const m=document.getElementById('modal');
-  m.style.display='flex';
-  document.body.style.overflow='hidden';
-}
-function closeModal(){
-  document.getElementById('modal').style.display='none';
-  document.body.style.overflow='';
-}
-function ajouterCabinet(){
-  const cab=document.getElementById('m-cabinet').value;
-  const med=document.getElementById('m-medecin').value;
-  const ville=document.getElementById('m-ville').value;
-  const comm=document.getElementById('m-commercial').value;
-  if(!cab||!med){alert('Remplissez au moins le nom du cabinet et du médecin !');return;}
-  const tbody=document.getElementById('cabs-tbody');
-  const initials=cab.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-  const colors=['#0057ff','#00c49a','#f59e0b','#7c3aed','#ec4899','#ef4444'];
-  const color=colors[Math.floor(Math.random()*colors.length)];
-  const tr=document.createElement('tr');
-  tr.innerHTML=`<td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,${color},${color}99)">${initials}</div>${cab}</div></td><td>${ville}</td><td>${comm.split(' ')[0]}</td><td style="color:var(--muted)">⭐ —</td><td style="color:var(--muted)">0</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge warn">Nouveau</span></td>`;
-  tbody.insertBefore(tr,tbody.firstChild);
-  closeModal();
-  const notif=document.createElement('div');
-  notif.style.cssText='position:fixed;bottom:20px;right:20px;background:#0a1628;color:#fff;padding:14px 18px;border-radius:12px;font-size:13px;font-weight:600;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.2);';
-  notif.innerHTML='✅ Cabinet ajouté avec succès !';
-  document.body.appendChild(notif);
-  setTimeout(()=>notif.remove(),3000);
-  document.getElementById('m-cabinet').value='';
-  document.getElementById('m-medecin').value='';
-  document.getElementById('m-tel').value='';
-}
-</script>
-<!-- MODAL -->
-<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:16px;">
-  <div style="background:#fff;border-radius:20px;padding:28px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-      <div style="font-weight:800;font-size:18px;">+ Nouveau cabinet</div>
-      <div onclick="closeModal()" style="cursor:pointer;width:28px;height:28px;background:var(--surface2);border-radius:50%;display:grid;place-items:center;font-size:16px;">×</div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px;">
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Nom du cabinet</label>
-        <input id="m-cabinet" type="text" placeholder="Ex: Cabinet Hassan II" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Nom du médecin</label>
-        <input id="m-medecin" type="text" placeholder="Ex: Dr. Ahmed Benali" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Spécialité</label>
-        <select id="m-specialite" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:#fff;">
-          <option>Médecin généraliste</option>
-          <option>Gynécologie</option>
-          <option>Pédiatrie</option>
-          <option>Dermatologie</option>
-          <option>Cardiologie</option>
-          <option>Ophtalmologie</option>
-          <option>Dentiste</option>
-          <option>Orthopédie</option>
-          <option>Neurologie</option>
-          <option>Gastro-entérologie</option>
-          <option>Autre</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Ville</label>
-        <select id="m-ville" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:#fff;">
-          <option>Casablanca</option>
-          <option>Rabat</option>
-          <option>Marrakech</option>
-          <option>Fès</option>
-          <option>Tanger</option>
-          <option>Agadir</option>
-          <option>Oujda</option>
-          <option>Meknès</option>
-          <option>Kenitra</option>
-          <option>Tétouan</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Téléphone</label>
-        <input id="m-tel" type="tel" placeholder="Ex: 0612345678" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <div>
-        <label style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:block;margin-bottom:6px;">Commercial assigné</label>
-        <select id="m-commercial" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:#fff;">
-          <option>Youssef Bennani</option>
-          <option>Sara Khalil</option>
-          <option>Omar Tahiri</option>
-        </select>
-      </div>
-      <div style="display:flex;gap:10px;margin-top:6px;">
-        <button onclick="closeModal()" style="flex:1;padding:12px;border:1px solid var(--border);border-radius:10px;font-family:'Inter',sans-serif;font-weight:600;font-size:14px;cursor:pointer;background:#fff;color:var(--muted);">Annuler</button>
-        <button onclick="ajouterCabinet()" style="flex:2;padding:12px;border:none;border-radius:10px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;cursor:pointer;background:var(--primary);color:#fff;">✓ Ajouter le cabinet</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-function openModal(){
-  const m=document.getElementById('modal');
-  m.style.display='flex';
-  document.body.style.overflow='hidden';
-}
-function closeModal(){
-  document.getElementById('modal').style.display='none';
-  document.body.style.overflow='';
-}
-function ajouterCabinet(){
-  const cab=document.getElementById('m-cabinet').value;
-  const med=document.getElementById('m-medecin').value;
-  const ville=document.getElementById('m-ville').value;
-  const comm=document.getElementById('m-commercial').value;
-  if(!cab||!med){alert('Remplissez au moins le nom du cabinet et du médecin !');return;}
-  const tbody=document.getElementById('cabs-tbody');
-  const initials=cab.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-  const colors=['#0057ff','#00c49a','#f59e0b','#7c3aed','#ec4899','#ef4444'];
-  const color=colors[Math.floor(Math.random()*colors.length)];
-  const tr=document.createElement('tr');
-  tr.innerHTML=`<td><div style="display:flex;align-items:center;gap:10px"><div class="cab-logo" style="background:linear-gradient(135deg,${color},${color}99)">${initials}</div>${cab}</div></td><td>${ville}</td><td>${comm.split(' ')[0]}</td><td style="color:var(--muted)">⭐ —</td><td style="color:var(--muted)">0</td><td style="font-weight:700">1 499 MAD</td><td><span class="badge warn">Nouveau</span></td>`;
-  tbody.insertBefore(tr,tbody.firstChild);
-  closeModal();
-  const notif=document.createElement('div');
-  notif.style.cssText='position:fixed;bottom:20px;right:20px;background:#0a1628;color:#fff;padding:14px 18px;border-radius:12px;font-size:13px;font-weight:600;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.2);';
-  notif.innerHTML='✅ Cabinet ajouté avec succès !';
-  document.body.appendChild(notif);
-  setTimeout(()=>notif.remove(),3000);
-  document.getElementById('m-cabinet').value='';
-  document.getElementById('m-medecin').value='';
-  document.getElementById('m-tel').value='';
-}
 </script>
 </body>
 </html>
