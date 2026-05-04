@@ -4,141 +4,246 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MediPulse — Connexion</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{--primary:#0057ff;--primary-lt:#e6eeff;--border:#e4ecf7;--muted:#6b7fa3;--light:#b0bdd4;--text:#0a1628;--bg:#f8fafd;--danger:#ef4444;--danger-bg:#fef2f2;}
-html,body{min-height:100vh;}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(135deg,#0a1628 0%,#0d2452 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
-.login-box{background:#fff;border-radius:24px;padding:40px;width:100%;max-width:420px;box-shadow:0 24px 80px rgba(0,0,0,.3);}
-.logo{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:32px;}
-.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:12px;display:grid;place-items:center;}
-.logo-icon svg{width:20px;height:20px;stroke:#fff;fill:none;}
-.logo-text{font-family:'Playfair Display',serif;font-weight:700;font-size:22px;}
-.logo-text em{color:#0057ff;font-style:normal;}
-.welcome{text-align:center;margin-bottom:28px;}
-.welcome h1{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;margin-bottom:6px;}
-.welcome p{color:#6b7fa3;font-size:13px;}
+:root{
+  --bg:#080c14;--surface:#0d1220;--border:rgba(255,255,255,.08);
+  --primary:#4d8bff;--success:#00c49a;--danger:#ef4444;
+  --muted:rgba(255,255,255,.45);--muted2:rgba(255,255,255,.25);
+}
+html,body{min-height:100vh;background:var(--bg);font-family:'Inter',sans-serif;color:#fff;}
+
+/* BACKGROUND */
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.bg-glow::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(rgba(0,87,255,.15),transparent 65%);}
+.bg-glow::after{content:'';position:absolute;bottom:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(rgba(0,196,154,.08),transparent 65%);}
+
+/* LAYOUT */
+.page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative;z-index:1;}
+
+/* LOGO */
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:40px;}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:12px;display:grid;place-items:center;}
+.logo-icon svg{width:18px;height:18px;stroke:#fff;fill:none;}
+.logo-text{font-weight:800;font-size:22px;color:#fff;}
+.logo-text em{color:var(--primary);font-style:normal;}
+
+/* CARD */
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:36px;width:100%;max-width:420px;}
+.card-title{font-weight:800;font-size:22px;letter-spacing:-.5px;margin-bottom:6px;text-align:center;}
+.card-sub{color:var(--muted);font-size:14px;text-align:center;margin-bottom:28px;}
+
+/* ROLE SELECTOR */
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+.role-btn{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .2s;}
+.role-btn:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.15);}
+.role-btn.active{background:rgba(0,87,255,.15);border-color:rgba(0,87,255,.4);}
+.role-icon{font-size:22px;margin-bottom:6px;}
+.role-name{font-size:12px;font-weight:700;color:#fff;}
+.role-desc{font-size:10px;color:var(--muted);margin-top:2px;}
+
+/* FORM */
 .form-group{margin-bottom:16px;}
-.form-label{font-size:12px;font-weight:600;color:#6b7fa3;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;display:block;}
-.form-input{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:all .15s;background:var(--bg);}
-.form-input:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px rgba(0,87,255,.1);}
-.form-input::placeholder{color:var(--light);}
-.role-select{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--text);outline:none;background:var(--bg);cursor:pointer;}
-.role-select:focus{border-color:var(--primary);}
-.login-btn{width:100%;padding:14px;background:linear-gradient(135deg,#0057ff,#4d8bff);color:#fff;border:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:all .2s;margin-top:8px;box-shadow:0 4px 16px rgba(0,87,255,.35);}
-.login-btn:hover{transform:translateY(-2px);}
-.login-btn:disabled{opacity:.7;cursor:not-allowed;transform:none;}
-.error{background:var(--danger-bg);border:1px solid #fca5a5;color:var(--danger);padding:10px 14px;border-radius:8px;font-size:12.5px;font-weight:500;margin-bottom:14px;display:none;text-align:center;}
-.footer{text-align:center;margin-top:24px;color:#b0bdd4;font-size:11.5px;}
+.form-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:block;margin-bottom:7px;}
+.form-input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;font-family:'Inter',sans-serif;color:#fff;outline:none;transition:all .2s;}
+.form-input::placeholder{color:var(--muted2);}
+.form-input:focus{border-color:var(--primary);background:rgba(77,139,255,.08);}
+
+/* ERROR */
+.error-msg{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:10px 14px;font-size:13px;color:#f87171;margin-bottom:16px;display:none;}
+.error-msg.show{display:block;}
+
+/* SUBMIT */
+.btn-login{width:100%;background:linear-gradient(135deg,#0057ff,#4d8bff);color:#fff;padding:14px;border-radius:12px;font-family:'Inter',sans-serif;font-weight:700;font-size:15px;border:none;cursor:pointer;transition:all .25s;box-shadow:0 4px 20px rgba(0,87,255,.3);position:relative;overflow:hidden;}
+.btn-login:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(0,87,255,.4);}
+.btn-login:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.btn-login .spinner{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* DEMO ACCOUNTS */
+.demo-section{margin-top:20px;padding-top:20px;border-top:1px solid var(--border);}
+.demo-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted2);text-align:center;margin-bottom:12px;}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.demo-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;transition:all .2s;}
+.demo-item:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);}
+.demo-item-role{font-size:11px;font-weight:700;color:var(--primary);margin-bottom:3px;}
+.demo-item-email{font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* FOOTER */
+.login-footer{margin-top:24px;font-size:12px;color:var(--muted2);text-align:center;}
+
+@media(max-width:480px){
+  .login-card{padding:24px;}
+  .role-grid{grid-template-columns:1fr 1fr;}
+}
 </style>
 </head>
 <body>
-<div class="login-box">
+
+<div class="bg-glow"></div>
+
+<div class="page">
   <div class="logo">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-    </div>
+    <div class="logo-icon"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
     <span class="logo-text">Medi<em>Pulse</em></span>
   </div>
-  <div class="welcome">
-    <h1>Bon retour 👋</h1>
-    <p>Connectez-vous à votre espace MediPulse 🇲🇦</p>
+
+  <div class="login-card">
+    <div class="card-title">Bon retour 👋</div>
+    <div class="card-sub">Connectez-vous à votre espace MediPulse</div>
+
+    <!-- ROLE SELECTOR -->
+    <div class="role-grid">
+      <div class="role-btn active" id="role-owner" onclick="selectRole('owner')">
+        <div class="role-icon">👑</div>
+        <div class="role-name">Owner</div>
+        <div class="role-desc">Vue globale</div>
+      </div>
+      <div class="role-btn" id="role-medecin" onclick="selectRole('medecin')">
+        <div class="role-icon">👨‍⚕️</div>
+        <div class="role-name">Médecin</div>
+        <div class="role-desc">Mon cabinet</div>
+      </div>
+      <div class="role-btn" id="role-commercial" onclick="selectRole('commercial')">
+        <div class="role-icon">💼</div>
+        <div class="role-name">Commercial</div>
+        <div class="role-desc">Mes ventes</div>
+      </div>
+      <div class="role-btn" id="role-assistante" onclick="selectRole('assistante')">
+        <div class="role-icon">💁‍♀️</div>
+        <div class="role-name">Assistante</div>
+        <div class="role-desc">Saisie avis</div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input id="email" class="form-input" type="email" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')login()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Mot de passe</label>
+      <input id="password" class="form-input" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()">
+    </div>
+
+    <div class="error-msg" id="error-msg">❌ Email ou mot de passe incorrect</div>
+
+    <button class="btn-login" id="btn-login" onclick="login()">
+      <span id="btn-text">Se connecter →</span>
+      <div class="spinner" id="spinner"></div>
+    </button>
+
+    <!-- DEMO ACCOUNTS -->
+    <div class="demo-section">
+      <div class="demo-title">Comptes de démonstration</div>
+      <div class="demo-grid">
+        <div class="demo-item" onclick="fillDemo('owner@medipulse.ma','owner123','owner')">
+          <div class="demo-item-role">👑 Owner</div>
+          <div class="demo-item-email">owner@medipulse.ma</div>
+        </div>
+        <div class="demo-item" onclick="fillDemo('medecin@medipulse.ma','medecin123','medecin')">
+          <div class="demo-item-role">👨‍⚕️ Médecin</div>
+          <div class="demo-item-email">medecin@medipulse.ma</div>
+        </div>
+        <div class="demo-item" onclick="fillDemo('commercial@medipulse.ma','commercial123','commercial')">
+          <div class="demo-item-role">💼 Commercial</div>
+          <div class="demo-item-email">commercial@medipulse.ma</div>
+        </div>
+        <div class="demo-item" onclick="fillDemo('assistante@medipulse.ma','assist123','assistante')">
+          <div class="demo-item-role">💁‍♀️ Assistante</div>
+          <div class="demo-item-email">assistante@medipulse.ma</div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="error" id="error-msg"></div>
-  <div class="form-group">
-    <label class="form-label">Rôle</label>
-    <select class="role-select" id="role">
-      <option value="owner">👑 Owner / Admin</option>
-      <option value="medecin">🏥 Médecin / Cabinet</option>
-      <option value="assistante">📋 Assistante</option>
-      <option value="commercial">💼 Commercial</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label class="form-label">Email</label>
-    <input class="form-input" type="email" id="email" placeholder="votre@email.com">
-  </div>
-  <div class="form-group">
-    <label class="form-label">Mot de passe</label>
-    <input class="form-input" type="password" id="password" placeholder="••••••••">
-  </div>
-  <button class="login-btn" id="login-btn" onclick="login()">Se connecter →</button>
-  <div class="footer">MediPulse © 2026 · Maroc 🇲🇦</div>
+
+  <div class="login-footer">MediPulse © 2026 · Maroc 🇲🇦</div>
 </div>
 
 <script>
-const SUPABASE_URL = 'https://czttvnvcetgmjfqishig.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m';
+const SUPABASE_URL='https://czttvnvcetgmjfqishig.supabase.co';
+const SUPABASE_KEY='sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m';
 
-const ROLES = {
-  'owner@medipulse.ma': 'owner',
-  'medecin@medipulse.ma': 'medecin',
-  'assistante@medipulse.ma': 'assistante',
-  'commercial@medipulse.ma': 'commercial'
+const ROLES={
+  'owner@medipulse.ma':{password:'owner123',role:'owner',redirect:'/dashboard-owner.html'},
+  'medecin@medipulse.ma':{password:'medecin123',role:'medecin',redirect:'/dashboard-medecin.html'},
+  'commercial@medipulse.ma':{password:'commercial123',role:'commercial',redirect:'/dashboard-commercial.html'},
+  'assistante@medipulse.ma':{password:'assist123',role:'assistante',redirect:'/saisie.html'},
 };
 
-const REDIRECTS = {
-  'owner': '/dashboard-owner.html',
-  'medecin': '/dashboard-medecin.html',
-  'assistante': '/saisie.html',
-  'commercial': '/dashboard-commercial.html'
-};
+let selectedRole='owner';
 
-function showError(msg) {
-  const el = document.getElementById('error-msg');
-  el.textContent = '❌ ' + msg;
-  el.style.display = 'block';
+function selectRole(role){
+  selectedRole=role;
+  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('role-'+role).classList.add('active');
+  // Auto-fill email hint
+  const hints={owner:'owner@medipulse.ma',medecin:'medecin@medipulse.ma',commercial:'commercial@medipulse.ma',assistante:'assistante@medipulse.ma'};
+  document.getElementById('email').placeholder=hints[role];
 }
 
-async function login() {
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value;
-  const role = document.getElementById('role').value;
-  const btn = document.getElementById('login-btn');
-  const error = document.getElementById('error-msg');
+function fillDemo(email,password,role){
+  document.getElementById('email').value=email;
+  document.getElementById('password').value=password;
+  selectRole(role);
+}
 
-  error.style.display = 'none';
+async function login(){
+  const email=document.getElementById('email').value.trim();
+  const password=document.getElementById('password').value;
+  const errEl=document.getElementById('error-msg');
+  const btn=document.getElementById('btn-login');
+  const spinner=document.getElementById('spinner');
+  const btnText=document.getElementById('btn-text');
 
-  if(!email || !password) {
-    showError('Veuillez remplir tous les champs');
+  errEl.classList.remove('show');
+
+  if(!email||!password){
+    errEl.textContent='❌ Veuillez remplir tous les champs';
+    errEl.classList.add('show');
     return;
   }
 
-  btn.disabled = true;
-  btn.textContent = 'Connexion...';
+  // Loading state
+  btn.disabled=true;
+  btnText.style.display='none';
+  spinner.style.display='block';
 
   try {
-    const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_KEY
-      },
-      body: JSON.stringify({ email, password })
+    const res=await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY},
+      body:JSON.stringify({email,password})
     });
+    const data=await res.json();
 
-    const data = await res.json();
-
-    if(!res.ok) throw new Error(data.error_description || data.msg || 'Erreur de connexion');
-
-    const roleAttendu = ROLES[email];
-    if(!roleAttendu || roleAttendu !== role) {
-      throw new Error('Rôle incorrect pour cet email');
+    if(data.access_token){
+      // Redirection par rôle
+      const userInfo=ROLES[email];
+      if(userInfo){
+        window.location.href=userInfo.redirect;
+      } else {
+        // Redirection par rôle sélectionné
+        const redirects={
+          owner:'/dashboard-owner.html',
+          medecin:'/dashboard-medecin.html',
+          commercial:'/dashboard-commercial.html',
+          assistante:'/saisie.html'
+        };
+        window.location.href=redirects[selectedRole];
+      }
+    } else {
+      throw new Error('Invalid credentials');
     }
-
-    window.location.href = REDIRECTS[role];
-
-  } catch(e) {
-    showError(e.message === 'Invalid login credentials' ? 'Email ou mot de passe incorrect' : e.message);
-    btn.disabled = false;
-    btn.textContent = 'Se connecter →';
+  } catch(e){
+    errEl.textContent='❌ Email ou mot de passe incorrect';
+    errEl.classList.add('show');
+    btn.disabled=false;
+    btnText.style.display='block';
+    spinner.style.display='none';
   }
 }
-
-document.addEventListener('keypress', function(e) {
-  if(e.key === 'Enter') login();
-});
 </script>
 </body>
 </html>
