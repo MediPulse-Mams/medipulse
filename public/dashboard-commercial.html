@@ -241,7 +241,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .bn-item.active .bn-dot{opacity:1;}
 
 /* FAB */
-.fab{position:fixed;bottom:90px;right:16px;width:52px;height:52px;background:var(--primary);border-radius:16px;display:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,87,255,.4);cursor:pointer;z-index:200;font-size:24px;color:#fff;font-weight:700;-webkit-tap-highlight-color:transparent;}
+.fab{position:fixed;bottom:90px;right:16px;width:52px;height:52px;background:var(--primary);border-radius:16px;display:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,87,255,.4);cursor:pointer;z-index:200;font-size:24px;color:#fff;font-weight:700;-webkit-tap-highlight-color:transparent;margin-bottom:env(safe-area-inset-bottom);}
 
 /* RESPONSIVE */
 @media(max-width:1024px){
@@ -470,9 +470,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
     </div>
 
     <div style="padding:16px;">
-      <div class="app-urgence">
-        <div class="app-urgence-icon">🔥</div>
-        <div class="app-urgence-text">Il te manque <strong>7 cabinets</strong> pour ton bonus. Signe <strong>1 cabinet/jour</strong> cette semaine !</div>
+      <div class="app-urgence" id="mob-urgence-msg">
+        🔥 Il te manque <strong>2 cabinets</strong> pour débloquer ton premier bonus de <strong>+250 MAD</strong> !
       </div>
 
       <div class="app-section-title">Mes cabinets actifs</div>
@@ -676,6 +675,25 @@ function updateSim(mode){
   const suffix=mode==='dt'?'-dt':'-mob';
   const nouveaux=+document.getElementById('sl-n'+suffix).value;
   const actifs=+document.getElementById('sl-a'+suffix).value;
+  const totalCab=nouveaux+actifs;
+
+  // Message pression mobile
+  const urgEl=document.getElementById('mob-urgence-msg');
+  if(urgEl){
+    if(totalCab>=10){
+      urgEl.innerHTML='🏆 Objectif atteint ! Tu débloques <strong>+500 MAD</strong> de bonus ce mois !';
+      urgEl.style.background='rgba(0,196,154,.1)';
+      urgEl.style.borderColor='rgba(0,196,154,.3)';
+    } else if(totalCab>=5){
+      urgEl.innerHTML='🥈 Palier 5 atteint ! <strong>+250 MAD</strong> bonus débloqué ! Encore <strong>'+(10-totalCab)+' cabinets</strong> pour +500 MAD 🔥';
+      urgEl.style.background='rgba(245,158,11,.1)';
+      urgEl.style.borderColor='rgba(245,158,11,.3)';
+    } else {
+      urgEl.innerHTML='🔥 Il te manque <strong>'+(5-totalCab)+' cabinets</strong> pour débloquer ton premier bonus de <strong>+250 MAD</strong> !';
+      urgEl.style.background='rgba(255,87,0,.1)';
+      urgEl.style.borderColor='rgba(255,87,0,.3)';
+    }
+  }
   if(mode==='dt'){
     document.getElementById('sim-n-dt').textContent=nouveaux;
     document.getElementById('sim-a-dt').textContent=actifs;
