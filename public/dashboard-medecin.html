@@ -686,9 +686,10 @@ function updateSim(){
   document.getElementById('sim-actuel').textContent=actuel;
   document.getElementById('sim-objectif').textContent=objectif;
   document.getElementById('sim-prix').textContent=prix;
-  const diff=Math.max(0,objectif-actuel);
+  const diff=Math.abs(objectif-actuel);
+const augmentation=objectif>actuel;
   const jours=22;
-  const avisSupp=Math.round(diff*jours*0.35);
+  const avisSupp=augmentation?Math.round(diff*jours*0.35):0;
   const patientsSupp=Math.round(avisSupp*0.15);
   const revenusSupp=patientsSupp*prix;
   const noteActuelle=gData.note||4.2;
