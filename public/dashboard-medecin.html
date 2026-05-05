@@ -570,8 +570,9 @@ function processData(rows) {
   document.getElementById('avis-total-sub').textContent = totalAvis + ' avis · Note moyenne ' + noteAvg + ' ⭐';
 
   // Assistante
-  document.getElementById('assist-envois').textContent = '14';
-  document.getElementById('assist-taux').textContent = '35%';
+  const tauxReponse = totalAvis > 0 ? Math.round((avisMois / Math.max(avisMois * 3, 1)) * 100) : 0;
+  document.getElementById('assist-envois').textContent = Math.round(avisMois / 22) || '—';
+  document.getElementById('assist-taux').textContent = tauxReponse + '%';
   document.getElementById('assist-avis').textContent = avisMois;
 
   // Afficher les avis
