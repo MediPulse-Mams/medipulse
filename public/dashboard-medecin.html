@@ -580,8 +580,7 @@ function processData(rows) {
 
   // Cacher loading, afficher dashboard
   document.getElementById('loading-state').style.display = 'none';
-  document.getElementById('view-dashboard').style.display = 'block';
-  document.getElementById('view-dashboard').classList.add('active');
+  go('dashboard', document.querySelector('.nav-item'));
 }
 
 function renderAvis(avis, containerId) {
