@@ -13,28 +13,18 @@
   --muted:rgba(255,255,255,.45);--muted2:rgba(255,255,255,.25);
 }
 html,body{min-height:100vh;background:var(--bg);font-family:'Inter',sans-serif;color:#fff;}
-
-/* BACKGROUND */
 .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;}
 .bg-glow::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(rgba(0,87,255,.15),transparent 65%);}
 .bg-glow::after{content:'';position:absolute;bottom:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(rgba(0,196,154,.08),transparent 65%);}
-
-/* LAYOUT */
 .page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative;z-index:1;}
-
-/* LOGO */
 .logo{display:flex;align-items:center;gap:10px;margin-bottom:40px;}
 .logo-icon{width:40px;height:40px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:12px;display:grid;place-items:center;}
 .logo-icon svg{width:18px;height:18px;stroke:#fff;fill:none;}
 .logo-text{font-weight:800;font-size:22px;color:#fff;}
 .logo-text em{color:var(--primary);font-style:normal;}
-
-/* CARD */
 .login-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:36px;width:100%;max-width:420px;}
 .card-title{font-weight:800;font-size:22px;letter-spacing:-.5px;margin-bottom:6px;text-align:center;}
 .card-sub{color:var(--muted);font-size:14px;text-align:center;margin-bottom:28px;}
-
-/* ROLE SELECTOR */
 .role-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
 .role-btn{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .2s;}
 .role-btn:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.15);}
@@ -42,26 +32,18 @@ html,body{min-height:100vh;background:var(--bg);font-family:'Inter',sans-serif;c
 .role-icon{font-size:22px;margin-bottom:6px;}
 .role-name{font-size:12px;font-weight:700;color:#fff;}
 .role-desc{font-size:10px;color:var(--muted);margin-top:2px;}
-
-/* FORM */
 .form-group{margin-bottom:16px;}
 .form-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:block;margin-bottom:7px;}
 .form-input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;font-family:'Inter',sans-serif;color:#fff;outline:none;transition:all .2s;}
 .form-input::placeholder{color:var(--muted2);}
 .form-input:focus{border-color:var(--primary);background:rgba(77,139,255,.08);}
-
-/* ERROR */
 .error-msg{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:10px 14px;font-size:13px;color:#f87171;margin-bottom:16px;display:none;}
 .error-msg.show{display:block;}
-
-/* SUBMIT */
-.btn-login{width:100%;background:linear-gradient(135deg,#0057ff,#4d8bff);color:#fff;padding:14px;border-radius:12px;font-family:'Inter',sans-serif;font-weight:700;font-size:15px;border:none;cursor:pointer;transition:all .25s;box-shadow:0 4px 20px rgba(0,87,255,.3);position:relative;overflow:hidden;}
+.btn-login{width:100%;background:linear-gradient(135deg,#0057ff,#4d8bff);color:#fff;padding:14px;border-radius:12px;font-family:'Inter',sans-serif;font-weight:700;font-size:15px;border:none;cursor:pointer;transition:all .25s;box-shadow:0 4px 20px rgba(0,87,255,.3);}
 .btn-login:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(0,87,255,.4);}
 .btn-login:disabled{opacity:.6;cursor:not-allowed;transform:none;}
-.btn-login .spinner{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto;}
+.spinner{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-/* DEMO ACCOUNTS */
 .demo-section{margin-top:20px;padding-top:20px;border-top:1px solid var(--border);}
 .demo-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted2);text-align:center;margin-bottom:12px;}
 .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
@@ -69,14 +51,8 @@ html,body{min-height:100vh;background:var(--bg);font-family:'Inter',sans-serif;c
 .demo-item:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);}
 .demo-item-role{font-size:11px;font-weight:700;color:var(--primary);margin-bottom:3px;}
 .demo-item-email{font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-
-/* FOOTER */
 .login-footer{margin-top:24px;font-size:12px;color:var(--muted2);text-align:center;}
-
-@media(max-width:480px){
-  .login-card{padding:24px;}
-  .role-grid{grid-template-columns:1fr 1fr;}
-}
+@media(max-width:480px){.login-card{padding:24px;}}
 </style>
 </head>
 <body>
@@ -93,7 +69,6 @@ html,body{min-height:100vh;background:var(--bg);font-family:'Inter',sans-serif;c
     <div class="card-title">Bon retour 👋</div>
     <div class="card-sub">Connectez-vous à votre espace MediPulse</div>
 
-    <!-- ROLE SELECTOR -->
     <div class="role-grid">
       <div class="role-btn active" id="role-owner" onclick="selectRole('owner')">
         <div class="role-icon">👑</div>
@@ -117,7 +92,6 @@ html,body{min-height:100vh;background:var(--bg);font-family:'Inter',sans-serif;c
       </div>
     </div>
 
-    <!-- FORM -->
     <div class="form-group">
       <label class="form-label">Email</label>
       <input id="email" class="form-input" type="email" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')login()">
@@ -134,7 +108,6 @@ html,body{min-height:100vh;background:var(--bg);font-family:'Inter',sans-serif;c
       <div class="spinner" id="spinner"></div>
     </button>
 
-    <!-- DEMO ACCOUNTS -->
     <div class="demo-section">
       <div class="demo-title">Comptes de démonstration</div>
       <div class="demo-grid">
@@ -165,11 +138,20 @@ html,body{min-height:100vh;background:var(--bg);font-family:'Inter',sans-serif;c
 const SUPABASE_URL='https://czttvnvcetgmjfqishig.supabase.co';
 const SUPABASE_KEY='sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m';
 
+// ═══ AJOUTER CHAQUE NOUVEAU COMMERCIAL ICI ═══
 const ROLES={
-  'owner@medipulse.ma':{password:'owner123',role:'owner',redirect:'/dashboard-owner.html'},
-  'medecin@medipulse.ma':{password:'medecin123',role:'medecin',redirect:'/dashboard-medecin.html'},
-  'commercial@medipulse.ma':{password:'commercial123',role:'commercial',redirect:'/dashboard-commercial.html'},
-  'assistante@medipulse.ma':{password:'assist123',role:'assistante',redirect:'/saisie.html'},
+  'owner@medipulse.ma':{redirect:'/dashboard-owner.html'},
+  'medecin@medipulse.ma':{redirect:'/dashboard-medecin.html'},
+  'commercial@medipulse.ma':{redirect:'/dashboard-commercial.html'},
+  'ameur@medipulse.ma':{redirect:'/dashboard-commercial.html'},
+  'assistante@medipulse.ma':{redirect:'/saisie.html'},
+};
+
+const REDIRECTS={
+  owner:'/dashboard-owner.html',
+  medecin:'/dashboard-medecin.html',
+  commercial:'/dashboard-commercial.html',
+  assistante:'/saisie.html'
 };
 
 let selectedRole='owner';
@@ -178,7 +160,6 @@ function selectRole(role){
   selectedRole=role;
   document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('role-'+role).classList.add('active');
-  // Auto-fill email hint
   const hints={owner:'owner@medipulse.ma',medecin:'medecin@medipulse.ma',commercial:'commercial@medipulse.ma',assistante:'assistante@medipulse.ma'};
   document.getElementById('email').placeholder=hints[role];
 }
@@ -205,12 +186,11 @@ async function login(){
     return;
   }
 
-  // Loading state
   btn.disabled=true;
   btnText.style.display='none';
   spinner.style.display='block';
 
-  try {
+  try{
     const res=await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`,{
       method:'POST',
       headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY},
@@ -219,20 +199,9 @@ async function login(){
     const data=await res.json();
 
     if(data.access_token){
-      // Redirection par rôle
+      // Redirection par email ou par rôle sélectionné
       const userInfo=ROLES[email];
-      if(userInfo){
-        window.location.href=userInfo.redirect;
-      } else {
-        // Redirection par rôle sélectionné
-        const redirects={
-          owner:'/dashboard-owner.html',
-          medecin:'/dashboard-medecin.html',
-          commercial:'/dashboard-commercial.html',
-          assistante:'/saisie.html'
-        };
-        window.location.href=redirects[selectedRole];
-      }
+      window.location.href=userInfo?userInfo.redirect:REDIRECTS[selectedRole];
     } else {
       throw new Error('Invalid credentials');
     }
