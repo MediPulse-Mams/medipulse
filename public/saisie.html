@@ -9,7 +9,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --bg:#f8fafd;--surface:#fff;--surface2:#f1f5fb;--border:#e4ecf7;
-  --text:#0a1628;--muted:#6b7fa3;--light:#b0bdd4;
+  --text:#0a1628;--muted:#6b7fa3;
   --primary:#0057ff;--primary-lt:#e6eeff;
   --success:#00c49a;--success-bg:#e6faf5;
   --warn:#f59e0b;--warn-bg:#fef8e7;
@@ -153,10 +153,23 @@ const GOOGLE_API_KEY = 'AIzaSyCy3jfMxuWxeQXE0L7rLm3AZbNwCQegneM';
 const urlParams = new URLSearchParams(window.location.search);
 const SHEET_ID = urlParams.get('sheet') || '';
 
-let gConfig = {nomCabinet:'Mon Cabinet', formFR:'', formAR:'', lienGoogle:''};
+// IDs des questions "Code de suivi"
+const FR_ENTRY_CODE = 'entry.968738823';
+const AR_ENTRY_CODE = 'entry.1862822580';
+
+// URLs des Forms templates
+const FORM_FR_BASE = 'https://docs.google.com/forms/d/e/1FAIpQLSchhvEnzIXFwJlPxS56cNjQak5W6wf8uVpeMm49CGCu-p8DGA/viewform';
+const FORM_AR_BASE = 'https://docs.google.com/forms/d/e/1FAIpQLSdXQIaWUTySaORNl-cv4RDVW-GmmuspgJllQTYw1_BJyKI6BA/viewform';
+
+let gConfig = {nomCabinet:'Mon Cabinet', lienGoogle:''};
 let patients = [];
 let currentFilter = 'tous';
 const COLORS = ['#0057ff','#00c49a','#f59e0b','#7c3aed','#ec4899','#ef4444'];
+
+// Générer ID unique
+function genId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2,4);
+}
 
 async function init() {
   if(!SHEET_ID) {
@@ -177,8 +190,6 @@ async function loadConfig() {
     if(data.values) {
       data.values.forEach(row => {
         if(row[0]==='Nom Cabinet') gConfig.nomCabinet = row[1]||'Mon Cabinet';
-        if(row[0]==='Form FR') gConfig.formFR = row[1]||'';
-        if(row[0]==='Form AR') gConfig.formAR = row[1]||'';
         if(row[0]==='Lien Google') gConfig.lienGoogle = row[1]||'';
       });
     }
@@ -200,7 +211,7 @@ async function loadPatients() {
         if(name === 'Config MediPulse') continue;
         if(name !== 'Réponses FR' && name !== 'Réponses AR' && name !== 'Fusion') continue;
         try {
-          const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(name)}!A:G?key=${GOOGLE_API_KEY}`;
+          const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(name)}!A:H?key=${GOOGLE_API_KEY}`;
           const res = await fetch(url);
           const data = await res.json();
           if(data.values && data.values.length > 1) {
@@ -211,7 +222,8 @@ async function loadPatients() {
               commentaire: r[3]||'',
               intention: r[4]||'',
               langue: r[5]||'FR',
-              alerte: r[6]||''
+              alerte: r[6]||'',
+              codesuivi: r[7]||'' // SHEET_ID_UNIQUEID
             }));
             reponses = [...reponses, ...rows];
           }
@@ -242,18 +254,27 @@ async function loadPatients() {
 
 function mergePatients(envois, reponses) {
   return envois.map(e => {
-    const nomEnvoi = e.nom.toLowerCase().trim();
-    // La réponse doit être APRÈS l'heure d'envoi
-    const heureEnvoi = e.timestamp ? new Date(e.timestamp) : new Date(0);
-    const rep = reponses.find(r => {
-      const nomRep = r.nom.toLowerCase().trim();
-      const heureRep = new Date(r.horodateur);
-      const nomMatch = nomRep === nomEnvoi ||
-             nomRep.includes(nomEnvoi) ||
-             nomEnvoi.includes(nomRep) ||
-             (nomEnvoi.split(' ').slice(0,2).join(' ') === nomRep.split(' ').slice(0,2).join(' '));
-      return nomMatch && heureRep > heureEnvoi;
+    // Matcher par ID unique en priorité
+    let rep = reponses.find(r => {
+      const parts = r.codesuivi.split('_');
+      const uniqueId = parts[parts.length - 1];
+      return uniqueId === e.uniqueId;
     });
+
+    // Fallback par nom si pas d'ID
+    if(!rep) {
+      const nomEnvoi = e.nom.toLowerCase().trim();
+      const heureEnvoi = e.timestamp ? new Date(e.timestamp) : new Date(0);
+      rep = reponses.find(r => {
+        const nomRep = r.nom.toLowerCase().trim();
+        const heureRep = new Date(r.horodateur);
+        const finJournee = new Date(heureEnvoi);
+        finJournee.setHours(23,59,59,999);
+        return (nomRep === nomEnvoi || nomRep.includes(nomEnvoi) || nomEnvoi.includes(nomRep)) &&
+               heureRep > heureEnvoi && heureRep <= finJournee;
+      });
+    }
+
     if(rep) return {
       ...e,
       status: 'replied',
@@ -366,13 +387,22 @@ function envoyerForm(langue) {
   const nom = document.getElementById('patient-nom').value.trim();
   const tel = document.getElementById('patient-tel').value.trim();
   if(!nom || !tel) { showNotif('❌ Remplissez le nom et le numéro !'); return; }
-  const lienForm = langue === 'FR' ? gConfig.formFR : gConfig.formAR;
-  if(!lienForm) { showNotif('❌ Lien formulaire non configuré !'); return; }
+
+  // Générer ID unique
+  const uniqueId = genId();
+  const codesuivi = SHEET_ID + '_' + uniqueId;
+
+  // Construire lien Form avec code de suivi unique
+  const entryCode = langue === 'FR' ? FR_ENTRY_CODE : AR_ENTRY_CODE;
+  const formBase = langue === 'FR' ? FORM_FR_BASE : FORM_AR_BASE;
+  const lienForm = `${formBase}?usp=pp_url&${entryCode}=${encodeURIComponent(codesuivi)}`;
+
   const msgFR = `Bonjour ${nom} 😊\n\nMerci pour votre visite au ${gConfig.nomCabinet} !\n\nPourriez-vous prendre 30 secondes pour donner votre avis ? 🙏\n\n${lienForm}`;
   const msgAR = `مرحباً ${nom} 😊\n\nشكراً على زيارتكم لـ ${gConfig.nomCabinet} !\n\nهل يمكنكم تخصيص 30 ثانية لتقييم تجربتكم ؟ 🙏\n\n${lienForm}`;
   const msg = langue === 'FR' ? msgFR : msgAR;
   const lienWA = `https://wa.me/${formatTel(tel)}?text=${encodeURIComponent(msg)}`;
-  saveEnvoi({nom, tel, langue, heure: getHeure(), timestamp: new Date().toISOString()});
+
+  saveEnvoi({nom, tel, langue, heure: getHeure(), timestamp: new Date().toISOString(), uniqueId});
   window.open(lienWA, '_blank');
   document.getElementById('patient-nom').value = '';
   document.getElementById('patient-tel').value = '';
