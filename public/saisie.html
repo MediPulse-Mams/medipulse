@@ -14,7 +14,7 @@
   --success:#00c49a;--success-bg:#e6faf5;
   --warn:#f59e0b;--warn-bg:#fef8e7;
   --danger:#ef4444;--danger-bg:#fef2f2;
-  --wa:#25D366;--wa-bg:#e8faf0;
+  --wa:#25D366;
 }
 html,body{min-height:100vh;background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-size:14px;}
 .app-header{background:linear-gradient(135deg,#0a1628,#0d2452);padding:16px;position:relative;overflow:hidden;}
@@ -70,7 +70,7 @@ html,body{min-height:100vh;background:var(--bg);font-family:'Inter',sans-serif;c
 .badge-status.replied-good{background:var(--success-bg);color:var(--success);}
 .badge-status.replied-bad{background:var(--danger-bg);color:var(--danger);}
 .badge-status.replied-neutral{background:var(--warn-bg);color:var(--warn);}
-.btn-wa-google{background:var(--wa);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap;transition:all .2s;}
+.btn-wa-google{background:var(--wa);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap;}
 .btn-wa-google:hover{background:#1ea856;}
 .btn-rappel{background:var(--warn-bg);color:var(--warn);border:1px solid rgba(245,158,11,.3);border-radius:8px;padding:5px 10px;font-family:'Inter',sans-serif;font-weight:700;font-size:11px;cursor:pointer;white-space:nowrap;}
 .empty-state{padding:28px;text-align:center;color:var(--muted);}
@@ -219,7 +219,7 @@ async function loadPatients() {
       }
     }
 
-    // Dédupliquer par nom + horodateur
+    // Dédupliquer
     const seen = new Set();
     reponses = reponses.filter(r => {
       const key = r.nom.toLowerCase() + r.horodateur;
@@ -229,7 +229,6 @@ async function loadPatients() {
     });
 
     reponses.sort((a,b) => new Date(b.horodateur) - new Date(a.horodateur));
-
     const envois = getEnvoisAujourdhui();
     patients = mergePatients(envois, reponses);
     updateStats(reponses, envois);
@@ -244,12 +243,16 @@ async function loadPatients() {
 function mergePatients(envois, reponses) {
   return envois.map(e => {
     const nomEnvoi = e.nom.toLowerCase().trim();
+    // La réponse doit être APRÈS l'heure d'envoi
+    const heureEnvoi = e.timestamp ? new Date(e.timestamp) : new Date(0);
     const rep = reponses.find(r => {
       const nomRep = r.nom.toLowerCase().trim();
-      return nomRep === nomEnvoi ||
+      const heureRep = new Date(r.horodateur);
+      const nomMatch = nomRep === nomEnvoi ||
              nomRep.includes(nomEnvoi) ||
              nomEnvoi.includes(nomRep) ||
              (nomEnvoi.split(' ').slice(0,2).join(' ') === nomRep.split(' ').slice(0,2).join(' '));
+      return nomMatch && heureRep > heureEnvoi;
     });
     if(rep) return {
       ...e,
@@ -270,7 +273,6 @@ function updateStats(reponses, envois) {
   const repAujourd = reponses.filter(r => new Date(r.horodateur) >= debutJour);
   const google = repAujourd.filter(r => String(r.intention).includes('Oui') || String(r.intention).includes('نعم'));
   const alertes = patients.filter(p => p.status === 'replied' && p.note > 0 && p.note <= 3);
-
   document.getElementById('stat-envoyes').textContent = envois.length;
   document.getElementById('stat-reponses').textContent = repAujourd.length;
   document.getElementById('stat-google').textContent = google.length;
@@ -302,7 +304,7 @@ function renderPatients() {
   if(currentFilter === 'alerte') filtered = patients.filter(p => p.status === 'replied' && p.note > 0 && p.note <= 3);
 
   if(!filtered.length) {
-    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div>${currentFilter==='tous'?'Aucun patient envoyé aujourd\'hui':'Aucun patient dans cette catégorie'}</div>`;
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div>${currentFilter==='tous'?'Aucun patient envoyé aujourd\'hui':'Aucun résultat'}</div>`;
     return;
   }
 
@@ -370,7 +372,7 @@ function envoyerForm(langue) {
   const msgAR = `مرحباً ${nom} 😊\n\nشكراً على زيارتكم لـ ${gConfig.nomCabinet} !\n\nهل يمكنكم تخصيص 30 ثانية لتقييم تجربتكم ؟ 🙏\n\n${lienForm}`;
   const msg = langue === 'FR' ? msgFR : msgAR;
   const lienWA = `https://wa.me/${formatTel(tel)}?text=${encodeURIComponent(msg)}`;
-  saveEnvoi({nom, tel, langue, heure: getHeure()});
+  saveEnvoi({nom, tel, langue, heure: getHeure(), timestamp: new Date().toISOString()});
   window.open(lienWA, '_blank');
   document.getElementById('patient-nom').value = '';
   document.getElementById('patient-tel').value = '';
