@@ -278,7 +278,7 @@ function mergePatients(envois, reponses) {
       r.nom.toLowerCase().includes(e.nom.toLowerCase().split(' ')[0]) ||
       e.nom.toLowerCase().includes(r.nom.toLowerCase().split(' ')[0])
     );
-    if(rep) return {...e, status:'replied', note:rep.note, intention:rep.intention, commentaire:rep.commentaire, langue:rep.langue};
+    if(rep) return {...e, status:'replied', note:rep.note, intention:rep.intention, commentaire:rep.commentaire, langue:rep.langue, tel:e.tel};
     return {...e, status:'sent'};
   });
 }
