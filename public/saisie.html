@@ -249,7 +249,7 @@ function mergePatients(envois, reponses) {
       return nomRep === nomEnvoi ||
              nomRep.includes(nomEnvoi) ||
              nomEnvoi.includes(nomRep) ||
-             nomEnvoi.split(' ')[0] === nomRep.split(' ')[0];
+             (nomEnvoi.split(' ').slice(0,2).join(' ') === nomRep.split(' ').slice(0,2).join(' '));
     });
     if(rep) return {
       ...e,
