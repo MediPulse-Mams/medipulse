@@ -274,11 +274,14 @@ async function loadPatients() {
 
 function mergePatients(envois, reponses) {
   return envois.map(e => {
-    const rep = reponses.find(r =>
-      r.nom.toLowerCase().includes(e.nom.toLowerCase().split(' ')[0]) ||
-      e.nom.toLowerCase().includes(r.nom.toLowerCase().split(' ')[0])
-    );
-    if(rep) return {...e, status:'replied', note:rep.note, intention:rep.intention, commentaire:rep.commentaire, langue:rep.langue, tel:e.tel};
+    const rep = reponses.find(r => {
+      const nomEnvoi = e.nom.toLowerCase().trim();
+      const nomRep = r.nom.toLowerCase().trim();
+      return nomRep.includes(nomEnvoi.split(' ')[0]) ||
+             nomEnvoi.includes(nomRep.split(' ')[0]) ||
+             nomRep === nomEnvoi;
+    });
+    if(rep) return   {...e, status:'replied', note:rep.note, intention:rep.intention, commentaire:rep.commentaire, langue:rep.langue, tel:e.tel};
     return {...e, status:'sent'};
   });
 }
