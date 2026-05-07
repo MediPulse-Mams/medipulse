@@ -240,7 +240,7 @@ async function loadPatients() {
         const name = sheet.properties.title;
         if(name === 'Config MediPulse') continue;
         if(name !== 'Fusion' && !name.startsWith('Réponses')) continue;
-        if(name !== 'Fusion') continue; // On utilise uniquement Fusion
+        if(name !== 'Fusion' && name !== 'Réponses FR' && name !== 'Réponses AR') continue;
         try {
           const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(name)}!A:G?key=${GOOGLE_API_KEY}`;
           const res = await fetch(url);
