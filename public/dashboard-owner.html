@@ -16,9 +16,10 @@
   --danger:#ef4444;--danger-bg:#fef2f2;
   --sidebar:#0a1628;--fire:#ff4d00;
 }
-html,body{height:100%;}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
-.shell{display:flex;min-height:100vh;}
+html,body{min-height:100vh;background:var(--bg);font-family:'Inter',sans-serif;color:var(--text);font-size:14px;}
+
+/* ══════════ DESKTOP ══════════ */
+.desktop{display:flex;min-height:100vh;}
 .sidebar{width:220px;background:var(--sidebar);display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:200;}
 .logo{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:9px;}
 .logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:8px;display:grid;place-items:center;}
@@ -47,8 +48,6 @@ nav{padding:14px 10px;flex:1;}
 .content{padding:20px 22px;flex:1;}
 .view{display:none;}
 .view.active{display:block;}
-
-/* KPI */
 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
 .kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;}
 .kpi-card.fire{background:linear-gradient(135deg,#ff4d00,#ff8c00);border:none;}
@@ -59,41 +58,28 @@ nav{padding:14px 10px;flex:1;}
 .kpi-sub{font-size:11px;color:var(--muted);}
 .kpi-sub.up{color:var(--success);}
 .kpi-sub.warn{color:var(--warn);}
-
-/* ALERTES */
-.alertes-section{margin-bottom:24px;}
-.alertes-title{font-weight:800;font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-.alerte-badge{background:var(--danger);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
+.cabinets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:24px;}
+.cab-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.cab-card-head{padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);}
+.cab-logo{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:12px;color:#fff;flex-shrink:0;}
+.cab-name{font-weight:700;font-size:13px;}
+.cab-loc{font-size:11px;color:var(--muted);margin-top:1px;}
+.cab-status{margin-left:auto;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;}
+.cab-status.ok{background:var(--success-bg);color:var(--success);}
+.cab-status.warn{background:var(--warn-bg);color:var(--warn);}
+.cab-status.danger{background:var(--danger-bg);color:var(--danger);}
+.cab-stats{display:grid;grid-template-columns:1fr 1fr 1fr;}
+.cab-stat{padding:12px;text-align:center;border-right:1px solid var(--border);}
+.cab-stat:last-child{border-right:none;}
+.cab-stat-val{font-weight:800;font-size:18px;letter-spacing:-.5px;line-height:1;margin-bottom:3px;}
+.cab-stat-lbl{font-size:10px;color:var(--muted);}
+.cab-alerte{padding:10px 14px;background:var(--danger-bg);border-top:1px solid rgba(239,68,68,.15);font-size:12px;color:var(--danger);font-weight:600;}
 .alerte-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--danger);border-radius:12px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
-.alerte-card.warn{border-left-color:var(--warn);}
 .alerte-icon{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:16px;flex-shrink:0;background:var(--danger-bg);}
-.alerte-icon.warn{background:var(--warn-bg);}
 .alerte-info{flex:1;}
 .alerte-name{font-weight:700;font-size:13px;margin-bottom:2px;}
 .alerte-desc{font-size:12px;color:var(--muted);}
 .alerte-time{font-size:11px;color:var(--light);white-space:nowrap;}
-
-/* CABINETS */
-.cabinets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-bottom:24px;}
-.cab-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:box-shadow .2s;}
-.cab-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);}
-.cab-card-head{padding:16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);}
-.cab-logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;}
-.cab-name{font-weight:700;font-size:14px;}
-.cab-loc{font-size:11px;color:var(--muted);margin-top:2px;}
-.cab-status{margin-left:auto;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;}
-.cab-status.ok{background:var(--success-bg);color:var(--success);}
-.cab-status.warn{background:var(--warn-bg);color:var(--warn);}
-.cab-status.danger{background:var(--danger-bg);color:var(--danger);}
-.cab-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;padding:0;}
-.cab-stat{padding:12px;text-align:center;border-right:1px solid var(--border);}
-.cab-stat:last-child{border-right:none;}
-.cab-stat-val{font-weight:800;font-size:18px;letter-spacing:-.5px;line-height:1;margin-bottom:3px;}
-.cab-stat-lbl{font-size:10px;color:var(--muted);font-weight:500;}
-.cab-alerte{padding:10px 14px;background:var(--danger-bg);border-top:1px solid rgba(239,68,68,.15);font-size:12px;color:var(--danger);font-weight:600;display:none;}
-.cab-alerte.show{display:block;}
-
-/* COMMERCIAUX */
 .comm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
 .comm-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;}
 .comm-card-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
@@ -104,35 +90,93 @@ nav{padding:14px 10px;flex:1;}
 .comm-stat{background:var(--surface2);border-radius:10px;padding:10px;text-align:center;}
 .comm-stat-val{font-weight:800;font-size:18px;letter-spacing:-.5px;}
 .comm-stat-lbl{font-size:10px;color:var(--muted);margin-top:2px;}
-
-/* REVENUS */
 .revenus-section{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:24px;}
-.revenus-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.revenus-head{padding:16px 20px;border-bottom:1px solid var(--border);}
 .revenus-title{font-weight:700;font-size:15px;}
-.revenus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+.revenus-grid{display:grid;grid-template-columns:repeat(3,1fr);}
 .revenu-item{padding:20px;text-align:center;border-right:1px solid var(--border);}
 .revenu-item:last-child{border-right:none;}
-.revenu-val{font-weight:900;font-size:28px;letter-spacing:-1px;margin-bottom:4px;}
+.revenu-val{font-weight:900;font-size:26px;letter-spacing:-1px;margin-bottom:4px;}
 .revenu-lbl{font-size:11px;color:var(--muted);}
 .revenu-sub{font-size:11px;margin-top:4px;font-weight:600;}
+.loading-wrap{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--muted);}
+.spinner{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;margin-right:10px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ══════════ MOBILE ══════════ */
+.mobile{display:none;}
+.mob-header{background:linear-gradient(135deg,#0a1628,#0d2452);padding:20px 16px 0;position:relative;overflow:hidden;}
+.mob-header::before{content:'';position:absolute;right:-30px;top:-30px;width:150px;height:150px;background:radial-gradient(rgba(77,139,255,.2),transparent 70%);}
+.mob-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;position:relative;z-index:1;}
+.mob-greeting{font-size:12px;color:rgba(255,255,255,.5);}
+.mob-title{font-weight:800;font-size:17px;color:#fff;}
+.mob-av{width:36px;height:36px;background:linear-gradient(135deg,#0057ff,#4d8bff);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;}
+.mob-kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 16px;position:relative;z-index:1;}
+.mob-kpi{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;text-align:center;}
+.mob-kpi.fire{background:linear-gradient(135deg,rgba(255,77,0,.3),rgba(255,140,0,.2));border-color:rgba(255,77,0,.3);}
+.mob-kpi-val{font-weight:900;font-size:22px;color:#fff;letter-spacing:-1px;line-height:1;margin-bottom:4px;}
+.mob-kpi-lbl{font-size:10px;color:rgba(255,255,255,.4);font-weight:600;text-transform:uppercase;letter-spacing:.05em;}
+.mob-content{padding:14px;padding-bottom:90px;}
+.mob-section-title{font-weight:800;font-size:15px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;}
+.mob-section-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;background:var(--danger);color:#fff;}
+.mob-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px;}
+.mob-cab-row{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid var(--border);}
+.mob-cab-row:last-child{border-bottom:none;}
+.mob-cab-logo{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:12px;color:#fff;flex-shrink:0;}
+.mob-cab-info{flex:1;min-width:0;}
+.mob-cab-name{font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mob-cab-loc{font-size:11px;color:var(--muted);margin-top:2px;}
+.mob-cab-right{text-align:right;flex-shrink:0;}
+.mob-cab-note{font-weight:800;font-size:14px;color:var(--warn);}
+.mob-cab-avis{font-size:10px;color:var(--muted);margin-top:2px;}
+.mob-cab-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:3px;display:inline-block;}
+.mob-cab-badge.ok{background:var(--success-bg);color:var(--success);}
+.mob-cab-badge.warn{background:var(--warn-bg);color:var(--warn);}
+.mob-cab-badge.danger{background:var(--danger-bg);color:var(--danger);}
+.mob-alerte-row{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);}
+.mob-alerte-row:last-child{border-bottom:none;}
+.mob-alerte-icon{font-size:20px;flex-shrink:0;}
+.mob-alerte-info{flex:1;}
+.mob-alerte-name{font-weight:600;font-size:13px;}
+.mob-alerte-desc{font-size:11px;color:var(--muted);margin-top:2px;}
+.mob-comm-row{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid var(--border);}
+.mob-comm-row:last-child{border-bottom:none;}
+.mob-comm-av{width:38px;height:38px;background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;flex-shrink:0;}
+.mob-comm-info{flex:1;}
+.mob-comm-name{font-weight:700;font-size:13px;}
+.mob-comm-ville{font-size:11px;color:var(--muted);margin-top:2px;}
+.mob-comm-right{text-align:right;}
+.mob-comm-cabs{font-weight:800;font-size:14px;color:var(--primary);}
+.mob-comm-rev{font-size:11px;color:var(--success);margin-top:2px;}
+
+/* BOTTOM NAV */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;}
+.bottom-nav-bg{background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:8px 12px calc(8px + env(safe-area-inset-bottom));display:flex;gap:4px;}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--muted);font-size:9.5px;font-weight:600;border-radius:12px;padding:8px 4px;}
+.bn-item svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;}
+.bn-item.active{color:var(--primary);}
+.bn-dot{width:4px;height:4px;background:var(--primary);border-radius:50%;opacity:0;}
+.bn-item.active .bn-dot{opacity:1;}
+.fab{position:fixed;bottom:90px;right:16px;width:52px;height:52px;background:var(--primary);border-radius:16px;display:none;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,87,255,.4);cursor:pointer;z-index:200;font-size:24px;color:#fff;font-weight:700;}
 
 /* FIELD */
 .field-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#6b7fa3;display:block;margin-bottom:6px;}
 .field-input{width:100%;padding:10px 14px;border:1px solid #e4ecf7;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;color:#0a1628;background:#fff;}
 .field-input:focus{border-color:#0057ff;}
 
-/* LOADING */
-.loading-wrap{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--muted);}
-.spinner{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;margin-right:10px;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
 @media(max-width:1200px){.kpi-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:768px){.sidebar{display:none;}.main{margin-left:0;}.content{padding:14px;}}
+@media(max-width:768px){
+  .desktop{display:none;}
+  .mobile{display:block;padding-bottom:calc(80px + env(safe-area-inset-bottom));}
+  .bottom-nav{display:block;}
+  .fab{display:flex;}
+}
 </style>
 </head>
 <body>
-<div class="shell">
 
+<!-- ══════════ DESKTOP ══════════ -->
+<div class="desktop">
 <aside class="sidebar">
   <div class="logo">
     <div class="logo-icon"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
@@ -161,74 +205,58 @@ nav{padding:14px 10px;flex:1;}
   </div>
   <div class="content">
 
-    <!-- DASHBOARD -->
     <div class="view active" id="view-dashboard">
       <div class="kpi-grid">
         <div class="kpi-card fire"><div class="kpi-label">MRR — Revenus récurrents</div><div class="kpi-val" id="kpi-mrr">0 MAD</div><div class="kpi-sub" style="color:rgba(255,255,255,.7)" id="kpi-mrr-sub">0 cabinets × 1 499 MAD</div></div>
-        <div class="kpi-card"><div class="kpi-label">Cabinets actifs</div><div class="kpi-val" id="kpi-cabinets" style="color:var(--primary)">0</div><div class="kpi-sub up" id="kpi-cab-sub">→ Objectif : 50</div></div>
+        <div class="kpi-card"><div class="kpi-label">Cabinets actifs</div><div class="kpi-val" id="kpi-cabinets" style="color:var(--primary)">0</div><div class="kpi-sub up">→ Objectif : 50</div></div>
         <div class="kpi-card"><div class="kpi-label">Avis Google collectés</div><div class="kpi-val" id="kpi-avis" style="color:var(--success)">0</div><div class="kpi-sub up">Total tous cabinets</div></div>
         <div class="kpi-card"><div class="kpi-label">Alertes en cours</div><div class="kpi-val" id="kpi-alertes" style="color:var(--danger)">0</div><div class="kpi-sub warn" id="kpi-alertes-sub">Patients mécontents</div></div>
       </div>
-
       <div class="revenus-section">
         <div class="revenus-head"><div class="revenus-title">💰 Aperçu financier</div></div>
         <div class="revenus-grid">
           <div class="revenu-item"><div class="revenu-val" id="rev-mrr" style="color:var(--fire)">0 MAD</div><div class="revenu-lbl">MRR mensuel</div><div class="revenu-sub" style="color:var(--success)">↑ Récurrent garanti</div></div>
           <div class="revenu-item"><div class="revenu-val" id="rev-arr" style="color:var(--primary)">0 MAD</div><div class="revenu-lbl">ARR annuel</div><div class="revenu-sub" style="color:var(--muted)">MRR × 12</div></div>
-          <div class="revenu-item"><div class="revenu-val" id="rev-comm" style="color:var(--warn)">0 MAD</div><div class="revenu-lbl">Commissions commerciaux</div><div class="revenu-sub" style="color:var(--muted)">10% récurrent</div></div>
+          <div class="revenu-item"><div class="revenu-val" id="rev-net" style="color:var(--success)">0 MAD</div><div class="revenu-lbl">Net après commissions</div><div class="revenu-sub" style="color:var(--muted)">Après 10% commerciaux</div></div>
         </div>
       </div>
-
       <div style="margin-bottom:12px;font-weight:800;font-size:16px;">🏥 Cabinets — Vue d'ensemble</div>
       <div class="cabinets-grid" id="dash-cabinets">
         <div class="loading-wrap"><div class="spinner"></div>Chargement...</div>
       </div>
     </div>
 
-    <!-- CABINETS -->
     <div class="view" id="view-cabinets">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-        <div><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">Tous les cabinets</div><div style="color:var(--muted);font-size:12px" id="cab-count-sub">Chargement...</div></div>
-      </div>
-      <div class="cabinets-grid" id="all-cabinets">
-        <div class="loading-wrap"><div class="spinner"></div>Chargement...</div>
-      </div>
+      <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px">Tous les cabinets</div><div style="color:var(--muted);font-size:12px" id="cab-count-sub">—</div></div>
+      <div class="cabinets-grid" id="all-cabinets"><div class="loading-wrap"><div class="spinner"></div>Chargement...</div></div>
     </div>
 
-    <!-- ALERTES -->
     <div class="view" id="view-alertes">
-      <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">🚨 Alertes</div><div style="color:var(--muted);font-size:12px">Patients mécontents — tous cabinets</div></div>
-      <div id="alertes-content">
-        <div class="loading-wrap"><div class="spinner"></div>Chargement...</div>
-      </div>
+      <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px">🚨 Alertes</div><div style="color:var(--muted);font-size:12px">Patients mécontents — tous cabinets</div></div>
+      <div id="alertes-content"><div class="loading-wrap"><div class="spinner"></div>Chargement...</div></div>
     </div>
 
-    <!-- COMMERCIAUX -->
     <div class="view" id="view-commerciaux">
-      <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">Commerciaux</div></div>
-      <div class="comm-grid">
+      <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px">Commerciaux</div></div>
+      <div class="comm-grid" id="dt-commerciaux">
         <div class="comm-card">
-          <div class="comm-card-head">
-            <div class="comm-av">AM</div>
-            <div><div class="comm-name">Ameur Mohamed</div><div class="comm-ville">📍 Oujda</div></div>
-          </div>
+          <div class="comm-card-head"><div class="comm-av">AM</div><div><div class="comm-name">Ameur Mohamed</div><div class="comm-ville">📍 Oujda</div></div></div>
           <div class="comm-stats">
-            <div class="comm-stat"><div class="comm-stat-val" style="color:var(--warn)" id="ameur-cabs">0</div><div class="comm-stat-lbl">Cabinets</div></div>
-            <div class="comm-stat"><div class="comm-stat-val" style="color:var(--success)" id="ameur-rev">0 MAD</div><div class="comm-stat-lbl">Récurrent/mois</div></div>
+            <div class="comm-stat"><div class="comm-stat-val" style="color:var(--warn)" id="ameur-cabs-dt">0</div><div class="comm-stat-lbl">Cabinets</div></div>
+            <div class="comm-stat"><div class="comm-stat-val" style="color:var(--success)" id="ameur-rev-dt">0 MAD</div><div class="comm-stat-lbl">Récurrent/mois</div></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- REVENUS -->
     <div class="view" id="view-revenus">
-      <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px;letter-spacing:-.5px">💰 Revenus</div></div>
+      <div style="margin-bottom:16px"><div style="font-weight:800;font-size:20px">💰 Revenus</div></div>
       <div class="revenus-section">
         <div class="revenus-head"><div class="revenus-title">Récapitulatif financier</div></div>
         <div class="revenus-grid">
-          <div class="revenu-item"><div class="revenu-val" id="rev2-mrr" style="color:var(--fire)">0 MAD</div><div class="revenu-lbl">MRR mensuel</div><div class="revenu-sub" style="color:var(--success)">Revenus récurrents</div></div>
-          <div class="revenu-item"><div class="revenu-val" id="rev2-arr" style="color:var(--primary)">0 MAD</div><div class="revenu-lbl">ARR annuel</div><div class="revenu-sub" style="color:var(--muted)">Projection</div></div>
-          <div class="revenu-item"><div class="revenu-val" id="rev2-net" style="color:var(--success)">0 MAD</div><div class="revenu-lbl">Net après commissions</div><div class="revenu-sub" style="color:var(--muted)">Après 10% commerciaux</div></div>
+          <div class="revenu-item"><div class="revenu-val" id="rev2-mrr" style="color:var(--fire)">0 MAD</div><div class="revenu-lbl">MRR mensuel</div></div>
+          <div class="revenu-item"><div class="revenu-val" id="rev2-arr" style="color:var(--primary)">0 MAD</div><div class="revenu-lbl">ARR annuel</div></div>
+          <div class="revenu-item"><div class="revenu-val" id="rev2-net" style="color:var(--success)">0 MAD</div><div class="revenu-lbl">Net après commissions</div></div>
         </div>
       </div>
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;">
@@ -246,14 +274,141 @@ nav{padding:14px 10px;flex:1;}
 </main>
 </div>
 
+<!-- ══════════ MOBILE ══════════ -->
+<div class="mobile" id="mobile-app">
+
+  <!-- HOME -->
+  <div id="mob-home">
+    <div class="mob-header">
+      <div class="mob-header-top">
+        <div><div class="mob-greeting">Dashboard Owner 👑</div><div class="mob-title">Mamoun Bennis</div></div>
+        <div class="mob-av">MB</div>
+      </div>
+      <div class="mob-kpi-grid">
+        <div class="mob-kpi fire"><div class="mob-kpi-val" id="mob-mrr">0 MAD</div><div class="mob-kpi-lbl">MRR / mois</div></div>
+        <div class="mob-kpi"><div class="mob-kpi-val" id="mob-cabs">0</div><div class="mob-kpi-lbl">Cabinets</div></div>
+        <div class="mob-kpi"><div class="mob-kpi-val" id="mob-avis" style="color:#4d8bff">0</div><div class="mob-kpi-lbl">Avis Google</div></div>
+        <div class="mob-kpi"><div class="mob-kpi-val" id="mob-alertes" style="color:#f87171">0</div><div class="mob-kpi-lbl">⚠️ Alertes</div></div>
+      </div>
+    </div>
+
+    <div class="mob-content">
+
+      <!-- ALERTES -->
+      <div id="mob-alertes-section" style="display:none;margin-bottom:16px;">
+        <div class="mob-section-title">
+          🚨 Alertes
+          <span class="mob-section-badge" id="mob-alerte-count">0</span>
+        </div>
+        <div class="mob-card" id="mob-alertes-list"></div>
+      </div>
+
+      <!-- CABINETS -->
+      <div style="margin-bottom:16px;">
+        <div class="mob-section-title">🏥 Mes cabinets <span style="font-size:12px;color:var(--muted);font-weight:500" id="mob-cab-count-lbl"></span></div>
+        <div class="mob-card" id="mob-cabinets-list">
+          <div class="loading-wrap"><div class="spinner"></div>Chargement...</div>
+        </div>
+      </div>
+
+      <!-- COMMERCIAUX -->
+      <div style="margin-bottom:16px;">
+        <div class="mob-section-title">💼 Commerciaux</div>
+        <div class="mob-card">
+          <div class="mob-comm-row">
+            <div class="mob-comm-av">AM</div>
+            <div class="mob-comm-info">
+              <div class="mob-comm-name">Ameur Mohamed</div>
+              <div class="mob-comm-ville">📍 Oujda</div>
+            </div>
+            <div class="mob-comm-right">
+              <div class="mob-comm-cabs" id="mob-ameur-cabs">0 cabinets</div>
+              <div class="mob-comm-rev" id="mob-ameur-rev">0 MAD/mois</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ALERTES PAGE -->
+  <div id="mob-alertes-page" style="display:none;">
+    <div style="background:var(--sidebar);padding:16px 16px 12px;">
+      <div style="font-weight:800;font-size:17px;color:#fff;">🚨 Alertes</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:3px;">Patients mécontents</div>
+    </div>
+    <div style="padding:14px;" id="mob-alertes-page-content">
+      <div class="loading-wrap"><div class="spinner"></div>Chargement...</div>
+    </div>
+  </div>
+
+  <!-- CABINETS PAGE -->
+  <div id="mob-cabinets-page" style="display:none;">
+    <div style="background:var(--sidebar);padding:16px 16px 12px;">
+      <div style="font-weight:800;font-size:17px;color:#fff;">🏥 Tous les cabinets</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:3px;" id="mob-cab-page-sub">—</div>
+    </div>
+    <div style="padding:14px;" id="mob-cabinets-page-content">
+      <div class="loading-wrap"><div class="spinner"></div>Chargement...</div>
+    </div>
+  </div>
+
+  <!-- REVENUS PAGE -->
+  <div id="mob-revenus-page" style="display:none;">
+    <div style="background:var(--sidebar);padding:16px 16px 12px;">
+      <div style="font-weight:800;font-size:17px;color:#fff;">💰 Revenus</div>
+    </div>
+    <div style="padding:14px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div style="background:linear-gradient(135deg,#ff4d00,#ff8c00);border-radius:14px;padding:16px;text-align:center;">
+          <div style="font-size:10px;color:rgba(255,255,255,.7);font-weight:700;text-transform:uppercase;margin-bottom:6px;">MRR</div>
+          <div style="font-weight:900;font-size:22px;color:#fff;letter-spacing:-1px" id="mob-rev-mrr">0 MAD</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;">
+          <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;margin-bottom:6px;">ARR</div>
+          <div style="font-weight:900;font-size:22px;color:var(--primary);letter-spacing:-1px" id="mob-rev-arr">0 MAD</div>
+        </div>
+        <div style="background:var(--success-bg);border:1px solid rgba(0,196,154,.2);border-radius:14px;padding:16px;text-align:center;">
+          <div style="font-size:10px;color:var(--success);font-weight:700;text-transform:uppercase;margin-bottom:6px;">Net</div>
+          <div style="font-weight:900;font-size:22px;color:var(--success);letter-spacing:-1px" id="mob-rev-net">0 MAD</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;">
+          <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;margin-bottom:6px;">Commissions</div>
+          <div style="font-weight:900;font-size:22px;color:var(--warn);letter-spacing:-1px" id="mob-rev-comm">0 MAD</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;">
+        <div style="font-weight:700;font-size:13px;margin-bottom:12px;">📈 Objectifs</div>
+        <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);"><span style="font-size:13px;color:var(--muted)">10 cabinets</span><span style="font-weight:700;color:var(--success)">14 990 MAD/mois</span></div>
+        <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);"><span style="font-size:13px;color:var(--muted)">25 cabinets</span><span style="font-weight:700;color:var(--warn)">37 475 MAD/mois</span></div>
+        <div style="display:flex;justify-content:space-between;padding:10px 0;"><span style="font-size:13px;color:var(--muted)">50 cabinets 🔥</span><span style="font-weight:700;color:var(--fire)">74 950 MAD/mois</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV MOBILE -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-bg">
+    <div class="bn-item active" id="bn-home" onclick="mobGo('home',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span>Accueil</span><div class="bn-dot"></div></div>
+    <div class="bn-item" id="bn-alertes" onclick="mobGo('alertes-page',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><span>Alertes</span><div class="bn-dot"></div></div>
+    <div class="bn-item" id="bn-cabinets" onclick="mobGo('cabinets-page',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M3 21h18M9 8h1m5 0h1M9 12h1m5 0h1M9 16h1m5 0h1M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/></svg><span>Cabinets</span><div class="bn-dot"></div></div>
+    <div class="bn-item" id="bn-revenus" onclick="mobGo('revenus-page',this)"><svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg><span>Revenus</span><div class="bn-dot"></div></div>
+  </div>
+</nav>
+
+<div class="fab" onclick="openModal()">+</div>
+
 <!-- MODAL -->
 <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:16px;">
-  <div style="background:#fff;border-radius:20px;padding:28px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;">
+  <div style="background:#fff;border-radius:20px;padding:24px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
       <div style="font-weight:800;font-size:18px;">+ Nouveau cabinet</div>
       <div onclick="closeModal()" style="cursor:pointer;width:28px;height:28px;background:#f1f5fb;border-radius:50%;display:grid;place-items:center;font-size:16px;">×</div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:14px;">
+    <div style="display:flex;flex-direction:column;gap:12px;">
       <div><label class="field-label">Nom du cabinet *</label><input id="m-cabinet" class="field-input" type="text" placeholder="Ex: Cabinet Hassan II"></div>
       <div><label class="field-label">Nom du médecin *</label><input id="m-medecin" class="field-input" type="text" placeholder="Ex: Dr. Ahmed Benali"></div>
       <div><label class="field-label">Email du médecin *</label><input id="m-email" class="field-input" type="email" placeholder="Ex: docteur@gmail.com"></div>
@@ -271,7 +426,7 @@ nav{padding:14px 10px;flex:1;}
       </div>
       <div><label class="field-label">Téléphone</label><input id="m-tel" class="field-input" type="tel" placeholder="Ex: 0612345678"></div>
       <div id="modal-status" style="display:none;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;text-align:center;"></div>
-      <div style="display:flex;gap:10px;margin-top:6px;">
+      <div style="display:flex;gap:10px;margin-top:4px;">
         <button onclick="closeModal()" style="flex:1;padding:12px;border:1px solid #e4ecf7;border-radius:10px;font-family:'Inter',sans-serif;font-weight:600;font-size:14px;cursor:pointer;background:#fff;color:#6b7fa3;">Annuler</button>
         <button id="btn-ajouter" onclick="ajouterCabinet()" style="flex:2;padding:12px;border:none;border-radius:10px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;cursor:pointer;background:#0057ff;color:#fff;">✓ Créer le cabinet</button>
       </div>
@@ -282,43 +437,39 @@ nav{padding:14px 10px;flex:1;}
 <script>
 const GOOGLE_API_KEY='AIzaSyCy3jfMxuWxeQXE0L7rLm3AZbNwCQegneM';
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwYr7q7WCTCVaiP08KGnPOKiChyOZNg9wCLFpC1d84evPkyGjDskevv4n2h1Y48nWv7/exec';
+const COLORS=['#0057ff','#00c49a','#f59e0b','#7c3aed','#ec4899','#ef4444'];
 
-// Liste des cabinets (Sheet IDs) — à mettre à jour
-let CABINETS = [];
-let allAlertes = [];
-let totalAvis = 0;
+let CABINETS=JSON.parse(localStorage.getItem('medipulse_cabinets')||'[]');
+let allAlertes=[];
+let totalAvis=0;
+let cabinetsData=[];
 
+// ── DESKTOP NAV ──
 const T={dashboard:'Dashboard Owner 👑',cabinets:'Tous les cabinets',alertes:'🚨 Alertes',commerciaux:'Commerciaux',revenus:'💰 Revenus'};
-
 function go(name,el){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  if(el&&el.classList.contains('nav-item'))el.classList.add('active');
+  if(el)el.classList.add('active');
   if(T[name])document.getElementById('t-title').textContent=T[name];
 }
 
-// ── CHARGER TOUS LES CABINETS DEPUIS DRIVE ──
-async function loadAllCabinets(){
-  try{
-    // Charger la liste des Sheets depuis le dossier MediPulse Cabinets
-    // Pour l'instant on utilise les IDs connus via Gmail owner
-    const emailData = await fetchCabinetsFromEmails();
-    return emailData;
-  }catch(e){
-    return [];
-  }
+// ── MOBILE NAV ──
+function mobGo(name,el){
+  ['home','alertes-page','cabinets-page','revenus-page'].forEach(n=>{
+    const e=document.getElementById('mob-'+n);
+    if(e)e.style.display='none';
+  });
+  const target=document.getElementById('mob-'+name);
+  if(target)target.style.display='block';
+  document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
+  if(el)el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-async function fetchCabinetsFromEmails(){
-  // Récupérer les cabinets depuis le Sheet de configuration owner
-  // On utilise un Sheet maître qui liste tous les cabinets
-  return CABINETS;
-}
-
+// ── CHARGER DONNÉES CABINET ──
 async function loadCabinetData(sheetId){
   try{
-    // Charger config
     const configUrl=`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Config%20MediPulse!A1:B10?key=${GOOGLE_API_KEY}`;
     const configRes=await fetch(configUrl);
     const configData=await configRes.json();
@@ -331,56 +482,35 @@ async function loadCabinetData(sheetId){
         if(row[0]==='Lien Google') config.lienGoogle=row[1]||'';
       });
     }
-
-    // Charger les réponses
-    const fusionUrl=`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Fusion!A:G?key=${GOOGLE_API_KEY}`;
-    const fusionRes=await fetch(fusionUrl);
-    const fusionData=await fusionRes.json();
     let avis=0,note=0,alertes=[];
-    if(fusionData.values&&fusionData.values.length>1){
-      const rows=fusionData.values.slice(1).filter(r=>r[0]);
-      avis=rows.length;
-      const notes=rows.map(r=>parseInt(r[2])||0).filter(n=>n>0);
-      note=notes.length>0?(notes.reduce((a,b)=>a+b,0)/notes.length).toFixed(1):0;
-      alertes=rows.filter(r=>parseInt(r[2])>0&&parseInt(r[2])<=3).map(r=>({
-        nom:r[1]||'Patient',
-        note:parseInt(r[2])||0,
-        commentaire:r[3]||'',
-        horodateur:r[0]||'',
-        cabinet:config.nomCabinet
-      }));
-    }
-
-    return {...config, sheetId, avis, note, alertes};
-  }catch(e){
-    return null;
-  }
+    try{
+      const fusionUrl=`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Fusion!A:G?key=${GOOGLE_API_KEY}`;
+      const fusionRes=await fetch(fusionUrl);
+      const fusionData=await fusionRes.json();
+      if(fusionData.values&&fusionData.values.length>1){
+        const rows=fusionData.values.slice(1).filter(r=>r[0]);
+        avis=rows.length;
+        const notes=rows.map(r=>parseInt(r[2])||0).filter(n=>n>0);
+        note=notes.length>0?(notes.reduce((a,b)=>a+b,0)/notes.length).toFixed(1):0;
+        alertes=rows.filter(r=>parseInt(r[2])>0&&parseInt(r[2])<=3).map(r=>({
+          nom:r[1]||'Patient',
+          note:parseInt(r[2])||0,
+          commentaire:r[3]||'',
+          horodateur:r[0]||'',
+          cabinet:config.nomCabinet,
+          sheetId
+        }));
+      }
+    }catch(e){}
+    return {...config,sheetId,avis,note,alertes};
+  }catch(e){return null;}
 }
 
-async function initDashboard(){
-  // Charger les cabinets depuis les emails owner (Sheet IDs reçus)
-  // On va chercher dans localStorage les cabinets créés
-  const storedCabinets=JSON.parse(localStorage.getItem('medipulse_cabinets')||'[]');
-  CABINETS=storedCabinets;
-
-  if(!CABINETS.length){
-    document.getElementById('dash-cabinets').innerHTML=`
-      <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);">
-        <div style="font-size:40px;margin-bottom:12px">🏥</div>
-        <div style="font-weight:700;font-size:16px;margin-bottom:8px">Aucun cabinet pour l'instant</div>
-        <div style="font-size:13px">Créez votre premier cabinet via le bouton "+ Nouveau cabinet"</div>
-      </div>`;
-    document.getElementById('all-cabinets').innerHTML=document.getElementById('dash-cabinets').innerHTML;
-    return;
-  }
-
-  await refreshAllData();
-}
-
+// ── REFRESH ──
 async function refreshAllData(){
-  const cabinetsData=[];
   allAlertes=[];
   totalAvis=0;
+  cabinetsData=[];
 
   for(const cab of CABINETS){
     const data=await loadCabinetData(cab.sheetId);
@@ -391,104 +521,153 @@ async function refreshAllData(){
     }
   }
 
-  updateKPIs(cabinetsData);
-  renderCabinets(cabinetsData,'dash-cabinets');
-  renderCabinets(cabinetsData,'all-cabinets');
-  renderAlertes(allAlertes);
-
-  // Refresh toutes les 30 secondes
-  setTimeout(refreshAllData, 30000);
+  updateAll();
+  setTimeout(refreshAllData,30000);
 }
 
-function updateKPIs(cabinets){
-  const nbCab=cabinets.length;
+function updateAll(){
+  const nbCab=cabinetsData.length;
   const mrr=nbCab*1499;
   const arr=mrr*12;
-  const comm=mrr*0.10;
+  const comm=Math.round(mrr*0.10);
+  const net=Math.round(mrr*0.90);
 
+  // Desktop KPIs
   document.getElementById('kpi-mrr').textContent=mrr.toLocaleString('fr-FR')+' MAD';
   document.getElementById('kpi-mrr-sub').textContent=nbCab+' cabinets × 1 499 MAD';
   document.getElementById('kpi-cabinets').textContent=nbCab;
-  document.getElementById('kpi-cab-sub').textContent='→ Objectif : 50 cabinets';
   document.getElementById('kpi-avis').textContent=totalAvis;
   document.getElementById('kpi-alertes').textContent=allAlertes.length;
   document.getElementById('kpi-alertes-sub').textContent=allAlertes.length>0?allAlertes.length+' patients mécontents':'Tout va bien ✅';
-
   document.getElementById('rev-mrr').textContent=mrr.toLocaleString('fr-FR')+' MAD';
   document.getElementById('rev-arr').textContent=arr.toLocaleString('fr-FR')+' MAD';
-  document.getElementById('rev-comm').textContent=comm.toLocaleString('fr-FR')+' MAD';
-
+  document.getElementById('rev-net').textContent=net.toLocaleString('fr-FR')+' MAD';
   document.getElementById('rev2-mrr').textContent=mrr.toLocaleString('fr-FR')+' MAD';
   document.getElementById('rev2-arr').textContent=arr.toLocaleString('fr-FR')+' MAD';
-  document.getElementById('rev2-net').textContent=Math.round(mrr*0.90).toLocaleString('fr-FR')+' MAD';
+  document.getElementById('rev2-net').textContent=net.toLocaleString('fr-FR')+' MAD';
   document.getElementById('proj-now').textContent=mrr.toLocaleString('fr-FR')+' MAD';
-
   document.getElementById('cab-count-badge').textContent=nbCab;
   document.getElementById('cab-count-sub').textContent=nbCab+' cabinets actifs';
 
+  // Alertes badge
   if(allAlertes.length>0){
     document.getElementById('alerte-nav-badge').style.display='inline';
     document.getElementById('alerte-nav-badge').textContent=allAlertes.length;
   }
+
+  // Mobile KPIs
+  document.getElementById('mob-mrr').textContent=mrr.toLocaleString('fr-FR')+' MAD';
+  document.getElementById('mob-cabs').textContent=nbCab;
+  document.getElementById('mob-avis').textContent=totalAvis;
+  document.getElementById('mob-alertes').textContent=allAlertes.length;
+  document.getElementById('mob-cab-count-lbl').textContent='('+nbCab+')';
+  document.getElementById('mob-cab-page-sub').textContent=nbCab+' cabinets actifs';
+  document.getElementById('mob-rev-mrr').textContent=mrr.toLocaleString('fr-FR')+' MAD';
+  document.getElementById('mob-rev-arr').textContent=arr.toLocaleString('fr-FR')+' MAD';
+  document.getElementById('mob-rev-net').textContent=net.toLocaleString('fr-FR')+' MAD';
+  document.getElementById('mob-rev-comm').textContent=comm.toLocaleString('fr-FR')+' MAD';
+
+  // Commerciaux
+  document.getElementById('ameur-cabs-dt').textContent=nbCab;
+  document.getElementById('ameur-rev-dt').textContent=(nbCab*150).toLocaleString('fr-FR')+' MAD';
+  document.getElementById('mob-ameur-cabs').textContent=nbCab+' cabinets';
+  document.getElementById('mob-ameur-rev').textContent=(nbCab*150).toLocaleString('fr-FR')+' MAD/mois';
+
+  renderCabinets();
+  renderAlertes();
 }
 
-function renderCabinets(cabinets,containerId){
-  const container=document.getElementById(containerId);
-  if(!cabinets.length){
-    container.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted);">Aucun cabinet</div>';
+function renderCabinets(){
+  const dtDash=document.getElementById('dash-cabinets');
+  const dtAll=document.getElementById('all-cabinets');
+  const mobList=document.getElementById('mob-cabinets-list');
+  const mobPage=document.getElementById('mob-cabinets-page-content');
+
+  if(!cabinetsData.length){
+    const empty=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);"><div style="font-size:36px;margin-bottom:10px">🏥</div><div style="font-weight:700">Aucun cabinet</div><div style="font-size:12px;margin-top:4px">Créez votre premier cabinet !</div></div>`;
+    dtDash.innerHTML=empty;
+    dtAll.innerHTML=empty;
+    mobList.innerHTML='<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px;">Aucun cabinet pour l\'instant</div>';
+    mobPage.innerHTML=mobList.innerHTML;
     return;
   }
-  const colors=['#0057ff','#00c49a','#f59e0b','#7c3aed','#ec4899','#ef4444'];
-  container.innerHTML=cabinets.map((c,i)=>{
-    const color=colors[i%colors.length];
+
+  const dtHtml=cabinetsData.map((c,i)=>{
+    const color=COLORS[i%COLORS.length];
     const initials=(c.nomCabinet||'C').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
     const hasAlerte=c.alertes&&c.alertes.length>0;
     const noteNum=parseFloat(c.note)||0;
     let statusLabel='Actif',statusClass='ok';
     if(hasAlerte){statusLabel='⚠️ Alerte';statusClass='danger';}
     else if(noteNum>0&&noteNum<4){statusLabel='À surveiller';statusClass='warn';}
-
     return `
       <div class="cab-card">
         <div class="cab-card-head">
           <div class="cab-logo" style="background:linear-gradient(135deg,${color},${color}99)">${initials}</div>
-          <div>
-            <div class="cab-name">${c.nomCabinet}</div>
-            <div class="cab-loc">📍 ${c.ville} · ${c.medecin||'—'}</div>
-          </div>
+          <div><div class="cab-name">${c.nomCabinet}</div><div class="cab-loc">📍 ${c.ville} · ${c.medecin||'—'}</div></div>
           <span class="cab-status ${statusClass}">${statusLabel}</span>
         </div>
         <div class="cab-stats">
-          <div class="cab-stat">
-            <div class="cab-stat-val" style="color:var(--warn)">${noteNum>0?noteNum+'⭐':'—'}</div>
-            <div class="cab-stat-lbl">Note</div>
-          </div>
-          <div class="cab-stat">
-            <div class="cab-stat-val" style="color:var(--primary)">${c.avis||0}</div>
-            <div class="cab-stat-lbl">Avis</div>
-          </div>
-          <div class="cab-stat">
-            <div class="cab-stat-val" style="color:var(--success)">1 499</div>
-            <div class="cab-stat-lbl">MAD/mois</div>
-          </div>
+          <div class="cab-stat"><div class="cab-stat-val" style="color:var(--warn)">${noteNum>0?noteNum+'⭐':'—'}</div><div class="cab-stat-lbl">Note</div></div>
+          <div class="cab-stat"><div class="cab-stat-val" style="color:var(--primary)">${c.avis||0}</div><div class="cab-stat-lbl">Avis</div></div>
+          <div class="cab-stat"><div class="cab-stat-val" style="color:var(--success)">1 499</div><div class="cab-stat-lbl">MAD/mois</div></div>
         </div>
-        ${hasAlerte?`<div class="cab-alerte show">🚨 ${c.alertes.length} patient(s) mécontent(s) — Intervention requise</div>`:''}
+        ${hasAlerte?`<div class="cab-alerte">🚨 ${c.alertes.length} patient(s) mécontent(s)</div>`:''}
       </div>`;
   }).join('');
+
+  dtDash.innerHTML=dtHtml;
+  dtAll.innerHTML=dtHtml;
+
+  // Mobile list
+  const mobHtml=cabinetsData.map((c,i)=>{
+    const color=COLORS[i%COLORS.length];
+    const initials=(c.nomCabinet||'C').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    const hasAlerte=c.alertes&&c.alertes.length>0;
+    const noteNum=parseFloat(c.note)||0;
+    let badgeClass='ok',badgeLabel='Actif';
+    if(hasAlerte){badgeClass='danger';badgeLabel='⚠️ Alerte';}
+    else if(noteNum>0&&noteNum<4){badgeClass='warn';badgeLabel='À surveiller';}
+    return `
+      <div class="mob-cab-row">
+        <div class="mob-cab-logo" style="background:linear-gradient(135deg,${color},${color}99)">${initials}</div>
+        <div class="mob-cab-info">
+          <div class="mob-cab-name">${c.nomCabinet}</div>
+          <div class="mob-cab-loc">📍 ${c.ville}</div>
+        </div>
+        <div class="mob-cab-right">
+          <div class="mob-cab-note">${noteNum>0?noteNum+'⭐':'—'}</div>
+          <div class="mob-cab-avis">${c.avis||0} avis</div>
+          <div class="mob-cab-badge ${badgeClass}">${badgeLabel}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  mobList.innerHTML=mobHtml;
+  mobPage.innerHTML=mobHtml;
 }
 
-function renderAlertes(alertes){
-  const container=document.getElementById('alertes-content');
-  if(!alertes.length){
-    container.innerHTML=`
-      <div style="background:var(--success-bg);border:1px solid rgba(0,196,154,.2);border-radius:16px;padding:32px;text-align:center;">
-        <div style="font-size:40px;margin-bottom:12px">✅</div>
-        <div style="font-weight:700;font-size:16px;color:var(--success);margin-bottom:4px">Aucune alerte !</div>
-        <div style="font-size:13px;color:var(--muted)">Tous les patients sont satisfaits</div>
-      </div>`;
+function renderAlertes(){
+  // Desktop
+  const dtContainer=document.getElementById('alertes-content');
+  // Mobile section
+  const mobSection=document.getElementById('mob-alertes-section');
+  const mobList=document.getElementById('mob-alertes-list');
+  const mobPageContent=document.getElementById('mob-alertes-page-content');
+  const mobCount=document.getElementById('mob-alerte-count');
+
+  if(!allAlertes.length){
+    const successHtml=`<div style="background:var(--success-bg);border:1px solid rgba(0,196,154,.2);border-radius:16px;padding:32px;text-align:center;"><div style="font-size:40px;margin-bottom:12px">✅</div><div style="font-weight:700;font-size:16px;color:var(--success);">Aucune alerte !</div><div style="font-size:13px;color:var(--muted);margin-top:4px">Tous les patients sont satisfaits</div></div>`;
+    if(dtContainer) dtContainer.innerHTML=successHtml;
+    if(mobSection) mobSection.style.display='none';
+    if(mobPageContent) mobPageContent.innerHTML=successHtml;
     return;
   }
-  container.innerHTML=alertes.map(a=>`
+
+  if(mobSection) mobSection.style.display='block';
+  if(mobCount) mobCount.textContent=allAlertes.length;
+
+  const alertesHtml=allAlertes.map(a=>`
     <div class="alerte-card">
       <div class="alerte-icon">😔</div>
       <div class="alerte-info">
@@ -496,29 +675,34 @@ function renderAlertes(alertes){
         <div class="alerte-desc">Note : ${'⭐'.repeat(Math.max(1,a.note))} · ${a.commentaire||'Pas de commentaire'}</div>
       </div>
       <div class="alerte-time">${getTimeAgo(new Date(a.horodateur))}</div>
-    </div>
-  `).join('');
+    </div>`).join('');
+
+  const mobAlerteRows=allAlertes.map(a=>`
+    <div class="mob-alerte-row">
+      <div class="mob-alerte-icon">😔</div>
+      <div class="mob-alerte-info">
+        <div class="mob-alerte-name">${a.nom} — ${a.cabinet}</div>
+        <div class="mob-alerte-desc">Note : ${'⭐'.repeat(Math.max(1,a.note))} · ${a.commentaire||'—'}</div>
+      </div>
+    </div>`).join('');
+
+  if(dtContainer) dtContainer.innerHTML=alertesHtml;
+  if(mobList) mobList.innerHTML=mobAlerteRows;
+  if(mobPageContent) mobPageContent.innerHTML=alertesHtml;
 }
 
 function getTimeAgo(date){
   if(!date||isNaN(date)) return '—';
   const diff=(new Date()-date)/1000;
   if(diff<60) return 'À l\'instant';
-  if(diff<3600) return 'Il y a '+Math.round(diff/60)+'min';
-  if(diff<86400) return 'Il y a '+Math.round(diff/3600)+'h';
-  return 'Il y a '+Math.round(diff/86400)+'j';
+  if(diff<3600) return Math.round(diff/60)+'min';
+  if(diff<86400) return Math.round(diff/3600)+'h';
+  return Math.round(diff/86400)+'j';
 }
 
 // MODAL
-function openModal(){
-  document.getElementById('modal').style.display='flex';
-  document.body.style.overflow='hidden';
-}
-function closeModal(){
-  document.getElementById('modal').style.display='none';
-  document.body.style.overflow='';
-  document.getElementById('modal-status').style.display='none';
-}
+function openModal(){document.getElementById('modal').style.display='flex';document.body.style.overflow='hidden';}
+function closeModal(){document.getElementById('modal').style.display='none';document.body.style.overflow='';document.getElementById('modal-status').style.display='none';}
 
 async function ajouterCabinet(){
   const cab=document.getElementById('m-cabinet').value.trim();
@@ -541,51 +725,39 @@ async function ajouterCabinet(){
   showStatus('⏳ Création en cours... (~20 sec)','#e6eeff','#0057ff');
 
   try{
-    const res=await fetch(SCRIPT_URL,{
-      method:'POST',
-      body:JSON.stringify({nomCabinet:cab,nomMedecin:med,email,emailAssistante,lienGoogle,specialite:spec,ville,tel})
-    });
+    const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({nomCabinet:cab,nomMedecin:med,email,emailAssistante,lienGoogle,specialite:spec,ville,tel})});
     const data=await res.json();
     if(data.success){
       showStatus('✅ Cabinet créé ! Emails envoyés 🎉','#e6faf5','#00c49a');
-      
-      // Sauvegarder le nouveau cabinet
-      const newCab={nomCabinet:cab,ville,sheetId:data.data.sheetId};
-      CABINETS.push(newCab);
+      CABINETS.push({nomCabinet:cab,ville,sheetId:data.data.sheetId});
       localStorage.setItem('medipulse_cabinets',JSON.stringify(CABINETS));
-      
-      setTimeout(()=>{
-        closeModal();
-        btn.textContent='✓ Créer le cabinet';
-        btn.disabled=false;
-        resetForm();
-        refreshAllData();
-      },2500);
-    }else{
-      throw new Error(data.error||'Erreur');
-    }
+      setTimeout(()=>{closeModal();btn.textContent='✓ Créer le cabinet';btn.disabled=false;resetForm();refreshAllData();},2500);
+    }else throw new Error(data.error||'Erreur');
   }catch(err){
     showStatus('⚠️ Vérifie ton Drive et Gmail — création en cours !','#fef8e7','#f59e0b');
-    btn.textContent='✓ Créer le cabinet';
-    btn.disabled=false;
+    btn.textContent='✓ Créer le cabinet';btn.disabled=false;
   }
 }
 
 function showStatus(msg,bg,color){
   const el=document.getElementById('modal-status');
-  el.style.display='block';
-  el.style.background=bg;
-  el.style.color=color;
-  el.textContent=msg;
+  el.style.display='block';el.style.background=bg;el.style.color=color;el.textContent=msg;
 }
 
 function resetForm(){
-  ['m-cabinet','m-medecin','m-email','m-email-assistante','m-lien-google','m-tel'].forEach(id=>{
-    document.getElementById(id).value='';
-  });
+  ['m-cabinet','m-medecin','m-email','m-email-assistante','m-lien-google','m-tel'].forEach(id=>{document.getElementById(id).value='';});
 }
 
-initDashboard();
+// Init
+if(!CABINETS.length){
+  document.getElementById('dash-cabinets').innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);"><div style="font-size:36px;margin-bottom:10px">🏥</div><div style="font-weight:700">Aucun cabinet</div><div style="font-size:12px;margin-top:4px">Créez votre premier cabinet !</div></div>';
+  document.getElementById('all-cabinets').innerHTML=document.getElementById('dash-cabinets').innerHTML;
+  document.getElementById('mob-cabinets-list').innerHTML='<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px;">Aucun cabinet pour l\'instant</div>';
+  document.getElementById('alertes-content').innerHTML='<div style="background:var(--success-bg);border:1px solid rgba(0,196,154,.2);border-radius:16px;padding:32px;text-align:center;"><div style="font-size:40px;margin-bottom:12px">✅</div><div style="font-weight:700;font-size:16px;color:var(--success);">Aucune alerte !</div></div>';
+  document.getElementById('mob-alertes-page-content').innerHTML=document.getElementById('alertes-content').innerHTML;
+}else{
+  refreshAllData();
+}
 </script>
 </body>
 </html>
