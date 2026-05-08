@@ -615,7 +615,7 @@ async function ajouterCabinet(){
   try {
     const res=await fetch(SCRIPT_URL,{
       method:'POST',
-      body:JSON.stringify({nomCabinet:cab,nomMedecin:med,email,emailAssistante,lienGoogle,specialite:spec,ville,tel})
+      body:JSON.stringify({nomCabinet:cab,nomMedecin:med,email,emailAssistante,lienGoogle,specialite:spec,ville,tel,commercial:'Ameur Mohamed'})
     });
     const data=await res.json();
     if(data.success){

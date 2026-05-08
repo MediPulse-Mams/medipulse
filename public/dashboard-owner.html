@@ -725,7 +725,7 @@ async function ajouterCabinet(){
   showStatus('⏳ Création en cours... (~20 sec)','#e6eeff','#0057ff');
 
   try{
-    const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({nomCabinet:cab,nomMedecin:med,email,emailAssistante,lienGoogle,specialite:spec,ville,tel})});
+body:JSON.stringify({nomCabinet:cab,nomMedecin:med,email,emailAssistante,lienGoogle,specialite:spec,ville,tel,commercial:'Owner'})
     const data=await res.json();
     if(data.success){
       showStatus('✅ Cabinet créé ! Emails envoyés 🎉','#e6faf5','#00c49a');
