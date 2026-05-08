@@ -748,16 +748,36 @@ function resetForm(){
   ['m-cabinet','m-medecin','m-email','m-email-assistante','m-lien-google','m-tel'].forEach(id=>{document.getElementById(id).value='';});
 }
 
-// Init
-if(!CABINETS.length){
-  document.getElementById('dash-cabinets').innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);"><div style="font-size:36px;margin-bottom:10px">🏥</div><div style="font-weight:700">Aucun cabinet</div><div style="font-size:12px;margin-top:4px">Créez votre premier cabinet !</div></div>';
-  document.getElementById('all-cabinets').innerHTML=document.getElementById('dash-cabinets').innerHTML;
-  document.getElementById('mob-cabinets-list').innerHTML='<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px;">Aucun cabinet pour l\'instant</div>';
-  document.getElementById('alertes-content').innerHTML='<div style="background:var(--success-bg);border:1px solid rgba(0,196,154,.2);border-radius:16px;padding:32px;text-align:center;"><div style="font-size:40px;margin-bottom:12px">✅</div><div style="font-weight:700;font-size:16px;color:var(--success);">Aucune alerte !</div></div>';
-  document.getElementById('mob-alertes-page-content').innerHTML=document.getElementById('alertes-content').innerHTML;
-}else{
-  refreshAllData();
+// Init — charger depuis Sheet Admin
+async function loadAdminSheet(){
+  try{
+    const url=`https://sheets.googleapis.com/v4/spreadsheets/${ADMIN_SHEET_ID}/values/Sheet1!A:E?key=${GOOGLE_API_KEY}`;
+    const res=await fetch(url);
+    const data=await res.json();
+    if(data.values&&data.values.length>1){
+      CABINETS=data.values.slice(1).map(r=>({
+        sheetId:r[0]||'',
+        nomCabinet:r[1]||'Cabinet',
+        ville:r[2]||'—',
+        dateCreation:r[3]||'',
+        commercial:r[4]||'Owner'
+      })).filter(c=>c.sheetId);
+    }
+    if(CABINETS.length){
+      refreshAllData();
+    } else {
+      document.getElementById('dash-cabinets').innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);"><div style="font-size:36px;margin-bottom:10px">🏥</div><div style="font-weight:700">Aucun cabinet</div><div style="font-size:12px;margin-top:4px">Créez votre premier cabinet !</div></div>';
+      document.getElementById('all-cabinets').innerHTML=document.getElementById('dash-cabinets').innerHTML;
+      document.getElementById('mob-cabinets-list').innerHTML='<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px;">Aucun cabinet pour l\'instant</div>';
+      document.getElementById('alertes-content').innerHTML='<div style="background:var(--success-bg);border:1px solid rgba(0,196,154,.2);border-radius:16px;padding:32px;text-align:center;"><div style="font-size:40px;margin-bottom:12px">✅</div><div style="font-weight:700;font-size:16px;color:var(--success);">Aucune alerte !</div></div>';
+      document.getElementById('mob-alertes-page-content').innerHTML=document.getElementById('alertes-content').innerHTML;
+    }
+  }catch(e){
+    console.error('Erreur Sheet Admin:',e);
+  }
 }
+
+loadAdminSheet();
 </script>
 </body>
 </html>
