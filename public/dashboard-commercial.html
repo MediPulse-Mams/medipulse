@@ -578,8 +578,8 @@ async function ajouterCabinet(){
   const ville=document.getElementById('m-ville').value;
   const tel=document.getElementById('m-tel').value.trim();
 
-  if(!cab||!med||!email){
-    showStatus('❌ Nom cabinet, médecin et email sont obligatoires !','#fef2f2','#ef4444');
+  if(!cab||!med||!email||!lienGoogle){
+    showStatus('❌ Nom cabinet, médecin, email et lien Google sont obligatoires !','#fef2f2','#ef4444');
     return;
   }
 
