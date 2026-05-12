@@ -522,9 +522,18 @@ function initApp(){
   buildSidebar(role);
   if(role==='medecin'||role==='assistante'){
     document.getElementById('sidebar').classList.add('med-sidebar');
-    document.getElementById('app').querySelector('.topbar').classList.add('med-topbar');
-    document.getElementById('main-content').parentElement.style.background='#F5F7FF';
-    document.getElementById('main-content').parentElement.style.fontFamily="'Plus Jakarta Sans',sans-serif";
+    const topbar=document.getElementById('app').querySelector('.topbar');
+    topbar.classList.add('med-topbar');
+    topbar.style.background='#fff';
+    topbar.style.borderBottom='1px solid #E8EDF5';
+    const topbarTitle=topbar.querySelector('.topbar-title');
+    if(topbarTitle){topbarTitle.style.color='#0F172A';topbarTitle.style.fontFamily="'Plus Jakarta Sans',sans-serif";}
+    const mainWrap=document.getElementById('main-content').parentElement;
+    mainWrap.style.background='#F5F7FF';
+    document.body.style.background='#F5F7FF';
+    document.getElementById('app').style.background='#F5F7FF';
+    document.getElementById('app').querySelector('.layout').style.background='#F5F7FF';
+    document.getElementById('main-content').style.fontFamily="'Plus Jakarta Sans',sans-serif";
   }
   loadPage(role==='owner'?'owner-dashboard':role==='commercial'?'comm-dashboard':role==='medecin'?'med-dashboard':'ass-dashboard');
 }
@@ -869,7 +878,7 @@ function renderMedDashboard(){
   document.getElementById('main-content').innerHTML=`
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px">
       <div>
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:700;color:#0F172A">Bonjour, ${nom} 👋</div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:700;color:#0F172A">Bonjour, ${nom} 👋</div>
         <div style="font-size:14px;color:#64748B;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
       </div>
       <a href="${googleUrl}" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:12px;background:#fff;border:1.5px solid #DBEAFE;color:#1D4ED8;font-size:13px;font-weight:600;text-decoration:none;box-shadow:0 1px 4px rgba(37,99,235,0.12);font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.2s">
@@ -879,10 +888,10 @@ function renderMedDashboard(){
     </div>
  
     <!-- NOTE HERO -->
-    <div style="background:#fff;border-radius:20px;border:1px solid #E8EDF5;padding:32px;margin-bottom:20px;display:flex;align-items:center;gap:40px;box-shadow:0 1px 12px rgba(15,23,42,0.06)">
+    <div style="background:#fff;border-radius:16px;border:1px solid #E8EDF5;padding:22px;margin-bottom:16px;display:flex;align-items:center;gap:28px;box-shadow:0 1px 12px rgba(15,23,42,0.06)">
       <div style="text-align:center;min-width:140px">
-        <div style="font-family:'Syne',sans-serif;font-size:80px;font-weight:800;color:#2563EB;line-height:1">${noteVal}</div>
-        <div style="font-size:24px;letter-spacing:2px;margin:8px 0">⭐⭐⭐⭐</div>
+        <div style="font-family:'Syne',sans-serif;font-size:56px;font-weight:800;color:#2563EB;line-height:1">${noteVal}</div>
+        <div style="font-size:18px;letter-spacing:1px;margin:6px 0">⭐⭐⭐⭐</div>
         <div style="font-size:13px;color:#94A3B8;font-family:'Plus Jakarta Sans',sans-serif">${nbAvis} avis Google</div>
       </div>
       <div style="flex:1;border-left:1px solid #F1F5F9;padding-left:40px">
@@ -896,15 +905,15 @@ function renderMedDashboard(){
         </div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
           <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:14px;padding:16px;text-align:center">
-            <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#16A34A">6</div>
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#16A34A">6</div>
             <div style="font-size:12px;color:#15803D;font-weight:600;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Avis positifs</div>
           </div>
           <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:14px;padding:16px;text-align:center">
-            <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#EA580C">4</div>
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#EA580C">4</div>
             <div style="font-size:12px;color:#C2410C;font-weight:600;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">En attente</div>
           </div>
           <div style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:14px;padding:16px;text-align:center">
-            <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#F43F5E">1</div>
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F43F5E">1</div>
             <div style="font-size:12px;color:#BE123C;font-weight:600;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Alertes</div>
           </div>
         </div>
@@ -912,7 +921,7 @@ function renderMedDashboard(){
     </div>
  
     <!-- ACTIVITE ASSISTANTE -->
-    <div style="background:linear-gradient(135deg,#EFF6FF,#F0F9FF);border:1px solid #BFDBFE;border-radius:16px;padding:22px;margin-bottom:20px">
+    <div style="background:linear-gradient(135deg,#EFF6FF,#F0F9FF);border:1px solid #BFDBFE;border-radius:14px;padding:16px;margin-bottom:16px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
         <div style="font-size:13px;font-weight:700;color:#1D4ED8;text-transform:uppercase;letter-spacing:0.06em;display:flex;align-items:center;gap:8px;font-family:'Plus Jakarta Sans',sans-serif">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -922,15 +931,15 @@ function renderMedDashboard(){
       </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
         <div style="background:#fff;border-radius:14px;padding:18px;text-align:center;border:1px solid #DBEAFE;box-shadow:0 1px 4px rgba(37,99,235,0.06)">
-          <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#2563EB;line-height:1">12</div>
+          <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#2563EB;line-height:1">12</div>
           <div style="font-size:12px;color:#64748B;margin-top:6px;font-weight:500;font-family:'Plus Jakarta Sans',sans-serif">Formulaires envoyés</div>
         </div>
         <div style="background:#fff;border-radius:14px;padding:18px;text-align:center;border:1px solid #DBEAFE;box-shadow:0 1px 4px rgba(37,99,235,0.06)">
-          <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#0891B2;line-height:1">8</div>
+          <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#0891B2;line-height:1">8</div>
           <div style="font-size:12px;color:#64748B;margin-top:6px;font-weight:500;font-family:'Plus Jakarta Sans',sans-serif">Réponses reçues</div>
         </div>
         <div style="background:#fff;border-radius:14px;padding:18px;text-align:center;border:1px solid #DBEAFE;box-shadow:0 1px 4px rgba(37,99,235,0.06)">
-          <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#16A34A;line-height:1">67%</div>
+          <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#16A34A;line-height:1">67%</div>
           <div style="font-size:12px;color:#64748B;margin-top:6px;font-weight:500;font-family:'Plus Jakarta Sans',sans-serif">Taux de réponse</div>
         </div>
       </div>
