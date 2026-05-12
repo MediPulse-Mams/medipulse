@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>MediPulse</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#0F1E3A;--navy2:#1B2A4A;--blue:#2563EB;--cyan:#06B6D4;
+  --green:#10B981;--red:#F43F5E;--orange:#F59E0B;--purple:#8B5CF6;
+  --gold:#F59E0B;--bg:#070E1C;--surface:#0D1929;--card:#111E33;
+  --border:rgba(255,255,255,0.07);--text:#F0F4FF;--muted:#6B7FA8;
+  --nav-h:64px;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+ 
+/* ══════════════ LOGIN ══════════════ */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-glow{position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,0.08),transparent 70%);top:-150px;right:-150px;pointer-events:none}
+.login-card{background:var(--card);border-radius:24px;border:1px solid var(--border);padding:36px 28px;width:100%;max-width:380px;position:relative;z-index:1}
+.login-logo{text-align:center;margin-bottom:32px}
+.login-logo i{font-size:40px;color:var(--cyan);display:block;margin-bottom:12px}
+.login-logo-text{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--text);letter-spacing:-0.5px}
+.login-logo-sub{font-size:12px;color:var(--muted);margin-top:5px;letter-spacing:0.04em}
+.login-label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;display:block}
+.login-input{width:100%;padding:12px 16px;border-radius:12px;border:1px solid var(--border);background:var(--surface);font-size:14px;color:var(--text);outline:none;transition:border-color 0.2s;margin-bottom:16px;font-family:'DM Sans',sans-serif}
+.login-input:focus{border-color:var(--cyan)}
+.login-input::placeholder{color:var(--muted)}
+.login-btn{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 0.2s}
+.login-btn i{font-size:18px}
+.login-btn:active{opacity:0.85}
+.login-btn:disabled{opacity:0.4;cursor:not-allowed}
+.login-error{font-size:13px;color:var(--red);text-align:center;margin-top:12px;min-height:18px}
+ 
+/* ══════════════ SHARED UI ══════════════ */
+.view{display:none}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;position:sticky;top:0;z-index:50}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;max-width:480px;margin:0 auto}
+.topbar-logo{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--text)}
+.topbar-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.role-pill{font-size:11px;padding:4px 12px;border-radius:99px;font-weight:600}
+.role-owner{background:rgba(245,158,11,0.15);color:var(--gold);border:1px solid rgba(245,158,11,0.3)}
+.role-commercial{background:rgba(6,182,212,0.15);color:var(--cyan);border:1px solid rgba(6,182,212,0.3)}
+.role-medecin{background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3)}
+.role-assistante{background:rgba(139,92,246,0.15);color:var(--purple);border:1px solid rgba(139,92,246,0.3)}
+.logout-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;display:flex;align-items:center}
+.section{padding:0 16px 14px;max-width:480px;margin:0 auto}
+.section-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.section-title i{font-size:14px}
+.bottomnav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;height:var(--nav-h);align-items:flex-start;padding-top:10px;z-index:40}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 0}
+.nav-item i{font-size:22px;color:var(--muted)}
+.nav-item span{font-size:10px;color:var(--muted)}
+.nav-item.active i{color:var(--cyan)}
+.nav-item.active span{color:var(--cyan);font-weight:600}
+.spacer{height:80px}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:var(--card);color:var(--text);border:1px solid var(--border);padding:10px 20px;border-radius:99px;font-size:13px;font-weight:500;z-index:200;opacity:0;transition:opacity 0.2s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
+.loader-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--muted);font-size:14px}
+.loader-screen i{font-size:32px;color:var(--cyan)}
+ 
+/* ══════════════ CARDS & STATS ══════════════ */
+.hero-card{background:linear-gradient(135deg,#1B2A4A,#0F1E3A);border-radius:20px;border:1px solid rgba(37,99,235,0.25);padding:20px;position:relative;overflow:hidden;margin:16px 16px 0;max-width:448px}
+.hero-card::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,0.1),transparent 70%);top:-60px;right:-60px}
+.hero-greeting{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.06em}
+.hero-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--text);margin:4px 0 16px}
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:12px 16px;max-width:480px;margin:0 auto}
+.kpi{background:var(--card);border-radius:16px;border:1px solid var(--border);padding:14px;position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;width:60px;height:60px;border-radius:50%;top:-20px;right:-20px;opacity:0.12}
+.kpi.blue::after{background:var(--blue)}
+.kpi.cyan::after{background:var(--cyan)}
+.kpi.green::after{background:var(--green)}
+.kpi.purple::after{background:var(--purple)}
+.kpi.orange::after{background:var(--orange)}
+.kpi.red::after{background:var(--red)}
+.kpi i{font-size:18px;margin-bottom:8px;display:block}
+.kpi.blue i{color:var(--blue)}
+.kpi.cyan i{color:var(--cyan)}
+.kpi.green i{color:var(--green)}
+.kpi.purple i{color:var(--purple)}
+.kpi.orange i{color:var(--orange)}
+.kpi.red i{color:var(--red)}
+.kpi-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--text);line-height:1}
+.kpi-lbl{font-size:11px;color:var(--muted);margin-top:4px}
+.card{background:var(--card);border-radius:14px;border:1px solid var(--border);padding:14px 16px;margin-bottom:10px}
+.card-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.card-sub{font-size:12px;color:var(--muted)}
+ 
+/* PRIME HERO */
+.prime-val{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;color:var(--cyan);line-height:1}
+.prime-unit{font-size:14px;color:var(--muted);margin-left:4px}
+.progress-bar{height:6px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden;margin-top:12px}
+.progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width 1s ease}
+.progress-header{display:flex;justify-content:space-between;margin-bottom:6px}
+.bonus-row{display:flex;gap:8px;margin-top:14px}
+.bonus-chip{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center}
+.bonus-chip.unlocked{background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.3)}
+.bonus-chip.next{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.25)}
+.bonus-chip-val{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--muted)}
+.bonus-chip.unlocked .bonus-chip-val{color:var(--green)}
+.bonus-chip.next .bonus-chip-val{color:var(--gold)}
+.bonus-chip-lbl{font-size:10px;color:var(--muted);margin-top:2px}
+ 
+/* PALIERS */
+.palier{background:var(--card);border-radius:14px;border:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.palier.reached{border-color:rgba(16,185,129,0.4);background:rgba(16,185,129,0.04)}
+.palier.current{border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.03)}
+.palier-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.palier.reached .palier-icon{background:rgba(16,185,129,0.15);color:var(--green)}
+.palier.current .palier-icon{background:rgba(245,158,11,0.15);color:var(--gold)}
+.palier.locked .palier-icon{background:rgba(255,255,255,0.05);color:var(--muted)}
+.palier-info{flex:1}
+.palier-title{font-size:13px;font-weight:600;color:var(--text)}
+.palier.locked .palier-title{color:var(--muted)}
+.palier-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.palier-amount{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
+.palier.reached .palier-amount{color:var(--green)}
+.palier.current .palier-amount{color:var(--gold)}
+.palier.locked .palier-amount{color:var(--muted)}
+ 
+/* SIMULATEUR */
+.sim-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sim-label{font-size:13px;color:var(--muted)}
+.sim-controls{display:flex;align-items:center;gap:8px}
+.sim-btn{width:28px;height:28px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.sim-count{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;min-width:24px;text-align:center}
+.sim-result{background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.15);border-radius:12px;padding:14px;margin-top:4px}
+.sim-line{display:flex;justify-content:space-between;margin-bottom:6px;font-size:12px}
+.sim-line:last-child{margin-bottom:0;padding-top:8px;border-top:1px solid rgba(6,182,212,0.15);font-size:14px;font-weight:600}
+.sim-line-lbl{color:var(--muted)}
+.sim-line-val{color:var(--text)}
+.sim-line:last-child .sim-line-val{color:var(--cyan);font-family:'Syne',sans-serif}
+ 
+/* CRM LIST */
+.prospect-card{background:var(--card);border-radius:14px;border:1px solid var(--border);overflow:hidden;margin-bottom:8px}
+.prospect-card.priority{border-left:3px solid var(--orange)}
+.pc-main{padding:12px 14px;cursor:pointer}
+.pc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px}
+.pc-name{font-size:14px;font-weight:600;color:var(--text)}
+.pc-meta{font-size:12px;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:5px}
+.pc-meta i{font-size:13px}
+.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:600;border:1px solid transparent}
+.pc-note{font-size:12px;color:var(--muted);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc-actions{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--border)}
+.act-btn{padding:10px 0;font-size:12px;font-weight:500;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;color:var(--muted)}
+.act-btn i{font-size:15px}
+.act-btn.call{color:var(--green)}
+.act-btn.wa{color:#25D366;border-left:1px solid var(--border);border-right:1px solid var(--border)}
+.act-btn.edit-st{color:var(--cyan)}
+ 
+/* OWNER */
+.owner-stat{background:var(--card);border-radius:14px;border:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.owner-stat-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.owner-stat-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text)}
+.owner-stat-lbl{font-size:12px;color:var(--muted);margin-top:2px}
+.commercial-row{background:var(--card);border-radius:14px;border:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.commercial-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.commercial-name{font-size:13px;font-weight:600;color:var(--text)}
+.commercial-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.commercial-signes{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--green);margin-left:auto}
+ 
+/* CABINET FORM */
+.form-input{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);font-size:14px;color:var(--text);outline:none;margin-bottom:12px;font-family:'DM Sans',sans-serif}
+.form-input:focus{border-color:var(--cyan)}
+.form-input::placeholder{color:var(--muted)}
+.form-select{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);font-size:14px;color:var(--text);outline:none;margin-bottom:12px;font-family:'DM Sans',sans-serif}
+.submit-btn{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'DM Sans',sans-serif}
+.submit-btn i{font-size:18px}
+ 
+/* MEDECIN */
+.note-big{font-family:'Syne',sans-serif;font-size:52px;font-weight:800;color:var(--cyan);line-height:1}
+.note-stars{font-size:18px;margin:4px 0 8px}
+.note-count{font-size:13px;color:var(--muted)}
+.avis-item{display:flex;align-items:flex-start;gap:10px;padding:12px 0;border-bottom:1px solid var(--border)}
+.avis-item:last-child{border-bottom:none}
+.avis-avatar{width:32px;height:32px;border-radius:50%;background:rgba(6,182,212,0.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--cyan);flex-shrink:0}
+.avis-name{font-size:13px;font-weight:600;color:var(--text)}
+.avis-date{font-size:11px;color:var(--muted)}
+.avis-text{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.5}
+ 
+/* ASSISTANTE */
+.send-btn{width:100%;padding:18px;border-radius:16px;font-size:16px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'Syne',sans-serif;margin-bottom:12px;transition:opacity 0.2s}
+.send-btn i{font-size:22px}
+.send-btn.ar{background:linear-gradient(135deg,#1B2A4A,#2563EB);color:#fff}
+.send-btn.fr{background:linear-gradient(135deg,#0F4C75,#06B6D4);color:#fff}
+.send-btn:active{opacity:0.85}
+.send-count{text-align:center;font-size:13px;color:var(--muted);padding:8px 0}
+ 
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.overlay.open{display:flex}
+.sheet{background:var(--card);border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:0 0 32px;max-height:92vh;overflow-y:auto}
+.sh-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:14px auto 16px}
+.sh-header{padding:0 16px 14px;border-bottom:1px solid var(--border)}
+.sh-title{font-size:17px;font-weight:700;color:var(--text)}
+.sh-sub{font-size:13px;color:var(--muted);margin-top:3px}
+.sh-body{padding:16px}
+.flabel{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;display:block}
+.finput{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface);font-size:14px;color:var(--text);outline:none;margin-bottom:14px;font-family:'DM Sans',sans-serif}
+.finput:focus{border-color:var(--cyan)}
+textarea.finput{resize:none}
+.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.st-opt{padding:10px 12px;border-radius:10px;border:2px solid var(--border);cursor:pointer}
+.st-opt.sel{border-width:2px}
+.st-name{font-size:13px;font-weight:600}
+.st-desc{font-size:11px;margin-top:1px;opacity:0.7}
+.type-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.type-btn{padding:10px;border-radius:10px;border:2px solid var(--border);background:var(--surface);font-size:13px;font-weight:500;cursor:pointer;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:6px}
+.type-btn i{font-size:16px}
+.type-btn.sel{border-color:var(--cyan);background:rgba(6,182,212,0.1);color:var(--cyan)}
+.save-btn{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'DM Sans',sans-serif}
+.save-btn i{font-size:18px}
+.fab{position:fixed;bottom:calc(var(--nav-h) + 14px);right:16px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(6,182,212,0.3);z-index:40}
+.fab i{font-size:24px}
+ 
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp 0.35s ease}
+</style>
+</head>
+<body>
+ 
+<!-- ══ LOADER ══ -->
+<div id="loader" class="loader-screen">
+  <i class="ti ti-heartbeat"></i>
+  <span>MediPulse</span>
+</div>
+ 
+<!-- ══ LOGIN ══ -->
+<div class="login-wrap" id="login-wrap" style="display:none">
+  <div class="login-glow"></div>
+  <div class="login-card">
+    <div class="login-logo">
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px">
+        <i class="ti ti-heartbeat" style="font-size:28px;color:var(--cyan)"></i>
+        <span style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--text);letter-spacing:-1px">Medi<span style="color:var(--cyan)">Pulse</span></span>
+      </div>
+      <div style="font-size:13px;color:var(--muted);letter-spacing:0.02em;font-style:italic">La réputation médicale, automatisée.</div>
+    </div>
+    <label class="login-label">Email</label>
+    <input class="login-input" type="email" id="login-email" placeholder="votre@email.com">
+    <label class="login-label">Mot de passe</label>
+    <input class="login-input" type="password" id="login-pwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" id="login-btn" onclick="doLogin()">
+      <i class="ti ti-login"></i> Accéder
+    </button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+ 
+<!-- ══ VUE OWNER ══ -->
+<div class="view" id="view-owner">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div><div class="topbar-logo">Medi<span style="color:var(--cyan)">Pulse</span></div><div class="topbar-sub" id="owner-date"></div></div>
+      <div class="topbar-right">
+        <span class="role-pill role-owner">Owner</span>
+        <button class="logout-btn" onclick="doLogout()"><i class="ti ti-logout"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="hero-card fade-up">
+    <div class="hero-greeting">Tableau de bord</div>
+    <div class="hero-name">Vue 360°</div>
+    <div class="kpi-grid" style="padding:0;margin:0">
+      <div class="kpi cyan"><i class="ti ti-building-hospital"></i><div class="kpi-val" id="o-cabinets">0</div><div class="kpi-lbl">Cabinets actifs</div></div>
+      <div class="kpi green"><i class="ti ti-currency-dollar"></i><div class="kpi-val" id="o-mrr">0</div><div class="kpi-lbl">MRR (DH)</div></div>
+    </div>
+  </div>
+  <div class="kpi-grid fade-up">
+    <div class="kpi blue"><i class="ti ti-users"></i><div class="kpi-val" id="o-prospects">0</div><div class="kpi-lbl">Prospects total</div></div>
+    <div class="kpi purple"><i class="ti ti-calendar-check"></i><div class="kpi-val" id="o-demos">0</div><div class="kpi-lbl">Démos bookées</div></div>
+    <div class="kpi orange"><i class="ti ti-phone-call"></i><div class="kpi-val" id="o-appels">0</div><div class="kpi-lbl">Appels passés</div></div>
+    <div class="kpi red"><i class="ti ti-x"></i><div class="kpi-val" id="o-refus">0</div><div class="kpi-lbl">Refus</div></div>
+  </div>
+  <div class="section fade-up">
+    <div class="section-title"><i class="ti ti-users"></i> Équipe commerciale</div>
+    <div id="owner-commerciaux"></div>
+  </div>
+  <div class="section fade-up">
+    <div class="section-title"><i class="ti ti-building"></i> Derniers cabinets signés</div>
+    <div id="owner-cabinets-list"></div>
+  </div>
+  <div class="spacer"></div>
+  <div class="bottomnav">
+    <div class="nav-item active"><i class="ti ti-chart-bar"></i><span>Dashboard</span></div>
+    <div class="nav-item" onclick="ownerTab('prospects')"><i class="ti ti-list"></i><span>Prospects</span></div>
+    <div class="nav-item" onclick="ownerTab('cabinets')"><i class="ti ti-building-hospital"></i><span>Cabinets</span></div>
+  </div>
+</div>
+ 
+<!-- ══ VUE COMMERCIAL ══ -->
+<div class="view" id="view-commercial">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div><div class="topbar-logo">Medi<span style="color:var(--cyan)">Pulse</span></div><div class="topbar-sub" id="comm-date"></div></div>
+      <div class="topbar-right">
+        <span class="role-pill role-commercial" id="comm-role-pill">Commercial</span>
+        <button class="logout-btn" onclick="doLogout()"><i class="ti ti-logout"></i></button>
+      </div>
+    </div>
+  </div>
+  <!-- TABS -->
+  <div style="display:flex;border-bottom:1px solid var(--border);max-width:480px;margin:0 auto">
+    <button class="tab-btn active" id="tab-dashboard" onclick="commTab('dashboard')" style="flex:1;padding:12px;background:none;border:none;color:var(--cyan);font-size:13px;font-weight:600;border-bottom:2px solid var(--cyan);cursor:pointer">Dashboard</button>
+    <button class="tab-btn" id="tab-crm" onclick="commTab('crm')" style="flex:1;padding:12px;background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer">Prospects</button>
+    <button class="tab-btn" id="tab-valider" onclick="commTab('valider')" style="flex:1;padding:12px;background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer">+ Cabinet</button>
+  </div>
+ 
+  <!-- TAB DASHBOARD -->
+  <div id="comm-dashboard-tab">
+    <div class="hero-card fade-up" style="margin-top:14px">
+      <div class="hero-greeting">Bonjour</div>
+      <div class="hero-name" id="comm-name">Commercial</div>
+      <div style="display:flex;align-items:flex-end;gap:6px">
+        <div class="prime-val" id="comm-prime">0</div>
+        <div style="font-size:14px;color:var(--muted);margin-bottom:6px">DH ce mois</div>
+      </div>
+      <div class="progress-header" style="margin-top:12px">
+        <span style="font-size:12px;color:var(--muted)">Progression palier</span>
+        <span style="font-size:12px;font-weight:600;color:var(--cyan)" id="comm-prog-txt">0/5</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="comm-prog-fill" style="width:0%"></div></div>
+      <div class="bonus-row" id="comm-bonus-row"></div>
+    </div>
+    <div class="kpi-grid fade-up">
+      <div class="kpi blue"><i class="ti ti-users"></i><div class="kpi-val" id="c-prospects">0</div><div class="kpi-lbl">Prospects</div></div>
+      <div class="kpi cyan"><i class="ti ti-phone-call"></i><div class="kpi-val" id="c-appels">0</div><div class="kpi-lbl">Appelés</div></div>
+      <div class="kpi green"><i class="ti ti-circle-check"></i><div class="kpi-val" id="c-signes">0</div><div class="kpi-lbl">Signés</div></div>
+      <div class="kpi purple"><i class="ti ti-calendar-check"></i><div class="kpi-val" id="c-demos">0</div><div class="kpi-lbl">Démos</div></div>
+    </div>
+    <!-- Countdown -->
+    <div style="padding:0 16px 12px;max-width:480px;margin:0 auto">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:10px">
+          <i class="ti ti-alarm" style="font-size:20px;color:var(--orange)"></i>
+          <div><div style="font-size:13px;font-weight:500">Fin du mois</div><div style="font-size:11px;color:var(--muted)" id="comm-countdown-sub"></div></div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:var(--orange)" id="comm-days">--</div>
+          <div style="font-size:10px;color:var(--muted)">jours</div>
+        </div>
+      </div>
+    </div>
+    <div class="section fade-up">
+      <div class="section-title"><i class="ti ti-trophy"></i> Paliers bonus</div>
+      <div id="comm-paliers"></div>
+    </div>
+    <div class="section fade-up">
+      <div class="section-title"><i class="ti ti-calculator"></i> Simulateur</div>
+      <div class="card">
+        <div class="sim-row">
+          <span class="sim-label">Cabinets simulés</span>
+          <div class="sim-controls">
+            <button class="sim-btn" onclick="simChange(-1)">−</button>
+            <span class="sim-count" id="sim-count">5</span>
+            <button class="sim-btn" onclick="simChange(1)">+</button>
+          </div>
+        </div>
+        <div class="sim-result" id="sim-result"></div>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- TAB CRM -->
+  <div id="comm-crm-tab" style="display:none">
+    <div style="padding:12px 16px;max-width:480px;margin:0 auto">
+      <div style="display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:10px">
+        <button class="badge" style="background:rgba(6,182,212,0.15);color:var(--cyan);border-color:rgba(6,182,212,0.3);padding:6px 14px;cursor:pointer;flex-shrink:0;font-size:12px" onclick="setCrmFilter('Tous',this)">Tous</button>
+        <button class="badge" style="background:var(--card);color:var(--muted);border-color:var(--border);padding:6px 14px;cursor:pointer;flex-shrink:0;font-size:12px" onclick="setCrmFilter('Nouveau',this)">Nouveau</button>
+        <button class="badge" style="background:var(--card);color:var(--muted);border-color:var(--border);padding:6px 14px;cursor:pointer;flex-shrink:0;font-size:12px" onclick="setCrmFilter('Rappeler',this)">Rappeler</button>
+        <button class="badge" style="background:var(--card);color:var(--muted);border-color:var(--border);padding:6px 14px;cursor:pointer;flex-shrink:0;font-size:12px" onclick="setCrmFilter('Joignable',this)">Joignable</button>
+        <button class="badge" style="background:var(--card);color:var(--muted);border-color:var(--border);padding:6px 14px;cursor:pointer;flex-shrink:0;font-size:12px" onclick="setCrmFilter('Signé',this)">Signé</button>
+      </div>
+      <div id="crm-list"></div>
+    </div>
+    <button class="fab" onclick="openAddProspect()"><i class="ti ti-plus"></i></button>
+  </div>
+ 
+  <!-- TAB VALIDER CABINET -->
+  <div id="comm-valider-tab" style="display:none">
+    <div class="section" style="padding-top:16px">
+      <div class="card">
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:8px"><i class="ti ti-building-hospital" style="color:var(--cyan)"></i> Valider un cabinet signé</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px">Crée automatiquement les accès médecin et assistante</div>
+        <span class="flabel">Nom du cabinet *</span>
+        <input class="form-input" id="cab-nom" placeholder="Cabinet Dr. Nom">
+        <span class="flabel">Nom du médecin *</span>
+        <input class="form-input" id="cab-medecin" placeholder="Dr. Prénom Nom">
+        <span class="flabel">Spécialité *</span>
+        <input class="form-input" id="cab-spec" placeholder="Dermatologue...">
+        <span class="flabel">Ville</span>
+        <input class="form-input" id="cab-ville" placeholder="Casablanca" value="Casablanca">
+        <span class="flabel">Email médecin *</span>
+        <input class="form-input" type="email" id="cab-email-med" placeholder="dr.nom@medipulse.ma">
+        <span class="flabel">Nom assistante *</span>
+        <input class="form-input" id="cab-assistante" placeholder="Prénom Nom">
+        <span class="flabel">Email assistante *</span>
+        <input class="form-input" type="email" id="cab-email-ass" placeholder="assistante.nom@medipulse.ma">
+        <span class="flabel">Plan</span>
+        <select class="form-select" id="cab-plan">
+          <option value="starter">Starter — 999 DH/mois</option>
+          <option value="pro" selected>Pro — 1499 DH/mois</option>
+          <option value="enterprise">Enterprise — 2499 DH/mois</option>
+        </select>
+        <button class="submit-btn" onclick="validerCabinet()">
+          <i class="ti ti-circle-check"></i> Valider le cabinet
+        </button>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="spacer"></div>
+  <div class="bottomnav">
+    <div class="nav-item active" onclick="commTab('dashboard')"><i class="ti ti-chart-bar"></i><span>Dashboard</span></div>
+    <div class="nav-item" onclick="commTab('crm')"><i class="ti ti-list"></i><span>Prospects</span></div>
+    <div class="nav-item" onclick="commTab('valider')"><i class="ti ti-building-hospital"></i><span>+ Cabinet</span></div>
+  </div>
+</div>
+ 
+<!-- ══ VUE MEDECIN ══ -->
+<div class="view" id="view-medecin">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div><div class="topbar-logo">Medi<span style="color:var(--cyan)">Pulse</span></div><div class="topbar-sub" id="med-sub">Mon cabinet</div></div>
+      <div class="topbar-right">
+        <span class="role-pill role-medecin">Médecin</span>
+        <button class="logout-btn" onclick="doLogout()"><i class="ti ti-logout"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="hero-card fade-up" style="margin-top:14px">
+    <div class="hero-greeting">Note Google actuelle</div>
+    <div style="display:flex;align-items:flex-end;gap:12px;margin-top:8px">
+      <div class="note-big" id="med-note">–</div>
+      <div>
+        <div class="note-stars" id="med-stars">⭐⭐⭐⭐⭐</div>
+        <div class="note-count" id="med-count">– avis</div>
+      </div>
+    </div>
+    <div class="progress-bar" style="margin-top:14px"><div class="progress-fill" id="med-prog" style="width:0%"></div></div>
+    <div style="font-size:11px;color:var(--muted);margin-top:6px">Progression vers 5.0 ⭐</div>
+  </div>
+  <div class="kpi-grid fade-up">
+    <div class="kpi green"><i class="ti ti-send"></i><div class="kpi-val" id="med-envois">0</div><div class="kpi-lbl">Formulaires envoyés</div></div>
+    <div class="kpi cyan"><i class="ti ti-message-check"></i><div class="kpi-val" id="med-reponses">0</div><div class="kpi-lbl">Réponses reçues</div></div>
+    <div class="kpi purple"><i class="ti ti-thumb-up"></i><div class="kpi-val" id="med-positifs">0</div><div class="kpi-lbl">Avis positifs</div></div>
+    <div class="kpi red"><i class="ti ti-alert-triangle"></i><div class="kpi-val" id="med-alertes">0</div><div class="kpi-lbl">Alertes</div></div>
+  </div>
+  <div class="section fade-up">
+    <div class="section-title"><i class="ti ti-messages"></i> Derniers avis patients</div>
+    <div class="card" id="med-avis-list">
+      <div style="text-align:center;padding:24px;color:var(--muted);font-size:13px">Aucun avis pour le moment</div>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <div class="bottomnav">
+    <div class="nav-item active"><i class="ti ti-chart-bar"></i><span>Dashboard</span></div>
+    <div class="nav-item"><i class="ti ti-messages"></i><span>Avis</span></div>
+    <div class="nav-item"><i class="ti ti-settings"></i><span>Paramètres</span></div>
+  </div>
+</div>
+ 
+<!-- ══ VUE ASSISTANTE ══ -->
+<div class="view" id="view-assistante">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div><div class="topbar-logo">Medi<span style="color:var(--cyan)">Pulse</span></div><div class="topbar-sub" id="ass-sub">Espace assistante</div></div>
+      <div class="topbar-right">
+        <span class="role-pill role-assistante">Assistante</span>
+        <button class="logout-btn" onclick="doLogout()"><i class="ti ti-logout"></i></button>
+      </div>
+    </div>
+  </div>
+  <div style="padding:20px 16px">
+    <div class="hero-card fade-up" style="margin:0 0 16px;text-align:center">
+      <div class="hero-greeting">Envoyer formulaire satisfaction</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:6px">Sélectionnez la langue du patient</div>
+    </div>
+    <button class="send-btn ar fade-up" onclick="envoyerFormulaire('ar')">
+      <i class="ti ti-brand-whatsapp"></i> إرسال استبيان الرضا
+    </button>
+    <button class="send-btn fr fade-up" onclick="envoyerFormulaire('fr')">
+      <i class="ti ti-brand-whatsapp"></i> Envoyer formulaire FR
+    </button>
+    <div class="send-count" id="ass-count">0 formulaires envoyés aujourd'hui</div>
+    <div class="section" style="padding:16px 0 0">
+      <div class="section-title"><i class="ti ti-history"></i> Historique du jour</div>
+      <div id="ass-historique">
+        <div style="text-align:center;padding:24px;color:var(--muted);font-size:13px">Aucun envoi aujourd'hui</div>
+      </div>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <div class="bottomnav">
+    <div class="nav-item active"><i class="ti ti-home"></i><span>Accueil</span></div>
+    <div class="nav-item"><i class="ti ti-history"></i><span>Historique</span></div>
+  </div>
+</div>
+ 
+<!-- MODALS -->
+<div class="overlay" id="edit-overlay" onclick="closeOverlay('edit-overlay',event)">
+  <div class="sheet">
+    <div class="sh-handle"></div>
+    <div class="sh-header"><div class="sh-title" id="edit-name"></div><div class="sh-sub" id="edit-meta"></div></div>
+    <div class="sh-body">
+      <span class="flabel">Statut</span>
+      <div class="status-grid" id="status-grid"></div>
+      <span class="flabel">Type</span>
+      <div class="type-row">
+        <button class="type-btn sel" id="type-tel" onclick="setType('téléphone')"><i class="ti ti-phone"></i> Téléphone</button>
+        <button class="type-btn" id="type-ter" onclick="setType('terrain')"><i class="ti ti-walk"></i> Terrain</button>
+      </div>
+      <span class="flabel">Mobile WhatsApp</span>
+      <input class="finput" type="tel" id="edit-mobile" placeholder="06 XX XX XX XX">
+      <span class="flabel">Note rapide</span>
+      <textarea class="finput" id="edit-note" rows="2" placeholder="Résultat de l'appel..."></textarea>
+      <span class="flabel">Commentaire terrain</span>
+      <textarea class="finput" id="edit-terrain" rows="2" placeholder="Notes de visite..."></textarea>
+      <span class="flabel">Date de rappel</span>
+      <input class="finput" type="date" id="edit-rappel" style="margin-bottom:14px">
+      <button class="save-btn" id="save-btn" onclick="saveEdit()"><i class="ti ti-device-floppy"></i> Enregistrer</button>
+    </div>
+  </div>
+</div>
+ 
+<div class="overlay" id="add-overlay" onclick="closeOverlay('add-overlay',event)">
+  <div class="sheet">
+    <div class="sh-handle"></div>
+    <div class="sh-header"><div class="sh-title">Nouveau prospect</div><div class="sh-sub">Ajouter un médecin</div></div>
+    <div class="sh-body">
+      <span class="flabel">Nom *</span><input class="finput" id="add-nom" placeholder="Dr Nom Prénom">
+      <span class="flabel">Spécialité *</span><input class="finput" id="add-spec" placeholder="Dermatologue...">
+      <span class="flabel">Quartier</span><input class="finput" id="add-quartier" placeholder="Bd Abdelmoumen...">
+      <span class="flabel">Ville</span><input class="finput" id="add-ville" value="Casablanca">
+      <span class="flabel">Téléphone fixe</span><input class="finput" type="tel" id="add-fixe" placeholder="05 22 XX XX XX">
+      <span class="flabel">Téléphone mobile</span><input class="finput" type="tel" id="add-mobile" placeholder="06 XX XX XX XX">
+      <button class="save-btn" id="add-btn" onclick="saveAdd()"><i class="ti ti-user-plus"></i> Ajouter</button>
+    </div>
+  </div>
+</div>
+ 
+<div class="toast" id="toast"></div>
+ 
+<script>
+const SB_URL='https://czttvnvcetgmjfqishig.supabase.co';
+const SB_KEY='sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+ 
+const TARIF={starter:999,pro:1499,enterprise:2499};
+const TARIF_DEFAULT=1499;
+const P_SIG_TEL=0.20, P_SIG_TER=0.30;
+const P_REC_TEL=0.07, P_REC_TER=0.10;
+const PAL_TEL=[{s:5,b:200},{s:10,b:400},{s:15,b:600}];
+const PAL_TER=[{s:5,b:250},{s:10,b:500},{s:15,b:750}];
+const ST=[
+  {key:'Nouveau',    label:'Nouveau',     desc:'Pas encore appelé',   bg:'#0D2137',color:'#60A5FA',border:'#1E40AF'},
+  {key:'Tenté',      label:'Tenté',        desc:'Pas décroché',        bg:'#1C1500',color:'#FCD34D',border:'#92400E'},
+  {key:'Joignable',  label:'Joignable',    desc:'A décroché',          bg:'#052E16',color:'#34D399',border:'#065F46'},
+  {key:'Rappeler',   label:'Rappeler',     desc:'Rappel planifié',     bg:'#1C0A00',color:'#FB923C',border:'#7C2D12'},
+  {key:'Démo Bookée',label:'Démo Bookée',  desc:'RDV confirmé',        bg:'#1A0533',color:'#C084FC',border:'#6B21A8'},
+  {key:'Démo Faite', label:'Démo Faite',   desc:'En attente décision', bg:'#150529',color:'#A78BFA',border:'#5B21B6'},
+  {key:'Signé',      label:'Signé',        desc:'Contrat signé',       bg:'#052E16',color:'#4ADE80',border:'#16A34A'},
+  {key:'Refus',      label:'Refus',        desc:'Pas intéressé',       bg:'#2D0A0A',color:'#F87171',border:'#991B1B'},
+];
+ 
+let currentUser=null, userRecord=null;
+let prospects=[], crmFilter='Tous', editId=null, editType='téléphone', simVal=5;
+ 
+// ══ AUTH ══
+async function doLogin(){
+  const email=document.getElementById('login-email').value.trim();
+  const pwd=document.getElementById('login-pwd').value;
+  const btn=document.getElementById('login-btn');
+  const err=document.getElementById('login-error');
+  if(!email||!pwd){err.textContent='Email et mot de passe requis';return}
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader"></i> Connexion...';
+  const{data,error}=await sb.auth.signInWithPassword({email,password:pwd});
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-login"></i> Accéder';
+  if(error){err.textContent='Email ou mot de passe incorrect';return}
+  currentUser=data.user;
+  await loadUserRecord();
+}
+ 
+async function loadUserRecord(){
+  const{data}=await sb.from('users').select('*').eq('email',currentUser.email).single();
+  userRecord=data;
+  if(!userRecord){showToast('Compte non configuré — contactez l\'admin');return}
+  if(userRecord.statut==='en_attente'){
+    document.getElementById('login-error').textContent='Compte en attente de validation';
+    await sb.auth.signOut();return;
+  }
+  showView(userRecord.role);
+}
+ 
+function showView(role){
+  document.getElementById('login-wrap').style.display='none';
+  document.querySelectorAll('.view').forEach(v=>v.style.display='none');
+  const now=new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long'});
+  if(role==='owner'){
+    document.getElementById('view-owner').style.display='block';
+    document.getElementById('owner-date').textContent=now;
+    loadOwnerData();
+  } else if(role==='commercial'){
+    document.getElementById('view-commercial').style.display='block';
+    document.getElementById('comm-date').textContent=now;
+    const name=(userRecord.nom||currentUser.email.split('@')[0]).split(' ')[0];
+    document.getElementById('comm-name').textContent=name;
+    document.getElementById('comm-role-pill').textContent=userRecord.type==='terrain'?'Commercial Terrain':'Commercial Téléphone';
+    loadCommercialData();
+    calcCountdown();
+    renderSim();
+  } else if(role==='medecin'){
+    document.getElementById('view-medecin').style.display='block';
+    document.getElementById('med-sub').textContent=userRecord.nom||'Mon cabinet';
+    loadMedecinData();
+  } else if(role==='assistante'){
+    document.getElementById('view-assistante').style.display='block';
+    document.getElementById('ass-sub').textContent=userRecord.nom||'Espace assistante';
+    loadAssistanteData();
+  }
+}
+ 
+async function doLogout(){
+  await sb.auth.signOut();
+  currentUser=null;userRecord=null;
+  document.querySelectorAll('.view').forEach(v=>v.style.display='none');
+  document.getElementById('login-wrap').style.display='flex';
+}
+ 
+// ══ OWNER ══
+async function loadOwnerData(){
+  const[{data:pros},{data:cabs}]=await Promise.all([
+    sb.from('prospection').select('*'),
+    sb.from('cabinets').select('*')
+  ]);
+  const p=pros||[], c=cabs||[];
+  const actifs=c.filter(x=>x.statut==='actif');
+  const mrr=actifs.reduce((acc,x)=>acc+(TARIF[x.plan]||TARIF_DEFAULT),0);
+  document.getElementById('o-cabinets').textContent=actifs.length;
+  document.getElementById('o-mrr').textContent=mrr.toLocaleString('fr-FR');
+  document.getElementById('o-prospects').textContent=p.length;
+  document.getElementById('o-demos').textContent=p.filter(x=>x.statut==='Démo Bookée'||x.statut==='Démo Faite').length;
+  document.getElementById('o-appels').textContent=p.filter(x=>x.statut!=='Nouveau').length;
+  document.getElementById('o-refus').textContent=p.filter(x=>x.statut==='Refus').length;
+ 
+  // Commerciaux
+  const{data:users}=await sb.from('users').select('*').eq('role','commercial');
+  const wrap=document.getElementById('owner-commerciaux');
+  if(!users||!users.length){wrap.innerHTML=`<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Aucun commercial</div>`;return}
+  const colors=['#06B6D4','#8B5CF6','#10B981','#F59E0B'];
+  wrap.innerHTML=users.map((u,i)=>{
+    const signes=p.filter(x=>x.commercial_id===u.email&&x.statut==='Signé').length;
+    const initials=(u.nom||u.email).substring(0,2).toUpperCase();
+    return`<div class="commercial-row">
+      <div class="commercial-avatar" style="background:${colors[i%4]}22;color:${colors[i%4]}">${initials}</div>
+      <div><div class="commercial-name">${u.nom||u.email}</div><div class="commercial-meta">${u.type==='terrain'?'Terrain':'Téléphone'}</div></div>
+      <div class="commercial-signes">${signes} signés</div>
+    </div>`;
+  }).join('');
+ 
+  // Derniers cabinets
+  const cabWrap=document.getElementById('owner-cabinets-list');
+  if(!c.length){cabWrap.innerHTML=`<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Aucun cabinet encore</div>`;return}
+  cabWrap.innerHTML=c.slice(-5).reverse().map(x=>`
+    <div class="card" style="margin-bottom:8px">
+      <div class="card-title">${x.nom_cabinet||x.nom_medecin}</div>
+      <div class="card-sub">${x.specialite} · ${x.ville} · ${x.plan||'pro'}</div>
+    </div>`).join('');
+}
+ 
+function ownerTab(tab){showToast('Section en construction')}
+ 
+// ══ COMMERCIAL ══
+async function loadCommercialData(){
+  const now=new Date();
+  const firstDay=new Date(now.getFullYear(),now.getMonth(),1).toISOString().split('T')[0];
+  const{data}=await sb.from('prospection').select('*').eq('commercial_id',currentUser.email);
+  prospects=data||[];
+  const mois=prospects.filter(p=>p.date_appel&&p.date_appel>=firstDay);
+  const signes=mois.filter(p=>p.statut==='Signé');
+  const isTer=userRecord?.type==='terrain';
+  const paliers=isTer?PAL_TER:PAL_TEL;
+  const pSig=isTer?P_SIG_TER:P_SIG_TEL;
+  const totalSignes=signes.length;
+  const primeSig=totalSignes*Math.round(TARIF_DEFAULT*pSig);
+  const bonus=([...paliers].reverse().find(p=>totalSignes>=p.s)||{b:0}).b;
+  const total=primeSig+bonus;
+  document.getElementById('comm-prime').textContent=total.toLocaleString('fr-FR');
+  document.getElementById('c-prospects').textContent=prospects.length;
+  document.getElementById('c-appels').textContent=prospects.filter(p=>p.statut!=='Nouveau').length;
+  document.getElementById('c-signes').textContent=totalSignes;
+  document.getElementById('c-demos').textContent=prospects.filter(p=>p.statut==='Démo Bookée'||p.statut==='Démo Faite').length;
+  const next=paliers.find(p=>totalSignes<p.s);
+  const prev=[...paliers].reverse().find(p=>totalSignes>=p.s);
+  let pct=0;
+  if(next){const base=prev?prev.s:0;pct=Math.round(((totalSignes-base)/(next.s-base))*100);document.getElementById('comm-prog-txt').textContent=`${totalSignes}/${next.s}`;}
+  else{pct=100;document.getElementById('comm-prog-txt').textContent='Objectif atteint !';}
+  document.getElementById('comm-prog-fill').style.width=pct+'%';
+  document.getElementById('comm-bonus-row').innerHTML=paliers.map(p=>{
+    const reached=totalSignes>=p.s;const isCurr=next&&p.s===next.s;
+    return`<div class="bonus-chip ${reached?'unlocked':isCurr?'next':''}">
+      <div class="bonus-chip-val">${p.b} DH</div>
+      <div class="bonus-chip-lbl">${p.s} signés</div>
+    </div>`;
+  }).join('');
+  renderPaliers(totalSignes,paliers);
+  renderCrmList();
+  renderSim();
+}
+ 
+function renderPaliers(total,paliers){
+  const icons=['ti-medal','ti-medal-2','ti-trophy'];
+  document.getElementById('comm-paliers').innerHTML=paliers.map((p,i)=>{
+    const reached=total>=p.s;const isCurr=!reached&&(i===0||total>=paliers[i-1].s);
+    const cls=reached?'reached':isCurr?'current':'locked';
+    const manque=Math.max(0,p.s-total);
+    const sub=reached?'Bonus débloqué ✓':isCurr?`Il manque ${manque} signature${manque>1?'s':''}`:'Palier verrouillé';
+    return`<div class="palier ${cls}">
+      <div class="palier-icon"><i class="ti ${icons[i]}" style="font-size:18px"></i></div>
+      <div class="palier-info"><div class="palier-title">${p.s} signatures</div><div class="palier-sub">${sub}</div></div>
+      <div><div class="palier-amount">+${p.b} DH</div><div style="font-size:10px;color:var(--muted)">bonus</div></div>
+    </div>`;
+  }).join('');
+}
+ 
+function renderCrmList(){
+  const f=crmFilter==='Tous'?prospects:prospects.filter(p=>p.statut===crmFilter);
+  const wrap=document.getElementById('crm-list');
+  if(!f.length){wrap.innerHTML=`<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px">Aucun prospect</div>`;return}
+  wrap.innerHTML=f.map(p=>{
+    const st=ST.find(s=>s.key===p.statut)||ST[0];
+    const isPrio=p.statut==='Rappeler'||p.statut==='Joignable';
+    return`<div class="prospect-card${isPrio?' priority':''}">
+      <div class="pc-main" onclick="openEdit(${p.id})">
+        <div class="pc-top">
+          <div>
+            <div class="pc-name">${p.nom}</div>
+            <div class="pc-meta"><i class="ti ti-stethoscope"></i>${p.specialite}<i class="ti ti-map-pin"></i>${p.quartier||''}</div>
+          </div>
+          <span class="badge" style="background:${st.bg};color:${st.color};border-color:${st.border}">${st.label}</span>
+        </div>
+        ${p.note?`<div class="pc-note"><i class="ti ti-message" style="font-size:12px;margin-right:4px"></i>${p.note}</div>`:''}
+      </div>
+      <div class="pc-actions">
+        <button class="act-btn call" onclick="event.stopPropagation();callNumById(${p.id})"><i class="ti ti-phone"></i> Appeler</button>
+        <button class="act-btn wa" onclick="event.stopPropagation();openWAById(${p.id})"><i class="ti ti-brand-whatsapp"></i> WhatsApp</button>
+        <button class="act-btn edit-st" onclick="event.stopPropagation();openEdit(${p.id})"><i class="ti ti-edit"></i> Statut</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+ 
+function setCrmFilter(f,btn){
+  crmFilter=f;
+  document.querySelectorAll('#comm-crm-tab .badge').forEach(b=>{
+    b.style.background='var(--card)';b.style.color='var(--muted)';b.style.borderColor='var(--border)';
+  });
+  btn.style.background='rgba(6,182,212,0.15)';btn.style.color='var(--cyan)';btn.style.borderColor='rgba(6,182,212,0.3)';
+  renderCrmList();
+}
+ 
+function commTab(tab){
+  ['dashboard','crm','valider'].forEach(t=>{
+    document.getElementById(`comm-${t}-tab`).style.display=t===tab?'block':'none';
+    document.getElementById(`tab-${t}`).style.color=t===tab?'var(--cyan)':'var(--muted)';
+    document.getElementById(`tab-${t}`).style.borderBottom=t===tab?'2px solid var(--cyan)':'2px solid transparent';
+    document.getElementById(`tab-${t}`).style.fontWeight=t===tab?'600':'400';
+  });
+  document.querySelectorAll('.bottomnav .nav-item').forEach((n,i)=>{
+    n.classList.toggle('active',['dashboard','crm','valider'][i]===tab);
+  });
+}
+ 
+function calcCountdown(){
+  const now=new Date();
+  const last=new Date(now.getFullYear(),now.getMonth()+1,0);
+  const diff=Math.ceil((last-now)/(1000*60*60*24));
+  document.getElementById('comm-days').textContent=diff;
+  document.getElementById('comm-countdown-sub').textContent=`Fin le ${last.toLocaleDateString('fr-FR',{day:'numeric',month:'long'})}`;
+}
+ 
+function simChange(d){simVal=Math.max(0,Math.min(30,simVal+d));document.getElementById('sim-count').textContent=simVal;renderSim()}
+function renderSim(){
+  const isTer=userRecord?.type==='terrain';
+  const pct=isTer?P_SIG_TER:P_SIG_TEL;
+  const paliers=isTer?PAL_TER:PAL_TEL;
+  const primeSig=simVal*Math.round(TARIF_DEFAULT*pct);
+  const bonus=([...paliers].reverse().find(p=>simVal>=p.s)||{b:0}).b;
+  const rec=simVal*Math.round(TARIF_DEFAULT*(isTer?P_REC_TER:P_REC_TEL));
+  const el=document.getElementById('sim-result');
+  if(!el)return;
+  el.innerHTML=`
+    <div class="sim-line"><span class="sim-line-lbl">Prime signature (${Math.round(pct*100)}%)</span><span class="sim-line-val">${primeSig.toLocaleString('fr-FR')} DH</span></div>
+    <div class="sim-line"><span class="sim-line-lbl">Bonus palier</span><span class="sim-line-val">${bonus?'+'+bonus+' DH':'—'}</span></div>
+    <div class="sim-line"><span class="sim-line-lbl">Récurrent / mois</span><span class="sim-line-val">${rec.toLocaleString('fr-FR')} DH</span></div>
+    <div class="sim-line"><span class="sim-line-lbl">Total ce mois</span><span class="sim-line-val">${(primeSig+bonus).toLocaleString('fr-FR')} DH</span></div>`;
+}
+ 
+// VALIDER CABINET
+async function validerCabinet(){
+  const nom=document.getElementById('cab-nom').value.trim();
+  const med=document.getElementById('cab-medecin').value.trim();
+  const spec=document.getElementById('cab-spec').value.trim();
+  const ville=document.getElementById('cab-ville').value.trim();
+  const emailMed=document.getElementById('cab-email-med').value.trim();
+  const ass=document.getElementById('cab-assistante').value.trim();
+  const emailAss=document.getElementById('cab-email-ass').value.trim();
+  const plan=document.getElementById('cab-plan').value;
+  if(!nom||!med||!spec||!emailMed||!ass||!emailAss){showToast('Tous les champs requis');return}
+  const btn=document.querySelector('.submit-btn');
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader"></i> Création en cours...';
+  const{error}=await sb.from('cabinets').insert([{
+    nom_cabinet:nom,nom_medecin:med,specialite:spec,ville,
+    email_medecin:emailMed,email_assistante:emailAss,nom_assistante:ass,
+    plan,statut:'actif',date_signature:new Date().toISOString().split('T')[0],
+    commercial_id:currentUser.email,
+  }]);
+  // Créer les accès users
+  const pwd=Math.random().toString(36).slice(-8)+'Med!';
+  const pwd2=Math.random().toString(36).slice(-8)+'Ass!';
+  const cabinetId=nom.toLowerCase().replace(/\s/g,'-');
+  await sb.from('users').insert([
+    {email:emailMed,nom:med,role:'medecin',type:'',statut:'actif',cabinet_id:cabinetId,commercial_id:currentUser.email,date_creation:new Date().toISOString().split('T')[0]},
+    {email:emailAss,nom:ass,role:'assistante',type:'',statut:'actif',cabinet_id:cabinetId,commercial_id:currentUser.email,date_creation:new Date().toISOString().split('T')[0]},
+  ]);
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-circle-check"></i> Valider le cabinet';
+  if(error){showToast('Erreur — vérifiez les données');return}
+  showToast('Cabinet validé ! Accès créés.');
+  ['cab-nom','cab-medecin','cab-spec','cab-email-med','cab-assistante','cab-email-ass'].forEach(id=>document.getElementById(id).value='');
+  commTab('dashboard');
+  loadCommercialData();
+}
+ 
+// ══ MEDECIN ══
+async function loadMedecinData(){
+  document.getElementById('med-note').textContent='3.7';
+  document.getElementById('med-stars').textContent='⭐⭐⭐⭐';
+  document.getElementById('med-count').textContent='24 avis';
+  document.getElementById('med-prog').style.width='74%';
+  document.getElementById('med-envois').textContent='12';
+  document.getElementById('med-reponses').textContent='8';
+  document.getElementById('med-positifs').textContent='6';
+  document.getElementById('med-alertes').textContent='1';
+}
+ 
+// ══ ASSISTANTE ══
+let sendCount=0;
+async function loadAssistanteData(){
+  document.getElementById('ass-count').textContent=`${sendCount} formulaires envoyés aujourd'hui`;
+}
+function envoyerFormulaire(lang){
+  sendCount++;
+  document.getElementById('ass-count').textContent=`${sendCount} formulaires envoyés aujourd'hui`;
+  const msg=lang==='ar'?encodeURIComponent('مرحباً، نود معرفة رأيك في زيارتك للعيادة. يرجى تعبئة الاستبيان: https://medipulse-gamma.vercel.app/saisie.html'):encodeURIComponent('Bonjour, nous aimerions connaître votre avis sur votre visite. Merci de remplir ce formulaire : https://medipulse-gamma.vercel.app/saisie.html');
+  window.open('https://wa.me/?text='+msg,'_blank');
+  document.getElementById('ass-historique').innerHTML=`<div class="card" style="margin-bottom:8px;display:flex;align-items:center;gap:10px"><i class="ti ti-send" style="color:var(--green);font-size:18px"></i><div><div style="font-size:13px;font-weight:600">Formulaire ${lang.toUpperCase()} envoyé</div><div style="font-size:11px;color:var(--muted)">${new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</div></div></div>`+document.getElementById('ass-historique').innerHTML;
+  showToast(`Formulaire ${lang.toUpperCase()} ouvert dans WhatsApp`);
+}
+ 
+// ══ CRM EDIT ══
+function openEdit(id){
+  const p=prospects.find(x=>x.id===id);if(!p)return;
+  editId=id;editType=p.type_prospection||'téléphone';
+  document.getElementById('edit-name').textContent=p.nom;
+  document.getElementById('edit-meta').textContent=`${p.specialite} · ${p.telephone_fixe||''}`;
+  document.getElementById('edit-mobile').value=p.telephone_mobile||'';
+  document.getElementById('edit-note').value=p.note||'';
+  document.getElementById('edit-terrain').value=p.commentaire_terrain||'';
+  document.getElementById('edit-rappel').value=p.date_rappel||'';
+  document.getElementById('type-tel').classList.toggle('sel',editType==='téléphone');
+  document.getElementById('type-ter').classList.toggle('sel',editType==='terrain');
+  document.getElementById('status-grid').innerHTML=ST.map(s=>`
+    <div class="st-opt${p.statut===s.key?' sel':''}" style="background:${s.bg};border-color:${p.statut===s.key?s.border:'var(--border)'};" onclick="selectSt('${s.key}',this)">
+      <div class="st-name" style="color:${s.color}">${s.label}</div>
+      <div class="st-desc" style="color:${s.color}">${s.desc}</div>
+    </div>`).join('');
+  document.getElementById('edit-overlay').classList.add('open');
+}
+function selectSt(key,el){
+  document.querySelectorAll('.st-opt').forEach(o=>{o.classList.remove('sel');o.style.borderColor='var(--border)'});
+  el.classList.add('sel');el.style.borderColor=ST.find(s=>s.key===key)?.border||'var(--border)';
+}
+function setType(t){
+  editType=t;
+  document.getElementById('type-tel').classList.toggle('sel',t==='téléphone');
+  document.getElementById('type-ter').classList.toggle('sel',t==='terrain');
+}
+async function saveEdit(){
+  const btn=document.getElementById('save-btn');
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader"></i> Enregistrement...';
+  const selName=document.querySelector('.st-opt.sel .st-name');
+  const statut=selName?ST.find(s=>s.label===selName.textContent)?.key||'Nouveau':'Nouveau';
+  const{error}=await sb.from('prospection').update({
+    statut,telephone_mobile:document.getElementById('edit-mobile').value,
+    note:document.getElementById('edit-note').value,
+    commentaire_terrain:document.getElementById('edit-terrain').value,
+    date_rappel:document.getElementById('edit-rappel').value||null,
+    date_appel:new Date().toISOString().split('T')[0],
+    type_prospection:editType,commercial_id:currentUser?.email||'',
+  }).eq('id',editId);
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Enregistrer';
+  if(error){showToast('Erreur sauvegarde');return}
+  showToast('Enregistré');closeOverlay('edit-overlay');
+  loadCommercialData();
+}
+function openAddProspect(){document.getElementById('add-overlay').classList.add('open')}
+async function saveAdd(){
+  const nom=document.getElementById('add-nom').value.trim();
+  const spec=document.getElementById('add-spec').value.trim();
+  if(!nom||!spec){showToast('Nom et spécialité requis');return}
+  const btn=document.getElementById('add-btn');btn.disabled=true;
+  const{error}=await sb.from('prospection').insert([{
+    nom,specialite:spec,quartier:document.getElementById('add-quartier').value,
+    ville:document.getElementById('add-ville').value||'Casablanca',
+    telephone_fixe:document.getElementById('add-fixe').value,
+    telephone_mobile:document.getElementById('add-mobile').value,
+    statut:'Nouveau',type_prospection:'téléphone',commercial_id:currentUser?.email||'',
+  }]);
+  btn.disabled=false;
+  if(error){showToast('Erreur ajout');return}
+  showToast('Prospect ajouté');closeOverlay('add-overlay');
+  ['add-nom','add-spec','add-quartier','add-fixe','add-mobile'].forEach(id=>document.getElementById(id).value='');
+  loadCommercialData();
+}
+ 
+function callNum(tel){if(!tel||tel==="'"){showToast('Aucun numéro');return}window.location.href='tel:'+tel.replace(/\s/g,'')}
+function openWA(tel){if(!tel){showToast('Ajouter mobile d\'abord');return}window.open('https://wa.me/'+tel.replace(/\s/g,'').replace(/^0/,'212'),'_blank')}
+function callNumById(id){const p=prospects.find(x=>x.id===id);if(!p)return;callNum(p.telephone_fixe||p.telephone_mobile||'')}
+function openWAById(id){const p=prospects.find(x=>x.id===id);if(!p)return;openWA(p.telephone_mobile||p.telephone_fixe||'')}
+function closeOverlay(id,e){if(!e||e.target===document.getElementById(id))document.getElementById(id).classList.remove('open')}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+ 
+// ══ INIT ══
+(async()=>{
+  const{data:{session}}=await sb.auth.getSession();
+  document.getElementById('loader').style.display='none';
+  if(session){
+    currentUser=session.user;
+    await loadUserRecord();
+  } else {
+    document.getElementById('login-wrap').style.display='flex';
+  }
+})();
+</script>
+</body>
+</html>
