@@ -561,6 +561,16 @@ function loadPage(pageId){
   else if(pageId==='comm-valider')renderCommValider();
   else if(pageId==='med-dashboard')renderMedDashboard();
   else if(pageId==='med-avis')renderMedAvis();
+  else if(pageId==='med-stats'){renderMedStats();setTimeout(()=>{
+    const chart=document.getElementById('med-chart');
+    if(!chart)return;
+    const months=['Jan','Fév','Mar','Avr','Mai'];
+    const vals=[2.8,3.0,3.2,3.5,3.7];
+    chart.innerHTML=months.map((m,i)=>{
+      const h=Math.round((vals[i]/5)*100);
+      return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><div style=\"font-size:11px;font-weight:600;color:#2563EB\">'+vals[i]+'</div><div style=\"width:100%;background:linear-gradient(180deg,#2563EB,#06B6D4);border-radius:6px 6px 0 0;height:'+h+'px\"></div><div style=\"font-size:11px;color:#94A3B8\">'+m+'</div></div>';
+    }).join('');
+  },100);}
   else if(pageId==='ass-dashboard')renderAssDashboard();
   else if(pageId==='ass-historique')renderAssHistorique();
 }
@@ -824,77 +834,133 @@ function renderCommValider(){
  
 // ══ MEDECIN ══
 function renderMedDashboard(){
+  const nom=userRecord.nom||'Dr. Test';
+  const noteVal=3.7, nbAvis=24, notePct=Math.round((noteVal/5)*100);
+  const googleUrl='https://www.google.com/search?q='+encodeURIComponent(nom+' médecin Casablanca');
   document.getElementById('main-content').innerHTML=`
-    <div class="page-title">Mon Cabinet</div>
-    <div class="page-sub">Tableau de bord — ${userRecord.nom||'Dr.'}</div>
-    <div class="grid-13">
-      <div class="panel">
-        <div class="panel-title"><div class="panel-title-left"><i class="ti ti-star"></i>Note Google</div></div>
-        <div class="note-display">
-          <div class="note-big">3.7</div>
-          <div class="note-details">
-            <div class="note-stars">⭐⭐⭐⭐</div>
-            <div class="note-count">24 avis Google</div>
-            <div class="note-prog">
-              <div class="note-prog-label"><span>Progression vers 5.0</span><span style="color:var(--cyan)">74%</span></div>
-              <div class="progress-bar"><div class="progress-fill" style="width:74%"></div></div>
-            </div>
+    <div style="margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#1E3A5F">Mon Cabinet</div>
+        <div style="font-size:13px;color:#64748B;margin-top:2px">Tableau de bord — ${nom}</div>
+      </div>
+      <a href="${googleUrl}" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;background:#fff;border:1.5px solid #E0E7FF;color:#2563EB;font-size:13px;font-weight:600;text-decoration:none;box-shadow:0 2px 8px rgba(37,99,235,0.08)">
+        <i class="ti ti-brand-google" style="font-size:18px;color:#EA4335"></i> Voir ma fiche Google
+      </a>
+    </div>
+    <div style="background:#fff;border-radius:20px;border:1.5px solid #E0E7FF;padding:28px;margin-bottom:20px;display:flex;align-items:center;gap:32px;box-shadow:0 2px 16px rgba(37,99,235,0.06)">
+      <div style="text-align:center;min-width:120px">
+        <div style="font-family:Syne,sans-serif;font-size:64px;font-weight:800;color:#2563EB;line-height:1">${noteVal}</div>
+        <div style="font-size:22px;margin:6px 0">⭐⭐⭐⭐</div>
+        <div style="font-size:13px;color:#64748B">${nbAvis} avis Google</div>
+      </div>
+      <div style="flex:1">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="font-size:13px;color:#64748B;font-weight:500">Progression vers 5.0 ⭐</span>
+          <span style="font-size:13px;font-weight:700;color:#2563EB">${notePct}%</span>
+        </div>
+        <div style="height:10px;background:#EFF6FF;border-radius:99px;overflow:hidden;margin-bottom:16px">
+          <div style="height:100%;width:${notePct}%;background:linear-gradient(90deg,#2563EB,#06B6D4);border-radius:99px"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;text-align:center">
+            <div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#16A34A">6</div>
+            <div style="font-size:11px;color:#16A34A;font-weight:600;margin-top:3px">Avis positifs</div>
+          </div>
+          <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:12px;text-align:center">
+            <div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#EA580C">4</div>
+            <div style="font-size:11px;color:#EA580C;font-weight:600;margin-top:3px">En attente</div>
+          </div>
+          <div style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:12px;padding:12px;text-align:center">
+            <div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#F43F5E">1</div>
+            <div style="font-size:11px;color:#F43F5E;font-weight:600;margin-top:3px">Alertes</div>
           </div>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <div class="kpi-card green" style="flex:1"><i class="ti ti-send kpi-icon"></i><div class="kpi-val">12</div><div class="kpi-lbl">Formulaires envoyés</div></div>
-        <div class="kpi-card cyan" style="flex:1"><i class="ti ti-message-check kpi-icon"></i><div class="kpi-val">8</div><div class="kpi-lbl">Réponses reçues</div></div>
+    </div>
+    <div style="background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:16px;padding:20px;margin-bottom:20px">
+      <div style="font-size:12px;font-weight:700;color:#1D4ED8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;display:flex;align-items:center;gap:6px"><i class="ti ti-user" style="font-size:14px"></i>Activité de votre assistante</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;border:1px solid #BFDBFE">
+          <div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:#2563EB">12</div>
+          <div style="font-size:12px;color:#64748B;margin-top:4px">Formulaires envoyés</div>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;border:1px solid #BFDBFE">
+          <div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:#0891B2">8</div>
+          <div style="font-size:12px;color:#64748B;margin-top:4px">Réponses reçues</div>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;border:1px solid #BFDBFE">
+          <div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:#16A34A">67%</div>
+          <div style="font-size:12px;color:#64748B;margin-top:4px">Taux de réponse</div>
+        </div>
       </div>
     </div>
-    <div class="kpi-row cols-4">
-      <div class="kpi-card purple"><i class="ti ti-thumb-up kpi-icon"></i><div class="kpi-val">6</div><div class="kpi-lbl">Avis positifs</div></div>
-      <div class="kpi-card red"><i class="ti ti-alert-triangle kpi-icon"></i><div class="kpi-val">1</div><div class="kpi-lbl">Alertes</div></div>
-      <div class="kpi-card orange"><i class="ti ti-clock kpi-icon"></i><div class="kpi-val">4</div><div class="kpi-lbl">En attente</div></div>
-      <div class="kpi-card blue"><i class="ti ti-trending-up kpi-icon"></i><div class="kpi-val">+0.3</div><div class="kpi-lbl">Évolution note</div></div>
-    </div>
-    <div class="grid-2">
-      <div class="panel">
-        <div class="panel-title"><div class="panel-title-left"><i class="ti ti-messages"></i>Derniers avis</div><span class="panel-link" onclick="loadPage('med-avis')">Voir tout</span></div>
-        ${renderAvisHTML()}
+    <div style="display:grid;grid-template-columns:3fr 2fr;gap:20px">
+      <div style="background:#fff;border-radius:16px;border:1.5px solid #E0E7FF;padding:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#1E3A5F"><i class="ti ti-messages" style="color:#2563EB;font-size:16px"></i>Derniers avis</div>
+          <span style="font-size:12px;color:#2563EB;cursor:pointer;font-weight:600" onclick="loadPage('med-avis')">Voir tout</span>
+        </div>
+        ${renderAvisHTMLLight()}
       </div>
-      <div class="panel">
-        <div class="panel-title"><div class="panel-title-left"><i class="ti ti-alert-triangle" style="color:var(--red)"></i>Alertes patients</div></div>
-        <div class="avis-alert"><i class="ti ti-alert-circle"></i>Un patient a exprimé une insatisfaction — vérifiez les avis récents</div>
-        <div style="padding:16px 0;color:var(--muted);font-size:13px;text-align:center;margin-top:8px">Aucune autre alerte</div>
+      <div style="background:#fff;border-radius:16px;border:1.5px solid #FECDD3;padding:20px">
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#9F1239;margin-bottom:16px"><i class="ti ti-alert-triangle" style="font-size:16px;color:#F43F5E"></i>Alertes</div>
+        <div style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:10px;padding:12px;font-size:13px;color:#BE123C;display:flex;align-items:flex-start;gap:8px">
+          <i class="ti ti-alert-circle" style="flex-shrink:0;margin-top:1px"></i>
+          <span>Un patient insatisfait — répondez rapidement pour protéger votre réputation.</span>
+        </div>
+        <div style="text-align:center;padding:20px 0;color:#94A3B8;font-size:13px">Aucune autre alerte</div>
       </div>
     </div>`;
 }
  
-function renderMedAvis(){
-  document.getElementById('main-content').innerHTML=`
-    <div class="page-title">Avis Patients</div>
-    <div class="page-sub">Historique complet des retours patients</div>
-    <div class="panel">${renderAvisHTML(10)}</div>`;
-}
- 
-function renderAvisHTML(limit=4){
+function renderAvisHTMLLight(limit=4){
   const avis=[
-    {init:'AK',nom:'Ahmed K.',date:'Aujourd\'hui',stars:'⭐⭐⭐⭐⭐',text:'Excellent cabinet, médecin très à l\'écoute. Je recommande vivement.',positive:true},
-    {init:'FB',nom:'Fatima B.',date:'Hier',stars:'⭐⭐⭐⭐⭐',text:'Très bonne expérience, personnel accueillant et professionnel.',positive:true},
-    {init:'MR',nom:'Mohamed R.',date:'Il y a 2 jours',stars:'⭐⭐⭐',text:'Attente un peu longue mais le docteur est compétent.',positive:true},
-    {init:'SS',nom:'Sara S.',date:'Il y a 3 jours',stars:'⭐⭐',text:'Rendez-vous annulé sans prévenir, très déçue.',positive:false},
-    {init:'YA',nom:'Youssef A.',date:'Il y a 4 jours',stars:'⭐⭐⭐⭐⭐',text:'Cabinet moderne et médecin très professionnel.',positive:true},
+    {init:'AK',nom:'Ahmed K.',date:"Aujourd'hui",stars:'⭐⭐⭐⭐⭐',text:"Excellent cabinet, médecin très à l'écoute.",positive:true},
+    {init:'FB',nom:'Fatima B.',date:'Hier',stars:'⭐⭐⭐⭐⭐',text:'Très bonne expérience, personnel accueillant.',positive:true},
+    {init:'MR',nom:'Mohamed R.',date:'Il y a 2 jours',stars:'⭐⭐⭐',text:'Attente longue mais médecin compétent.',positive:true},
+    {init:'SS',nom:'Sara S.',date:'Il y a 3 jours',stars:'⭐⭐',text:'Rendez-vous annulé sans prévenir.',positive:false},
   ].slice(0,limit);
   return avis.map(a=>`
-    <div class="avis-item">
-      <div class="avis-avatar">${a.init}</div>
+    <div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #F1F5F9">
+      <div style="width:36px;height:36px;border-radius:50%;background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#2563EB;flex-shrink:0">${a.init}</div>
       <div style="flex:1">
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <div class="avis-name">${a.nom}</div>
-          <div style="font-size:12px;color:var(--muted)">${a.date}</div>
-        </div>
-        <div style="font-size:14px;margin:3px 0">${a.stars}</div>
-        <div class="avis-text">${a.text}</div>
-        ${!a.positive?`<div class="avis-alert"><i class="ti ti-alert-circle"></i>Avis négatif — action recommandée</div>`:''}
+        <div style="display:flex;justify-content:space-between"><span style="font-size:13px;font-weight:600;color:#1E293B">${a.nom}</span><span style="font-size:11px;color:#94A3B8">${a.date}</span></div>
+        <div style="font-size:13px;margin:3px 0">${a.stars}</div>
+        <div style="font-size:12px;color:#64748B;line-height:1.5">${a.text}</div>
+        ${!a.positive?`<div style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:6px;padding:6px 10px;font-size:11px;color:#BE123C;margin-top:6px;display:flex;align-items:center;gap:6px"><i class="ti ti-alert-circle"></i>Avis négatif</div>`:''}
       </div>
-    </div>`).join('');
-}
+    </div>`).join('');}
+ 
+function renderMedAvis(){
+  document.getElementById('main-content').innerHTML=`
+    <div style="margin-bottom:24px"><div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#1E3A5F">Avis Patients</div><div style="font-size:13px;color:#64748B;margin-top:2px">Historique complet</div></div>
+    <div style="background:#fff;border-radius:16px;border:1.5px solid #E0E7FF;padding:24px">${renderAvisHTMLLight(10)}</div>`;}
+ 
+function renderMedStats(){
+  const months=['Jan','Fév','Mar','Avr','Mai'];
+  const vals=[2.8,3.0,3.2,3.5,3.7];
+  document.getElementById('main-content').innerHTML=`
+    <div style="margin-bottom:24px">
+      <div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#1E3A5F">Statistiques</div>
+      <div style="font-size:13px;color:#64748B;margin-top:2px">Évolution de votre réputation en ligne</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+      ${[
+        {val:'3.7',lbl:'Note actuelle',icon:'ti-star',color:'#2563EB',bg:'#EFF6FF',border:'#BFDBFE'},
+        {val:'+0.3',lbl:'Évolution 30j',icon:'ti-trending-up',color:'#16A34A',bg:'#F0FDF4',border:'#BBF7D0'},
+        {val:'24',lbl:'Total avis',icon:'ti-messages',color:'#0891B2',bg:'#ECFEFF',border:'#A5F3FC'},
+        {val:'67%',lbl:'Taux réponse',icon:'ti-chart-pie',color:'#7C3AED',bg:'#FAF5FF',border:'#DDD6FE'},
+      ].map(k=>`
+        <div style="background:${k.bg};border:1.5px solid ${k.border};border-radius:16px;padding:20px">
+          <i class="ti ${k.icon}" style="font-size:20px;color:${k.color};display:block;margin-bottom:12px"></i>
+          <div style="font-family:Syne,sans-serif;font-size:32px;font-weight:800;color:${k.color};line-height:1;margin-bottom:6px">${k.val}</div>
+          <div style="font-size:12px;color:#64748B">${k.lbl}</div>
+        </div>`).join('')}
+    </div>
+    <div style="background:#fff;border-radius:16px;border:1.5px solid #E0E7FF;padding:24px">
+      <div style="font-size:14px;font-weight:700;color:#1E3A5F;margin-bottom:20px;display:flex;align-items:center;gap:8px"><i class="ti ti-chart-line" style="color:#2563EB"></i>Progression mensuelle</div>
+      <div style="display:flex;align-items:flex-end;gap:12px;height:140px;padding:0 8px" id="med-chart"></div>
+    </div>`;}
  
 // ══ ASSISTANTE ══
 function renderAssDashboard(){
