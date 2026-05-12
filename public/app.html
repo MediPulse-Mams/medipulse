@@ -6,7 +6,7 @@
 <title>MediPulse</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -302,6 +302,29 @@ textarea.finput{resize:none}
   .mobile-menu-btn{display:flex!important}
 }
 .mobile-menu-btn{display:none;background:none;border:none;color:var(--text);cursor:pointer;font-size:22px;align-items:center}
+ 
+/* ══ MEDECIN THEME OVERRIDE ══ */
+.med-theme body,.med-layout{font-family:'Plus Jakarta Sans',sans-serif!important}
+.med-sidebar{background:#fff!important;border-right:1px solid #E8EDF5!important}
+.med-sidebar .sidebar-logo{border-bottom:1px solid #E8EDF5!important}
+.med-sidebar .sidebar-logo .sidebar-logo-text{color:#1E3A5F!important}
+.med-sidebar .sidebar-logo-text span{color:#2563EB!important}
+.med-sidebar .sidebar-slogan{color:#94A3B8!important}
+.med-sidebar .sidebar-user{border-bottom:1px solid #E8EDF5!important;background:#F8FAFF}
+.med-sidebar .sidebar-username{color:#1E3A5F!important}
+.med-sidebar .sidebar-role{color:#64748B!important}
+.med-sidebar .sidebar-avatar{background:#EFF6FF!important;color:#2563EB!important}
+.med-sidebar .nav-section{color:#94A3B8!important}
+.med-sidebar .nav-link{color:#64748B!important}
+.med-sidebar .nav-link:hover{background:#F0F7FF!important;color:#2563EB!important}
+.med-sidebar .nav-link.active{background:#EFF6FF!important;color:#2563EB!important;font-weight:600}
+.med-sidebar .nav-link.active i{color:#2563EB!important}
+.med-sidebar .sidebar-footer{border-top:1px solid #E8EDF5!important}
+.med-sidebar .logout-link{color:#94A3B8!important}
+.med-sidebar .logout-link:hover{color:#F43F5E!important}
+.med-topbar{background:#fff!important;border-bottom:1px solid #E8EDF5!important}
+.med-topbar .topbar-title{color:#1E3A5F!important;font-family:'Plus Jakarta Sans',sans-serif!important}
+.med-content{background:#F5F7FF!important}
 </style>
 </head>
 <body>
@@ -497,6 +520,12 @@ function initApp(){
   document.getElementById('topbar-role').className=`role-pill role-${role}`;
   document.getElementById('topbar-date').textContent=new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
   buildSidebar(role);
+  if(role==='medecin'||role==='assistante'){
+    document.getElementById('sidebar').classList.add('med-sidebar');
+    document.getElementById('app').querySelector('.topbar').classList.add('med-topbar');
+    document.getElementById('main-content').parentElement.style.background='#F5F7FF';
+    document.getElementById('main-content').parentElement.style.fontFamily="'Plus Jakarta Sans',sans-serif";
+  }
   loadPage(role==='owner'?'owner-dashboard':role==='commercial'?'comm-dashboard':role==='medecin'?'med-dashboard':'ass-dashboard');
 }
  
@@ -836,131 +865,175 @@ function renderCommValider(){
 function renderMedDashboard(){
   const nom=userRecord.nom||'Dr. Test';
   const noteVal=3.7, nbAvis=24, notePct=Math.round((noteVal/5)*100);
-  const googleUrl='https://www.google.com/search?q='+encodeURIComponent(nom+' médecin Casablanca');
+  const googleUrl='https://www.google.com/search?q='+encodeURIComponent(nom+' médecin Casablanca avis');
   document.getElementById('main-content').innerHTML=`
-    <div style="margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px">
       <div>
-        <div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#1E3A5F">Mon Cabinet</div>
-        <div style="font-size:13px;color:#64748B;margin-top:2px">Tableau de bord — ${nom}</div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:700;color:#0F172A">Bonjour, ${nom} 👋</div>
+        <div style="font-size:14px;color:#64748B;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
       </div>
-      <a href="${googleUrl}" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;background:#fff;border:1.5px solid #E0E7FF;color:#2563EB;font-size:13px;font-weight:600;text-decoration:none;box-shadow:0 2px 8px rgba(37,99,235,0.08)">
-        <i class="ti ti-brand-google" style="font-size:18px;color:#EA4335"></i> Voir ma fiche Google
+      <a href="${googleUrl}" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:12px;background:#fff;border:1.5px solid #DBEAFE;color:#1D4ED8;font-size:13px;font-weight:600;text-decoration:none;box-shadow:0 1px 4px rgba(37,99,235,0.12);font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.2s">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Voir ma fiche Google
       </a>
     </div>
-    <div style="background:#fff;border-radius:20px;border:1.5px solid #E0E7FF;padding:28px;margin-bottom:20px;display:flex;align-items:center;gap:32px;box-shadow:0 2px 16px rgba(37,99,235,0.06)">
-      <div style="text-align:center;min-width:120px">
-        <div style="font-family:Syne,sans-serif;font-size:64px;font-weight:800;color:#2563EB;line-height:1">${noteVal}</div>
-        <div style="font-size:22px;margin:6px 0">⭐⭐⭐⭐</div>
-        <div style="font-size:13px;color:#64748B">${nbAvis} avis Google</div>
+ 
+    <!-- NOTE HERO -->
+    <div style="background:#fff;border-radius:20px;border:1px solid #E8EDF5;padding:32px;margin-bottom:20px;display:flex;align-items:center;gap:40px;box-shadow:0 1px 12px rgba(15,23,42,0.06)">
+      <div style="text-align:center;min-width:140px">
+        <div style="font-family:'Syne',sans-serif;font-size:80px;font-weight:800;color:#2563EB;line-height:1">${noteVal}</div>
+        <div style="font-size:24px;letter-spacing:2px;margin:8px 0">⭐⭐⭐⭐</div>
+        <div style="font-size:13px;color:#94A3B8;font-family:'Plus Jakarta Sans',sans-serif">${nbAvis} avis Google</div>
       </div>
-      <div style="flex:1">
+      <div style="flex:1;border-left:1px solid #F1F5F9;padding-left:40px">
+        <div style="font-size:14px;font-weight:600;color:#1E293B;margin-bottom:12px;font-family:'Plus Jakarta Sans',sans-serif">Progression vers la note parfaite</div>
         <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-          <span style="font-size:13px;color:#64748B;font-weight:500">Progression vers 5.0 ⭐</span>
+          <span style="font-size:13px;color:#64748B">Note actuelle : ${noteVal}/5.0</span>
           <span style="font-size:13px;font-weight:700;color:#2563EB">${notePct}%</span>
         </div>
-        <div style="height:10px;background:#EFF6FF;border-radius:99px;overflow:hidden;margin-bottom:16px">
-          <div style="height:100%;width:${notePct}%;background:linear-gradient(90deg,#2563EB,#06B6D4);border-radius:99px"></div>
+        <div style="height:12px;background:#F1F5F9;border-radius:99px;overflow:hidden;margin-bottom:24px">
+          <div style="height:100%;width:${notePct}%;background:linear-gradient(90deg,#2563EB,#06B6D4);border-radius:99px;transition:width 1.2s ease"></div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-          <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px;text-align:center">
-            <div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#16A34A">6</div>
-            <div style="font-size:11px;color:#16A34A;font-weight:600;margin-top:3px">Avis positifs</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+          <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:14px;padding:16px;text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#16A34A">6</div>
+            <div style="font-size:12px;color:#15803D;font-weight:600;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Avis positifs</div>
           </div>
-          <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:12px;text-align:center">
-            <div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#EA580C">4</div>
-            <div style="font-size:11px;color:#EA580C;font-weight:600;margin-top:3px">En attente</div>
+          <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:14px;padding:16px;text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#EA580C">4</div>
+            <div style="font-size:12px;color:#C2410C;font-weight:600;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">En attente</div>
           </div>
-          <div style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:12px;padding:12px;text-align:center">
-            <div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#F43F5E">1</div>
-            <div style="font-size:11px;color:#F43F5E;font-weight:600;margin-top:3px">Alertes</div>
+          <div style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:14px;padding:16px;text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#F43F5E">1</div>
+            <div style="font-size:12px;color:#BE123C;font-weight:600;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Alertes</div>
           </div>
         </div>
       </div>
     </div>
-    <div style="background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:16px;padding:20px;margin-bottom:20px">
-      <div style="font-size:12px;font-weight:700;color:#1D4ED8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;display:flex;align-items:center;gap:6px"><i class="ti ti-user" style="font-size:14px"></i>Activité de votre assistante</div>
+ 
+    <!-- ACTIVITE ASSISTANTE -->
+    <div style="background:linear-gradient(135deg,#EFF6FF,#F0F9FF);border:1px solid #BFDBFE;border-radius:16px;padding:22px;margin-bottom:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="font-size:13px;font-weight:700;color:#1D4ED8;text-transform:uppercase;letter-spacing:0.06em;display:flex;align-items:center;gap:8px;font-family:'Plus Jakarta Sans',sans-serif">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Activité de votre assistante
+        </div>
+        <div style="font-size:12px;color:#64748B;font-family:'Plus Jakarta Sans',sans-serif">Aujourd'hui</div>
+      </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
-        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;border:1px solid #BFDBFE">
-          <div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:#2563EB">12</div>
-          <div style="font-size:12px;color:#64748B;margin-top:4px">Formulaires envoyés</div>
+        <div style="background:#fff;border-radius:14px;padding:18px;text-align:center;border:1px solid #DBEAFE;box-shadow:0 1px 4px rgba(37,99,235,0.06)">
+          <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#2563EB;line-height:1">12</div>
+          <div style="font-size:12px;color:#64748B;margin-top:6px;font-weight:500;font-family:'Plus Jakarta Sans',sans-serif">Formulaires envoyés</div>
         </div>
-        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;border:1px solid #BFDBFE">
-          <div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:#0891B2">8</div>
-          <div style="font-size:12px;color:#64748B;margin-top:4px">Réponses reçues</div>
+        <div style="background:#fff;border-radius:14px;padding:18px;text-align:center;border:1px solid #DBEAFE;box-shadow:0 1px 4px rgba(37,99,235,0.06)">
+          <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#0891B2;line-height:1">8</div>
+          <div style="font-size:12px;color:#64748B;margin-top:6px;font-weight:500;font-family:'Plus Jakarta Sans',sans-serif">Réponses reçues</div>
         </div>
-        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;border:1px solid #BFDBFE">
-          <div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:#16A34A">67%</div>
-          <div style="font-size:12px;color:#64748B;margin-top:4px">Taux de réponse</div>
+        <div style="background:#fff;border-radius:14px;padding:18px;text-align:center;border:1px solid #DBEAFE;box-shadow:0 1px 4px rgba(37,99,235,0.06)">
+          <div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#16A34A;line-height:1">67%</div>
+          <div style="font-size:12px;color:#64748B;margin-top:6px;font-weight:500;font-family:'Plus Jakarta Sans',sans-serif">Taux de réponse</div>
         </div>
       </div>
     </div>
+ 
+    <!-- AVIS + ALERTES -->
     <div style="display:grid;grid-template-columns:3fr 2fr;gap:20px">
-      <div style="background:#fff;border-radius:16px;border:1.5px solid #E0E7FF;padding:20px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-          <div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#1E3A5F"><i class="ti ti-messages" style="color:#2563EB;font-size:16px"></i>Derniers avis</div>
-          <span style="font-size:12px;color:#2563EB;cursor:pointer;font-weight:600" onclick="loadPage('med-avis')">Voir tout</span>
+      <div style="background:#fff;border-radius:16px;border:1px solid #E8EDF5;padding:24px;box-shadow:0 1px 8px rgba(15,23,42,0.04)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+          <div style="font-size:15px;font-weight:700;color:#0F172A;display:flex;align-items:center;gap:8px;font-family:'Plus Jakarta Sans',sans-serif">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Derniers avis patients
+          </div>
+          <span style="font-size:12px;color:#2563EB;cursor:pointer;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif" onclick="loadPage('med-avis')">Voir tout →</span>
         </div>
         ${renderAvisHTMLLight()}
       </div>
-      <div style="background:#fff;border-radius:16px;border:1.5px solid #FECDD3;padding:20px">
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#9F1239;margin-bottom:16px"><i class="ti ti-alert-triangle" style="font-size:16px;color:#F43F5E"></i>Alertes</div>
-        <div style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:10px;padding:12px;font-size:13px;color:#BE123C;display:flex;align-items:flex-start;gap:8px">
-          <i class="ti ti-alert-circle" style="flex-shrink:0;margin-top:1px"></i>
-          <span>Un patient insatisfait — répondez rapidement pour protéger votre réputation.</span>
+      <div style="background:#fff;border-radius:16px;border:1px solid #FECDD3;padding:24px;box-shadow:0 1px 8px rgba(244,63,94,0.04)">
+        <div style="font-size:15px;font-weight:700;color:#0F172A;display:flex;align-items:center;gap:8px;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F43F5E" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Alertes
         </div>
-        <div style="text-align:center;padding:20px 0;color:#94A3B8;font-size:13px">Aucune autre alerte</div>
+        <div style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:12px;padding:14px;font-size:13px;color:#BE123C;line-height:1.6;font-family:'Plus Jakarta Sans',sans-serif">
+          <div style="font-weight:600;margin-bottom:4px">Patient insatisfait détecté</div>
+          Consultez et répondez rapidement pour protéger votre réputation en ligne.
+        </div>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid #FEE2E2">
+          <div style="font-size:12px;color:#94A3B8;text-align:center;font-family:'Plus Jakarta Sans',sans-serif">✓ Aucune autre alerte</div>
+        </div>
       </div>
     </div>`;
 }
  
 function renderAvisHTMLLight(limit=4){
   const avis=[
-    {init:'AK',nom:'Ahmed K.',date:"Aujourd'hui",stars:'⭐⭐⭐⭐⭐',text:"Excellent cabinet, médecin très à l'écoute.",positive:true},
+    {init:'AK',nom:'Ahmed K.',date:"Aujourd'hui",stars:'⭐⭐⭐⭐⭐',text:"Excellent cabinet, très à l'écoute.",positive:true},
     {init:'FB',nom:'Fatima B.',date:'Hier',stars:'⭐⭐⭐⭐⭐',text:'Très bonne expérience, personnel accueillant.',positive:true},
     {init:'MR',nom:'Mohamed R.',date:'Il y a 2 jours',stars:'⭐⭐⭐',text:'Attente longue mais médecin compétent.',positive:true},
     {init:'SS',nom:'Sara S.',date:'Il y a 3 jours',stars:'⭐⭐',text:'Rendez-vous annulé sans prévenir.',positive:false},
+    {init:'YA',nom:'Youssef A.',date:'Il y a 4 jours',stars:'⭐⭐⭐⭐⭐',text:'Cabinet moderne, très professionnel.',positive:true},
   ].slice(0,limit);
   return avis.map(a=>`
-    <div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #F1F5F9">
-      <div style="width:36px;height:36px;border-radius:50%;background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#2563EB;flex-shrink:0">${a.init}</div>
+    <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid #F8FAFC">
+      <div style="width:38px;height:38px;border-radius:50%;background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#2563EB;flex-shrink:0;font-family:'Plus Jakarta Sans',sans-serif">${a.init}</div>
       <div style="flex:1">
-        <div style="display:flex;justify-content:space-between"><span style="font-size:13px;font-weight:600;color:#1E293B">${a.nom}</span><span style="font-size:11px;color:#94A3B8">${a.date}</span></div>
-        <div style="font-size:13px;margin:3px 0">${a.stars}</div>
-        <div style="font-size:12px;color:#64748B;line-height:1.5">${a.text}</div>
-        ${!a.positive?`<div style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:6px;padding:6px 10px;font-size:11px;color:#BE123C;margin-top:6px;display:flex;align-items:center;gap:6px"><i class="ti ti-alert-circle"></i>Avis négatif</div>`:''}
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:14px;font-weight:600;color:#0F172A;font-family:'Plus Jakarta Sans',sans-serif">${a.nom}</span>
+          <span style="font-size:11px;color:#94A3B8;font-family:'Plus Jakarta Sans',sans-serif">${a.date}</span>
+        </div>
+        <div style="font-size:13px;margin:4px 0">${a.stars}</div>
+        <div style="font-size:13px;color:#64748B;line-height:1.6;font-family:'Plus Jakarta Sans',sans-serif">${a.text}</div>
+        ${!a.positive?`<div style="background:#FFF1F2;border:1px solid #FECDD3;border-radius:8px;padding:7px 12px;font-size:12px;color:#BE123C;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500">⚠ Avis négatif — réponse recommandée</div>`:''}
       </div>
     </div>`).join('');}
  
 function renderMedAvis(){
   document.getElementById('main-content').innerHTML=`
-    <div style="margin-bottom:24px"><div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#1E3A5F">Avis Patients</div><div style="font-size:13px;color:#64748B;margin-top:2px">Historique complet</div></div>
-    <div style="background:#fff;border-radius:16px;border:1.5px solid #E0E7FF;padding:24px">${renderAvisHTMLLight(10)}</div>`;}
+    <div style="margin-bottom:24px">
+      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:700;color:#0F172A">Avis Patients</div>
+      <div style="font-size:14px;color:#64748B;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Historique complet des retours patients</div>
+    </div>
+    <div style="background:#fff;border-radius:16px;border:1px solid #E8EDF5;padding:24px;box-shadow:0 1px 8px rgba(15,23,42,0.04)">${renderAvisHTMLLight(10)}</div>`;}
  
 function renderMedStats(){
-  const months=['Jan','Fév','Mar','Avr','Mai'];
-  const vals=[2.8,3.0,3.2,3.5,3.7];
   document.getElementById('main-content').innerHTML=`
-    <div style="margin-bottom:24px">
-      <div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#1E3A5F">Statistiques</div>
-      <div style="font-size:13px;color:#64748B;margin-top:2px">Évolution de votre réputation en ligne</div>
+    <div style="margin-bottom:28px">
+      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:700;color:#0F172A">Statistiques</div>
+      <div style="font-size:14px;color:#64748B;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Évolution de votre réputation en ligne</div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
       ${[
-        {val:'3.7',lbl:'Note actuelle',icon:'ti-star',color:'#2563EB',bg:'#EFF6FF',border:'#BFDBFE'},
-        {val:'+0.3',lbl:'Évolution 30j',icon:'ti-trending-up',color:'#16A34A',bg:'#F0FDF4',border:'#BBF7D0'},
-        {val:'24',lbl:'Total avis',icon:'ti-messages',color:'#0891B2',bg:'#ECFEFF',border:'#A5F3FC'},
-        {val:'67%',lbl:'Taux réponse',icon:'ti-chart-pie',color:'#7C3AED',bg:'#FAF5FF',border:'#DDD6FE'},
+        {val:'3.7',lbl:'Note actuelle',icon:'⭐',color:'#1D4ED8',bg:'#EFF6FF',border:'#BFDBFE'},
+        {val:'+0.3',lbl:'Évolution 30j',icon:'📈',color:'#15803D',bg:'#F0FDF4',border:'#BBF7D0'},
+        {val:'24',lbl:'Total avis',icon:'💬',color:'#0369A1',bg:'#F0F9FF',border:'#BAE6FD'},
+        {val:'67%',lbl:'Taux réponse',icon:'✅',color:'#7C3AED',bg:'#FAF5FF',border:'#DDD6FE'},
       ].map(k=>`
-        <div style="background:${k.bg};border:1.5px solid ${k.border};border-radius:16px;padding:20px">
-          <i class="ti ${k.icon}" style="font-size:20px;color:${k.color};display:block;margin-bottom:12px"></i>
-          <div style="font-family:Syne,sans-serif;font-size:32px;font-weight:800;color:${k.color};line-height:1;margin-bottom:6px">${k.val}</div>
-          <div style="font-size:12px;color:#64748B">${k.lbl}</div>
+        <div style="background:${k.bg};border:1.5px solid ${k.border};border-radius:16px;padding:22px">
+          <div style="font-size:24px;margin-bottom:12px">${k.icon}</div>
+          <div style="font-family:'Syne',sans-serif;font-size:34px;font-weight:800;color:${k.color};line-height:1;margin-bottom:8px">${k.val}</div>
+          <div style="font-size:13px;color:#64748B;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500">${k.lbl}</div>
         </div>`).join('')}
     </div>
-    <div style="background:#fff;border-radius:16px;border:1.5px solid #E0E7FF;padding:24px">
-      <div style="font-size:14px;font-weight:700;color:#1E3A5F;margin-bottom:20px;display:flex;align-items:center;gap:8px"><i class="ti ti-chart-line" style="color:#2563EB"></i>Progression mensuelle</div>
-      <div style="display:flex;align-items:flex-end;gap:12px;height:140px;padding:0 8px" id="med-chart"></div>
-    </div>`;}
+    <div style="background:#fff;border-radius:16px;border:1px solid #E8EDF5;padding:28px;box-shadow:0 1px 8px rgba(15,23,42,0.04)">
+      <div style="font-size:15px;font-weight:700;color:#0F172A;margin-bottom:24px;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:8px">
+        📊 Progression de votre note Google
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:16px;height:160px" id="med-chart-bars"></div>
+    </div>`;
+  setTimeout(()=>{
+    const chart=document.getElementById('med-chart-bars');
+    if(!chart)return;
+    const months=['Jan','Fév','Mar','Avr','Mai'];
+    const vals=[2.8,3.0,3.2,3.5,3.7];
+    chart.innerHTML=months.map((m,i)=>{
+      const h=Math.round((vals[i]/5)*140);
+      const isLast=i===months.length-1;
+      return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px">'
+        +'<div style="font-size:12px;font-weight:700;color:'+(isLast?'#2563EB':'#94A3B8')+';font-family:Plus Jakarta Sans,sans-serif">'+vals[i]+'</div>'
+        +'<div style="width:100%;background:'+(isLast?'linear-gradient(180deg,#2563EB,#06B6D4)':'#E2E8F0')+';border-radius:8px 8px 0 0;height:'+h+'px;transition:height 0.6s ease"></div>'
+        +'<div style="font-size:12px;color:'+(isLast?'#1D4ED8':'#94A3B8')+';font-weight:'+(isLast?'600':'400')+';font-family:Plus Jakarta Sans,sans-serif">'+m+'</div>'
+        +'</div>';
+    }).join('');
+  },100);}
  
 // ══ ASSISTANTE ══
 function renderAssDashboard(){
