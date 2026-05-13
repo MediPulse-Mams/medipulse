@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MediPulse</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">function openEdit(id){var p=prospects.find(function(x){return x.id===id;});if(!p)return;editId=id;editType=p.type_prospection||"telephone";document.getElementById("edit-name").textContent=p.nom;document.getElementById("edit-meta").textContent=p.specialite+" - "+p.telephone_fixe;document.getElementById("edit-mobile").value=p.telephone_mobile||"";document.getElementById("edit-note").value=p.note||"";document.getElementById("edit-terrain-note").value=p.commentaire_terrain||"";document.getElementById("edit-rappel").value=p.date_rappel||"";document.getElementById("edit-overlay").classList.add("open");}function openEdit(id){var p=prospects.find(function(x){return x.id===id;});if(!p)return;editId=id;editType=p.type_prospection||"telephone";document.getElementById("edit-name").textContent=p.nom;document.getElementById("edit-meta").textContent=p.specialite+" - "+p.telephone_fixe;document.getElementById("edit-mobile").value=p.telephone_mobile||"";document.getElementById("edit-note").value=p.note||"";document.getElementById("edit-terrain-note").value=p.commentaire_terrain||"";document.getElementById("edit-rappel").value=p.date_rappel||"";document.getElementById("edit-overlay").classList.add("open");}</script>
 <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
