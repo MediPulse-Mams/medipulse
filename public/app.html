@@ -624,7 +624,7 @@ function buildSidebar(role){
     commercial:[
       {section:'Mon espace',items:[
         {id:'comm-dashboard',icon:'ti-chart-bar',label:'Dashboard'},
-        {id:'comm-prospects',icon:'ti-list',label:'Prospects'},
+        {id:'comm-simulateur',icon:'ti-currency-dollar',label:'Simulateur revenus'},{id:'comm-prospects',icon:'ti-list',label:'Prospects'},{id:'comm-commissions',icon:'ti-receipt',label:'Commissions'},
         {id:'comm-valider',icon:'ti-circle-plus',label:'Valider cabinet'},
       ]}
     ],
@@ -655,7 +655,7 @@ function loadPage(pageId){
   if(navEl)navEl.classList.add('active');
   const titles={
     'owner-dashboard':'Vue 360°','owner-prospects':'Prospects','owner-cabinets':'Cabinets','owner-equipe':'Équipe commerciale',
-    'comm-dashboard':'Mon Dashboard','comm-prospects':'Mes Prospects','comm-valider':'Valider un cabinet',
+    'comm-dashboard':'Mon Dashboard','comm-prospects':'Mes Prospects','comm-valider':'Valider un cabinet','comm-simulateur':'Simulateur revenus','comm-commissions':'Mes commissions',
     'med-dashboard':'Mon Cabinet','med-avis':'Avis Patients','med-stats':'Statistiques',
     'ass-dashboard':'Espace Assistante','ass-historique':'Historique des envois',
   };
@@ -669,7 +669,7 @@ function loadPage(pageId){
   else if(pageId==='owner-paiements')renderOwnerPaiements();
   else if(pageId==='owner-tresorerie')renderOwnerTresorerie();
   else if(pageId==='comm-dashboard')renderCommDashboard();
-  else if(pageId==='comm-prospects')renderCommProspects();
+  else if(pageId==='comm-prospects')renderCommProspects();else if(pageId==='comm-simulateur')renderCommSimulateur();else if(pageId==='comm-commissions')renderCommCommissions();
   else if(pageId==='comm-valider')renderCommValider();
   else if(pageId==='med-dashboard')renderMedDashboard();
   else if(pageId==='med-avis')renderMedAvis();
