@@ -309,6 +309,8 @@ textarea.finput{resize:none}
   .mobile-menu-btn{display:flex!important}
 }
 .mobile-menu-btn{display:none;background:none;border:none;color:var(--text);cursor:pointer;font-size:22px;align-items:center}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:49}
+.sidebar-overlay.open{display:block}
  
 /* ══ MEDECIN THEME OVERRIDE ══ */
 .med-theme body,.med-layout{font-family:'Plus Jakarta Sans',sans-serif!important}
@@ -329,8 +331,13 @@ textarea.finput{resize:none}
 .med-sidebar .nav-link.active{background:#EFF6FF!important;color:#2563EB!important;font-weight:600}
 .med-sidebar .nav-link.active i{color:#2563EB!important}
 .med-sidebar .sidebar-footer{border-top:1px solid #E8EDF5!important}
-.med-sidebar .logout-link{color:#94A3B8!important}
-.med-sidebar .logout-link:hover{color:#F43F5E!important}
+.med-sidebar .logout-link{color:#2563EB!important;font-weight:600!important}
+.med-sidebar .logout-link:hover{color:#1D4ED8!important}
+.med-sidebar .nav-section{color:#94A3B8!important;font-family:'Plus Jakarta Sans',sans-serif!important}
+.med-sidebar .sidebar-logo svg{stroke:#2563EB!important}
+.med-sidebar .sidebar-logo .sidebar-logo-text{color:#0F172A!important}
+.med-sidebar .sidebar-logo div div{font-family:'Plus Jakarta Sans',sans-serif!important;color:#0F172A!important}
+.med-sidebar .sidebar-logo div div span{color:#2563EB!important}
 .med-topbar{background:#fff!important;border-bottom:1px solid #E8EDF5!important}
 .med-topbar .topbar-title{color:#1E3A5F!important;font-family:'Plus Jakarta Sans',sans-serif!important}
 .med-content{background:#F5F7FF!important}
@@ -373,11 +380,11 @@ textarea.finput{resize:none}
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
       <div class="sidebar-logo">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.5px">Medi<span style="color:var(--cyan)">Pulse</span></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800;letter-spacing:-0.3px;color:var(--text)">Medi<span style="color:var(--cyan)">Pulse</span></div>
         </div>
-        <div style="font-size:10px;color:var(--muted);font-style:italic;padding-left:32px">La réputation médicale, automatisée.</div>
+        <div style="font-size:10px;color:var(--muted);padding-left:30px;font-family:'Plus Jakarta Sans',sans-serif;font-style:italic;opacity:0.7">La réputation médicale, automatisée.</div>
       </div>
       <div class="sidebar-user">
         <div class="sidebar-avatar" id="sb-avatar"></div>
@@ -549,6 +556,13 @@ function initApp(){
   buildSidebar(role);
   if(role==='medecin'||role==='assistante'){
     document.body.classList.add('med-mode');
+    // Make sidebar logo text dark for medical theme
+    setTimeout(()=>{
+      const logoTexts=document.querySelectorAll('.med-sidebar .sidebar-logo *');
+      logoTexts.forEach(el=>{el.style.color=el.tagName==='SPAN'?'#2563EB':'#0F172A';});
+      const svg=document.querySelector('.med-sidebar .sidebar-logo svg');
+      if(svg)svg.style.stroke='#2563EB';
+    },50);
     document.getElementById('sidebar').classList.add('med-sidebar');
     const topbar=document.getElementById('app').querySelector('.topbar');
     topbar.classList.add('med-topbar');
@@ -646,7 +660,19 @@ function loadPage(pageId){
 }
  
 async function doLogout(){await sb.auth.signOut();location.reload()}
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open')}
+function toggleSidebar(){
+  const sb=document.getElementById('sidebar');
+  sb.classList.toggle('open');
+  let overlay=document.getElementById('sidebar-overlay');
+  if(!overlay){
+    overlay=document.createElement('div');
+    overlay.id='sidebar-overlay';
+    overlay.className='sidebar-overlay';
+    overlay.onclick=()=>{sb.classList.remove('open');overlay.classList.remove('open');};
+    document.body.appendChild(overlay);
+  }
+  overlay.classList.toggle('open',sb.classList.contains('open'));
+}
  
 // ══ OWNER ══
 async function checkTrialAndRenewals(){
@@ -853,8 +879,8 @@ async function renderOwnerEquipe(){
 async function renderCommDashboard(){
   const now=new Date();
   const firstDay=new Date(now.getFullYear(),now.getMonth(),1).toISOString().split('T')[0];
-  const{data}=await sb.from('prospection').select('*').eq('commercial_id',currentUser.email);
-  prospects=data||[];
+  const{data}=await sb.from('prospection').select('*').order('id');
+  prospects=(data||[]).filter(p=>!p.commercial_id||p.commercial_id===''||p.commercial_id===currentUser.email);
   const mois=prospects.filter(p=>p.date_appel&&p.date_appel>=firstDay);
   const signes=mois.filter(p=>p.statut==='Signé');
   const isTer=userRecord?.type==='terrain';
@@ -872,11 +898,33 @@ async function renderCommDashboard(){
   const daysLeft=Math.ceil((new Date(now.getFullYear(),now.getMonth()+1,0)-now)/(1000*60*60*24));
   const nom=(userRecord.nom||currentUser.email.split('@')[0]).split(' ')[0];
  
+  const isFirstTime=prospects.length===0&&totalSignes===0;
   document.getElementById('main-content').innerHTML=`
-    <div style="margin-bottom:28px">
-      <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Bonjour, ${nom} 👋</div>
-      <div style="font-size:13px;color:#6B7280;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}</div>
+    <div style="margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Bonjour, ${nom} 👋</div>
+        <div style="font-size:13px;color:#6B7280;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}</div>
+      </div>
     </div>
+    ${isFirstTime?`
+    <div style="background:linear-gradient(135deg,#EFF6FF,#F0F9FF);border:1px solid #BFDBFE;border-radius:16px;padding:24px;margin-bottom:20px">
+      <div style="font-size:16px;font-weight:700;color:#1D4ED8;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">🚀 Bienvenue sur MediPulse !</div>
+      <div style="font-size:13px;color:#374151;margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif;line-height:1.6">Voici comment démarrer :</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;border-radius:10px;border:1px solid #BFDBFE;margin-bottom:8px">
+          <div style="width:24px;height:24px;border-radius:50%;background:#2563EB;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</div>
+          <span style="font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Consultez vos prospects dans Prospects</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;border-radius:10px;border:1px solid #BFDBFE;margin-bottom:8px">
+          <div style="width:24px;height:24px;border-radius:50%;background:#2563EB;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</div>
+          <span style="font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Appelez et mettez a jour le statut apres chaque appel</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;border-radius:10px;border:1px solid #BFDBFE">
+          <div style="width:24px;height:24px;border-radius:50%;background:#2563EB;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</div>
+          <span style="font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Quand un medecin signe, cliquez sur Valider cabinet</span>
+        </div>
+      </div>
+    </div>`:''}
  
     <!-- PRIME HERO -->
     <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);border-radius:20px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden">
@@ -936,7 +984,7 @@ async function renderCommDashboard(){
             <button onclick="simChange(1)" style="width:30px;height:30px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#374151;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">+</button>
           </div>
         </div>
-        <div id="sim-result" style="background:#F0F9FF;border:1px solid #BAE6FD;border-radius:12px;padding:16px"></div>
+        <div id="sim-result" style="background:#F0F9FF;border:1px solid #BAE6FD;border-radius:12px;padding:16px;font-family:'Plus Jakarta Sans',sans-serif"></div>
       </div>
  
       <!-- COUNTDOWN + PALIERS -->
@@ -976,8 +1024,9 @@ async function renderCommDashboard(){
 }
  
 async function renderCommProspects(){
-  const{data}=await sb.from('prospection').select('*').eq('commercial_id',currentUser.email);
-  prospects=data||[];
+  // Load all prospects — commercial sees all unassigned + his own
+  const{data}=await sb.from('prospection').select('*').order('id');
+  prospects=(data||[]).filter(p=>!p.commercial_id||p.commercial_id===''||p.commercial_id===currentUser.email);
   renderProspectsList('commercial');
 }
  
@@ -1037,6 +1086,16 @@ function renderCommValider(){
               <option value="enterprise">Enterprise — 2499 DH/mois</option>
             </select>
           </div>
+        </div>
+        <div style="margin-bottom:16px">
+          <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Lien fiche Google Maps (optionnel)</label>
+          <input class="finput" id="cab-google-url" placeholder="https://g.page/..." style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+          <div style="font-size:11px;color:#9CA3AF;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Ce lien sera inclus dans le message WhatsApp envoyé aux patients</div>
+        </div>
+        <div style="margin-bottom:20px">
+          <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Numéro WhatsApp cabinet</label>
+          <input class="finput" id="cab-whatsapp" type="tel" placeholder="06 XX XX XX XX" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+          <div style="font-size:11px;color:#9CA3AF;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">L'assistante utilisera ce numéro pour envoyer les formulaires</div>
         </div>
         <button onclick="validerCabinet()" style="width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#1E3A8A,#2563EB);color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1429,9 +1488,12 @@ function envoyerFormulaire(lang){
   envisList.unshift({nom,tel,lang,time:new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})});
   const countEl=document.getElementById('ass-count-envois');
   if(countEl)countEl.textContent=sendCount;
+  // Get google URL from cabinet data if available
+  const googleLink=userRecord?.google_url||'';
+  const googleText=googleLink?('\n\n⭐ Laissez-nous aussi un avis Google : '+googleLink):'';
   const msg=lang==='ar'
-    ?encodeURIComponent('مرحباً، نود معرفة رأيك في زيارتك للعيادة. يرجى تعبئة هذا الاستبيان: https://medipulse-gamma.vercel.app/saisie.html')
-    :encodeURIComponent('Bonjour, nous aimerions connaître votre expérience. Merci de remplir ce formulaire (2 min) : https://medipulse-gamma.vercel.app/saisie.html');
+    ?encodeURIComponent('مرحباً، نود معرفة رأيك في زيارتك للعيادة. يرجى تعبئة هذا الاستبيان (دقيقتان): https://medipulse-gamma.vercel.app/saisie.html'+googleText)
+    :encodeURIComponent('Bonjour, nous aimerions connaître votre expérience. Merci de remplir ce formulaire (2 min) : https://medipulse-gamma.vercel.app/saisie.html'+googleText);
   const telFormatted=(tel||'').replace(/\s/g,'').replace(/^0/,'212');
   window.open('https://wa.me/'+telFormatted+'?text='+msg,'_blank');
   const hist=document.getElementById('ass-historique-list');
@@ -1456,6 +1518,152 @@ function envoyerFormulaire(lang){
   if(document.getElementById('ass-nom'))document.getElementById('ass-nom').value='';
   if(document.getElementById('ass-tel'))document.getElementById('ass-tel').value='';
   showToast('Formulaire '+(lang==='ar'?'Arabe':'Français')+' envoyé via WhatsApp','success');
+}
+ 
+// ══ COMMERCIAL TERRAIN ══
+async function renderTerrainDashboard(){
+  const now=new Date();
+  const firstDay=new Date(now.getFullYear(),now.getMonth(),1).toISOString().split('T')[0];
+  const{data}=await sb.from('prospection').select('*').order('id');
+  prospects=(data||[]).filter(p=>!p.commercial_id||p.commercial_id===''||p.commercial_id===currentUser.email);
+  const mois=prospects.filter(p=>p.date_appel&&p.date_appel>=firstDay);
+  const signes=mois.filter(p=>p.statut==='Signé');
+  const totalSignes=signes.length;
+  const primeSig=totalSignes*Math.round(TD*P_SIG_TER);
+  const bonus=([...PAL_TER].reverse().find(p=>totalSignes>=p.s)||{b:0}).b;
+  const total=primeSig+bonus;
+  const daysLeft=Math.ceil((new Date(now.getFullYear(),now.getMonth()+1,0)-now)/(1000*60*60*24));
+  const nom=(userRecord.nom||currentUser.email.split('@')[0]).split(' ')[0];
+ 
+  document.getElementById('main-content').innerHTML=`
+    <div style="margin-bottom:24px">
+      <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Bonjour, ${nom} 👋</div>
+      <div style="font-size:13px;color:#6B7280;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})} · Commercial Terrain</div>
+    </div>
+ 
+    <!-- PRIME HERO -->
+    <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);border-radius:20px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden">
+      <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,0.12),transparent 70%);top:-80px;right:-80px"></div>
+      <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Primes ce mois — Terrain (30%)</div>
+      <div style="display:flex;align-items:flex-end;gap:6px;margin-bottom:16px">
+        <div style="font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:#A78BFA;line-height:1">${total.toLocaleString('fr-FR')}</div>
+        <div style="font-size:16px;color:rgba(255,255,255,0.35);margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">DH</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+        ${[
+          {val:prospects.length,lbl:'Prospects',color:'rgba(255,255,255,0.9)'},
+          {val:prospects.filter(p=>p.statut!=='Nouveau').length,lbl:'Visités',color:'#A78BFA'},
+          {val:totalSignes,lbl:'Signés',color:'#4ADE80'},
+          {val:daysLeft,lbl:'Jours restants',color:'#FCD34D'},
+        ].map(k=>`
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px;text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:${k.color}">${k.val}</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif">${k.lbl}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+ 
+    <!-- GOOGLE MAPS + STATS -->
+    <div style="display:grid;grid-template-columns:3fr 2fr;gap:20px;margin-bottom:20px">
+      <!-- MAP -->
+      <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+        <div style="padding:16px 20px;border-bottom:1px solid #F3F4F6;display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:14px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:8px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Carte des prospects — Casablanca
+          </div>
+          <span style="font-size:12px;color:#7C3AED;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif">${prospects.filter(p=>p.statut==='Rappeler'||p.statut==='Joignable').length} à visiter aujourd'hui</span>
+        </div>
+        <div id="terrain-map" style="height:320px;background:#F1F5F9;display:flex;align-items:center;justify-content:center">
+          <div style="text-align:center;color:#6B7280">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1.5" style="display:block;margin:0 auto 12px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div style="font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600">Carte Google Maps</div>
+            <div style="font-size:12px;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Chargement...</div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- TODAY'S VISITS -->
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+          <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif">Priorités aujourd'hui</div>
+          ${prospects.filter(p=>p.statut==='Rappeler'||p.statut==='Joignable').slice(0,4).map(p=>`
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F9FAFB">
+              <div style="width:8px;height:8px;border-radius:50%;background:${p.statut==='Joignable'?'#10B981':'#F59E0B'};flex-shrink:0"></div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">${p.nom}</div>
+                <div style="font-size:11px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${p.specialite} · ${p.quartier||p.ville||''}</div>
+              </div>
+              <button onclick="openEdit(${p.id})" style="padding:4px 10px;border-radius:6px;border:1px solid #E5E7EB;background:#fff;font-size:11px;color:#6B7280;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Modifier</button>
+            </div>`).join('')||'<div style="text-align:center;padding:16px;color:#9CA3AF;font-size:13px;font-family:Plus Jakarta Sans,sans-serif">Aucune priorité</div>'}
+        </div>
+        <div style="background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;flex:1;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+          <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif">Paliers bonus — Terrain</div>
+          ${PAL_TER.map((p,i)=>{
+            const reached=totalSignes>=p.s;const isCurr=!reached&&(i===0||totalSignes>=PAL_TER[i-1].s);
+            const icons=['🥉','🥈','🏆'];
+            return`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F9FAFB">
+              <div style="font-size:18px">${icons[i]}</div>
+              <div style="flex:1">
+                <div style="font-size:12px;font-weight:600;color:${reached?'#16A34A':isCurr?'#EA580C':'#9CA3AF'};font-family:'Plus Jakarta Sans',sans-serif">${p.s} visites signées</div>
+              </div>
+              <div style="font-size:13px;font-weight:700;color:${reached?'#16A34A':isCurr?'#EA580C':'#D1D5DB'};font-family:'Syne',sans-serif">+${p.b} DH</div>
+            </div>`;}).join('')}
+        </div>
+      </div>
+    </div>
+ 
+    <!-- RECENT PROSPECTS TABLE -->
+    <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="font-size:15px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Dernières visites</div>
+        <span onclick="loadPage('comm-prospects')" style="font-size:13px;color:#7C3AED;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Voir tout →</span>
+      </div>
+      ${prospects.filter(p=>p.statut!=='Nouveau').slice(0,5).length?`
+      <table style="width:100%;border-collapse:collapse">
+        <thead><tr>
+          ${['Médecin','Spécialité','Quartier','Statut','Commentaire terrain'].map(h=>`<th style="text-align:left;font-size:11px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;padding:0 0 10px;font-family:'Plus Jakarta Sans',sans-serif">${h}</th>`).join('')}
+        </tr></thead>
+        <tbody>${prospects.filter(p=>p.statut!=='Nouveau').slice(0,5).map(p=>{
+          const st=ST.find(s=>s.key===p.statut)||ST[0];
+          return`<tr style="border-top:1px solid #F9FAFB">
+            <td style="padding:12px 0;font-size:13px;font-weight:600;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">${p.nom}</td>
+            <td style="padding:12px 8px;font-size:12px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${p.specialite}</td>
+            <td style="padding:12px 8px;font-size:12px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${p.quartier||'—'}</td>
+            <td style="padding:12px 8px"><span style="padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600;background:${st.bg};color:${st.color};font-family:'Plus Jakarta Sans',sans-serif">${st.label}</span></td>
+            <td style="padding:12px 0;font-size:12px;color:#6B7280;font-style:italic;font-family:'Plus Jakarta Sans',sans-serif">${p.commentaire_terrain||'—'}</td>
+          </tr>`;}).join('')}
+        </tbody>
+      </table>`:'<div style="text-align:center;padding:24px;color:#9CA3AF;font-size:13px;font-family:Plus Jakarta Sans,sans-serif">Aucune visite effectuée</div>'}
+    </div>`;
+ 
+  // Load Google Maps
+  setTimeout(()=>loadTerrainMap(prospects),200);
+  renderSim();
+}
+ 
+function loadTerrainMap(prospects){
+  const mapDiv=document.getElementById('terrain-map');
+  if(!mapDiv)return;
+  // Use Google Maps Embed with Casablanca center
+  const cabMarkers=prospects.filter(p=>p.quartier||p.ville).slice(0,10);
+  const center='33.5731,-7.5898'; // Casablanca
+  const mapUrl=`https://www.google.com/maps/embed/v1/search?key=AIzaSyDefault&q=médecin+Casablanca&center=${center}&zoom=12`;
+  // Use static map as fallback since we need API key
+  mapDiv.innerHTML=`
+    <div style="width:100%;height:100%;position:relative">
+      <iframe
+        width="100%"
+        height="100%"
+        frameborder="0"
+        style="border:0"
+        src="https://maps.google.com/maps?q=Casablanca,Morocco&t=&z=12&ie=UTF8&iwloc=&output=embed"
+        allowfullscreen>
+      </iframe>
+      <div style="position:absolute;top:10px;left:10px;background:#fff;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600;color:#374151;font-family:'Plus Jakarta Sans',sans-serif;box-shadow:0 2px 8px rgba(0,0,0,0.15)">
+        📍 ${cabMarkers.length} prospects dans la zone
+      </div>
+    </div>`;
 }
  
 // ══ PAIEMENTS & TRESORERIE ══
@@ -1651,10 +1859,22 @@ function renderSim(){
   const rec=simVal*Math.round(TD*(isTer?P_REC_TER:P_REC_TEL));
   const el=document.getElementById('sim-result');if(!el)return;
   el.innerHTML=`
-    <div class="sim-line"><span class="sim-line-lbl">Prime signature (${Math.round(pct*100)}%)</span><span class="sim-line-val">${primeSig.toLocaleString('fr-FR')} DH</span></div>
-    <div class="sim-line"><span class="sim-line-lbl">Bonus palier</span><span class="sim-line-val">${bonus?'+'+bonus+' DH':'—'}</span></div>
-    <div class="sim-line"><span class="sim-line-lbl">Récurrent / mois</span><span class="sim-line-val">${rec.toLocaleString('fr-FR')} DH</span></div>
-    <div class="sim-line"><span class="sim-line-lbl">Total ce mois</span><span class="sim-line-val">${(primeSig+bonus).toLocaleString('fr-FR')} DH</span></div>`;
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #BFDBFE">
+      <span style="font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Prime signature (${Math.round(pct*100)}%)</span>
+      <span style="font-size:13px;font-weight:600;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">${primeSig.toLocaleString('fr-FR')} DH</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #BFDBFE">
+      <span style="font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Bonus palier</span>
+      <span style="font-size:13px;font-weight:600;color:${bonus?'#16A34A':'#9CA3AF'};font-family:'Plus Jakarta Sans',sans-serif">${bonus?'+'+bonus+' DH':'—'}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #BFDBFE">
+      <span style="font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Récurrent / mois</span>
+      <span style="font-size:13px;font-weight:600;color:#0891B2;font-family:'Plus Jakarta Sans',sans-serif">${rec.toLocaleString('fr-FR')} DH</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:10px 0 0">
+      <span style="font-size:14px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Total ce mois</span>
+      <span style="font-size:18px;font-weight:800;color:#2563EB;font-family:'Syne',sans-serif">${(primeSig+bonus).toLocaleString('fr-FR')} DH</span>
+    </div>`;
 }
  
 function showToast(msg,type='info'){
