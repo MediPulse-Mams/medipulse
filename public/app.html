@@ -888,7 +888,7 @@ async function renderCommDashboard(){
   const now=new Date();
   const firstDay=new Date(now.getFullYear(),now.getMonth(),1).toISOString().split('T')[0];
   const{data}=await sb.from('prospection').select('*').order('id');
-  prospects=(data||[]).filter(p=>!p.commercial_id||p.commercial_id===''||p.commercial_id===currentUser.email);
+  prospects=data||[];
   const mois=prospects.filter(p=>p.date_appel&&p.date_appel>=firstDay);
   const signes=mois.filter(p=>p.statut==='Signé');
   const isTer=userRecord?.type==='terrain';
@@ -1034,7 +1034,7 @@ async function renderCommDashboard(){
 async function renderCommProspects(){
   // Load all prospects — commercial sees all unassigned + his own
   const{data}=await sb.from('prospection').select('*').order('id');
-  prospects=(data||[]).filter(p=>!p.commercial_id||p.commercial_id===''||p.commercial_id===currentUser.email);
+  prospects=data||[];
   renderProspectsList('commercial');
 }
  
@@ -1539,7 +1539,7 @@ async function renderTerrainDashboard(){
   const now=new Date();
   const firstDay=new Date(now.getFullYear(),now.getMonth(),1).toISOString().split('T')[0];
   const{data}=await sb.from('prospection').select('*').order('id');
-  prospects=(data||[]).filter(p=>!p.commercial_id||p.commercial_id===''||p.commercial_id===currentUser.email);
+  prospects=data||[];
   const mois=prospects.filter(p=>p.date_appel&&p.date_appel>=firstDay);
   const signes=mois.filter(p=>p.statut==='Signé');
   const totalSignes=signes.length;
