@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -26,7 +26,7 @@ body.med-mode .topbar-title{color:#0F172A!important;font-family:'Plus Jakarta Sa
 body.med-mode .topbar-date{color:#64748B!important}
 body.med-mode .layout{background:#F0F4FF!important}
 
-/* ══ LOGIN ══ */
+/* â•â• LOGIN â•â• */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg)}
 .login-glow{position:fixed;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,0.06),transparent 70%);top:-200px;right:-200px;pointer-events:none}
 .login-card{background:var(--card);border-radius:24px;border:1px solid var(--border);padding:40px 32px;width:100%;max-width:400px;position:relative;z-index:1}
@@ -45,7 +45,7 @@ body.med-mode .layout{background:#F0F4FF!important}
 .login-btn:disabled{opacity:0.4;cursor:not-allowed}
 .login-error{font-size:13px;color:var(--red);text-align:center;margin-top:12px;min-height:18px}
 
-/* ══ APP LAYOUT ══ */
+/* â•â• APP LAYOUT â•â• */
 .app{display:none}
 .layout{display:flex;min-height:100vh}
 
@@ -83,7 +83,7 @@ body.med-mode .layout{background:#F0F4FF!important}
 .role-assistante{background:rgba(139,92,246,0.15);color:var(--purple);border:1px solid rgba(139,92,246,0.25)}
 .content{flex:1;padding:24px 28px;overflow-y:auto}
 
-/* ══ COMPONENTS ══ */
+/* â•â• COMPONENTS â•â• */
 .page{display:none}
 .page.active{display:block}
 .page-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px}
@@ -195,7 +195,7 @@ body.med-mode .layout{background:#F0F4FF!important}
 .comm-stat-val{font-family:'Syne',sans-serif;font-size:16px;font-weight:700}
 .comm-stat-lbl{font-size:10px;color:var(--muted)}
 
-/* NOTE MÉDECIN */
+/* NOTE MÃ‰DECIN */
 .note-display{display:flex;align-items:center;gap:20px;padding:20px 0}
 .note-big{font-family:'Syne',sans-serif;font-size:64px;font-weight:800;color:var(--cyan);line-height:1}
 .note-details{flex:1}
@@ -313,7 +313,7 @@ textarea.finput{resize:none}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:49}
 .sidebar-overlay.open{display:block}
 
-/* ══ MEDECIN THEME OVERRIDE ══ */
+/* â•â• MEDECIN THEME OVERRIDE â•â• */
 .med-theme body,.med-layout{font-family:'Plus Jakarta Sans',sans-serif!important}
 .med-sidebar{background:#fff!important;border-right:1px solid #E8EDF5!important}
 .med-sidebar .sidebar-logo{border-bottom:1px solid #E8EDF5!important}
@@ -353,7 +353,7 @@ textarea.finput{resize:none}
 <div id="loader" class="loader-screen">
   <i class="ti ti-heartbeat"></i>
   <span>Medi<span style="color:var(--cyan)">Pulse</span></span>
-  <small>La réputation médicale, automatisée.</small>
+  <small>La rÃ©putation mÃ©dicale, automatisÃ©e.</small>
 </div>
 
 <!-- LOGIN -->
@@ -365,14 +365,14 @@ textarea.finput{resize:none}
         <i class="ti ti-heartbeat"></i>
         <div class="login-logo-text">Medi<span>Pulse</span></div>
       </div>
-      <div class="login-slogan">La réputation médicale, automatisée.</div>
+      <div class="login-slogan">La rÃ©putation mÃ©dicale, automatisÃ©e.</div>
     </div>
     <label class="login-label">Email</label>
     <input class="login-input" type="email" id="login-email" placeholder="votre@email.com">
     <label class="login-label">Mot de passe</label>
-    <input class="login-input" type="password" id="login-pwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <input class="login-input" type="password" id="login-pwd" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" onkeydown="if(event.key==='Enter')doLogin()">
     <button class="login-btn" id="login-btn" onclick="doLogin()">
-      <i class="ti ti-login"></i> Accéder
+      <i class="ti ti-login"></i> AccÃ©der
     </button>
     <div class="login-error" id="login-error"></div>
   </div>
@@ -388,7 +388,7 @@ textarea.finput{resize:none}
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
           <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;color:var(--text)">Medi<span style="color:var(--cyan)">Pulse</span></div>
         </div>
-        <div style="font-size:11px;color:var(--muted);padding-left:35px;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:0.01em;opacity:0.8">La réputation médicale, automatisée.</div>
+        <div style="font-size:11px;color:var(--muted);padding-left:35px;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:0.01em;opacity:0.8">La rÃ©putation mÃ©dicale, automatisÃ©e.</div>
       </div>
       <div class="sidebar-user">
         <div class="sidebar-avatar" id="sb-avatar"></div>
@@ -400,7 +400,7 @@ textarea.finput{resize:none}
       <div class="sidebar-nav" id="sidebar-nav"></div>
       <div class="sidebar-footer">
         <div onclick="doLogout()" style="display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:rgba(244,63,94,0.08);border:1px solid rgba(244,63,94,0.2);cursor:pointer;transition:all 0.15s;font-size:13px;font-weight:600;color:#F43F5E;font-family:'Plus Jakarta Sans',sans-serif" onmouseover="this.style.background='rgba(244,63,94,0.15)'" onmouseout="this.style.background='rgba(244,63,94,0.08)'">
-          <i class="ti ti-logout" style="font-size:16px"></i> Déconnexion
+          <i class="ti ti-logout" style="font-size:16px"></i> DÃ©connexion
         </div>
       </div>
     </div>
@@ -454,13 +454,13 @@ textarea.finput{resize:none}
       <div class="status-grid" id="status-grid"></div>
       <span class="flabel">Type de prospection</span>
       <div class="type-row">
-        <button class="type-btn sel" id="type-tel" onclick="setType('téléphone')"><i class="ti ti-phone"></i> Téléphone</button>
+        <button class="type-btn sel" id="type-tel" onclick="setType('tÃ©lÃ©phone')"><i class="ti ti-phone"></i> TÃ©lÃ©phone</button>
         <button class="type-btn" id="type-ter" onclick="setType('terrain')"><i class="ti ti-walk"></i> Terrain</button>
       </div>
       <span class="flabel">Mobile WhatsApp</span>
       <input class="finput" type="tel" id="edit-mobile" placeholder="06 XX XX XX XX">
       <span class="flabel">Note rapide</span>
-      <textarea class="finput" id="edit-note" rows="2" placeholder="Résultat de l'appel..."></textarea>
+      <textarea class="finput" id="edit-note" rows="2" placeholder="RÃ©sultat de l'appel..."></textarea>
       <span class="flabel">Commentaire terrain</span>
       <textarea class="finput" id="edit-terrain-note" rows="2" placeholder="Notes de visite physique..."></textarea>
       <span class="flabel">Date de rappel</span>
@@ -478,16 +478,16 @@ textarea.finput{resize:none}
     </div>
     <div class="modal-body">
       <div class="form-row">
-        <div><span class="flabel">Nom *</span><input class="finput" id="add-nom" placeholder="Dr Nom Prénom"></div>
-        <div><span class="flabel">Spécialité *</span><input class="finput" id="add-spec" placeholder="Dermatologue..."></div>
+        <div><span class="flabel">Nom *</span><input class="finput" id="add-nom" placeholder="Dr Nom PrÃ©nom"></div>
+        <div><span class="flabel">SpÃ©cialitÃ© *</span><input class="finput" id="add-spec" placeholder="Dermatologue..."></div>
       </div>
       <div class="form-row">
         <div><span class="flabel">Quartier</span><input class="finput" id="add-quartier" placeholder="Bd Abdelmoumen..."></div>
         <div><span class="flabel">Ville</span><input class="finput" id="add-ville" value="Casablanca"></div>
       </div>
       <div class="form-row">
-        <div><span class="flabel">Tél fixe</span><input class="finput" type="tel" id="add-fixe" placeholder="05 22 XX XX XX"></div>
-        <div><span class="flabel">Tél mobile</span><input class="finput" type="tel" id="add-mobile" placeholder="06 XX XX XX XX"></div>
+        <div><span class="flabel">TÃ©l fixe</span><input class="finput" type="tel" id="add-fixe" placeholder="05 22 XX XX XX"></div>
+        <div><span class="flabel">TÃ©l mobile</span><input class="finput" type="tel" id="add-mobile" placeholder="06 XX XX XX XX"></div>
       </div>
       <button class="save-btn" id="add-btn" onclick="saveAdd()"><i class="ti ti-user-plus"></i> Ajouter le prospect</button>
     </div>
@@ -507,19 +507,19 @@ const P_SIG_TEL=0.20,P_SIG_TER=0.30,P_REC_TEL=0.07,P_REC_TER=0.10;
 const PAL_TEL=[{s:5,b:200},{s:10,b:400},{s:15,b:600}];
 const PAL_TER=[{s:5,b:250},{s:10,b:500},{s:15,b:750}];
 const ST=[
-  {key:'Nouveau',    label:'Nouveau',     desc:'Pas encore appelé',   bg:'#0D2137',color:'#60A5FA',border:'#1E40AF'},
-  {key:'Tenté',      label:'Tenté',        desc:'Pas décroché',        bg:'#1C1500',color:'#FCD34D',border:'#92400E'},
-  {key:'Joignable',  label:'Joignable',    desc:'A décroché',          bg:'#052E16',color:'#34D399',border:'#065F46'},
-  {key:'Rappeler',   label:'Rappeler',     desc:'Rappel planifié',     bg:'#1C0A00',color:'#FB923C',border:'#7C2D12'},
-  {key:'Démo Bookée',label:'Démo Bookée',  desc:'RDV confirmé',        bg:'#1A0533',color:'#C084FC',border:'#6B21A8'},
-  {key:'Démo Faite', label:'Démo Faite',   desc:'En attente décision', bg:'#150529',color:'#A78BFA',border:'#5B21B6'},
-  {key:'Signé',      label:'Signé',        desc:'Contrat signé',       bg:'#052E16',color:'#4ADE80',border:'#16A34A'},
-  {key:'Refus',      label:'Refus',        desc:'Pas intéressé',       bg:'#2D0A0A',color:'#F87171',border:'#991B1B'},
+  {key:'Nouveau',    label:'Nouveau',     desc:'Pas encore appelÃ©',   bg:'#0D2137',color:'#60A5FA',border:'#1E40AF'},
+  {key:'TentÃ©',      label:'TentÃ©',        desc:'Pas dÃ©crochÃ©',        bg:'#1C1500',color:'#FCD34D',border:'#92400E'},
+  {key:'Joignable',  label:'Joignable',    desc:'A dÃ©crochÃ©',          bg:'#052E16',color:'#34D399',border:'#065F46'},
+  {key:'Rappeler',   label:'Rappeler',     desc:'Rappel planifiÃ©',     bg:'#1C0A00',color:'#FB923C',border:'#7C2D12'},
+  {key:'DÃ©mo BookÃ©e',label:'DÃ©mo BookÃ©e',  desc:'RDV confirmÃ©',        bg:'#1A0533',color:'#C084FC',border:'#6B21A8'},
+  {key:'DÃ©mo Faite', label:'DÃ©mo Faite',   desc:'En attente dÃ©cision', bg:'#150529',color:'#A78BFA',border:'#5B21B6'},
+  {key:'SignÃ©',      label:'SignÃ©',        desc:'Contrat signÃ©',       bg:'#052E16',color:'#4ADE80',border:'#16A34A'},
+  {key:'Refus',      label:'Refus',        desc:'Pas intÃ©ressÃ©',       bg:'#2D0A0A',color:'#F87171',border:'#991B1B'},
 ];
 
-let currentUser=null,userRecord=null,prospects=[],crmFilter='Tous',editId=null,editType='téléphone',simVal=5,sendCount=0,envisList=[];
+let currentUser=null,userRecord=null,prospects=[],crmFilter='Tous',editId=null,editType='tÃ©lÃ©phone',simVal=5,sendCount=0,envisList=[];
 
-// ══ AUTH ══
+// â•â• AUTH â•â•
 async function doLogin(){
   const email=document.getElementById('login-email').value.trim();
   const pwd=document.getElementById('login-pwd').value;
@@ -528,7 +528,7 @@ async function doLogin(){
   if(!email||!pwd){err.textContent='Email et mot de passe requis';return}
   btn.disabled=true;btn.innerHTML='<i class="ti ti-loader"></i> Connexion...';
   const{data,error}=await sb.auth.signInWithPassword({email,password:pwd});
-  btn.disabled=false;btn.innerHTML='<i class="ti ti-login"></i> Accéder';
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-login"></i> AccÃ©der';
   if(error){err.textContent='Email ou mot de passe incorrect';return}
   currentUser=data.user;
   await loadUserRecord();
@@ -537,7 +537,7 @@ async function doLogin(){
 async function loadUserRecord(){
   const{data}=await sb.from('users').select('*').eq('email',currentUser.email).single();
   userRecord=data;
-  if(!userRecord){showToast('Compte non configuré','error');return}
+  if(!userRecord){showToast('Compte non configurÃ©','error');return}
   if(userRecord.statut==='en_attente'){document.getElementById('login-error').textContent='Compte en attente de validation';await sb.auth.signOut();return}
   initApp();
 }
@@ -547,7 +547,7 @@ function initApp(){
   document.getElementById('app').style.display='block';
   const role=userRecord.role;
   const colors={owner:'#F59E0B',commercial:'#06B6D4',medecin:'#10B981',assistante:'#8B5CF6'};
-  const roleLabels={owner:'Owner',commercial:userRecord.type==='terrain'?'Commercial Terrain':'Commercial Téléphone',medecin:'Médecin',assistante:'Assistante'};
+  const roleLabels={owner:'Owner',commercial:userRecord.type==='terrain'?'Commercial Terrain':'Commercial TÃ©lÃ©phone',medecin:'MÃ©decin',assistante:'Assistante'};
   const initials=(userRecord.nom||currentUser.email).substring(0,2).toUpperCase();
   const color=colors[role]||'#6B7FA8';
   document.getElementById('sb-avatar').style.cssText=`background:${color}22;color:${color}`;
@@ -596,9 +596,9 @@ function buildSidebar(role){
         {id:'owner-dashboard',icon:'ti-chart-bar',label:'Dashboard'},
         {id:'owner-prospects',icon:'ti-users',label:'Prospects'},
         {id:'owner-cabinets',icon:'ti-building-hospital',label:'Cabinets'},
-        {id:'owner-equipe',icon:'ti-users-group',label:'Équipe'},
+        {id:'owner-equipe',icon:'ti-users-group',label:'Ã‰quipe'},
         {id:'owner-paiements',icon:'ti-credit-card',label:'Paiements'},
-        {id:'owner-tresorerie',icon:'ti-chart-line',label:'Trésorerie'},
+        {id:'owner-tresorerie',icon:'ti-chart-line',label:'TrÃ©sorerie'},
       ]}
     ],
     commercial:[
@@ -634,7 +634,7 @@ function loadPage(pageId){
   const navEl=document.getElementById(`nav-${pageId}`);
   if(navEl)navEl.classList.add('active');
   const titles={
-    'owner-dashboard':'Vue 360°','owner-prospects':'Prospects','owner-cabinets':'Cabinets','owner-equipe':'Équipe commerciale',
+    'owner-dashboard':'Vue 360Â°','owner-prospects':'Prospects','owner-cabinets':'Cabinets','owner-equipe':'Ã‰quipe commerciale',
     'comm-dashboard':'Mon Dashboard','comm-prospects':'Mes Prospects','comm-valider':'Valider un cabinet',
     'med-dashboard':'Mon Cabinet','med-avis':'Avis Patients','med-stats':'Statistiques',
     'ass-dashboard':'Espace Assistante','ass-historique':'Historique des envois',
@@ -656,7 +656,7 @@ function loadPage(pageId){
   else if(pageId==='med-stats'){renderMedStats();setTimeout(()=>{
     const chart=document.getElementById('med-chart');
     if(!chart)return;
-    const months=['Jan','Fév','Mar','Avr','Mai'];
+    const months=['Jan','FÃ©v','Mar','Avr','Mai'];
     const vals=[2.8,3.0,3.2,3.5,3.7];
     chart.innerHTML=months.map((m,i)=>{
       const h=Math.round((vals[i]/5)*100);
@@ -682,7 +682,7 @@ function toggleSidebar(){
   overlay.classList.toggle('open',sb.classList.contains('open'));
 }
 
-// ══ OWNER ══
+// â•â• OWNER â•â•
 async function checkTrialAndRenewals(){
   const today=new Date().toISOString().split('T')[0];
   const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+1);
@@ -694,11 +694,11 @@ async function checkTrialAndRenewals(){
   cabs.forEach(c=>{
     // Trial expiring tomorrow
     if(c.date_fin_trial===tomorrowStr&&c.statut==='trial'){
-      addNotif('⚠️ Trial expire demain — '+c.nom_cabinet+' ('+c.nom_medecin+')','warning','ti-clock');
+      addNotif('âš ï¸ Trial expire demain â€” '+c.nom_cabinet+' ('+c.nom_medecin+')','warning','ti-clock');
     }
     // Renewal in 3 days
     if(c.date_renouvellement===in3daysStr&&c.statut==='actif'){
-      addNotif('🔄 Renouvellement dans 3 jours — '+c.nom_cabinet+' — '+c.plan,'warning','ti-refresh');
+      addNotif('ðŸ”„ Renouvellement dans 3 jours â€” '+c.nom_cabinet+' â€” '+c.plan,'warning','ti-refresh');
     }
   });
 }
@@ -715,34 +715,34 @@ async function renderOwnerDashboard(){
   const colors=['#06B6D4','#8B5CF6','#10B981','#F59E0B'];
   const now=new Date();
   const firstDay=new Date(now.getFullYear(),now.getMonth(),1).toISOString().split('T')[0];
-  const signesMois=p.filter(x=>x.statut==='Signé'&&x.date_appel>=firstDay).length;
+  const signesMois=p.filter(x=>x.statut==='SignÃ©'&&x.date_appel>=firstDay).length;
   document.getElementById('main-content').innerHTML=`
-    <div class="page-title">Vue 360°</div>
-    <div class="page-sub">Tableau de bord général — ${new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}</div>
+    <div class="page-title">Vue 360Â°</div>
+    <div class="page-sub">Tableau de bord gÃ©nÃ©ral â€” ${new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}</div>
     <div class="kpi-row cols-4">
       <div class="kpi-card gold"><i class="ti ti-building-hospital kpi-icon"></i><div class="kpi-val">${actifs.length}</div><div class="kpi-lbl">Cabinets actifs</div></div>
       <div class="kpi-card green"><i class="ti ti-currency-dollar kpi-icon"></i><div class="kpi-val">${mrr.toLocaleString('fr-FR')}</div><div class="kpi-lbl">MRR (DH/mois)</div></div>
       <div class="kpi-card blue"><i class="ti ti-users kpi-icon"></i><div class="kpi-val">${p.length}</div><div class="kpi-lbl">Prospects total</div></div>
-      <div class="kpi-card cyan"><i class="ti ti-circle-check kpi-icon"></i><div class="kpi-val">${signesMois}</div><div class="kpi-lbl">Signés ce mois</div></div>
+      <div class="kpi-card cyan"><i class="ti ti-circle-check kpi-icon"></i><div class="kpi-val">${signesMois}</div><div class="kpi-lbl">SignÃ©s ce mois</div></div>
     </div>
     <div class="kpi-row cols-4">
-      <div class="kpi-card purple"><i class="ti ti-calendar-check kpi-icon"></i><div class="kpi-val">${p.filter(x=>x.statut==='Démo Bookée'||x.statut==='Démo Faite').length}</div><div class="kpi-lbl">Démos bookées</div></div>
-      <div class="kpi-card orange"><i class="ti ti-phone-call kpi-icon"></i><div class="kpi-val">${p.filter(x=>x.statut!=='Nouveau').length}</div><div class="kpi-lbl">Appels passés</div></div>
+      <div class="kpi-card purple"><i class="ti ti-calendar-check kpi-icon"></i><div class="kpi-val">${p.filter(x=>x.statut==='DÃ©mo BookÃ©e'||x.statut==='DÃ©mo Faite').length}</div><div class="kpi-lbl">DÃ©mos bookÃ©es</div></div>
+      <div class="kpi-card orange"><i class="ti ti-phone-call kpi-icon"></i><div class="kpi-val">${p.filter(x=>x.statut!=='Nouveau').length}</div><div class="kpi-lbl">Appels passÃ©s</div></div>
       <div class="kpi-card red"><i class="ti ti-x kpi-icon"></i><div class="kpi-val">${p.filter(x=>x.statut==='Refus').length}</div><div class="kpi-lbl">Refus</div></div>
       <div class="kpi-card blue"><i class="ti ti-users-group kpi-icon"></i><div class="kpi-val">${u.length}</div><div class="kpi-lbl">Commerciaux</div></div>
     </div>
     <div class="grid-31">
       <div class="panel">
-        <div class="panel-title"><div class="panel-title-left"><i class="ti ti-users-group"></i>Équipe commerciale</div></div>
+        <div class="panel-title"><div class="panel-title-left"><i class="ti ti-users-group"></i>Ã‰quipe commerciale</div></div>
         ${u.length?u.map((usr,i)=>{
-          const signes=p.filter(x=>x.commercial_id===usr.email&&x.statut==='Signé').length;
+          const signes=p.filter(x=>x.commercial_id===usr.email&&x.statut==='SignÃ©').length;
           const appels=p.filter(x=>x.commercial_id===usr.email&&x.statut!=='Nouveau').length;
           const initials=(usr.nom||usr.email).substring(0,2).toUpperCase();
           return`<div class="commercial-item">
             <div class="comm-avatar" style="background:${colors[i%4]}22;color:${colors[i%4]}">${initials}</div>
-            <div><div class="comm-name">${usr.nom||usr.email}</div><div class="comm-meta">${usr.type==='terrain'?'🚶 Terrain':'📞 Téléphone'}</div></div>
+            <div><div class="comm-name">${usr.nom||usr.email}</div><div class="comm-meta">${usr.type==='terrain'?'ðŸš¶ Terrain':'ðŸ“ž TÃ©lÃ©phone'}</div></div>
             <div class="comm-stats">
-              <div><div class="comm-stat-val" style="color:var(--green)">${signes}</div><div class="comm-stat-lbl">Signés</div></div>
+              <div><div class="comm-stat-val" style="color:var(--green)">${signes}</div><div class="comm-stat-lbl">SignÃ©s</div></div>
               <div><div class="comm-stat-val" style="color:var(--cyan)">${appels}</div><div class="comm-stat-lbl">Appels</div></div>
             </div>
           </div>`;}).join(''):`<div style="text-align:center;padding:32px;color:var(--muted)">Aucun commercial</div>`}
@@ -757,7 +757,7 @@ async function renderOwnerDashboard(){
           ${c.length?c.slice(-4).reverse().map(x=>`
             <div style="padding:10px 0;border-bottom:1px solid var(--border)">
               <div style="font-size:13px;font-weight:600;color:var(--text)">${x.nom_cabinet||x.nom_medecin}</div>
-              <div style="font-size:12px;color:var(--muted);margin-top:2px">${x.specialite} · ${x.ville} · <span class="badge" style="background:rgba(16,185,129,0.1);color:var(--green);border-color:rgba(16,185,129,0.2)">${x.plan||'pro'}</span></div>
+              <div style="font-size:12px;color:var(--muted);margin-top:2px">${x.specialite} Â· ${x.ville} Â· <span class="badge" style="background:rgba(16,185,129,0.1);color:var(--green);border-color:rgba(16,185,129,0.2)">${x.plan||'pro'}</span></div>
             </div>`).join(''):`<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px">Aucun cabinet</div>`}
         </div>
       </div>
@@ -774,17 +774,17 @@ async function renderOwnerCabinets(){
   const{data:cabs}=await sb.from('cabinets').select('*');
   const c=cabs||[];
   const statusConfig={
-    'trial':{bg:'rgba(245,158,11,0.12)',color:'#B45309',label:'🔄 Trial'},
-    'actif':{bg:'rgba(16,185,129,0.12)',color:'#15803D',label:'✅ Actif'},
-    'suspendu_propose':{bg:'rgba(244,63,94,0.1)',color:'#BE123C',label:'⚠ Suspension proposée'},
-    'suspendu':{bg:'rgba(244,63,94,0.15)',color:'#BE123C',label:'🔴 Suspendu'},
-    'en_attente_paiement':{bg:'rgba(139,92,246,0.1)',color:'#7C3AED',label:'⏳ En attente paiement'},
+    'trial':{bg:'rgba(245,158,11,0.12)',color:'#B45309',label:'ðŸ”„ Trial'},
+    'actif':{bg:'rgba(16,185,129,0.12)',color:'#15803D',label:'âœ… Actif'},
+    'suspendu_propose':{bg:'rgba(244,63,94,0.1)',color:'#BE123C',label:'âš  Suspension proposÃ©e'},
+    'suspendu':{bg:'rgba(244,63,94,0.15)',color:'#BE123C',label:'ðŸ”´ Suspendu'},
+    'en_attente_paiement':{bg:'rgba(139,92,246,0.1)',color:'#7C3AED',label:'â³ En attente paiement'},
   };
   document.getElementById('main-content').innerHTML=`
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
       <div>
         <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text)">Cabinets</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:2px">${c.length} cabinet${c.length>1?'s':''} — ${c.filter(x=>x.statut==='actif').length} actifs</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">${c.length} cabinet${c.length>1?'s':''} â€” ${c.filter(x=>x.statut==='actif').length} actifs</div>
       </div>
     </div>
     <div class="panel">
@@ -794,29 +794,29 @@ async function renderOwnerCabinets(){
           <th>Trial / Renouvellement</th><th>Commercial</th><th>Actions</th>
         </tr></thead>
         <tbody>${c.length?c.map(x=>{
-          const sc=statusConfig[x.statut]||{bg:'rgba(255,255,255,0.05)',color:'var(--muted)',label:x.statut||'—'};
+          const sc=statusConfig[x.statut]||{bg:'rgba(255,255,255,0.05)',color:'var(--muted)',label:x.statut||'â€”'};
           const isTrial=x.statut==='trial';
           const daysLeft=x.date_fin_trial?Math.ceil((new Date(x.date_fin_trial)-new Date())/(1000*60*60*24)):null;
           const urgence=daysLeft!==null&&daysLeft<=1;
           return`<tr>
-            <td><div style="font-weight:600;color:var(--text)">${x.nom_cabinet||x.nom_medecin}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${x.specialite} · ${x.ville}</div></td>
+            <td><div style="font-weight:600;color:var(--text)">${x.nom_cabinet||x.nom_medecin}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${x.specialite} Â· ${x.ville}</div></td>
             <td><span class="badge" style="background:rgba(6,182,212,0.1);color:var(--cyan);border-color:rgba(6,182,212,0.2)">${x.plan||'pro'}</span></td>
             <td><span style="padding:4px 10px;border-radius:99px;font-size:11px;font-weight:600;background:${sc.bg};color:${sc.color};font-family:'Plus Jakarta Sans',sans-serif">${sc.label}</span></td>
             <td style="font-size:12px;color:${urgence?'var(--red)':'var(--muted)'}">
-              ${isTrial?'Trial expire : '+(x.date_fin_trial||'—')+(daysLeft!==null?' ('+daysLeft+'j)':''):'Renouvellement : '+(x.date_renouvellement||'—')}
+              ${isTrial?'Trial expire : '+(x.date_fin_trial||'â€”')+(daysLeft!==null?' ('+daysLeft+'j)':''):'Renouvellement : '+(x.date_renouvellement||'â€”')}
             </td>
-            <td style="font-size:12px;color:var(--muted)">${x.commercial_id||'—'}</td>
+            <td style="font-size:12px;color:var(--muted)">${x.commercial_id||'â€”'}</td>
             <td>
               <div style="display:flex;gap:6px;flex-wrap:wrap">
                 ${(x.statut==='suspendu_propose'||x.statut==='en_attente_paiement')?`
-                  <button onclick="confirmerPaiementCab('${x.id}')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(16,185,129,0.15);color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">✓ Confirmer</button>
+                  <button onclick="confirmerPaiementCab('${x.id}')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(16,185,129,0.15);color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">âœ“ Confirmer</button>
                   <button onclick="suspendreClient('${x.id}')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(244,63,94,0.1);color:var(--red);font-size:11px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Suspendre</button>
                 `:''}
                 ${x.statut==='actif'?`
                   <button onclick="proposerSuspension('${x.id}')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(255,255,255,0.06);color:var(--muted);font-size:11px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Suspendre</button>
                 `:''}
                 ${x.statut==='suspendu'?`
-                  <button onclick="reactiver('${x.id}')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(16,185,129,0.15);color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Réactiver</button>
+                  <button onclick="reactiver('${x.id}')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(16,185,129,0.15);color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">RÃ©activer</button>
                 `:''}
                 ${x.statut==='trial'?`
                   <button onclick="confirmerPaiementCab('${x.id}')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(6,182,212,0.1);color:var(--cyan);font-size:11px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Convertir</button>
@@ -830,8 +830,8 @@ async function renderOwnerCabinets(){
 
 async function confirmerPaiementCab(id){
   const renew=new Date();renew.setMonth(renew.getMonth()+1);
-  const{error}=await sb.from('cabinets').update({statut:'actif',statut_paiement:'payé',date_renouvellement:renew.toISOString().split('T')[0]}).eq('id',id);
-  if(!error){showToast('Cabinet activé','success');addNotif('✅ Cabinet #'+id+' activé avec succès','success','ti-building-hospital');renderOwnerCabinets();}
+  const{error}=await sb.from('cabinets').update({statut:'actif',statut_paiement:'payÃ©',date_renouvellement:renew.toISOString().split('T')[0]}).eq('id',id);
+  if(!error){showToast('Cabinet activÃ©','success');addNotif('âœ… Cabinet #'+id+' activÃ© avec succÃ¨s','success','ti-building-hospital');renderOwnerCabinets();}
   else showToast('Erreur','error');
 }
 async function suspendreClient(id){
@@ -840,12 +840,12 @@ async function suspendreClient(id){
 }
 async function proposerSuspension(id){
   const{error}=await sb.from('cabinets').update({statut:'suspendu_propose'}).eq('id',id);
-  if(!error){showToast('Suspension proposée','error');renderOwnerCabinets();}
+  if(!error){showToast('Suspension proposÃ©e','error');renderOwnerCabinets();}
 }
 async function reactiver(id){
   const renew=new Date();renew.setMonth(renew.getMonth()+1);
   const{error}=await sb.from('cabinets').update({statut:'actif',date_renouvellement:renew.toISOString().split('T')[0]}).eq('id',id);
-  if(!error){showToast('Cabinet réactivé','success');renderOwnerCabinets();}
+  if(!error){showToast('Cabinet rÃ©activÃ©','success');renderOwnerCabinets();}
 }
 
 
@@ -857,24 +857,24 @@ async function renderOwnerEquipe(){
   const u=users||[],p=pros||[];
   const colors=['#06B6D4','#8B5CF6','#10B981','#F59E0B'];
   document.getElementById('main-content').innerHTML=`
-    <div class="page-title">Équipe commerciale</div>
+    <div class="page-title">Ã‰quipe commerciale</div>
     <div class="page-sub">${u.length} commercial${u.length>1?'s':''}</div>
     <div class="panel">
       <table class="data-table">
-        <thead><tr><th>Commercial</th><th>Type</th><th>Prospects</th><th>Appels</th><th>Démos</th><th>Signés</th><th>Primes estimées</th></tr></thead>
+        <thead><tr><th>Commercial</th><th>Type</th><th>Prospects</th><th>Appels</th><th>DÃ©mos</th><th>SignÃ©s</th><th>Primes estimÃ©es</th></tr></thead>
         <tbody>${u.length?u.map((usr,i)=>{
           const myP=p.filter(x=>x.commercial_id===usr.email);
-          const signes=myP.filter(x=>x.statut==='Signé').length;
+          const signes=myP.filter(x=>x.statut==='SignÃ©').length;
           const isTer=usr.type==='terrain';
           const prime=signes*Math.round(TD*(isTer?P_SIG_TER:P_SIG_TEL));
           const bonus=([...(isTer?PAL_TER:PAL_TEL)].reverse().find(x=>signes>=x.s)||{b:0}).b;
           const initials=(usr.nom||usr.email).substring(0,2).toUpperCase();
           return`<tr>
             <td><div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:8px;background:${colors[i%4]}22;color:${colors[i%4]};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">${initials}</div><span style="font-weight:600">${usr.nom||usr.email}</span></div></td>
-            <td>${usr.type==='terrain'?'Terrain':'Téléphone'}</td>
+            <td>${usr.type==='terrain'?'Terrain':'TÃ©lÃ©phone'}</td>
             <td>${myP.length}</td>
             <td>${myP.filter(x=>x.statut!=='Nouveau').length}</td>
-            <td>${myP.filter(x=>x.statut==='Démo Bookée'||x.statut==='Démo Faite').length}</td>
+            <td>${myP.filter(x=>x.statut==='DÃ©mo BookÃ©e'||x.statut==='DÃ©mo Faite').length}</td>
             <td style="font-weight:700;color:var(--green)">${signes}</td>
             <td style="font-weight:700;color:var(--cyan)">${(prime+bonus).toLocaleString('fr-FR')} DH</td>
           </tr>`;}).join(''):`<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">Aucun commercial</td></tr>`}
@@ -883,14 +883,14 @@ async function renderOwnerEquipe(){
     </div>`;
 }
 
-// ══ COMMERCIAL ══
+// â•â• COMMERCIAL â•â•
 async function renderCommDashboard(){
   const now=new Date();
   const firstDay=new Date(now.getFullYear(),now.getMonth(),1).toISOString().split('T')[0];
   const{data}=await sb.from('prospection').select('*').order('id');
   prospects=data||[];
   const mois=prospects.filter(p=>p.date_appel&&p.date_appel>=firstDay);
-  const signes=mois.filter(p=>p.statut==='Signé');
+  const signes=mois.filter(p=>p.statut==='SignÃ©');
   const isTer=userRecord?.type==='terrain';
   const paliers=isTer?PAL_TER:PAL_TEL;
   const pSig=isTer?P_SIG_TER:P_SIG_TEL;
@@ -910,14 +910,14 @@ async function renderCommDashboard(){
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
       <div>
-        <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Bonjour, ${nom} 👋</div>
+        <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Bonjour, ${nom} ðŸ‘‹</div>
         <div style="font-size:13px;color:#6B7280;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}</div>
       </div>
     </div>
     ${isFirstTime?`
     <div style="background:linear-gradient(135deg,#EFF6FF,#F0F9FF);border:1px solid #BFDBFE;border-radius:16px;padding:24px;margin-bottom:20px">
-      <div style="font-size:16px;font-weight:700;color:#1D4ED8;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">🚀 Bienvenue sur MediPulse !</div>
-      <div style="font-size:13px;color:#374151;margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif;line-height:1.6">Voici comment démarrer :</div>
+      <div style="font-size:16px;font-weight:700;color:#1D4ED8;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">ðŸš€ Bienvenue sur MediPulse !</div>
+      <div style="font-size:13px;color:#374151;margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif;line-height:1.6">Voici comment dÃ©marrer :</div>
       <div style="display:flex;flex-direction:column;gap:10px">
         <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;border-radius:10px;border:1px solid #BFDBFE;margin-bottom:8px">
           <div style="width:24px;height:24px;border-radius:50%;background:#2563EB;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</div>
@@ -955,7 +955,7 @@ async function renderCommDashboard(){
           const reached=totalSignes>=p.s;const isCurr=next&&p.s===next.s;
           return`<div style="flex:1;background:${reached?'rgba(16,185,129,0.2)':isCurr?'rgba(245,158,11,0.15)':'rgba(255,255,255,0.06)'};border:1px solid ${reached?'rgba(16,185,129,0.4)':isCurr?'rgba(245,158,11,0.3)':'rgba(255,255,255,0.1)'};border-radius:12px;padding:12px;text-align:center">
             <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:${reached?'#4ADE80':isCurr?'#FCD34D':'rgba(255,255,255,0.4)'}">${p.b} DH</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif">${p.s} signés</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif">${p.s} signÃ©s</div>
           </div>`;}).join('')}
       </div>
     </div>
@@ -964,9 +964,9 @@ async function renderCommDashboard(){
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
       ${[
         {val:prospects.length,lbl:'Prospects',icon:'ti-users',color:'#2563EB',bg:'#EFF6FF'},
-        {val:prospects.filter(p=>p.statut!=='Nouveau').length,lbl:'Appelés',icon:'ti-phone-call',color:'#0891B2',bg:'#F0F9FF'},
-        {val:totalSignes,lbl:'Signés ce mois',icon:'ti-circle-check',color:'#16A34A',bg:'#F0FDF4'},
-        {val:prospects.filter(p=>p.statut==='Démo Bookée'||p.statut==='Démo Faite').length,lbl:'Démos',icon:'ti-calendar-check',color:'#7C3AED',bg:'#FAF5FF'},
+        {val:prospects.filter(p=>p.statut!=='Nouveau').length,lbl:'AppelÃ©s',icon:'ti-phone-call',color:'#0891B2',bg:'#F0F9FF'},
+        {val:totalSignes,lbl:'SignÃ©s ce mois',icon:'ti-circle-check',color:'#16A34A',bg:'#F0FDF4'},
+        {val:prospects.filter(p=>p.statut==='DÃ©mo BookÃ©e'||p.statut==='DÃ©mo Faite').length,lbl:'DÃ©mos',icon:'ti-calendar-check',color:'#7C3AED',bg:'#FAF5FF'},
       ].map(k=>`
         <div style="background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
           <div style="width:34px;height:34px;border-radius:10px;background:${k.bg};display:flex;align-items:center;justify-content:center;margin-bottom:12px">
@@ -987,7 +987,7 @@ async function renderCommDashboard(){
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;background:#F9FAFB;border-radius:12px;padding:14px 16px">
           <span style="font-size:14px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Si je signe X cabinets ce mois...</span>
           <div style="display:flex;align-items:center;gap:10px">
-            <button onclick="simChange(-1)" style="width:30px;height:30px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#374151;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">−</button>
+            <button onclick="simChange(-1)" style="width:30px;height:30px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#374151;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">âˆ’</button>
             <span id="sim-count" style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#111827;min-width:28px;text-align:center">${simVal}</span>
             <button onclick="simChange(1)" style="width:30px;height:30px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#374151;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">+</button>
           </div>
@@ -1012,13 +1012,13 @@ async function renderCommDashboard(){
           </div>
           ${paliers.map((p,i)=>{
             const reached=totalSignes>=p.s;const isCurr=!reached&&(i===0||totalSignes>=paliers[i-1].s);
-            const icons=['🥉','🥈','🏆'];
+            const icons=['ðŸ¥‰','ðŸ¥ˆ','ðŸ†'];
             const manque=Math.max(0,p.s-totalSignes);
             return`<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #F9FAFB">
               <div style="font-size:20px">${icons[i]}</div>
               <div style="flex:1">
                 <div style="font-size:13px;font-weight:600;color:${reached?'#16A34A':isCurr?'#EA580C':'#9CA3AF'};font-family:'Plus Jakarta Sans',sans-serif">${p.s} signatures</div>
-                <div style="font-size:11px;color:#9CA3AF;font-family:'Plus Jakarta Sans',sans-serif">${reached?'Débloqué ✓':isCurr?manque+' manquante'+(manque>1?'s':''):'Verrouillé'}</div>
+                <div style="font-size:11px;color:#9CA3AF;font-family:'Plus Jakarta Sans',sans-serif">${reached?'DÃ©bloquÃ© âœ“':isCurr?manque+' manquante'+(manque>1?'s':''):'VerrouillÃ©'}</div>
               </div>
               <div style="font-size:14px;font-weight:700;color:${reached?'#16A34A':isCurr?'#EA580C':'#D1D5DB'};font-family:'Syne',sans-serif">+${p.b} DH</div>
             </div>`;}).join('')}
@@ -1028,11 +1028,13 @@ async function renderCommDashboard(){
   renderSim();
   // Notify if rappels
   const rappels=prospects.filter(p=>p.statut==='Rappeler');
-  if(rappels.length>0)addNotif('🔔 '+rappels.length+' prospect'+( rappels.length>1?'s':'')+' à rappeler aujourd\'hui','warning','ti-bell');
+  if(rappels.length>0)addNotif('ðŸ”” '+rappels.length+' prospect'+( rappels.length>1?'s':'')+' Ã  rappeler aujourd\'hui','warning','ti-bell');
 }
 
+
+function renderProspectsList(context){var filtered=crmFilter==='Tous'?prospects:prospects.filter(function(p){return p.statut===crmFilter;});document.getElementById('main-content').innerHTML='<div>'+filtered.map(function(p){var st=ST.find(function(s){return s.key===p.statut;})||ST[0];return'<div style="background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:14px"><div style="flex:1"><div style="font-size:14px;font-weight:600;color:#111827">'+p.nom+'</div><div style="font-size:12px;color:#6B7280;margin-top:3px">'+p.specialite+'</div></div><span style="padding:4px 10px;border-radius:99px;font-size:11px;font-weight:600;background:'+st.bg+';color:'+st.color+'">'+st.label+'</span><button onclick="openEdit('+p.id+')" style="padding:6px 12px;border-radius:8px;border:1px solid #E5E7EB;background:#F9FAFB;color:#2563EB;cursor:pointer;font-size:12px">Modifier</button></div>';}).join('')+'</div>';}function setCrmFilter(f){crmFilter=f;renderProspectsList(userRecord&&userRecord.role==='owner'?'owner':'commercial');}
 async function renderCommProspects(){
-  // Load all prospects — commercial sees all unassigned + his own
+  // Load all prospects â€” commercial sees all unassigned + his own
   const{data}=await sb.from('prospection').select('*').order('id');
   prospects=data||[];
   renderProspectsList('commercial');
@@ -1041,15 +1043,15 @@ async function renderCommProspects(){
 function renderCommValider(){
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px">
-      <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Valider un cabinet signé</div>
+      <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Valider un cabinet signÃ©</div>
       <div style="width:40px;height:3px;background:#2563EB;border-radius:2px;margin-top:6px"></div>
-      <div style="font-size:14px;color:#6B7280;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif">Crée automatiquement les accès médecin et assistante — Trial 7 jours gratuit</div>
+      <div style="font-size:14px;color:#6B7280;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif">CrÃ©e automatiquement les accÃ¨s mÃ©decin et assistante â€” Trial 7 jours gratuit</div>
     </div>
     <div style="max-width:600px">
       <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:28px;box-shadow:0 1px 8px rgba(0,0,0,0.05)">
         <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#1D4ED8;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:8px">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          Le cabinet bénéficiera d'un essai gratuit de 7 jours. Vous serez notifié la veille de l'expiration.
+          Le cabinet bÃ©nÃ©ficiera d'un essai gratuit de 7 jours. Vous serez notifiÃ© la veille de l'expiration.
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
           <div>
@@ -1057,13 +1059,13 @@ function renderCommValider(){
             <input class="finput" id="cab-nom" placeholder="Cabinet Dr. Nom" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
           </div>
           <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom du médecin *</label>
-            <input class="finput" id="cab-medecin" placeholder="Dr. Prénom Nom" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom du mÃ©decin *</label>
+            <input class="finput" id="cab-medecin" placeholder="Dr. PrÃ©nom Nom" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
           </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
           <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Spécialité *</label>
+            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">SpÃ©cialitÃ© *</label>
             <input class="finput" id="cab-spec" placeholder="Dermatologue..." style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
           </div>
           <div>
@@ -1073,12 +1075,12 @@ function renderCommValider(){
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
           <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Email médecin *</label>
+            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Email mÃ©decin *</label>
             <input class="finput" type="email" id="cab-email-med" placeholder="dr.nom@medipulse.ma" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
           </div>
           <div>
             <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom assistante *</label>
-            <input class="finput" id="cab-assistante" placeholder="Prénom Nom" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+            <input class="finput" id="cab-assistante" placeholder="PrÃ©nom Nom" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
           </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
@@ -1089,33 +1091,33 @@ function renderCommValider(){
           <div>
             <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Plan</label>
             <select class="finput" id="cab-plan" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
-              <option value="starter">Starter — 999 DH/mois</option>
-              <option value="pro" selected>Pro — 1499 DH/mois</option>
-              <option value="enterprise">Enterprise — 2499 DH/mois</option>
+              <option value="starter">Starter â€” 999 DH/mois</option>
+              <option value="pro" selected>Pro â€” 1499 DH/mois</option>
+              <option value="enterprise">Enterprise â€” 2499 DH/mois</option>
             </select>
           </div>
         </div>
         <div style="margin-bottom:16px">
           <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Lien fiche Google Maps (optionnel)</label>
           <input class="finput" id="cab-google-url" placeholder="https://g.page/..." style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
-          <div style="font-size:11px;color:#9CA3AF;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Ce lien sera inclus dans le message WhatsApp envoyé aux patients</div>
+          <div style="font-size:11px;color:#9CA3AF;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Ce lien sera inclus dans le message WhatsApp envoyÃ© aux patients</div>
         </div>
         <div style="margin-bottom:20px">
-          <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Numéro WhatsApp cabinet</label>
+          <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">NumÃ©ro WhatsApp cabinet</label>
           <input class="finput" id="cab-whatsapp" type="tel" placeholder="06 XX XX XX XX" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
-          <div style="font-size:11px;color:#9CA3AF;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">L'assistante utilisera ce numéro pour envoyer les formulaires</div>
+          <div style="font-size:11px;color:#9CA3AF;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">L'assistante utilisera ce numÃ©ro pour envoyer les formulaires</div>
         </div>
         <button onclick="validerCabinet()" style="width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#1E3A8A,#2563EB);color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Valider le cabinet — Démarrer le trial
+          Valider le cabinet â€” DÃ©marrer le trial
         </button>
       </div>
     </div>`;}
 
-// ══ MEDECIN ══
+// â•â• MEDECIN â•â•
 function renderMedDashboard(){
   const nom=userRecord.nom||'Dr. Test';
-  const googleUrl='https://www.google.com/search?q='+encodeURIComponent(nom+' médecin Casablanca avis');
+  const googleUrl='https://www.google.com/search?q='+encodeURIComponent(nom+' mÃ©decin Casablanca avis');
   document.getElementById('main-content').innerHTML=`
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px">
       <div>
@@ -1130,7 +1132,7 @@ function renderMedDashboard(){
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
           <div id="cal-dropdown" style="display:none;position:absolute;right:0;top:44px;background:#fff;border:1px solid #E5E7EB;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.1);min-width:180px;z-index:100;overflow:hidden">
-            ${['7 derniers jours','30 derniers jours','90 derniers jours','Cette année'].map(opt=>`
+            ${['7 derniers jours','30 derniers jours','90 derniers jours','Cette annÃ©e'].map(opt=>`
               <div onclick="selectPeriode('${opt}')" style="padding:11px 16px;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;color:#374151;cursor:pointer;transition:background 0.1s" onmouseover="this.style.background='#F9FAFB'" onmouseout="this.style.background='#fff'">${opt}</div>`).join('')}
           </div>
         </div>
@@ -1145,13 +1147,13 @@ function renderMedDashboard(){
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
       <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="font-size:13px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500">Avis collectés</div>
+          <div style="font-size:13px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500">Avis collectÃ©s</div>
           <div style="width:36px;height:36px;border-radius:10px;background:#EFF6FF;display:flex;align-items:center;justify-content:center">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
         </div>
         <div style="font-size:32px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif;line-height:1">24</div>
-        <div style="font-size:12px;color:#10B981;font-weight:600;margin-top:6px;font-family:'Plus Jakarta Sans',sans-serif">+42% <span style="color:#6B7280;font-weight:400">vs mois précédent</span></div>
+        <div style="font-size:12px;color:#10B981;font-weight:600;margin-top:6px;font-family:'Plus Jakarta Sans',sans-serif">+42% <span style="color:#6B7280;font-weight:400">vs mois prÃ©cÃ©dent</span></div>
       </div>
       <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
@@ -1162,23 +1164,23 @@ function renderMedDashboard(){
         </div>
         <div style="display:flex;align-items:baseline;gap:8px">
           <div style="font-size:32px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif;line-height:1">3.7</div>
-          <div style="font-size:16px;color:#F59E0B">⭐⭐⭐⭐</div>
+          <div style="font-size:16px;color:#F59E0B">â­â­â­â­</div>
         </div>
-        <div style="font-size:12px;color:#6B7280;margin-top:6px;font-family:'Plus Jakarta Sans',sans-serif">sur 5.0 — 24 avis</div>
+        <div style="font-size:12px;color:#6B7280;margin-top:6px;font-family:'Plus Jakarta Sans',sans-serif">sur 5.0 â€” 24 avis</div>
       </div>
       <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="font-size:13px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500">Formulaires envoyés</div>
+          <div style="font-size:13px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500">Formulaires envoyÃ©s</div>
           <div style="width:36px;height:36px;border-radius:10px;background:#F0FDF4;display:flex;align-items:center;justify-content:center">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </div>
         </div>
         <div style="font-size:32px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif;line-height:1">12</div>
-        <div style="font-size:12px;color:#10B981;font-weight:600;margin-top:6px;font-family:'Plus Jakarta Sans',sans-serif">+28% <span style="color:#6B7280;font-weight:400">vs mois précédent</span></div>
+        <div style="font-size:12px;color:#10B981;font-weight:600;margin-top:6px;font-family:'Plus Jakarta Sans',sans-serif">+28% <span style="color:#6B7280;font-weight:400">vs mois prÃ©cÃ©dent</span></div>
       </div>
       <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="font-size:13px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500">Taux de réponse</div>
+          <div style="font-size:13px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500">Taux de rÃ©ponse</div>
           <div style="width:36px;height:36px;border-radius:10px;background:#F0FDF4;display:flex;align-items:center;justify-content:center">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
@@ -1199,7 +1201,7 @@ function renderMedDashboard(){
       <!-- LINE CHART -->
       <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
-          <div style="font-size:15px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Évolution des avis</div>
+          <div style="font-size:15px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Ã‰volution des avis</div>
         </div>
         <svg width="100%" height="180" viewBox="0 0 500 180" preserveAspectRatio="none">
           <defs>
@@ -1231,7 +1233,7 @@ function renderMedDashboard(){
           <circle cx="470" cy="20" r="5" fill="#2563EB" stroke="#fff" stroke-width="2"/>
           <!-- X labels -->
           <text x="10" y="175" fill="#9CA3AF" font-size="10" font-family="Plus Jakarta Sans">Jan</text>
-          <text x="88" y="175" fill="#9CA3AF" font-size="10" font-family="Plus Jakarta Sans">Fév</text>
+          <text x="88" y="175" fill="#9CA3AF" font-size="10" font-family="Plus Jakarta Sans">FÃ©v</text>
           <text x="168" y="175" fill="#9CA3AF" font-size="10" font-family="Plus Jakarta Sans">Mar</text>
           <text x="248" y="175" fill="#9CA3AF" font-size="10" font-family="Plus Jakarta Sans">Avr</text>
           <text x="328" y="175" fill="#9CA3AF" font-size="10" font-family="Plus Jakarta Sans">Mai</text>
@@ -1241,7 +1243,7 @@ function renderMedDashboard(){
 
       <!-- DONUT CHART -->
       <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
-        <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">Répartition des avis</div>
+        <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">RÃ©partition des avis</div>
         <div style="display:flex;justify-content:center;margin-bottom:20px;position:relative">
           <svg width="140" height="140" viewBox="0 0 140 140">
             <!-- bg circle -->
@@ -1259,12 +1261,12 @@ function renderMedDashboard(){
             <text x="70" y="82" text-anchor="middle" fill="#10B981" font-size="11" font-weight="600" font-family="Plus Jakarta Sans">Positifs</text>
           </svg>
         </div>
-        <div style="font-size:12px;color:#6B7280;text-align:center;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif">Sur 24 avis collectés</div>
+        <div style="font-size:12px;color:#6B7280;text-align:center;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif">Sur 24 avis collectÃ©s</div>
         ${[
-          {color:'#10B981',label:'5 étoiles',count:'12 (50%)',emoji:'😊'},
-          {color:'#34D399',label:'4 étoiles',count:'7 (29%)',emoji:'😊'},
-          {color:'#FCD34D',label:'3 étoiles',count:'3 (13%)',emoji:'😐'},
-          {color:'#F87171',label:'1-2 étoiles',count:'2 (8%)',emoji:'😞'},
+          {color:'#10B981',label:'5 Ã©toiles',count:'12 (50%)',emoji:'ðŸ˜Š'},
+          {color:'#34D399',label:'4 Ã©toiles',count:'7 (29%)',emoji:'ðŸ˜Š'},
+          {color:'#FCD34D',label:'3 Ã©toiles',count:'3 (13%)',emoji:'ðŸ˜'},
+          {color:'#F87171',label:'1-2 Ã©toiles',count:'2 (8%)',emoji:'ðŸ˜ž'},
         ].map(r=>`
           <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-top:1px solid #F9FAFB">
             <div style="display:flex;align-items:center;gap:8px">
@@ -1281,7 +1283,7 @@ function renderMedDashboard(){
     <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
         <div style="font-size:15px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Derniers avis patients</div>
-        <span style="font-size:13px;color:#2563EB;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif" onclick="loadPage('med-avis')">Voir tout →</span>
+        <span style="font-size:13px;color:#2563EB;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif" onclick="loadPage('med-avis')">Voir tout â†’</span>
       </div>
       ${renderAvisHTMLLight()}
     </div>`;
@@ -1289,13 +1291,13 @@ function renderMedDashboard(){
 
 function renderAvisHTMLLight(limit=4){
   const avis=[
-    {init:'AK',nom:'Ahmed K.',date:"Aujourd'hui",stars:5,text:"Excellent cabinet, médecin très à l'écoute. Je recommande vivement.",positive:true},
-    {init:'FB',nom:'Fatima B.',date:'Hier',stars:5,text:'Très bonne expérience, personnel accueillant et professionnel.',positive:true},
-    {init:'MR',nom:'Mohamed R.',date:'Il y a 2 jours',stars:3,text:'Attente un peu longue mais le docteur est compétent.',positive:true},
-    {init:'SS',nom:'Sara S.',date:'Il y a 3 jours',stars:2,text:'Rendez-vous annulé sans prévenir, très déçue.',positive:false},
-    {init:'YA',nom:'Youssef A.',date:'Il y a 4 jours',stars:5,text:'Cabinet moderne et médecin très professionnel.',positive:true},
+    {init:'AK',nom:'Ahmed K.',date:"Aujourd'hui",stars:5,text:"Excellent cabinet, mÃ©decin trÃ¨s Ã  l'Ã©coute. Je recommande vivement.",positive:true},
+    {init:'FB',nom:'Fatima B.',date:'Hier',stars:5,text:'TrÃ¨s bonne expÃ©rience, personnel accueillant et professionnel.',positive:true},
+    {init:'MR',nom:'Mohamed R.',date:'Il y a 2 jours',stars:3,text:'Attente un peu longue mais le docteur est compÃ©tent.',positive:true},
+    {init:'SS',nom:'Sara S.',date:'Il y a 3 jours',stars:2,text:'Rendez-vous annulÃ© sans prÃ©venir, trÃ¨s dÃ©Ã§ue.',positive:false},
+    {init:'YA',nom:'Youssef A.',date:'Il y a 4 jours',stars:5,text:'Cabinet moderne et mÃ©decin trÃ¨s professionnel.',positive:true},
   ].slice(0,limit);
-  const starsHtml=(n)=>'⭐'.repeat(n);
+  const starsHtml=(n)=>'â­'.repeat(n);
   return`<table style="width:100%;border-collapse:collapse">
     <thead><tr>
       <th style="text-align:left;font-size:11px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;padding:0 0 10px;font-family:'Plus Jakarta Sans',sans-serif">Patient</th>
@@ -1316,7 +1318,7 @@ function renderAvisHTMLLight(limit=4){
         <td style="padding:14px 12px;font-size:13px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif;max-width:280px;vertical-align:middle">${a.text}</td>
         <td style="padding:14px 12px;font-size:12px;color:#9CA3AF;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;vertical-align:middle">${a.date}</td>
         <td style="padding:14px 0;vertical-align:middle">
-          <span style="padding:4px 10px;border-radius:99px;font-size:11px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;background:${a.positive?'#F0FDF4':'#FFF1F2'};color:${a.positive?'#15803D':'#BE123C'}">${a.positive?'Positif':'⚠ Négatif'}</span>
+          <span style="padding:4px 10px;border-radius:99px;font-size:11px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;background:${a.positive?'#F0FDF4':'#FFF1F2'};color:${a.positive?'#15803D':'#BE123C'}">${a.positive?'Positif':'âš  NÃ©gatif'}</span>
         </td>
       </tr>`).join('')}
     </tbody>
@@ -1336,14 +1338,14 @@ function renderMedStats(){
     <div style="margin-bottom:24px">
       <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Statistiques</div>
       <div style="width:40px;height:3px;background:#2563EB;border-radius:2px;margin-top:6px;margin-bottom:4px"></div>
-      <div style="font-size:14px;color:#6B7280;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif">Évolution de votre réputation en ligne</div>
+      <div style="font-size:14px;color:#6B7280;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif">Ã‰volution de votre rÃ©putation en ligne</div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
       ${[
-        {val:'3.7',lbl:'Note actuelle',sub:'sur 5.0',color:'#2563EB',bg:'#EFF6FF',icon:'⭐'},
-        {val:'+0.3',lbl:'Évolution',sub:'30 derniers jours',color:'#10B981',bg:'#F0FDF4',icon:'📈'},
-        {val:'24',lbl:'Total avis',sub:'depuis le début',color:'#0891B2',bg:'#F0F9FF',icon:'💬'},
-        {val:'67%',lbl:'Taux réponse',sub:'Excellent',color:'#7C3AED',bg:'#FAF5FF',icon:'✅'},
+        {val:'3.7',lbl:'Note actuelle',sub:'sur 5.0',color:'#2563EB',bg:'#EFF6FF',icon:'â­'},
+        {val:'+0.3',lbl:'Ã‰volution',sub:'30 derniers jours',color:'#10B981',bg:'#F0FDF4',icon:'ðŸ“ˆ'},
+        {val:'24',lbl:'Total avis',sub:'depuis le dÃ©but',color:'#0891B2',bg:'#F0F9FF',icon:'ðŸ’¬'},
+        {val:'67%',lbl:'Taux rÃ©ponse',sub:'Excellent',color:'#7C3AED',bg:'#FAF5FF',icon:'âœ…'},
       ].map(k=>`
         <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
           <div style="font-size:22px;margin-bottom:12px">${k.icon}</div>
@@ -1356,7 +1358,7 @@ function renderMedStats(){
       <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:24px;font-family:'Plus Jakarta Sans',sans-serif">Progression mensuelle de la note</div>
       <div style="display:flex;align-items:flex-end;justify-content:space-around;height:160px;border-bottom:1px solid #F3F4F6;padding-bottom:12px;margin-bottom:12px" id="med-chart-bars"></div>
       <div style="display:flex;justify-content:space-around">
-        ${['Jan','Fév','Mar','Avr','Mai'].map(m=>`<div style="font-size:12px;color:#9CA3AF;font-family:'Plus Jakarta Sans',sans-serif;text-align:center;flex:1">${m}</div>`).join('')}
+        ${['Jan','FÃ©v','Mar','Avr','Mai'].map(m=>`<div style="font-size:12px;color:#9CA3AF;font-family:'Plus Jakarta Sans',sans-serif;text-align:center;flex:1">${m}</div>`).join('')}
       </div>
     </div>`;
   setTimeout(()=>{
@@ -1377,7 +1379,7 @@ function renderMedStats(){
     }).join('');
   },100);}
 
-// ══ ASSISTANTE ══
+// â•â• ASSISTANTE â•â•
 function renderAssDashboard(){
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:28px">
@@ -1393,20 +1395,20 @@ function renderAssDashboard(){
         <div style="font-size:13px;color:#6B7280;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">Renseignez les informations du patient</div>
         <div style="margin-bottom:14px">
           <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom du patient</label>
-          <input id="ass-nom" type="text" placeholder="Prénom Nom" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid #E5E7EB;font-size:14px;color:#111827;font-family:'Plus Jakarta Sans',sans-serif;outline:none;background:#F9FAFB" onfocus="this.style.borderColor='#2563EB';this.style.background='#fff'" onblur="this.style.borderColor='#E5E7EB';this.style.background='#F9FAFB'">
+          <input id="ass-nom" type="text" placeholder="PrÃ©nom Nom" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid #E5E7EB;font-size:14px;color:#111827;font-family:'Plus Jakarta Sans',sans-serif;outline:none;background:#F9FAFB" onfocus="this.style.borderColor='#2563EB';this.style.background='#fff'" onblur="this.style.borderColor='#E5E7EB';this.style.background='#F9FAFB'">
         </div>
         <div style="margin-bottom:20px">
-          <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Téléphone WhatsApp</label>
+          <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">TÃ©lÃ©phone WhatsApp</label>
           <input id="ass-tel" type="tel" placeholder="06 XX XX XX XX" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid #E5E7EB;font-size:14px;color:#111827;font-family:'Plus Jakarta Sans',sans-serif;outline:none;background:#F9FAFB" onfocus="this.style.borderColor='#2563EB';this.style.background='#fff'" onblur="this.style.borderColor='#E5E7EB';this.style.background='#F9FAFB'">
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
           <button onclick="envoyerFormulaire('ar')" style="padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#1E3A8A,#2563EB);color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Plus Jakarta Sans',sans-serif;transition:opacity 0.2s" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.528 5.843L.057 23.786c-.092.355.232.68.587.587l5.943-1.471A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
-            عربية
+            Ø¹Ø±Ø¨ÙŠØ©
           </button>
           <button onclick="envoyerFormulaire('fr')" style="padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#0369A1,#06B6D4);color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Plus Jakarta Sans',sans-serif;transition:opacity 0.2s" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.528 5.843L.057 23.786c-.092.355.232.68.587.587l5.943-1.471A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
-            Français
+            FranÃ§ais
           </button>
         </div>
       </div>
@@ -1419,14 +1421,14 @@ function renderAssDashboard(){
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </div>
             <div style="font-size:26px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif;line-height:1" id="ass-count-envois">0</div>
-            <div style="font-size:12px;color:#6B7280;margin-top:5px;font-family:'Plus Jakarta Sans',sans-serif">Envoyés aujourd'hui</div>
+            <div style="font-size:12px;color:#6B7280;margin-top:5px;font-family:'Plus Jakarta Sans',sans-serif">EnvoyÃ©s aujourd'hui</div>
           </div>
           <div style="background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
             <div style="width:34px;height:34px;border-radius:10px;background:#F0FDF4;display:flex;align-items:center;justify-content:center;margin-bottom:12px">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             </div>
             <div style="font-size:26px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif;line-height:1" id="ass-count-reponses">0</div>
-            <div style="font-size:12px;color:#6B7280;margin-top:5px;font-family:'Plus Jakarta Sans',sans-serif">Réponses reçues</div>
+            <div style="font-size:12px;color:#6B7280;margin-top:5px;font-family:'Plus Jakarta Sans',sans-serif">RÃ©ponses reÃ§ues</div>
           </div>
           <div style="background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
             <div style="width:34px;height:34px;border-radius:10px;background:#F0FDF4;display:flex;align-items:center;justify-content:center;margin-bottom:12px">
@@ -1456,7 +1458,7 @@ function renderAssDashboard(){
         <div style="text-align:center;padding:40px;color:#9CA3AF">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1.5" style="display:block;margin:0 auto 12px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.77-.77a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.18z"/></svg>
           <div style="font-size:14px;font-family:'Plus Jakarta Sans',sans-serif">Aucun envoi aujourd'hui</div>
-          <div style="font-size:12px;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Les formulaires envoyés apparaîtront ici</div>
+          <div style="font-size:12px;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Les formulaires envoyÃ©s apparaÃ®tront ici</div>
         </div>
       </div>
     </div>`;
@@ -1473,16 +1475,16 @@ function renderAssHistorique(){
       <table style="width:100%;border-collapse:collapse">
         <thead><tr>
           <th style="text-align:left;font-size:11px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;padding:0 0 12px;font-family:'Plus Jakarta Sans',sans-serif">Patient</th>
-          <th style="text-align:left;font-size:11px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;padding:0 0 12px;font-family:'Plus Jakarta Sans',sans-serif">Téléphone</th>
+          <th style="text-align:left;font-size:11px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;padding:0 0 12px;font-family:'Plus Jakarta Sans',sans-serif">TÃ©lÃ©phone</th>
           <th style="text-align:left;font-size:11px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;padding:0 0 12px;font-family:'Plus Jakarta Sans',sans-serif">Langue</th>
           <th style="text-align:left;font-size:11px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;padding:0 0 12px;font-family:'Plus Jakarta Sans',sans-serif">Heure</th>
           <th style="text-align:left;font-size:11px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;padding:0 0 12px;font-family:'Plus Jakarta Sans',sans-serif">Statut</th>
         </tr></thead>
         <tbody>${envisList.map(e=>`
           <tr style="border-top:1px solid #F9FAFB">
-            <td style="padding:14px 0;font-size:13px;font-weight:600;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">${e.nom||'—'}</td>
-            <td style="padding:14px 12px;font-size:13px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${e.tel||'—'}</td>
-            <td style="padding:14px 12px"><span style="padding:4px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#EFF6FF;color:#2563EB;font-family:'Plus Jakarta Sans',sans-serif">${e.lang==='ar'?'Arabe':'Français'}</span></td>
+            <td style="padding:14px 0;font-size:13px;font-weight:600;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">${e.nom||'â€”'}</td>
+            <td style="padding:14px 12px;font-size:13px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${e.tel||'â€”'}</td>
+            <td style="padding:14px 12px"><span style="padding:4px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#EFF6FF;color:#2563EB;font-family:'Plus Jakarta Sans',sans-serif">${e.lang==='ar'?'Arabe':'FranÃ§ais'}</span></td>
             <td style="padding:14px 12px;font-size:13px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${e.time}</td>
             <td style="padding:14px 0"><span style="padding:4px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#FFF7ED;color:#EA580C;font-family:'Plus Jakarta Sans',sans-serif">En attente</span></td>
           </tr>`).join('')}
@@ -1490,24 +1492,24 @@ function renderAssHistorique(){
       </table>`:`
       <div style="text-align:center;padding:48px;color:#9CA3AF;font-family:'Plus Jakarta Sans',sans-serif">
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1.5" style="display:block;margin:0 auto 12px"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        Aucun envoi enregistré
+        Aucun envoi enregistrÃ©
       </div>`}
     </div>`;}
 
 function envoyerFormulaire(lang){
   const nom=document.getElementById('ass-nom')?.value||'';
   const tel=document.getElementById('ass-tel')?.value||'';
-  if(!tel){showToast('Entrez le numéro WhatsApp du patient','error');return;}
+  if(!tel){showToast('Entrez le numÃ©ro WhatsApp du patient','error');return;}
   sendCount++;
   envisList.unshift({nom,tel,lang,time:new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})});
   const countEl=document.getElementById('ass-count-envois');
   if(countEl)countEl.textContent=sendCount;
   // Get google URL from cabinet data if available
   const googleLink=userRecord?.google_url||'';
-  const googleText=googleLink?('\n\n⭐ Laissez-nous aussi un avis Google : '+googleLink):'';
+  const googleText=googleLink?('\n\nâ­ Laissez-nous aussi un avis Google : '+googleLink):'';
   const msg=lang==='ar'
-    ?encodeURIComponent('مرحباً، نود معرفة رأيك في زيارتك للعيادة. يرجى تعبئة هذا الاستبيان (دقيقتان): https://medipulse-gamma.vercel.app/saisie.html'+googleText)
-    :encodeURIComponent('Bonjour, nous aimerions connaître votre expérience. Merci de remplir ce formulaire (2 min) : https://medipulse-gamma.vercel.app/saisie.html'+googleText);
+    ?encodeURIComponent('Ù…Ø±Ø­Ø¨Ø§Ù‹ØŒ Ù†ÙˆØ¯ Ù…Ø¹Ø±ÙØ© Ø±Ø£ÙŠÙƒ ÙÙŠ Ø²ÙŠØ§Ø±ØªÙƒ Ù„Ù„Ø¹ÙŠØ§Ø¯Ø©. ÙŠØ±Ø¬Ù‰ ØªØ¹Ø¨Ø¦Ø© Ù‡Ø°Ø§ Ø§Ù„Ø§Ø³ØªØ¨ÙŠØ§Ù† (Ø¯Ù‚ÙŠÙ‚ØªØ§Ù†): https://medipulse-gamma.vercel.app/saisie.html'+googleText)
+    :encodeURIComponent('Bonjour, nous aimerions connaÃ®tre votre expÃ©rience. Merci de remplir ce formulaire (2 min) : https://medipulse-gamma.vercel.app/saisie.html'+googleText);
   const telFormatted=(tel||'').replace(/\s/g,'').replace(/^0/,'212');
   window.open('https://wa.me/'+telFormatted+'?text='+msg,'_blank');
   const hist=document.getElementById('ass-historique-list');
@@ -1521,7 +1523,7 @@ function envoyerFormulaire(lang){
         </div>
         <div style="flex:1">
           <div style="font-size:14px;font-weight:600;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">${nom||'Patient'}</div>
-          <div style="font-size:12px;color:#6B7280;margin-top:2px;font-family:'Plus Jakarta Sans',sans-serif">${tel} · Formulaire ${lang==='ar'?'Arabe':'Français'}</div>
+          <div style="font-size:12px;color:#6B7280;margin-top:2px;font-family:'Plus Jakarta Sans',sans-serif">${tel} Â· Formulaire ${lang==='ar'?'Arabe':'FranÃ§ais'}</div>
         </div>
         <div style="text-align:right">
           <span style="padding:4px 10px;border-radius:99px;font-size:11px;font-weight:600;background:#FFF7ED;color:#EA580C;font-family:'Plus Jakarta Sans',sans-serif">En attente</span>
@@ -1531,17 +1533,17 @@ function envoyerFormulaire(lang){
   }
   if(document.getElementById('ass-nom'))document.getElementById('ass-nom').value='';
   if(document.getElementById('ass-tel'))document.getElementById('ass-tel').value='';
-  showToast('Formulaire '+(lang==='ar'?'Arabe':'Français')+' envoyé via WhatsApp','success');
+  showToast('Formulaire '+(lang==='ar'?'Arabe':'FranÃ§ais')+' envoyÃ© via WhatsApp','success');
 }
 
-// ══ COMMERCIAL TERRAIN ══
+// â•â• COMMERCIAL TERRAIN â•â•
 async function renderTerrainDashboard(){
   const now=new Date();
   const firstDay=new Date(now.getFullYear(),now.getMonth(),1).toISOString().split('T')[0];
   const{data}=await sb.from('prospection').select('*').order('id');
   prospects=data||[];
   const mois=prospects.filter(p=>p.date_appel&&p.date_appel>=firstDay);
-  const signes=mois.filter(p=>p.statut==='Signé');
+  const signes=mois.filter(p=>p.statut==='SignÃ©');
   const totalSignes=signes.length;
   const primeSig=totalSignes*Math.round(TD*P_SIG_TER);
   const bonus=([...PAL_TER].reverse().find(p=>totalSignes>=p.s)||{b:0}).b;
@@ -1551,14 +1553,14 @@ async function renderTerrainDashboard(){
 
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px">
-      <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Bonjour, ${nom} 👋</div>
-      <div style="font-size:13px;color:#6B7280;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})} · Commercial Terrain</div>
+      <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Bonjour, ${nom} ðŸ‘‹</div>
+      <div style="font-size:13px;color:#6B7280;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})} Â· Commercial Terrain</div>
     </div>
 
     <!-- PRIME HERO -->
     <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);border-radius:20px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden">
       <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,0.12),transparent 70%);top:-80px;right:-80px"></div>
-      <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Primes ce mois — Terrain (30%)</div>
+      <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Primes ce mois â€” Terrain (30%)</div>
       <div style="display:flex;align-items:flex-end;gap:6px;margin-bottom:16px">
         <div style="font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:#A78BFA;line-height:1">${total.toLocaleString('fr-FR')}</div>
         <div style="font-size:16px;color:rgba(255,255,255,0.35);margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">DH</div>
@@ -1566,8 +1568,8 @@ async function renderTerrainDashboard(){
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
         ${[
           {val:prospects.length,lbl:'Prospects',color:'rgba(255,255,255,0.9)'},
-          {val:prospects.filter(p=>p.statut!=='Nouveau').length,lbl:'Visités',color:'#A78BFA'},
-          {val:totalSignes,lbl:'Signés',color:'#4ADE80'},
+          {val:prospects.filter(p=>p.statut!=='Nouveau').length,lbl:'VisitÃ©s',color:'#A78BFA'},
+          {val:totalSignes,lbl:'SignÃ©s',color:'#4ADE80'},
           {val:daysLeft,lbl:'Jours restants',color:'#FCD34D'},
         ].map(k=>`
           <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px;text-align:center">
@@ -1584,9 +1586,9 @@ async function renderTerrainDashboard(){
         <div style="padding:16px 20px;border-bottom:1px solid #F3F4F6;display:flex;align-items:center;justify-content:space-between">
           <div style="font-size:14px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:8px">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Carte des prospects — Casablanca
+            Carte des prospects â€” Casablanca
           </div>
-          <span style="font-size:12px;color:#7C3AED;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif">${prospects.filter(p=>p.statut==='Rappeler'||p.statut==='Joignable').length} à visiter aujourd'hui</span>
+          <span style="font-size:12px;color:#7C3AED;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif">${prospects.filter(p=>p.statut==='Rappeler'||p.statut==='Joignable').length} Ã  visiter aujourd'hui</span>
         </div>
         <div id="terrain-map" style="height:320px;background:#F1F5F9;display:flex;align-items:center;justify-content:center">
           <div style="text-align:center;color:#6B7280">
@@ -1600,26 +1602,26 @@ async function renderTerrainDashboard(){
       <!-- TODAY'S VISITS -->
       <div style="display:flex;flex-direction:column;gap:14px">
         <div style="background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-          <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif">Priorités aujourd'hui</div>
+          <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif">PrioritÃ©s aujourd'hui</div>
           ${prospects.filter(p=>p.statut==='Rappeler'||p.statut==='Joignable').slice(0,4).map(p=>`
             <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F9FAFB">
               <div style="width:8px;height:8px;border-radius:50%;background:${p.statut==='Joignable'?'#10B981':'#F59E0B'};flex-shrink:0"></div>
               <div style="flex:1">
                 <div style="font-size:13px;font-weight:600;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">${p.nom}</div>
-                <div style="font-size:11px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${p.specialite} · ${p.quartier||p.ville||''}</div>
+                <div style="font-size:11px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${p.specialite} Â· ${p.quartier||p.ville||''}</div>
               </div>
               <button onclick="openEdit(${p.id})" style="padding:4px 10px;border-radius:6px;border:1px solid #E5E7EB;background:#fff;font-size:11px;color:#6B7280;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Modifier</button>
-            </div>`).join('')||'<div style="text-align:center;padding:16px;color:#9CA3AF;font-size:13px;font-family:Plus Jakarta Sans,sans-serif">Aucune priorité</div>'}
+            </div>`).join('')||'<div style="text-align:center;padding:16px;color:#9CA3AF;font-size:13px;font-family:Plus Jakarta Sans,sans-serif">Aucune prioritÃ©</div>'}
         </div>
         <div style="background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;flex:1;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-          <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif">Paliers bonus — Terrain</div>
+          <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif">Paliers bonus â€” Terrain</div>
           ${PAL_TER.map((p,i)=>{
             const reached=totalSignes>=p.s;const isCurr=!reached&&(i===0||totalSignes>=PAL_TER[i-1].s);
-            const icons=['🥉','🥈','🏆'];
+            const icons=['ðŸ¥‰','ðŸ¥ˆ','ðŸ†'];
             return`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F9FAFB">
               <div style="font-size:18px">${icons[i]}</div>
               <div style="flex:1">
-                <div style="font-size:12px;font-weight:600;color:${reached?'#16A34A':isCurr?'#EA580C':'#9CA3AF'};font-family:'Plus Jakarta Sans',sans-serif">${p.s} visites signées</div>
+                <div style="font-size:12px;font-weight:600;color:${reached?'#16A34A':isCurr?'#EA580C':'#9CA3AF'};font-family:'Plus Jakarta Sans',sans-serif">${p.s} visites signÃ©es</div>
               </div>
               <div style="font-size:13px;font-weight:700;color:${reached?'#16A34A':isCurr?'#EA580C':'#D1D5DB'};font-family:'Syne',sans-serif">+${p.b} DH</div>
             </div>`;}).join('')}
@@ -1630,25 +1632,25 @@ async function renderTerrainDashboard(){
     <!-- RECENT PROSPECTS TABLE -->
     <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div style="font-size:15px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Dernières visites</div>
-        <span onclick="loadPage('comm-prospects')" style="font-size:13px;color:#7C3AED;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Voir tout →</span>
+        <div style="font-size:15px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">DerniÃ¨res visites</div>
+        <span onclick="loadPage('comm-prospects')" style="font-size:13px;color:#7C3AED;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Voir tout â†’</span>
       </div>
       ${prospects.filter(p=>p.statut!=='Nouveau').slice(0,5).length?`
       <table style="width:100%;border-collapse:collapse">
         <thead><tr>
-          ${['Médecin','Spécialité','Quartier','Statut','Commentaire terrain'].map(h=>`<th style="text-align:left;font-size:11px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;padding:0 0 10px;font-family:'Plus Jakarta Sans',sans-serif">${h}</th>`).join('')}
+          ${['MÃ©decin','SpÃ©cialitÃ©','Quartier','Statut','Commentaire terrain'].map(h=>`<th style="text-align:left;font-size:11px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;padding:0 0 10px;font-family:'Plus Jakarta Sans',sans-serif">${h}</th>`).join('')}
         </tr></thead>
         <tbody>${prospects.filter(p=>p.statut!=='Nouveau').slice(0,5).map(p=>{
           const st=ST.find(s=>s.key===p.statut)||ST[0];
           return`<tr style="border-top:1px solid #F9FAFB">
             <td style="padding:12px 0;font-size:13px;font-weight:600;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">${p.nom}</td>
             <td style="padding:12px 8px;font-size:12px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${p.specialite}</td>
-            <td style="padding:12px 8px;font-size:12px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${p.quartier||'—'}</td>
+            <td style="padding:12px 8px;font-size:12px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${p.quartier||'â€”'}</td>
             <td style="padding:12px 8px"><span style="padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600;background:${st.bg};color:${st.color};font-family:'Plus Jakarta Sans',sans-serif">${st.label}</span></td>
-            <td style="padding:12px 0;font-size:12px;color:#6B7280;font-style:italic;font-family:'Plus Jakarta Sans',sans-serif">${p.commentaire_terrain||'—'}</td>
+            <td style="padding:12px 0;font-size:12px;color:#6B7280;font-style:italic;font-family:'Plus Jakarta Sans',sans-serif">${p.commentaire_terrain||'â€”'}</td>
           </tr>`;}).join('')}
         </tbody>
-      </table>`:'<div style="text-align:center;padding:24px;color:#9CA3AF;font-size:13px;font-family:Plus Jakarta Sans,sans-serif">Aucune visite effectuée</div>'}
+      </table>`:'<div style="text-align:center;padding:24px;color:#9CA3AF;font-size:13px;font-family:Plus Jakarta Sans,sans-serif">Aucune visite effectuÃ©e</div>'}
     </div>`;
 
   // Load Google Maps
@@ -1662,7 +1664,7 @@ function loadTerrainMap(prospects){
   // Use Google Maps Embed with Casablanca center
   const cabMarkers=prospects.filter(p=>p.quartier||p.ville).slice(0,10);
   const center='33.5731,-7.5898'; // Casablanca
-  const mapUrl=`https://www.google.com/maps/embed/v1/search?key=AIzaSyDefault&q=médecin+Casablanca&center=${center}&zoom=12`;
+  const mapUrl=`https://www.google.com/maps/embed/v1/search?key=AIzaSyDefault&q=mÃ©decin+Casablanca&center=${center}&zoom=12`;
   // Use static map as fallback since we need API key
   // Build map with prospect locations
   const addresses=cabMarkers.map(p=>(p.quartier||'Casablanca')+', Casablanca').slice(0,5).join('|');
@@ -1680,12 +1682,12 @@ function loadTerrainMap(prospects){
       </iframe>
       <div style="position:absolute;top:10px;left:10px;background:#fff;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#374151;font-family:'Plus Jakarta Sans',sans-serif;box-shadow:0 4px 12px rgba(0,0,0,0.12);display:flex;align-items:center;gap:8px">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        ${cabMarkers.length} prospects — Casablanca
+        ${cabMarkers.length} prospects â€” Casablanca
       </div>
     </div>`;
 }
 
-// ══ PAIEMENTS & TRESORERIE ══
+// â•â• PAIEMENTS & TRESORERIE â•â•
 async function renderOwnerPaiements(){
   const{data:cabs}=await sb.from('cabinets').select('*');
   const c=cabs||[];
@@ -1700,7 +1702,7 @@ async function renderOwnerPaiements(){
       </button>
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
-      <div class="kpi-card green"><i class="ti ti-trending-up kpi-icon"></i><div class="kpi-val" id="p-total">0 DH</div><div class="kpi-lbl">Encaissé ce mois</div></div>
+      <div class="kpi-card green"><i class="ti ti-trending-up kpi-icon"></i><div class="kpi-val" id="p-total">0 DH</div><div class="kpi-lbl">EncaissÃ© ce mois</div></div>
       <div class="kpi-card orange"><i class="ti ti-clock kpi-icon"></i><div class="kpi-val" id="p-attente">0</div><div class="kpi-lbl">En attente validation</div></div>
       <div class="kpi-card blue"><i class="ti ti-building-hospital kpi-icon"></i><div class="kpi-val">${c.filter(x=>x.statut==='actif').length}</div><div class="kpi-lbl">Cabinets actifs</div></div>
     </div>
@@ -1709,7 +1711,7 @@ async function renderOwnerPaiements(){
       <table class="data-table">
         <thead><tr><th>Cabinet</th><th>Montant</th><th>Mode</th><th>Commercial</th><th>Date</th><th>Statut</th><th>Justificatif</th></tr></thead>
         <tbody id="paiements-tbody">
-          <tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">Aucun paiement enregistré</td></tr>
+          <tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">Aucun paiement enregistrÃ©</td></tr>
         </tbody>
       </table>
     </div>
@@ -1723,8 +1725,8 @@ async function renderOwnerPaiements(){
         <div style="padding:20px 24px">
           <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Cabinet</label>
           <select id="p-cabinet" class="finput" style="margin-bottom:14px">
-            <option value="">Sélectionner un cabinet</option>
-            ${c.map(x=>`<option value="${x.id}">${x.nom_cabinet||x.nom_medecin} — ${x.plan||'pro'}</option>`).join('')}
+            <option value="">SÃ©lectionner un cabinet</option>
+            ${c.map(x=>`<option value="${x.id}">${x.nom_cabinet||x.nom_medecin} â€” ${x.plan||'pro'}</option>`).join('')}
           </select>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
             <div>
@@ -1734,9 +1736,9 @@ async function renderOwnerPaiements(){
             <div>
               <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Mode de paiement</label>
               <select id="p-mode" class="finput">
-                <option value="especes">💵 Espèces</option>
-                <option value="cheque">📄 Chèque</option>
-                <option value="virement">🏦 Virement</option>
+                <option value="especes">ðŸ’µ EspÃ¨ces</option>
+                <option value="cheque">ðŸ“„ ChÃ¨que</option>
+                <option value="virement">ðŸ¦ Virement</option>
               </select>
             </div>
           </div>
@@ -1744,12 +1746,12 @@ async function renderOwnerPaiements(){
           <div id="photo-upload-area" onclick="document.getElementById('p-photo').click()" style="border:2px dashed var(--border);border-radius:12px;padding:24px;text-align:center;cursor:pointer;margin-bottom:14px;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='var(--border)'">
             <i class="ti ti-photo-up" style="font-size:28px;color:var(--muted);display:block;margin-bottom:8px"></i>
             <div style="font-size:13px;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif">Cliquez pour ajouter une photo</div>
-            <div style="font-size:11px;color:var(--muted);margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">JPG, PNG — max 5MB</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">JPG, PNG â€” max 5MB</div>
             <input type="file" id="p-photo" accept="image/*" style="display:none" onchange="previewPhoto(this)">
           </div>
           <div id="photo-preview" style="display:none;margin-bottom:14px"></div>
           <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Notes</label>
-          <textarea id="p-notes" class="finput" rows="2" placeholder="Référence chèque, numéro virement..."></textarea>
+          <textarea id="p-notes" class="finput" rows="2" placeholder="RÃ©fÃ©rence chÃ¨que, numÃ©ro virement..."></textarea>
           <button onclick="savePaiement()" style="width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px">
             <i class="ti ti-device-floppy" style="font-size:18px"></i> Enregistrer
           </button>
@@ -1785,7 +1787,7 @@ async function savePaiement(){
   const mode=document.getElementById('p-mode')?.value;
   const notes=document.getElementById('p-notes')?.value;
   if(!cabId||!montant){showToast('Cabinet et montant requis','error');return;}
-  const modeLabels={especes:'💵 Espèces',cheque:'📄 Chèque',virement:'🏦 Virement'};
+  const modeLabels={especes:'ðŸ’µ EspÃ¨ces',cheque:'ðŸ“„ ChÃ¨que',virement:'ðŸ¦ Virement'};
   const tbody=document.getElementById('paiements-tbody');
   if(tbody){
     const existingEmpty=tbody.querySelector('td[colspan]');
@@ -1795,15 +1797,15 @@ async function savePaiement(){
         <td style="font-weight:600">Cabinet #${cabId}</td>
         <td style="color:var(--green);font-weight:600">${parseInt(montant).toLocaleString('fr-FR')} DH</td>
         <td>${modeLabels[mode]||mode}</td>
-        <td>${currentUser?.email||'—'}</td>
+        <td>${currentUser?.email||'â€”'}</td>
         <td>${new Date().toLocaleDateString('fr-FR')}</td>
         <td><span class="badge" style="background:rgba(245,158,11,0.1);color:var(--orange)">En attente</span></td>
-        <td><span style="font-size:12px;color:var(--muted)">Photo uploadée</span></td>
+        <td><span style="font-size:12px;color:var(--muted)">Photo uploadÃ©e</span></td>
       </tr>`);
   }
   closeAddPaiement();
-  showToast('Paiement enregistré','success');
-  addNotif('💰 Nouveau paiement enregistré — '+parseInt(montant).toLocaleString('fr-FR')+' DH ('+modeLabels[mode]+')','success','ti-credit-card');
+  showToast('Paiement enregistrÃ©','success');
+  addNotif('ðŸ’° Nouveau paiement enregistrÃ© â€” '+parseInt(montant).toLocaleString('fr-FR')+' DH ('+modeLabels[mode]+')','success','ti-credit-card');
 }
 
 async function renderOwnerTresorerie(){
@@ -1812,23 +1814,23 @@ async function renderOwnerTresorerie(){
   const c=cabs||[];
   const actifs=c.filter(x=>x.statut==='actif');
   const mrr=actifs.reduce((acc,x)=>acc+(TARIF[x.plan]||1499),0);
-  const months=['Jan','Fév','Mar','Avr','Mai','Juin'];
+  const months=['Jan','FÃ©v','Mar','Avr','Mai','Juin'];
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px">
-      <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text)">Trésorerie</div>
-      <div style="font-size:13px;color:var(--muted);margin-top:2px">Vue financière complète — style Qonto</div>
+      <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text)">TrÃ©sorerie</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:2px">Vue financiÃ¨re complÃ¨te â€” style Qonto</div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
       <div class="kpi-card green"><i class="ti ti-trending-up kpi-icon"></i><div class="kpi-val">${mrr.toLocaleString('fr-FR')}</div><div class="kpi-lbl">MRR (DH/mois)</div></div>
-      <div class="kpi-card blue"><i class="ti ti-currency-dollar kpi-icon"></i><div class="kpi-val">0</div><div class="kpi-lbl">Encaissé ce mois</div></div>
+      <div class="kpi-card blue"><i class="ti ti-currency-dollar kpi-icon"></i><div class="kpi-val">0</div><div class="kpi-lbl">EncaissÃ© ce mois</div></div>
       <div class="kpi-card red"><i class="ti ti-arrow-down kpi-icon"></i><div class="kpi-val">0</div><div class="kpi-lbl">Sorties ce mois</div></div>
       <div class="kpi-card cyan"><i class="ti ti-scale kpi-icon"></i><div class="kpi-val">0</div><div class="kpi-lbl">Marge nette</div></div>
     </div>
     <div class="panel" style="margin-bottom:24px">
-      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">Évolution mensuelle — Entrées vs Sorties</div>
+      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">Ã‰volution mensuelle â€” EntrÃ©es vs Sorties</div>
       <div style="display:flex;align-items:flex-end;gap:12px;height:160px;border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:12px" id="tres-chart"></div>
       <div style="display:flex;gap:20px;justify-content:center;margin-top:8px">
-        <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:3px;background:var(--green)"></div><span style="font-size:12px;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif">Entrées</span></div>
+        <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:3px;background:var(--green)"></div><span style="font-size:12px;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif">EntrÃ©es</span></div>
         <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:3px;background:var(--red)"></div><span style="font-size:12px;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif">Sorties</span></div>
       </div>
     </div>
@@ -1837,14 +1839,14 @@ async function renderOwnerTresorerie(){
         <div style="font-size:14px;font-weight:600;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif">Mouvements</div>
         <div style="display:flex;gap:8px">
           <button style="padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--muted);font-size:12px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Tous</button>
-          <button style="padding:6px 14px;border-radius:8px;border:1px solid rgba(16,185,129,0.3);background:rgba(16,185,129,0.1);color:var(--green);font-size:12px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Entrées</button>
+          <button style="padding:6px 14px;border-radius:8px;border:1px solid rgba(16,185,129,0.3);background:rgba(16,185,129,0.1);color:var(--green);font-size:12px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">EntrÃ©es</button>
           <button style="padding:6px 14px;border-radius:8px;border:1px solid rgba(244,63,94,0.3);background:rgba(244,63,94,0.1);color:var(--red);font-size:12px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Sorties</button>
         </div>
       </div>
       <div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif">
         <i class="ti ti-receipt" style="font-size:32px;display:block;margin-bottom:8px;color:var(--border)"></i>
-        Aucun mouvement enregistré<br>
-        <span style="font-size:12px">Les paiements apparaîtront ici</span>
+        Aucun mouvement enregistrÃ©<br>
+        <span style="font-size:12px">Les paiements apparaÃ®tront ici</span>
       </div>
     </div>`;
   setTimeout(()=>{
@@ -1863,8 +1865,8 @@ async function renderOwnerTresorerie(){
     }).join('');
   },100);}
 
-// ══ UTILS ══
-function callNumById(id){const p=prospects.find(x=>x.id===id);if(!p)return;const tel=(p.telephone_fixe||p.telephone_mobile||'').replace(/\s/g,'');if(tel)window.location.href='tel:'+tel;else showToast('Aucun numéro','error')}
+// â•â• UTILS â•â•
+function callNumById(id){const p=prospects.find(x=>x.id===id);if(!p)return;const tel=(p.telephone_fixe||p.telephone_mobile||'').replace(/\s/g,'');if(tel)window.location.href='tel:'+tel;else showToast('Aucun numÃ©ro','error')}
 function openWAById(id){const p=prospects.find(x=>x.id===id);if(!p)return;const tel=(p.telephone_mobile||p.telephone_fixe||'').replace(/\s/g,'').replace(/^0/,'212');if(tel)window.open('https://wa.me/'+tel,'_blank');else showToast('Ajouter le mobile d\'abord','error')}
 function closeOverlay(id,e){if(!e||e.target===document.getElementById(id))document.getElementById(id).classList.remove('open')}
 
@@ -1884,10 +1886,10 @@ function renderSim(){
     </div>
     <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #BFDBFE">
       <span style="font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Bonus palier</span>
-      <span style="font-size:13px;font-weight:600;color:${bonus?'#16A34A':'#9CA3AF'};font-family:'Plus Jakarta Sans',sans-serif">${bonus?'+'+bonus+' DH':'—'}</span>
+      <span style="font-size:13px;font-weight:600;color:${bonus?'#16A34A':'#9CA3AF'};font-family:'Plus Jakarta Sans',sans-serif">${bonus?'+'+bonus+' DH':'â€”'}</span>
     </div>
     <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #BFDBFE">
-      <span style="font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Récurrent / mois</span>
+      <span style="font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">RÃ©current / mois</span>
       <span style="font-size:13px;font-weight:600;color:#0891B2;font-family:'Plus Jakarta Sans',sans-serif">${rec.toLocaleString('fr-FR')} DH</span>
     </div>
     <div style="display:flex;justify-content:space-between;padding:10px 0 0">
@@ -1956,7 +1958,7 @@ function selectPeriode(opt){
   if(lbl)lbl.textContent=opt;
   const dd=document.getElementById('cal-dropdown');
   if(dd)dd.style.display='none';
-  showToast('Période : '+opt,'info');
+  showToast('PÃ©riode : '+opt,'info');
 }
 document.addEventListener('click',function(e){
   const dd=document.getElementById('cal-dropdown');
@@ -1973,3 +1975,4 @@ document.addEventListener('click',function(e){
 </script>
 </body>
 </html>
+
