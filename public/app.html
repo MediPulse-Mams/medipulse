@@ -497,6 +497,26 @@ textarea.finput{resize:none}
 <div class="toast" id="toast"></div>
 
 <script>
+
+window.openEdit = function(id) {
+  var p = window.prospects && window.prospects.find(function(x){ return x.id==id; });
+  if(!p) return;
+  window.editId = id;
+  window.editType = p.type_prospection || 'telephone';
+  var el = document.getElementById('edit-name');
+  if(el) el.textContent = p.nom;
+  var el2 = document.getElementById('edit-meta');
+  if(el2) el2.textContent = (p.specialite||'') + ' - ' + (p.telephone_fixe||'');
+  var el3 = document.getElementById('edit-mobile');
+  if(el3) el3.value = p.telephone_mobile || '';
+  var el4 = document.getElementById('edit-note');
+  if(el4) el4.value = p.note || '';
+  var el5 = document.getElementById('edit-rappel');
+  if(el5) el5.value = p.date_rappel || '';
+  var overlay = document.getElementById('edit-overlay');
+  if(overlay) overlay.classList.add('open');
+};
+
 const SB_URL='https://czttvnvcetgmjfqishig.supabase.co';
 const SB_KEY='sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m';
 const sb=supabase.createClient(SB_URL,SB_KEY);
