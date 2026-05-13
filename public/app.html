@@ -1072,7 +1072,7 @@ function renderProspectsList(context){
     </div>`;
 }
 
-function setCrmFilter(f){
+window.setCrmFilter=function(f){
   crmFilter=f;
   renderProspectsList(userRecord?.role==='owner'?'owner':'commercial');
 }
