@@ -25,7 +25,7 @@ body.med-mode .topbar{background:#ffffff!important;border-bottom:1px solid #E2E8
 body.med-mode .topbar-title{color:#0F172A!important;font-family:'Plus Jakarta Sans',sans-serif!important}
 body.med-mode .topbar-date{color:#64748B!important}
 body.med-mode .layout{background:#F0F4FF!important}
- 
+
 /* ══ LOGIN ══ */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg)}
 .login-glow{position:fixed;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,0.06),transparent 70%);top:-200px;right:-200px;pointer-events:none}
@@ -44,11 +44,11 @@ body.med-mode .layout{background:#F0F4FF!important}
 .login-btn:active{opacity:0.85}
 .login-btn:disabled{opacity:0.4;cursor:not-allowed}
 .login-error{font-size:13px;color:var(--red);text-align:center;margin-top:12px;min-height:18px}
- 
+
 /* ══ APP LAYOUT ══ */
 .app{display:none}
 .layout{display:flex;min-height:100vh}
- 
+
 /* SIDEBAR */
 .sidebar{width:var(--sidebar-w);background:#161927;border-right:1px solid rgba(255,255,255,0.08);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:50;transition:transform 0.3s}
 .sidebar-logo{padding:20px 20px 16px;border-bottom:1px solid var(--border)}
@@ -70,7 +70,7 @@ body.med-mode .layout{background:#F0F4FF!important}
 .logout-link{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer;transition:color 0.15s}
 .logout-link:hover{color:var(--red)}
 .logout-link i{font-size:18px}
- 
+
 /* MAIN */
 .main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
 .topbar{height:var(--topbar-h);background:#1c1f2e;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;padding:0 28px;justify-content:space-between;position:sticky;top:0;z-index:40}
@@ -82,13 +82,13 @@ body.med-mode .layout{background:#F0F4FF!important}
 .role-medecin{background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.25)}
 .role-assistante{background:rgba(139,92,246,0.15);color:var(--purple);border:1px solid rgba(139,92,246,0.25)}
 .content{flex:1;padding:24px 28px;overflow-y:auto}
- 
+
 /* ══ COMPONENTS ══ */
 .page{display:none}
 .page.active{display:block}
 .page-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px}
 .page-sub{font-size:13px;color:var(--muted);margin-bottom:24px}
- 
+
 /* KPI ROW */
 .kpi-row{display:grid;gap:16px;margin-bottom:24px}
 .kpi-row.cols-4{grid-template-columns:repeat(4,1fr)}
@@ -117,30 +117,30 @@ body.med-mode .layout{background:#F0F4FF!important}
 .kpi-trend{font-size:11px;margin-top:6px;display:flex;align-items:center;gap:4px}
 .trend-up{color:var(--green)}
 .trend-down{color:var(--red)}
- 
+
 /* GRID ROW */
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
 .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:24px}
 .grid-13{display:grid;grid-template-columns:1fr 3fr;gap:20px;margin-bottom:24px}
 .grid-31{display:grid;grid-template-columns:3fr 1fr;gap:20px;margin-bottom:24px}
- 
+
 /* PANEL */
 .panel{background:#252936;border-radius:16px;border:1px solid rgba(255,255,255,0.09);padding:20px}
 .panel-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
 .panel-title-left{display:flex;align-items:center;gap:8px}
 .panel-title-left i{font-size:16px;color:var(--cyan)}
 .panel-link{font-size:12px;color:var(--cyan);cursor:pointer}
- 
+
 /* TABLE */
 .data-table{width:100%;border-collapse:collapse}
 .data-table th{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border)}
 .data-table td{padding:12px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);vertical-align:middle}
 .data-table tr:last-child td{border-bottom:none}
 .data-table tr:hover td{background:rgba(255,255,255,0.02)}
- 
+
 /* BADGE */
 .badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600;border:1px solid transparent}
- 
+
 /* HERO PRIME */
 .prime-hero{background:linear-gradient(135deg,#1B2A4A,#0F1E3A);border-radius:20px;border:1px solid rgba(37,99,235,0.2);padding:28px;position:relative;overflow:hidden;margin-bottom:24px}
 .prime-hero::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,0.08),transparent 70%);top:-100px;right:-100px}
@@ -152,7 +152,7 @@ body.med-mode .layout{background:#F0F4FF!important}
 .progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width 1s ease}
 .progress-header{display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;color:var(--muted)}
 .progress-header span:last-child{color:var(--cyan);font-weight:600}
- 
+
 /* PALIERS */
 .palier-row{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--border)}
 .palier-row:last-child{border-bottom:none}
@@ -170,7 +170,7 @@ body.med-mode .layout{background:#F0F4FF!important}
 .palier-row.reached .palier-amount{color:var(--green)}
 .palier-row.current .palier-amount{color:var(--gold)}
 .palier-row.locked .palier-amount{color:var(--muted)}
- 
+
 /* SIMULATEUR */
 .sim-controls{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .sim-label{font-size:14px;color:var(--muted);flex:1}
@@ -184,7 +184,7 @@ body.med-mode .layout{background:#F0F4FF!important}
 .sim-line-lbl{font-size:13px;color:var(--muted)}
 .sim-line-val{font-size:13px;font-weight:600;color:var(--text)}
 .sim-line:last-child .sim-line-val{font-family:'Syne',sans-serif;font-size:18px;color:var(--cyan)}
- 
+
 /* COMMERCIAL ROW */
 .commercial-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
 .commercial-item:last-child{border-bottom:none}
@@ -194,7 +194,7 @@ body.med-mode .layout{background:#F0F4FF!important}
 .comm-stats{display:flex;gap:20px;margin-left:auto;text-align:right}
 .comm-stat-val{font-family:'Syne',sans-serif;font-size:16px;font-weight:700}
 .comm-stat-lbl{font-size:10px;color:var(--muted)}
- 
+
 /* NOTE MÉDECIN */
 .note-display{display:flex;align-items:center;gap:20px;padding:20px 0}
 .note-big{font-family:'Syne',sans-serif;font-size:64px;font-weight:800;color:var(--cyan);line-height:1}
@@ -203,7 +203,7 @@ body.med-mode .layout{background:#F0F4FF!important}
 .note-count{font-size:14px;color:var(--muted)}
 .note-prog{margin-top:10px}
 .note-prog-label{font-size:12px;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
- 
+
 /* AVIS */
 .avis-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
 .avis-item:last-child{border-bottom:none}
@@ -212,7 +212,7 @@ body.med-mode .layout{background:#F0F4FF!important}
 .avis-date{font-size:11px;color:var(--muted);margin-top:1px}
 .avis-text{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6}
 .avis-alert{background:rgba(244,63,94,0.08);border:1px solid rgba(244,63,94,0.2);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--red);margin-top:6px;display:flex;align-items:center;gap:6px}
- 
+
 /* ASSISTANTE */
 .send-area{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
 .send-btn-big{padding:28px 20px;border-radius:16px;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;transition:all 0.2s;position:relative;overflow:hidden}
@@ -228,7 +228,7 @@ body.med-mode .layout{background:#F0F4FF!important}
 .form-input:focus{border-color:var(--cyan)}
 .form-input::placeholder{color:var(--muted)}
 .form-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;display:block}
- 
+
 /* ENVOI STATUS */
 .envoi-item{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
 .envoi-item:last-child{border-bottom:none}
@@ -237,7 +237,7 @@ body.med-mode .layout{background:#F0F4FF!important}
 .envoi-tel{font-size:12px;color:var(--muted);margin-top:1px}
 .envoi-time{font-size:12px;color:var(--muted);margin-left:auto;text-align:right}
 .envoi-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;margin-top:2px}
- 
+
 /* CRM */
 .prospect-item{display:flex;align-items:center;gap:14px;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--card);margin-bottom:8px;cursor:pointer;transition:border-color 0.15s}
 .prospect-item:hover{border-color:rgba(6,182,212,0.3)}
@@ -250,12 +250,12 @@ body.med-mode .layout{background:#F0F4FF!important}
 .p-btn.call:hover{background:rgba(16,185,129,0.15);color:var(--green);border-color:var(--green)}
 .p-btn.wa:hover{background:rgba(37,211,102,0.1);color:#25D366;border-color:#25D366}
 .p-btn.edit:hover{background:rgba(6,182,212,0.15);color:var(--cyan);border-color:var(--cyan)}
- 
+
 /* FILTERS */
 .filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
 .filter-chip{padding:6px 16px;border-radius:99px;font-size:12px;font-weight:500;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;transition:all 0.15s}
 .filter-chip.active{background:rgba(6,182,212,0.15);color:var(--cyan);border-color:rgba(6,182,212,0.3)}
- 
+
 /* MODAL */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
 .overlay.open{display:flex}
@@ -279,22 +279,22 @@ textarea.finput{resize:none}
 .flabel{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;display:block}
 .save-btn{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'DM Sans',sans-serif;transition:opacity 0.15s}
 .save-btn:disabled{opacity:0.4;cursor:not-allowed}
- 
+
 /* TOAST */
 .toast{position:fixed;bottom:24px;right:24px;background:var(--card);color:var(--text);border:1px solid var(--border);padding:12px 20px;border-radius:12px;font-size:13px;font-weight:500;z-index:300;opacity:0;transition:all 0.25s;pointer-events:none;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,0.3);transform:translateY(8px)}
 .toast.show{opacity:1;transform:translateY(0)}
- 
+
 /* LOADER */
 .loader-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:var(--bg)}
 .loader-screen i{font-size:36px;color:var(--cyan)}
 .loader-screen span{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--text)}
 .loader-screen small{font-size:13px;color:var(--muted)}
- 
+
 /* COUNTDOWN */
 .countdown-card{background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(234,88,12,0.05));border:1px solid rgba(245,158,11,0.2);border-radius:14px;padding:18px;display:flex;align-items:center;justify-content:space-between}
 .countdown-days{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;color:var(--orange);line-height:1}
 .countdown-lbl{font-size:11px;color:var(--muted)}
- 
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .sidebar{transform:translateX(-100%)}
@@ -312,7 +312,7 @@ textarea.finput{resize:none}
 .mobile-menu-btn{display:none;background:none;border:none;color:var(--text);cursor:pointer;font-size:22px;align-items:center}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:49}
 .sidebar-overlay.open{display:block}
- 
+
 /* ══ MEDECIN THEME OVERRIDE ══ */
 .med-theme body,.med-layout{font-family:'Plus Jakarta Sans',sans-serif!important}
 .med-sidebar{background:#fff!important;border-right:1px solid #E8EDF5!important}
@@ -348,14 +348,14 @@ textarea.finput{resize:none}
 </style>
 </head>
 <body>
- 
+
 <!-- LOADER -->
 <div id="loader" class="loader-screen">
   <i class="ti ti-heartbeat"></i>
   <span>Medi<span style="color:var(--cyan)">Pulse</span></span>
   <small>La réputation médicale, automatisée.</small>
 </div>
- 
+
 <!-- LOGIN -->
 <div class="login-wrap" id="login-wrap" style="display:none">
   <div class="login-glow"></div>
@@ -377,7 +377,7 @@ textarea.finput{resize:none}
     <div class="login-error" id="login-error"></div>
   </div>
 </div>
- 
+
 <!-- APP -->
 <div class="app" id="app">
   <div class="layout">
@@ -404,7 +404,7 @@ textarea.finput{resize:none}
         </div>
       </div>
     </div>
- 
+
     <!-- MAIN -->
     <div class="main">
       <div class="topbar">
@@ -438,7 +438,7 @@ textarea.finput{resize:none}
     </div>
   </div>
 </div>
- 
+
 <!-- MODALS -->
 <div class="overlay" id="edit-overlay" onclick="closeOverlay('edit-overlay',event)">
   <div class="modal">
@@ -469,7 +469,7 @@ textarea.finput{resize:none}
     </div>
   </div>
 </div>
- 
+
 <div class="overlay" id="add-overlay" onclick="closeOverlay('add-overlay',event)">
   <div class="modal">
     <div class="modal-header">
@@ -493,14 +493,14 @@ textarea.finput{resize:none}
     </div>
   </div>
 </div>
- 
+
 <div class="toast" id="toast"></div>
- 
+
 <script>
 const SB_URL='https://czttvnvcetgmjfqishig.supabase.co';
 const SB_KEY='sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m';
 const sb=supabase.createClient(SB_URL,SB_KEY);
- 
+
 const TARIF={starter:999,pro:1499,enterprise:2499};
 const TD=1499;
 const P_SIG_TEL=0.20,P_SIG_TER=0.30,P_REC_TEL=0.07,P_REC_TER=0.10;
@@ -516,9 +516,9 @@ const ST=[
   {key:'Signé',      label:'Signé',        desc:'Contrat signé',       bg:'#052E16',color:'#4ADE80',border:'#16A34A'},
   {key:'Refus',      label:'Refus',        desc:'Pas intéressé',       bg:'#2D0A0A',color:'#F87171',border:'#991B1B'},
 ];
- 
+
 let currentUser=null,userRecord=null,prospects=[],crmFilter='Tous',editId=null,editType='téléphone',simVal=5,sendCount=0,envisList=[];
- 
+
 // ══ AUTH ══
 async function doLogin(){
   const email=document.getElementById('login-email').value.trim();
@@ -533,7 +533,7 @@ async function doLogin(){
   currentUser=data.user;
   await loadUserRecord();
 }
- 
+
 async function loadUserRecord(){
   const{data}=await sb.from('users').select('*').eq('email',currentUser.email).single();
   userRecord=data;
@@ -541,7 +541,7 @@ async function loadUserRecord(){
   if(userRecord.statut==='en_attente'){document.getElementById('login-error').textContent='Compte en attente de validation';await sb.auth.signOut();return}
   initApp();
 }
- 
+
 function initApp(){
   document.getElementById('login-wrap').style.display='none';
   document.getElementById('app').style.display='block';
@@ -587,7 +587,7 @@ function initApp(){
   }
   loadPage(role==='owner'?'owner-dashboard':role==='commercial'?'comm-dashboard':role==='medecin'?'med-dashboard':'ass-dashboard');
 }
- 
+
 function buildSidebar(role){
   const nav=document.getElementById('sidebar-nav');
   const menus={
@@ -628,7 +628,7 @@ function buildSidebar(role){
     ${s.items.map(item=>`<div class="nav-link" id="nav-${item.id}" onclick="loadPage('${item.id}')"><i class="ti ${item.icon}"></i>${item.label}</div>`).join('')}
   `).join('');
 }
- 
+
 function loadPage(pageId){
   document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
   const navEl=document.getElementById(`nav-${pageId}`);
@@ -666,7 +666,7 @@ function loadPage(pageId){
   else if(pageId==='ass-dashboard')renderAssDashboard();
   else if(pageId==='ass-historique')renderAssHistorique();
 }
- 
+
 async function doLogout(){await sb.auth.signOut();location.reload()}
 function toggleSidebar(){
   const sb=document.getElementById('sidebar');
@@ -681,7 +681,7 @@ function toggleSidebar(){
   }
   overlay.classList.toggle('open',sb.classList.contains('open'));
 }
- 
+
 // ══ OWNER ══
 async function checkTrialAndRenewals(){
   const today=new Date().toISOString().split('T')[0];
@@ -702,7 +702,7 @@ async function checkTrialAndRenewals(){
     }
   });
 }
- 
+
 async function renderOwnerDashboard(){
   const[{data:pros},{data:cabs},{data:users}]=await Promise.all([
     sb.from('prospection').select('*'),
@@ -763,13 +763,13 @@ async function renderOwnerDashboard(){
       </div>
     </div>`;
 }
- 
+
 async function renderOwnerProspects(){
   const{data}=await sb.from('prospection').select('*').order('id');
   prospects=data||[];
   renderProspectsList('owner');
 }
- 
+
 async function renderOwnerCabinets(){
   const{data:cabs}=await sb.from('cabinets').select('*');
   const c=cabs||[];
@@ -827,7 +827,7 @@ async function renderOwnerCabinets(){
         </tbody>
       </table>
     </div>`;}
- 
+
 async function confirmerPaiementCab(id){
   const renew=new Date();renew.setMonth(renew.getMonth()+1);
   const{error}=await sb.from('cabinets').update({statut:'actif',statut_paiement:'payé',date_renouvellement:renew.toISOString().split('T')[0]}).eq('id',id);
@@ -847,8 +847,8 @@ async function reactiver(id){
   const{error}=await sb.from('cabinets').update({statut:'actif',date_renouvellement:renew.toISOString().split('T')[0]}).eq('id',id);
   if(!error){showToast('Cabinet réactivé','success');renderOwnerCabinets();}
 }
- 
- 
+
+
 async function renderOwnerEquipe(){
   const[{data:users},{data:pros}]=await Promise.all([
     sb.from('users').select('*').eq('role','commercial'),
@@ -882,7 +882,7 @@ async function renderOwnerEquipe(){
       </table>
     </div>`;
 }
- 
+
 // ══ COMMERCIAL ══
 async function renderCommDashboard(){
   const now=new Date();
@@ -905,7 +905,7 @@ async function renderCommDashboard(){
   if(next){const base=prev?prev.s:0;pct=Math.round(((totalSignes-base)/(next.s-base))*100);}else{pct=100;}
   const daysLeft=Math.ceil((new Date(now.getFullYear(),now.getMonth()+1,0)-now)/(1000*60*60*24));
   const nom=(userRecord.nom||currentUser.email.split('@')[0]).split(' ')[0];
- 
+
   const isFirstTime=prospects.length===0&&totalSignes===0;
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
@@ -933,7 +933,7 @@ async function renderCommDashboard(){
         </div>
       </div>
     </div>`:''}
- 
+
     <!-- PRIME HERO -->
     <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);border-radius:20px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden">
       <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,0.1),transparent 70%);top:-100px;right:-100px"></div>
@@ -959,7 +959,7 @@ async function renderCommDashboard(){
           </div>`;}).join('')}
       </div>
     </div>
- 
+
     <!-- KPI CARDS -->
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
       ${[
@@ -976,7 +976,7 @@ async function renderCommDashboard(){
           <div style="font-size:12px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${k.lbl}</div>
         </div>`).join('')}
     </div>
- 
+
     <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px">
       <!-- SIMULATEUR -->
       <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
@@ -994,7 +994,7 @@ async function renderCommDashboard(){
         </div>
         <div id="sim-result" style="background:#F0F9FF;border:1px solid #BAE6FD;border-radius:12px;padding:16px;font-family:'Plus Jakarta Sans',sans-serif"></div>
       </div>
- 
+
       <!-- COUNTDOWN + PALIERS -->
       <div style="display:flex;flex-direction:column;gap:14px">
         <div style="background:linear-gradient(135deg,#FFF7ED,#FFFBEB);border:1px solid #FED7AA;border-radius:14px;padding:18px">
@@ -1030,14 +1030,14 @@ async function renderCommDashboard(){
   const rappels=prospects.filter(p=>p.statut==='Rappeler');
   if(rappels.length>0)addNotif('🔔 '+rappels.length+' prospect'+( rappels.length>1?'s':'')+' à rappeler aujourd\'hui','warning','ti-bell');
 }
- 
+
 async function renderCommProspects(){
   // Load all prospects — commercial sees all unassigned + his own
   const{data}=await sb.from('prospection').select('*').order('id');
   prospects=data||[];
   renderProspectsList('commercial');
 }
- 
+
 function renderCommValider(){
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px">
@@ -1111,7 +1111,7 @@ function renderCommValider(){
         </button>
       </div>
     </div>`;}
- 
+
 // ══ MEDECIN ══
 function renderMedDashboard(){
   const nom=userRecord.nom||'Dr. Test';
@@ -1140,7 +1140,7 @@ function renderMedDashboard(){
         </a>
       </div>
     </div>
- 
+
     <!-- 4 KPI CARDS -->
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
       <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
@@ -1193,7 +1193,7 @@ function renderMedDashboard(){
         <div style="font-size:12px;color:#10B981;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif">Excellent</div>
       </div>
     </div>
- 
+
     <!-- CHARTS ROW -->
     <div style="display:grid;grid-template-columns:3fr 2fr;gap:20px;margin-bottom:24px">
       <!-- LINE CHART -->
@@ -1238,7 +1238,7 @@ function renderMedDashboard(){
           <text x="455" y="175" fill="#2563EB" font-size="10" font-family="Plus Jakarta Sans" font-weight="600">Juin</text>
         </svg>
       </div>
- 
+
       <!-- DONUT CHART -->
       <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
         <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">Répartition des avis</div>
@@ -1276,7 +1276,7 @@ function renderMedDashboard(){
           </div>`).join('')}
       </div>
     </div>
- 
+
     <!-- DERNIERS AVIS -->
     <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
@@ -1286,7 +1286,7 @@ function renderMedDashboard(){
       ${renderAvisHTMLLight()}
     </div>`;
 }
- 
+
 function renderAvisHTMLLight(limit=4){
   const avis=[
     {init:'AK',nom:'Ahmed K.',date:"Aujourd'hui",stars:5,text:"Excellent cabinet, médecin très à l'écoute. Je recommande vivement.",positive:true},
@@ -1322,7 +1322,7 @@ function renderAvisHTMLLight(limit=4){
     </tbody>
   </table>`;
 }
- 
+
 function renderMedAvis(){
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px">
@@ -1330,7 +1330,7 @@ function renderMedAvis(){
       <div style="width:40px;height:3px;background:#2563EB;border-radius:2px;margin-top:6px"></div>
     </div>
     <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">${renderAvisHTMLLight(10)}</div>`;}
- 
+
 function renderMedStats(){
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px">
@@ -1376,7 +1376,7 @@ function renderMedStats(){
         +'</div>';
     }).join('');
   },100);}
- 
+
 // ══ ASSISTANTE ══
 function renderAssDashboard(){
   document.getElementById('main-content').innerHTML=`
@@ -1385,7 +1385,7 @@ function renderAssDashboard(){
       <div style="width:40px;height:3px;background:#2563EB;border-radius:2px;margin-top:6px"></div>
       <div style="font-size:14px;color:#6B7280;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif">${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}</div>
     </div>
- 
+
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
       <!-- ENVOI PANEL -->
       <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
@@ -1410,7 +1410,7 @@ function renderAssDashboard(){
           </button>
         </div>
       </div>
- 
+
       <!-- STATS PANEL -->
       <div style="display:flex;flex-direction:column;gap:14px">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1">
@@ -1445,7 +1445,7 @@ function renderAssDashboard(){
         </div>
       </div>
     </div>
- 
+
     <!-- HISTORIQUE -->
     <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.05)">
       <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:8px">
@@ -1461,7 +1461,7 @@ function renderAssDashboard(){
       </div>
     </div>`;
 }
- 
+
 function renderAssHistorique(){
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px">
@@ -1493,7 +1493,7 @@ function renderAssHistorique(){
         Aucun envoi enregistré
       </div>`}
     </div>`;}
- 
+
 function envoyerFormulaire(lang){
   const nom=document.getElementById('ass-nom')?.value||'';
   const tel=document.getElementById('ass-tel')?.value||'';
@@ -1533,7 +1533,7 @@ function envoyerFormulaire(lang){
   if(document.getElementById('ass-tel'))document.getElementById('ass-tel').value='';
   showToast('Formulaire '+(lang==='ar'?'Arabe':'Français')+' envoyé via WhatsApp','success');
 }
- 
+
 // ══ COMMERCIAL TERRAIN ══
 async function renderTerrainDashboard(){
   const now=new Date();
@@ -1548,13 +1548,13 @@ async function renderTerrainDashboard(){
   const total=primeSig+bonus;
   const daysLeft=Math.ceil((new Date(now.getFullYear(),now.getMonth()+1,0)-now)/(1000*60*60*24));
   const nom=(userRecord.nom||currentUser.email.split('@')[0]).split(' ')[0];
- 
+
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px">
       <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Bonjour, ${nom} 👋</div>
       <div style="font-size:13px;color:#6B7280;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})} · Commercial Terrain</div>
     </div>
- 
+
     <!-- PRIME HERO -->
     <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);border-radius:20px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden">
       <div style="position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,0.12),transparent 70%);top:-80px;right:-80px"></div>
@@ -1576,7 +1576,7 @@ async function renderTerrainDashboard(){
           </div>`).join('')}
       </div>
     </div>
- 
+
     <!-- GOOGLE MAPS + STATS -->
     <div style="display:grid;grid-template-columns:3fr 2fr;gap:20px;margin-bottom:20px">
       <!-- MAP -->
@@ -1596,7 +1596,7 @@ async function renderTerrainDashboard(){
           </div>
         </div>
       </div>
- 
+
       <!-- TODAY'S VISITS -->
       <div style="display:flex;flex-direction:column;gap:14px">
         <div style="background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
@@ -1626,7 +1626,7 @@ async function renderTerrainDashboard(){
         </div>
       </div>
     </div>
- 
+
     <!-- RECENT PROSPECTS TABLE -->
     <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
@@ -1650,12 +1650,12 @@ async function renderTerrainDashboard(){
         </tbody>
       </table>`:'<div style="text-align:center;padding:24px;color:#9CA3AF;font-size:13px;font-family:Plus Jakarta Sans,sans-serif">Aucune visite effectuée</div>'}
     </div>`;
- 
+
   // Load Google Maps
   setTimeout(()=>loadTerrainMap(prospects),200);
   renderSim();
 }
- 
+
 function loadTerrainMap(prospects){
   const mapDiv=document.getElementById('terrain-map');
   if(!mapDiv)return;
@@ -1684,7 +1684,7 @@ function loadTerrainMap(prospects){
       </div>
     </div>`;
 }
- 
+
 // ══ PAIEMENTS & TRESORERIE ══
 async function renderOwnerPaiements(){
   const{data:cabs}=await sb.from('cabinets').select('*');
@@ -1757,7 +1757,7 @@ async function renderOwnerPaiements(){
       </div>
     </div>`;
 }
- 
+
 function openAddPaiement(){
   const modal=document.getElementById('add-paiement-modal');
   if(modal)modal.style.display='flex';
@@ -1805,7 +1805,7 @@ async function savePaiement(){
   showToast('Paiement enregistré','success');
   addNotif('💰 Nouveau paiement enregistré — '+parseInt(montant).toLocaleString('fr-FR')+' DH ('+modeLabels[mode]+')','success','ti-credit-card');
 }
- 
+
 async function renderOwnerTresorerie(){
   const TARIF={starter:999,pro:1499,enterprise:2499};
   const{data:cabs}=await sb.from('cabinets').select('*');
@@ -1862,12 +1862,12 @@ async function renderOwnerTresorerie(){
         +`</div>`;
     }).join('');
   },100);}
- 
+
 // ══ UTILS ══
 function callNumById(id){const p=prospects.find(x=>x.id===id);if(!p)return;const tel=(p.telephone_fixe||p.telephone_mobile||'').replace(/\s/g,'');if(tel)window.location.href='tel:'+tel;else showToast('Aucun numéro','error')}
 function openWAById(id){const p=prospects.find(x=>x.id===id);if(!p)return;const tel=(p.telephone_mobile||p.telephone_fixe||'').replace(/\s/g,'').replace(/^0/,'212');if(tel)window.open('https://wa.me/'+tel,'_blank');else showToast('Ajouter le mobile d\'abord','error')}
 function closeOverlay(id,e){if(!e||e.target===document.getElementById(id))document.getElementById(id).classList.remove('open')}
- 
+
 function simChange(d){simVal=Math.max(0,Math.min(30,simVal+d));const el=document.getElementById('sim-count');if(el)el.textContent=simVal;renderSim()}
 function renderSim(){
   const isTer=userRecord?.type==='terrain';
@@ -1895,7 +1895,7 @@ function renderSim(){
       <span style="font-size:18px;font-weight:800;color:#2563EB;font-family:'Syne',sans-serif">${(primeSig+bonus).toLocaleString('fr-FR')} DH</span>
     </div>`;
 }
- 
+
 function showToast(msg,type='info'){
   const t=document.getElementById('toast');
   const icons={success:'ti-circle-check',error:'ti-circle-x',info:'ti-info-circle'};
@@ -1903,9 +1903,9 @@ function showToast(msg,type='info'){
   t.innerHTML=`<i class="ti ${icons[type]||icons.info}" style="color:${colors[type]||colors.info};font-size:16px"></i>${msg}`;
   t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);
 }
- 
- 
- 
+
+
+
 let notifications = [];
 function addNotif(msg, type='info', icon='ti-bell'){
   notifications.unshift({msg,type,icon,time:new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})});
@@ -1946,7 +1946,7 @@ document.addEventListener('click',function(e){
   const btn=document.getElementById('notif-btn');
   if(dd&&btn&&!btn.contains(e.target)&&!dd.contains(e.target))dd.style.display='none';
 });
- 
+
 function toggleCalDropdown(){
   const dd=document.getElementById('cal-dropdown');
   if(dd)dd.style.display=dd.style.display==='none'?'block':'none';
@@ -1963,7 +1963,7 @@ document.addEventListener('click',function(e){
   const btn=document.getElementById('cal-btn');
   if(dd&&btn&&!btn.contains(e.target)&&!dd.contains(e.target))dd.style.display='none';
 });
- 
+
 (async()=>{
   const{data:{session}}=await sb.auth.getSession();
   document.getElementById('loader').style.display='none';
