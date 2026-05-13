@@ -19,7 +19,8 @@
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 body.med-mode{background:#F0F4FF!important;color:#0F172A!important}
 body.med-mode .main{background:#F0F4FF!important}
-body.med-mode .content{background:#F0F4FF!important;font-family:'Plus Jakarta Sans',sans-serif!important}
+body.med-mode .content{background:#F5F7FF!important;font-family:'Plus Jakarta Sans',sans-serif!important}
+body.med-mode .main{background:#F5F7FF!important}
 body.med-mode .topbar{background:#ffffff!important;border-bottom:1px solid #E2E8F0!important}
 body.med-mode .topbar-title{color:#0F172A!important;font-family:'Plus Jakarta Sans',sans-serif!important}
 body.med-mode .topbar-date{color:#64748B!important}
@@ -333,6 +334,9 @@ textarea.finput{resize:none}
 .med-sidebar .sidebar-footer{border-top:1px solid #E8EDF5!important}
 .med-sidebar .logout-link{color:#2563EB!important;font-weight:600!important}
 .med-sidebar .logout-link:hover{color:#1D4ED8!important}
+.med-sidebar .sidebar-footer div[onclick]{background:rgba(37,99,235,0.08)!important;border:1px solid rgba(37,99,235,0.2)!important;color:#2563EB!important}
+.med-sidebar .sidebar-footer div[onclick]:hover{background:rgba(37,99,235,0.15)!important}
+.med-sidebar .sidebar-footer div[onclick] i{color:#2563EB!important}
 .med-sidebar .nav-section{color:#94A3B8!important;font-family:'Plus Jakarta Sans',sans-serif!important}
 .med-sidebar .sidebar-logo svg{stroke:#2563EB!important}
 .med-sidebar .sidebar-logo .sidebar-logo-text{color:#0F172A!important}
@@ -380,11 +384,11 @@ textarea.finput{resize:none}
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
       <div class="sidebar-logo">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800;letter-spacing:-0.3px;color:var(--text)">Medi<span style="color:var(--cyan)">Pulse</span></div>
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;color:var(--text)">Medi<span style="color:var(--cyan)">Pulse</span></div>
         </div>
-        <div style="font-size:10px;color:var(--muted);padding-left:30px;font-family:'Plus Jakarta Sans',sans-serif;font-style:italic;opacity:0.7">La réputation médicale, automatisée.</div>
+        <div style="font-size:11px;color:var(--muted);padding-left:35px;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:0.01em;opacity:0.8">La réputation médicale, automatisée.</div>
       </div>
       <div class="sidebar-user">
         <div class="sidebar-avatar" id="sb-avatar"></div>
@@ -395,8 +399,8 @@ textarea.finput{resize:none}
       </div>
       <div class="sidebar-nav" id="sidebar-nav"></div>
       <div class="sidebar-footer">
-        <div class="logout-link" onclick="doLogout()">
-          <i class="ti ti-logout"></i> Déconnexion
+        <div onclick="doLogout()" style="display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:rgba(244,63,94,0.08);border:1px solid rgba(244,63,94,0.2);cursor:pointer;transition:all 0.15s;font-size:13px;font-weight:600;color:#F43F5E;font-family:'Plus Jakarta Sans',sans-serif" onmouseover="this.style.background='rgba(244,63,94,0.15)'" onmouseout="this.style.background='rgba(244,63,94,0.08)'">
+          <i class="ti ti-logout" style="font-size:16px"></i> Déconnexion
         </div>
       </div>
     </div>
@@ -412,7 +416,7 @@ textarea.finput{resize:none}
           <span class="role-pill" id="topbar-role"></span>
           <span style="font-size:13px;color:var(--muted);display:none" id="topbar-date" class="hide-mobile"></span>
           <div style="position:relative">
-            <button onclick="toggleNotifs()" style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.08);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative" id="notif-btn">
+            <button onclick="toggleNotifs()" style="width:36px;height:36px;border-radius:10px;background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.3);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:background 0.15s" id="notif-btn" onmouseover="this.style.background='rgba(6,182,212,0.2)'" onmouseout="this.style.background='rgba(6,182,212,0.12)'">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
               <span id="notif-badge" style="display:none;position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:#F43F5E;font-size:10px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif">0</span>
             </button>
@@ -554,7 +558,7 @@ function initApp(){
   document.getElementById('topbar-role').className=`role-pill role-${role}`;
   document.getElementById('topbar-date').textContent=new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
   buildSidebar(role);
-  if(role==='medecin'||role==='assistante'){
+  if(role==='medecin'||role==='assistante'||role==='commercial'){
     document.body.classList.add('med-mode');
     // Make sidebar logo text dark for medical theme
     setTimeout(()=>{
@@ -564,6 +568,10 @@ function initApp(){
       if(svg)svg.style.stroke='#2563EB';
     },50);
     document.getElementById('sidebar').classList.add('med-sidebar');
+    if(role==='commercial'){
+      // Commercial gets lighter sidebar but keeps dark prime hero
+      document.getElementById('sidebar').style.background='#1a1f2e';
+    }
     const topbar=document.getElementById('app').querySelector('.topbar');
     topbar.classList.add('med-topbar');
     topbar.style.background='#fff';
@@ -1354,11 +1362,17 @@ function renderMedStats(){
   setTimeout(()=>{
     const chart=document.getElementById('med-chart-bars');if(!chart)return;
     const vals=[2.8,3.0,3.2,3.5,3.7];
+    const maxVal=Math.max(...vals);
     chart.innerHTML=vals.map((v,i)=>{
       const h=Math.round((v/5)*140);const isLast=i===4;
+      const intensity=Math.round((v/maxVal)*100);
+      const bg=isLast?'linear-gradient(180deg,#1D4ED8,#2563EB)':
+                i===3?'linear-gradient(180deg,#3B82F6,#60A5FA)':
+                i===2?'linear-gradient(180deg,#60A5FA,#93C5FD)':
+                i===1?'linear-gradient(180deg,#93C5FD,#BFDBFE)':'linear-gradient(180deg,#BFDBFE,#DBEAFE)';
       return'<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;padding:0 8px">'
-        +'<div style="font-size:12px;font-weight:700;color:'+(isLast?'#2563EB':'#6B7280')+';font-family:Plus Jakarta Sans,sans-serif">'+v+'</div>'
-        +'<div style="width:100%;border-radius:8px 8px 0 0;height:'+h+'px;background:'+(isLast?'linear-gradient(180deg,#2563EB,#60A5FA)':'#E5E7EB')+'"></div>'
+        +'<div style="font-size:12px;font-weight:700;color:'+(isLast?'#1D4ED8':'#6B7280')+';font-family:Plus Jakarta Sans,sans-serif">'+v+'</div>'
+        +'<div style="width:100%;border-radius:8px 8px 0 0;height:'+h+'px;background:'+bg+'"></div>'
         +'</div>';
     }).join('');
   },100);}
@@ -1650,18 +1664,23 @@ function loadTerrainMap(prospects){
   const center='33.5731,-7.5898'; // Casablanca
   const mapUrl=`https://www.google.com/maps/embed/v1/search?key=AIzaSyDefault&q=médecin+Casablanca&center=${center}&zoom=12`;
   // Use static map as fallback since we need API key
+  // Build map with prospect locations
+  const addresses=cabMarkers.map(p=>(p.quartier||'Casablanca')+', Casablanca').slice(0,5).join('|');
   mapDiv.innerHTML=`
-    <div style="width:100%;height:100%;position:relative">
+    <div style="width:100%;height:100%;position:relative;background:#EFF6FF">
       <iframe
         width="100%"
         height="100%"
         frameborder="0"
-        style="border:0"
-        src="https://maps.google.com/maps?q=Casablanca,Morocco&t=&z=12&ie=UTF8&iwloc=&output=embed"
-        allowfullscreen>
+        style="border:0;border-radius:0 0 16px 16px"
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d53984.25!2d-7.5898!3d33.5731!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2sma!4v1"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
       </iframe>
-      <div style="position:absolute;top:10px;left:10px;background:#fff;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600;color:#374151;font-family:'Plus Jakarta Sans',sans-serif;box-shadow:0 2px 8px rgba(0,0,0,0.15)">
-        📍 ${cabMarkers.length} prospects dans la zone
+      <div style="position:absolute;top:10px;left:10px;background:#fff;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:#374151;font-family:'Plus Jakarta Sans',sans-serif;box-shadow:0 4px 12px rgba(0,0,0,0.12);display:flex;align-items:center;gap:8px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        ${cabMarkers.length} prospects — Casablanca
       </div>
     </div>`;
 }
