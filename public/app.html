@@ -16,7 +16,7 @@
   --border:rgba(255,255,255,0.09);--text:#E8ECF4;--muted:#7B8BAA;
   --sidebar-w:240px;--topbar-h:60px;
 }
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 body.med-mode{background:#F0F4FF!important;color:#0F172A!important}
 body.med-mode .main{background:#F0F4FF!important}
 body.med-mode .content{background:#F0F4FF!important;font-family:'Plus Jakarta Sans',sans-serif!important}
@@ -316,6 +316,8 @@ textarea.finput{resize:none}
 .med-sidebar .sidebar-logo{border-bottom:1px solid #E8EDF5!important}
 .med-sidebar .sidebar-logo .sidebar-logo-text{color:#1E3A5F!important}
 .med-sidebar .sidebar-logo-text span{color:#2563EB!important}
+.med-sidebar .sidebar-logo svg{stroke:#2563EB!important}
+.med-sidebar .sidebar-logo div div span{color:#2563EB!important}
 .med-sidebar .sidebar-slogan{color:#94A3B8!important}
 .med-sidebar .sidebar-user{border-bottom:1px solid #E8EDF5!important;background:#F8FAFF}
 .med-sidebar .sidebar-username{color:#1E3A5F!important}
@@ -371,8 +373,11 @@ textarea.finput{resize:none}
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
       <div class="sidebar-logo">
-        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px">Medi<span style="color:var(--cyan)">Pulse</span></div>
-        <div style="font-size:10px;color:var(--muted);font-style:italic;margin-top:3px">La réputation médicale, automatisée.</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.5px">Medi<span style="color:var(--cyan)">Pulse</span></div>
+        </div>
+        <div style="font-size:10px;color:var(--muted);font-style:italic;padding-left:32px">La réputation médicale, automatisée.</div>
       </div>
       <div class="sidebar-user">
         <div class="sidebar-avatar" id="sb-avatar"></div>
@@ -398,7 +403,22 @@ textarea.finput{resize:none}
         </div>
         <div class="topbar-right">
           <span class="role-pill" id="topbar-role"></span>
-          <span style="font-size:13px;color:var(--muted)" id="topbar-date"></span>
+          <span style="font-size:13px;color:var(--muted);display:none" id="topbar-date" class="hide-mobile"></span>
+          <div style="position:relative">
+            <button onclick="toggleNotifs()" style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.08);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative" id="notif-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span id="notif-badge" style="display:none;position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:#F43F5E;font-size:10px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif">0</span>
+            </button>
+            <div id="notif-dropdown" style="display:none;position:absolute;right:0;top:44px;background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.3);width:320px;z-index:100;overflow:hidden">
+              <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:14px;font-weight:700;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif">Notifications</span>
+                <span onclick="clearNotifs()" style="font-size:12px;color:var(--cyan);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Tout effacer</span>
+              </div>
+              <div id="notif-list" style="max-height:320px;overflow-y:auto">
+                <div style="padding:24px;text-align:center;color:var(--muted);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif">Aucune notification</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="content" id="main-content">
@@ -555,6 +575,8 @@ function buildSidebar(role){
         {id:'owner-prospects',icon:'ti-users',label:'Prospects'},
         {id:'owner-cabinets',icon:'ti-building-hospital',label:'Cabinets'},
         {id:'owner-equipe',icon:'ti-users-group',label:'Équipe'},
+        {id:'owner-paiements',icon:'ti-credit-card',label:'Paiements'},
+        {id:'owner-tresorerie',icon:'ti-chart-line',label:'Trésorerie'},
       ]}
     ],
     commercial:[
@@ -598,10 +620,12 @@ function loadPage(pageId){
   document.getElementById('topbar-title').textContent=titles[pageId]||'Dashboard';
   const content=document.getElementById('main-content');
   content.innerHTML='<div style="text-align:center;padding:60px;color:var(--muted)"><i class="ti ti-loader" style="font-size:32px"></i></div>';
-  if(pageId==='owner-dashboard')renderOwnerDashboard();
+  if(pageId==='owner-dashboard'){renderOwnerDashboard();if(userRecord?.role==='owner')checkTrialAndRenewals();}
   else if(pageId==='owner-prospects')renderOwnerProspects();
   else if(pageId==='owner-cabinets')renderOwnerCabinets();
   else if(pageId==='owner-equipe')renderOwnerEquipe();
+  else if(pageId==='owner-paiements')renderOwnerPaiements();
+  else if(pageId==='owner-tresorerie')renderOwnerTresorerie();
   else if(pageId==='comm-dashboard')renderCommDashboard();
   else if(pageId==='comm-prospects')renderCommProspects();
   else if(pageId==='comm-valider')renderCommValider();
@@ -625,6 +649,26 @@ async function doLogout(){await sb.auth.signOut();location.reload()}
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open')}
  
 // ══ OWNER ══
+async function checkTrialAndRenewals(){
+  const today=new Date().toISOString().split('T')[0];
+  const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+1);
+  const tomorrowStr=tomorrow.toISOString().split('T')[0];
+  const in3days=new Date();in3days.setDate(in3days.getDate()+3);
+  const in3daysStr=in3days.toISOString().split('T')[0];
+  const{data:cabs}=await sb.from('cabinets').select('*');
+  if(!cabs)return;
+  cabs.forEach(c=>{
+    // Trial expiring tomorrow
+    if(c.date_fin_trial===tomorrowStr&&c.statut==='trial'){
+      addNotif('⚠️ Trial expire demain — '+c.nom_cabinet+' ('+c.nom_medecin+')','warning','ti-clock');
+    }
+    // Renewal in 3 days
+    if(c.date_renouvellement===in3daysStr&&c.statut==='actif'){
+      addNotif('🔄 Renouvellement dans 3 jours — '+c.nom_cabinet+' — '+c.plan,'warning','ti-refresh');
+    }
+  });
+}
+ 
 async function renderOwnerDashboard(){
   const[{data:pros},{data:cabs},{data:users}]=await Promise.all([
     sb.from('prospection').select('*'),
@@ -695,26 +739,81 @@ async function renderOwnerProspects(){
 async function renderOwnerCabinets(){
   const{data:cabs}=await sb.from('cabinets').select('*');
   const c=cabs||[];
+  const statusConfig={
+    'trial':{bg:'rgba(245,158,11,0.12)',color:'#B45309',label:'🔄 Trial'},
+    'actif':{bg:'rgba(16,185,129,0.12)',color:'#15803D',label:'✅ Actif'},
+    'suspendu_propose':{bg:'rgba(244,63,94,0.1)',color:'#BE123C',label:'⚠ Suspension proposée'},
+    'suspendu':{bg:'rgba(244,63,94,0.15)',color:'#BE123C',label:'🔴 Suspendu'},
+    'en_attente_paiement':{bg:'rgba(139,92,246,0.1)',color:'#7C3AED',label:'⏳ En attente paiement'},
+  };
   document.getElementById('main-content').innerHTML=`
-    <div class="page-title">Cabinets</div>
-    <div class="page-sub">${c.length} cabinet${c.length>1?'s':''} au total</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text)">Cabinets</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">${c.length} cabinet${c.length>1?'s':''} — ${c.filter(x=>x.statut==='actif').length} actifs</div>
+      </div>
+    </div>
     <div class="panel">
       <table class="data-table">
-        <thead><tr><th>Cabinet</th><th>Médecin</th><th>Spécialité</th><th>Ville</th><th>Plan</th><th>Statut</th><th>Date signature</th></tr></thead>
-        <tbody>${c.length?c.map(x=>`
-          <tr>
-            <td style="font-weight:600">${x.nom_cabinet||'—'}</td>
-            <td>${x.nom_medecin}</td>
-            <td>${x.specialite}</td>
-            <td>${x.ville}</td>
+        <thead><tr>
+          <th>Cabinet</th><th>Plan</th><th>Statut</th>
+          <th>Trial / Renouvellement</th><th>Commercial</th><th>Actions</th>
+        </tr></thead>
+        <tbody>${c.length?c.map(x=>{
+          const sc=statusConfig[x.statut]||{bg:'rgba(255,255,255,0.05)',color:'var(--muted)',label:x.statut||'—'};
+          const isTrial=x.statut==='trial';
+          const daysLeft=x.date_fin_trial?Math.ceil((new Date(x.date_fin_trial)-new Date())/(1000*60*60*24)):null;
+          const urgence=daysLeft!==null&&daysLeft<=1;
+          return`<tr>
+            <td><div style="font-weight:600;color:var(--text)">${x.nom_cabinet||x.nom_medecin}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${x.specialite} · ${x.ville}</div></td>
             <td><span class="badge" style="background:rgba(6,182,212,0.1);color:var(--cyan);border-color:rgba(6,182,212,0.2)">${x.plan||'pro'}</span></td>
-            <td><span class="badge" style="background:${x.statut==='actif'?'rgba(16,185,129,0.1)':'rgba(244,63,94,0.1)'};color:${x.statut==='actif'?'var(--green)':'var(--red)'};">${x.statut}</span></td>
-            <td>${x.date_signature||'—'}</td>
-          </tr>`).join(''):`<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">Aucun cabinet</td></tr>`}
+            <td><span style="padding:4px 10px;border-radius:99px;font-size:11px;font-weight:600;background:${sc.bg};color:${sc.color};font-family:'Plus Jakarta Sans',sans-serif">${sc.label}</span></td>
+            <td style="font-size:12px;color:${urgence?'var(--red)':'var(--muted)'}">
+              ${isTrial?'Trial expire : '+(x.date_fin_trial||'—')+(daysLeft!==null?' ('+daysLeft+'j)':''):'Renouvellement : '+(x.date_renouvellement||'—')}
+            </td>
+            <td style="font-size:12px;color:var(--muted)">${x.commercial_id||'—'}</td>
+            <td>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                ${(x.statut==='suspendu_propose'||x.statut==='en_attente_paiement')?`
+                  <button onclick="confirmerPaiementCab('${x.id}')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(16,185,129,0.15);color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">✓ Confirmer</button>
+                  <button onclick="suspendreClient('${x.id}')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(244,63,94,0.1);color:var(--red);font-size:11px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Suspendre</button>
+                `:''}
+                ${x.statut==='actif'?`
+                  <button onclick="proposerSuspension('${x.id}')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(255,255,255,0.06);color:var(--muted);font-size:11px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Suspendre</button>
+                `:''}
+                ${x.statut==='suspendu'?`
+                  <button onclick="reactiver('${x.id}')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(16,185,129,0.15);color:var(--green);font-size:11px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Réactiver</button>
+                `:''}
+                ${x.statut==='trial'?`
+                  <button onclick="confirmerPaiementCab('${x.id}')" style="padding:5px 10px;border-radius:6px;border:none;background:rgba(6,182,212,0.1);color:var(--cyan);font-size:11px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Convertir</button>
+                `:''}
+              </div>
+            </td>
+          </tr>`;}).join(''):`<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted)">Aucun cabinet</td></tr>`}
         </tbody>
       </table>
-    </div>`;
+    </div>`;}
+ 
+async function confirmerPaiementCab(id){
+  const renew=new Date();renew.setMonth(renew.getMonth()+1);
+  const{error}=await sb.from('cabinets').update({statut:'actif',statut_paiement:'payé',date_renouvellement:renew.toISOString().split('T')[0]}).eq('id',id);
+  if(!error){showToast('Cabinet activé','success');addNotif('✅ Cabinet #'+id+' activé avec succès','success','ti-building-hospital');renderOwnerCabinets();}
+  else showToast('Erreur','error');
 }
+async function suspendreClient(id){
+  const{error}=await sb.from('cabinets').update({statut:'suspendu'}).eq('id',id);
+  if(!error){showToast('Cabinet suspendu','error');renderOwnerCabinets();}
+}
+async function proposerSuspension(id){
+  const{error}=await sb.from('cabinets').update({statut:'suspendu_propose'}).eq('id',id);
+  if(!error){showToast('Suspension proposée','error');renderOwnerCabinets();}
+}
+async function reactiver(id){
+  const renew=new Date();renew.setMonth(renew.getMonth()+1);
+  const{error}=await sb.from('cabinets').update({statut:'actif',date_renouvellement:renew.toISOString().split('T')[0]}).eq('id',id);
+  if(!error){showToast('Cabinet réactivé','success');renderOwnerCabinets();}
+}
+ 
  
 async function renderOwnerEquipe(){
   const[{data:users},{data:pros}]=await Promise.all([
@@ -771,78 +870,109 @@ async function renderCommDashboard(){
   let pct=0;
   if(next){const base=prev?prev.s:0;pct=Math.round(((totalSignes-base)/(next.s-base))*100);}else{pct=100;}
   const daysLeft=Math.ceil((new Date(now.getFullYear(),now.getMonth()+1,0)-now)/(1000*60*60*24));
+  const nom=(userRecord.nom||currentUser.email.split('@')[0]).split(' ')[0];
  
   document.getElementById('main-content').innerHTML=`
-    <div class="page-title">Mon Dashboard</div>
-    <div class="page-sub">${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}</div>
-    <div class="grid-31">
-      <div>
-        <div class="prime-hero">
-          <div class="prime-hero-label">Primes ce mois</div>
-          <div><span class="prime-hero-val">${total.toLocaleString('fr-FR')}</span><span class="prime-hero-unit">DH</span></div>
-          <div class="prime-hero-sub">${primeSig.toLocaleString('fr-FR')} DH signatures + ${bonus} DH bonus</div>
-          <div class="progress-header"><span>Progression palier</span><span>${next?`${totalSignes}/${next.s} signatures`:'Objectif atteint !'}</span></div>
-          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-          <div style="display:flex;gap:12px;margin-top:16px">
-            ${paliers.map(p=>{
-              const reached=totalSignes>=p.s;const isCurr=next&&p.s===next.s;
-              return`<div style="flex:1;background:${reached?'rgba(16,185,129,0.1)':isCurr?'rgba(245,158,11,0.08)':'rgba(255,255,255,0.04)'};border:1px solid ${reached?'rgba(16,185,129,0.3)':isCurr?'rgba(245,158,11,0.25)':'var(--border)'};border-radius:12px;padding:12px;text-align:center">
-                <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:${reached?'var(--green)':isCurr?'var(--gold)':'var(--muted)'}">${p.b} DH</div>
-                <div style="font-size:10px;color:var(--muted);margin-top:3px">${p.s} signés</div>
-              </div>`;}).join('')}
-          </div>
-        </div>
-        <div class="kpi-row cols-4">
-          <div class="kpi-card blue"><i class="ti ti-users kpi-icon"></i><div class="kpi-val">${prospects.length}</div><div class="kpi-lbl">Prospects</div></div>
-          <div class="kpi-card cyan"><i class="ti ti-phone-call kpi-icon"></i><div class="kpi-val">${prospects.filter(p=>p.statut!=='Nouveau').length}</div><div class="kpi-lbl">Appelés</div></div>
-          <div class="kpi-card green"><i class="ti ti-circle-check kpi-icon"></i><div class="kpi-val">${totalSignes}</div><div class="kpi-lbl">Signés</div></div>
-          <div class="kpi-card purple"><i class="ti ti-calendar-check kpi-icon"></i><div class="kpi-val">${prospects.filter(p=>p.statut==='Démo Bookée'||p.statut==='Démo Faite').length}</div><div class="kpi-lbl">Démos</div></div>
-        </div>
-        <div class="panel">
-          <div class="panel-title"><div class="panel-title-left"><i class="ti ti-calculator"></i>Simulateur de revenus</div></div>
-          <div class="sim-controls">
-            <span class="sim-label">Si je signe X cabinets ce mois...</span>
-            <div class="sim-btns">
-              <button class="sim-btn" onclick="simChange(-1)">−</button>
-              <span class="sim-count" id="sim-count">${simVal}</span>
-              <button class="sim-btn" onclick="simChange(1)">+</button>
-            </div>
-          </div>
-          <div class="sim-result" id="sim-result"></div>
-        </div>
+    <div style="margin-bottom:28px">
+      <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Bonjour, ${nom} 👋</div>
+      <div style="font-size:13px;color:#6B7280;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}</div>
+    </div>
+ 
+    <!-- PRIME HERO -->
+    <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);border-radius:20px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden">
+      <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,0.1),transparent 70%);top:-100px;right:-100px"></div>
+      <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">Primes ce mois</div>
+      <div style="display:flex;align-items:flex-end;gap:8px;margin-bottom:6px">
+        <div style="font-family:'Syne',sans-serif;font-size:52px;font-weight:800;color:#06B6D4;line-height:1">${total.toLocaleString('fr-FR')}</div>
+        <div style="font-size:18px;color:rgba(255,255,255,0.4);margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">DH</div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <div class="countdown-card">
-          <div><div style="font-size:12px;color:var(--muted);margin-bottom:4px">Fin du mois</div><div style="font-size:13px;font-weight:500">Jours restants</div></div>
-          <div style="text-align:right"><div class="countdown-days">${daysLeft}</div><div class="countdown-lbl">jours</div></div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">${primeSig.toLocaleString('fr-FR')} DH signatures + ${bonus} DH bonus palier</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:12px;color:rgba(255,255,255,0.5);font-family:'Plus Jakarta Sans',sans-serif">Progression vers prochain palier</span>
+        <span style="font-size:12px;font-weight:700;color:#06B6D4;font-family:'Plus Jakarta Sans',sans-serif">${next?totalSignes+'/'+next.s+' signatures':'Objectif atteint !'}</span>
+      </div>
+      <div style="height:8px;background:rgba(255,255,255,0.1);border-radius:99px;overflow:hidden;margin-bottom:20px">
+        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#2563EB,#06B6D4);border-radius:99px;transition:width 1s ease"></div>
+      </div>
+      <div style="display:flex;gap:12px">
+        ${paliers.map(p=>{
+          const reached=totalSignes>=p.s;const isCurr=next&&p.s===next.s;
+          return`<div style="flex:1;background:${reached?'rgba(16,185,129,0.2)':isCurr?'rgba(245,158,11,0.15)':'rgba(255,255,255,0.06)'};border:1px solid ${reached?'rgba(16,185,129,0.4)':isCurr?'rgba(245,158,11,0.3)':'rgba(255,255,255,0.1)'};border-radius:12px;padding:12px;text-align:center">
+            <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:${reached?'#4ADE80':isCurr?'#FCD34D':'rgba(255,255,255,0.4)'}">${p.b} DH</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif">${p.s} signés</div>
+          </div>`;}).join('')}
+      </div>
+    </div>
+ 
+    <!-- KPI CARDS -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
+      ${[
+        {val:prospects.length,lbl:'Prospects',icon:'ti-users',color:'#2563EB',bg:'#EFF6FF'},
+        {val:prospects.filter(p=>p.statut!=='Nouveau').length,lbl:'Appelés',icon:'ti-phone-call',color:'#0891B2',bg:'#F0F9FF'},
+        {val:totalSignes,lbl:'Signés ce mois',icon:'ti-circle-check',color:'#16A34A',bg:'#F0FDF4'},
+        {val:prospects.filter(p=>p.statut==='Démo Bookée'||p.statut==='Démo Faite').length,lbl:'Démos',icon:'ti-calendar-check',color:'#7C3AED',bg:'#FAF5FF'},
+      ].map(k=>`
+        <div style="background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+          <div style="width:34px;height:34px;border-radius:10px;background:${k.bg};display:flex;align-items:center;justify-content:center;margin-bottom:12px">
+            <i class="ti ${k.icon}" style="font-size:17px;color:${k.color}"></i>
+          </div>
+          <div style="font-size:28px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif;line-height:1;margin-bottom:5px">${k.val}</div>
+          <div style="font-size:12px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${k.lbl}</div>
+        </div>`).join('')}
+    </div>
+ 
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px">
+      <!-- SIMULATEUR -->
+      <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+        <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="8" height="8" rx="2"/><path d="M14 14h8"/><path d="M18 14v8"/></svg>
+          Simulateur de revenus
         </div>
-        <div class="panel" style="flex:1">
-          <div class="panel-title"><div class="panel-title-left"><i class="ti ti-trophy"></i>Paliers bonus</div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;background:#F9FAFB;border-radius:12px;padding:14px 16px">
+          <span style="font-size:14px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Si je signe X cabinets ce mois...</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <button onclick="simChange(-1)" style="width:30px;height:30px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#374151;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">−</button>
+            <span id="sim-count" style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#111827;min-width:28px;text-align:center">${simVal}</span>
+            <button onclick="simChange(1)" style="width:30px;height:30px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#374151;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">+</button>
+          </div>
+        </div>
+        <div id="sim-result" style="background:#F0F9FF;border:1px solid #BAE6FD;border-radius:12px;padding:16px"></div>
+      </div>
+ 
+      <!-- COUNTDOWN + PALIERS -->
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="background:linear-gradient(135deg,#FFF7ED,#FFFBEB);border:1px solid #FED7AA;border-radius:14px;padding:18px">
+          <div style="font-size:12px;color:#92400E;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:6px">Fin du mois</div>
+          <div style="display:flex;align-items:baseline;gap:6px">
+            <div style="font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:#EA580C;line-height:1">${daysLeft}</div>
+            <div style="font-size:14px;color:#92400E;font-family:'Plus Jakarta Sans',sans-serif">jours</div>
+          </div>
+          <div style="font-size:12px;color:#B45309;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Pour atteindre l'objectif</div>
+        </div>
+        <div style="background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;flex:1;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+          <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:6px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Paliers bonus
+          </div>
           ${paliers.map((p,i)=>{
             const reached=totalSignes>=p.s;const isCurr=!reached&&(i===0||totalSignes>=paliers[i-1].s);
-            const cls=reached?'reached':isCurr?'current':'locked';
-            const icons=['ti-medal','ti-medal-2','ti-trophy'];
+            const icons=['🥉','🥈','🏆'];
             const manque=Math.max(0,p.s-totalSignes);
-            const sub=reached?'Bonus débloqué ✓':isCurr?`Il manque ${manque} signature${manque>1?'s':''}`:'Palier verrouillé';
-            return`<div class="palier-row ${cls}">
-              <div class="palier-icon-wrap"><i class="ti ${icons[i]}" style="font-size:18px"></i></div>
-              <div class="palier-info"><div class="palier-title">${p.s} signatures</div><div class="palier-sub">${sub}</div></div>
-              <div class="palier-amount">+${p.b} DH</div>
+            return`<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #F9FAFB">
+              <div style="font-size:20px">${icons[i]}</div>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;color:${reached?'#16A34A':isCurr?'#EA580C':'#9CA3AF'};font-family:'Plus Jakarta Sans',sans-serif">${p.s} signatures</div>
+                <div style="font-size:11px;color:#9CA3AF;font-family:'Plus Jakarta Sans',sans-serif">${reached?'Débloqué ✓':isCurr?manque+' manquante'+(manque>1?'s':''):'Verrouillé'}</div>
+              </div>
+              <div style="font-size:14px;font-weight:700;color:${reached?'#16A34A':isCurr?'#EA580C':'#D1D5DB'};font-family:'Syne',sans-serif">+${p.b} DH</div>
             </div>`;}).join('')}
-        </div>
-        <div class="panel">
-          <div class="panel-title"><div class="panel-title-left"><i class="ti ti-star"></i>Dernières signatures</div></div>
-          ${signes.length?signes.slice(-4).reverse().map(p=>{
-            const prime=p.type_prospection==='terrain'?Math.round(TD*P_SIG_TER):Math.round(TD*P_SIG_TEL);
-            return`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">
-              <div style="width:8px;height:8px;border-radius:50%;background:${p.type_prospection==='terrain'?'var(--purple)':'var(--cyan)'};flex-shrink:0"></div>
-              <div style="flex:1"><div style="font-size:13px;font-weight:500">${p.nom}</div><div style="font-size:11px;color:var(--muted)">${p.specialite}</div></div>
-              <div style="font-family:Syne,sans-serif;font-size:14px;font-weight:700;color:var(--green)">+${prime} DH</div>
-            </div>`;}).join(''):`<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Aucune signature ce mois</div>`}
         </div>
       </div>
     </div>`;
   renderSim();
+  // Notify if rappels
+  const rappels=prospects.filter(p=>p.statut==='Rappeler');
+  if(rappels.length>0)addNotif('🔔 '+rappels.length+' prospect'+( rappels.length>1?'s':'')+' à rappeler aujourd\'hui','warning','ti-bell');
 }
  
 async function renderCommProspects(){
@@ -853,30 +983,67 @@ async function renderCommProspects(){
  
 function renderCommValider(){
   document.getElementById('main-content').innerHTML=`
-    <div class="page-title">Valider un cabinet signé</div>
-    <div class="page-sub">Crée automatiquement les accès médecin et assistante</div>
+    <div style="margin-bottom:24px">
+      <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Valider un cabinet signé</div>
+      <div style="width:40px;height:3px;background:#2563EB;border-radius:2px;margin-top:6px"></div>
+      <div style="font-size:14px;color:#6B7280;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif">Crée automatiquement les accès médecin et assistante — Trial 7 jours gratuit</div>
+    </div>
     <div style="max-width:600px">
-      <div class="panel">
-        <div class="form-row">
-          <div><label class="flabel">Nom du cabinet *</label><input class="finput" id="cab-nom" placeholder="Cabinet Dr. Nom"></div>
-          <div><label class="flabel">Nom du médecin *</label><input class="finput" id="cab-medecin" placeholder="Dr. Prénom Nom"></div>
+      <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:28px;box-shadow:0 1px 8px rgba(0,0,0,0.05)">
+        <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#1D4ED8;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Le cabinet bénéficiera d'un essai gratuit de 7 jours. Vous serez notifié la veille de l'expiration.
         </div>
-        <div class="form-row">
-          <div><label class="flabel">Spécialité *</label><input class="finput" id="cab-spec" placeholder="Dermatologue..."></div>
-          <div><label class="flabel">Ville</label><input class="finput" id="cab-ville" value="Casablanca"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+          <div>
+            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom du cabinet *</label>
+            <input class="finput" id="cab-nom" placeholder="Cabinet Dr. Nom" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom du médecin *</label>
+            <input class="finput" id="cab-medecin" placeholder="Dr. Prénom Nom" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+          </div>
         </div>
-        <div class="form-row">
-          <div><label class="flabel">Email médecin *</label><input class="finput" type="email" id="cab-email-med" placeholder="dr.nom@medipulse.ma"></div>
-          <div><label class="flabel">Nom assistante *</label><input class="finput" id="cab-assistante" placeholder="Prénom Nom"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+          <div>
+            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Spécialité *</label>
+            <input class="finput" id="cab-spec" placeholder="Dermatologue..." style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Ville</label>
+            <input class="finput" id="cab-ville" value="Casablanca" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+          </div>
         </div>
-        <div class="form-row">
-          <div><label class="flabel">Email assistante *</label><input class="finput" type="email" id="cab-email-ass" placeholder="assistante.nom@medipulse.ma"></div>
-          <div><label class="flabel">Plan</label><select class="finput" id="cab-plan"><option value="starter">Starter — 999 DH/mois</option><option value="pro" selected>Pro — 1499 DH/mois</option><option value="enterprise">Enterprise — 2499 DH/mois</option></select></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+          <div>
+            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Email médecin *</label>
+            <input class="finput" type="email" id="cab-email-med" placeholder="dr.nom@medipulse.ma" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom assistante *</label>
+            <input class="finput" id="cab-assistante" placeholder="Prénom Nom" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+          </div>
         </div>
-        <button class="save-btn" onclick="validerCabinet()"><i class="ti ti-circle-check"></i> Valider le cabinet</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+          <div>
+            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Email assistante *</label>
+            <input class="finput" type="email" id="cab-email-ass" placeholder="assistante.nom@medipulse.ma" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+          </div>
+          <div>
+            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Plan</label>
+            <select class="finput" id="cab-plan" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+              <option value="starter">Starter — 999 DH/mois</option>
+              <option value="pro" selected>Pro — 1499 DH/mois</option>
+              <option value="enterprise">Enterprise — 2499 DH/mois</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="validerCabinet()" style="width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#1E3A8A,#2563EB);color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Valider le cabinet — Démarrer le trial
+        </button>
       </div>
-    </div>`;
-}
+    </div>`;}
  
 // ══ MEDECIN ══
 function renderMedDashboard(){
@@ -889,9 +1056,16 @@ function renderMedDashboard(){
         <div style="width:40px;height:3px;background:#2563EB;border-radius:2px;margin-top:6px"></div>
       </div>
       <div style="display:flex;align-items:center;gap:10px">
-        <div style="display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;border:1px solid #E5E7EB;background:#fff;font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          30 derniers jours <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        <div style="position:relative;display:inline-block">
+          <div onclick="toggleCalDropdown()" style="display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;border:1px solid #E5E7EB;background:#fff;font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;user-select:none" id="cal-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span id="cal-label">30 derniers jours</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div id="cal-dropdown" style="display:none;position:absolute;right:0;top:44px;background:#fff;border:1px solid #E5E7EB;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.1);min-width:180px;z-index:100;overflow:hidden">
+            ${['7 derniers jours','30 derniers jours','90 derniers jours','Cette année'].map(opt=>`
+              <div onclick="selectPeriode('${opt}')" style="padding:11px 16px;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;color:#374151;cursor:pointer;transition:background 0.1s" onmouseover="this.style.background='#F9FAFB'" onmouseout="this.style.background='#fff'">${opt}</div>`).join('')}
+          </div>
         </div>
         <a href="${googleUrl}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;background:#2563EB;color:#fff;font-size:13px;font-weight:600;text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -1284,6 +1458,184 @@ function envoyerFormulaire(lang){
   showToast('Formulaire '+(lang==='ar'?'Arabe':'Français')+' envoyé via WhatsApp','success');
 }
  
+// ══ PAIEMENTS & TRESORERIE ══
+async function renderOwnerPaiements(){
+  const{data:cabs}=await sb.from('cabinets').select('*');
+  const c=cabs||[];
+  document.getElementById('main-content').innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text)">Paiements</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Suivi des encaissements</div>
+      </div>
+      <button onclick="openAddPaiement()" style="padding:10px 18px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:6px">
+        <i class="ti ti-plus" style="font-size:16px"></i> Enregistrer paiement
+      </button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
+      <div class="kpi-card green"><i class="ti ti-trending-up kpi-icon"></i><div class="kpi-val" id="p-total">0 DH</div><div class="kpi-lbl">Encaissé ce mois</div></div>
+      <div class="kpi-card orange"><i class="ti ti-clock kpi-icon"></i><div class="kpi-val" id="p-attente">0</div><div class="kpi-lbl">En attente validation</div></div>
+      <div class="kpi-card blue"><i class="ti ti-building-hospital kpi-icon"></i><div class="kpi-val">${c.filter(x=>x.statut==='actif').length}</div><div class="kpi-lbl">Cabinets actifs</div></div>
+    </div>
+    <div class="panel">
+      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif">Historique des paiements</div>
+      <table class="data-table">
+        <thead><tr><th>Cabinet</th><th>Montant</th><th>Mode</th><th>Commercial</th><th>Date</th><th>Statut</th><th>Justificatif</th></tr></thead>
+        <tbody id="paiements-tbody">
+          <tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">Aucun paiement enregistré</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- ADD PAIEMENT MODAL -->
+    <div id="add-paiement-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:center;justify-content:center;padding:20px">
+      <div style="background:var(--card);border-radius:20px;border:1px solid var(--border);width:100%;max-width:480px;padding:0 0 24px">
+        <div style="padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:17px;font-weight:700;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif">Enregistrer un paiement</div>
+          <button onclick="closeAddPaiement()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px"><i class="ti ti-x"></i></button>
+        </div>
+        <div style="padding:20px 24px">
+          <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Cabinet</label>
+          <select id="p-cabinet" class="finput" style="margin-bottom:14px">
+            <option value="">Sélectionner un cabinet</option>
+            ${c.map(x=>`<option value="${x.id}">${x.nom_cabinet||x.nom_medecin} — ${x.plan||'pro'}</option>`).join('')}
+          </select>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+            <div>
+              <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Montant (DH)</label>
+              <input id="p-montant" type="number" class="finput" placeholder="1499">
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Mode de paiement</label>
+              <select id="p-mode" class="finput">
+                <option value="especes">💵 Espèces</option>
+                <option value="cheque">📄 Chèque</option>
+                <option value="virement">🏦 Virement</option>
+              </select>
+            </div>
+          </div>
+          <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Photo justificatif</label>
+          <div id="photo-upload-area" onclick="document.getElementById('p-photo').click()" style="border:2px dashed var(--border);border-radius:12px;padding:24px;text-align:center;cursor:pointer;margin-bottom:14px;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='var(--border)'">
+            <i class="ti ti-photo-up" style="font-size:28px;color:var(--muted);display:block;margin-bottom:8px"></i>
+            <div style="font-size:13px;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif">Cliquez pour ajouter une photo</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">JPG, PNG — max 5MB</div>
+            <input type="file" id="p-photo" accept="image/*" style="display:none" onchange="previewPhoto(this)">
+          </div>
+          <div id="photo-preview" style="display:none;margin-bottom:14px"></div>
+          <label style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Notes</label>
+          <textarea id="p-notes" class="finput" rows="2" placeholder="Référence chèque, numéro virement..."></textarea>
+          <button onclick="savePaiement()" style="width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px">
+            <i class="ti ti-device-floppy" style="font-size:18px"></i> Enregistrer
+          </button>
+        </div>
+      </div>
+    </div>`;
+}
+ 
+function openAddPaiement(){
+  const modal=document.getElementById('add-paiement-modal');
+  if(modal)modal.style.display='flex';
+}
+function closeAddPaiement(){
+  const modal=document.getElementById('add-paiement-modal');
+  if(modal)modal.style.display='none';
+}
+function previewPhoto(input){
+  if(!input.files||!input.files[0])return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const preview=document.getElementById('photo-preview');
+    if(preview){
+      preview.style.display='block';
+      preview.innerHTML=`<img src="${e.target.result}" style="width:100%;max-height:200px;object-fit:cover;border-radius:10px">`;
+    }
+    document.getElementById('photo-upload-area').style.borderColor='var(--green)';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+async function savePaiement(){
+  const cabId=document.getElementById('p-cabinet')?.value;
+  const montant=document.getElementById('p-montant')?.value;
+  const mode=document.getElementById('p-mode')?.value;
+  const notes=document.getElementById('p-notes')?.value;
+  if(!cabId||!montant){showToast('Cabinet et montant requis','error');return;}
+  const modeLabels={especes:'💵 Espèces',cheque:'📄 Chèque',virement:'🏦 Virement'};
+  const tbody=document.getElementById('paiements-tbody');
+  if(tbody){
+    const existingEmpty=tbody.querySelector('td[colspan]');
+    if(existingEmpty)tbody.innerHTML='';
+    tbody.insertAdjacentHTML('afterbegin',`
+      <tr>
+        <td style="font-weight:600">Cabinet #${cabId}</td>
+        <td style="color:var(--green);font-weight:600">${parseInt(montant).toLocaleString('fr-FR')} DH</td>
+        <td>${modeLabels[mode]||mode}</td>
+        <td>${currentUser?.email||'—'}</td>
+        <td>${new Date().toLocaleDateString('fr-FR')}</td>
+        <td><span class="badge" style="background:rgba(245,158,11,0.1);color:var(--orange)">En attente</span></td>
+        <td><span style="font-size:12px;color:var(--muted)">Photo uploadée</span></td>
+      </tr>`);
+  }
+  closeAddPaiement();
+  showToast('Paiement enregistré','success');
+  addNotif('💰 Nouveau paiement enregistré — '+parseInt(montant).toLocaleString('fr-FR')+' DH ('+modeLabels[mode]+')','success','ti-credit-card');
+}
+ 
+async function renderOwnerTresorerie(){
+  const TARIF={starter:999,pro:1499,enterprise:2499};
+  const{data:cabs}=await sb.from('cabinets').select('*');
+  const c=cabs||[];
+  const actifs=c.filter(x=>x.statut==='actif');
+  const mrr=actifs.reduce((acc,x)=>acc+(TARIF[x.plan]||1499),0);
+  const months=['Jan','Fév','Mar','Avr','Mai','Juin'];
+  document.getElementById('main-content').innerHTML=`
+    <div style="margin-bottom:24px">
+      <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text)">Trésorerie</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:2px">Vue financière complète — style Qonto</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+      <div class="kpi-card green"><i class="ti ti-trending-up kpi-icon"></i><div class="kpi-val">${mrr.toLocaleString('fr-FR')}</div><div class="kpi-lbl">MRR (DH/mois)</div></div>
+      <div class="kpi-card blue"><i class="ti ti-currency-dollar kpi-icon"></i><div class="kpi-val">0</div><div class="kpi-lbl">Encaissé ce mois</div></div>
+      <div class="kpi-card red"><i class="ti ti-arrow-down kpi-icon"></i><div class="kpi-val">0</div><div class="kpi-lbl">Sorties ce mois</div></div>
+      <div class="kpi-card cyan"><i class="ti ti-scale kpi-icon"></i><div class="kpi-val">0</div><div class="kpi-lbl">Marge nette</div></div>
+    </div>
+    <div class="panel" style="margin-bottom:24px">
+      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">Évolution mensuelle — Entrées vs Sorties</div>
+      <div style="display:flex;align-items:flex-end;gap:12px;height:160px;border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:12px" id="tres-chart"></div>
+      <div style="display:flex;gap:20px;justify-content:center;margin-top:8px">
+        <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:3px;background:var(--green)"></div><span style="font-size:12px;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif">Entrées</span></div>
+        <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:3px;background:var(--red)"></div><span style="font-size:12px;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif">Sorties</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="font-size:14px;font-weight:600;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif">Mouvements</div>
+        <div style="display:flex;gap:8px">
+          <button style="padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--muted);font-size:12px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Tous</button>
+          <button style="padding:6px 14px;border-radius:8px;border:1px solid rgba(16,185,129,0.3);background:rgba(16,185,129,0.1);color:var(--green);font-size:12px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Entrées</button>
+          <button style="padding:6px 14px;border-radius:8px;border:1px solid rgba(244,63,94,0.3);background:rgba(244,63,94,0.1);color:var(--red);font-size:12px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Sorties</button>
+        </div>
+      </div>
+      <div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif">
+        <i class="ti ti-receipt" style="font-size:32px;display:block;margin-bottom:8px;color:var(--border)"></i>
+        Aucun mouvement enregistré<br>
+        <span style="font-size:12px">Les paiements apparaîtront ici</span>
+      </div>
+    </div>`;
+  setTimeout(()=>{
+    const chart=document.getElementById('tres-chart');if(!chart)return;
+    const entrees=[0,0,0,0,0,mrr];
+    const sorties=[0,0,0,0,0,0];
+    const maxVal=Math.max(...entrees,...sorties,1000);
+    chart.innerHTML=months.map((m,i)=>{
+      const he=Math.round((entrees[i]/maxVal)*140)||4;
+      const hs=Math.round((sorties[i]/maxVal)*140)||4;
+      const isLast=i===months.length-1;
+      return`<div style="flex:1;display:flex;align-items:flex-end;justify-content:center;gap:3px">`
+        +`<div style="width:40%;background:${isLast?'var(--green)':'rgba(16,185,129,0.3)'};border-radius:4px 4px 0 0;height:${he}px"></div>`
+        +`<div style="width:40%;background:${isLast?'var(--red)':'rgba(244,63,94,0.3)'};border-radius:4px 4px 0 0;height:${hs}px"></div>`
+        +`</div>`;
+    }).join('');
+  },100);}
+ 
 // ══ UTILS ══
 function callNumById(id){const p=prospects.find(x=>x.id===id);if(!p)return;const tel=(p.telephone_fixe||p.telephone_mobile||'').replace(/\s/g,'');if(tel)window.location.href='tel:'+tel;else showToast('Aucun numéro','error')}
 function openWAById(id){const p=prospects.find(x=>x.id===id);if(!p)return;const tel=(p.telephone_mobile||p.telephone_fixe||'').replace(/\s/g,'').replace(/^0/,'212');if(tel)window.open('https://wa.me/'+tel,'_blank');else showToast('Ajouter le mobile d\'abord','error')}
@@ -1313,6 +1665,66 @@ function showToast(msg,type='info'){
   t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);
 }
  
+ 
+ 
+let notifications = [];
+function addNotif(msg, type='info', icon='ti-bell'){
+  notifications.unshift({msg,type,icon,time:new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})});
+  updateNotifBadge();
+  renderNotifList();
+}
+function updateNotifBadge(){
+  const badge=document.getElementById('notif-badge');
+  if(!badge)return;
+  if(notifications.length>0){badge.style.display='flex';badge.textContent=notifications.length>9?'9+':notifications.length;}
+  else{badge.style.display='none';}
+}
+function toggleNotifs(){
+  const dd=document.getElementById('notif-dropdown');
+  if(dd)dd.style.display=dd.style.display==='none'?'block':'none';
+}
+function clearNotifs(){
+  notifications=[];updateNotifBadge();renderNotifList();
+  const dd=document.getElementById('notif-dropdown');
+  if(dd)dd.style.display='none';
+}
+function renderNotifList(){
+  const list=document.getElementById('notif-list');if(!list)return;
+  const colors={info:'var(--cyan)',warning:'var(--orange)',error:'var(--red)',success:'var(--green)'};
+  list.innerHTML=notifications.length?notifications.map(n=>`
+    <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start">
+      <div style="width:32px;height:32px;border-radius:8px;background:rgba(6,182,212,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <i class="ti ${n.icon}" style="font-size:16px;color:${colors[n.type]||colors.info}"></i>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:13px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;line-height:1.4">${n.msg}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif">${n.time}</div>
+      </div>
+    </div>`).join(''):'<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px;font-family:Plus Jakarta Sans,sans-serif">Aucune notification</div>';
+}
+document.addEventListener('click',function(e){
+  const dd=document.getElementById('notif-dropdown');
+  const btn=document.getElementById('notif-btn');
+  if(dd&&btn&&!btn.contains(e.target)&&!dd.contains(e.target))dd.style.display='none';
+});
+ 
+function toggleCalDropdown(){
+  const dd=document.getElementById('cal-dropdown');
+  if(dd)dd.style.display=dd.style.display==='none'?'block':'none';
+}
+function selectPeriode(opt){
+  const lbl=document.getElementById('cal-label');
+  if(lbl)lbl.textContent=opt;
+  const dd=document.getElementById('cal-dropdown');
+  if(dd)dd.style.display='none';
+  showToast('Période : '+opt,'info');
+}
+document.addEventListener('click',function(e){
+  const dd=document.getElementById('cal-dropdown');
+  const btn=document.getElementById('cal-btn');
+  if(dd&&btn&&!btn.contains(e.target)&&!dd.contains(e.target))dd.style.display='none';
+});
+ 
 (async()=>{
   const{data:{session}}=await sb.auth.getSession();
   document.getElementById('loader').style.display='none';
@@ -1322,4 +1734,3 @@ function showToast(msg,type='info'){
 </script>
 </body>
 </html>
- 
