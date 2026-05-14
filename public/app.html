@@ -4,34 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MediPulse</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">window.openEdit=function(id){var p=prospects.find(function(x){return x.id===id;});if(!p)return;editId=id;editType=p.type_prospection||"telephone";document.getElementById("edit-name").textContent=p.nom;document.getElementById("edit-meta").textContent=p.specialite+" - "+p.telephone_fixe;document.getElementById("edit-mobile").value=p.telephone_mobile||"";document.getElementById("edit-note").value=p.note||"";document.getElementById("edit-terrain-note").value=p.commentaire_terrain||"";document.getElementById("edit-rappel").value=p.date_rappel||"";document.getElementById("edit-overlay").classList.add("open");}function openEdit(id){var p=prospects.find(function(x){return x.id===id;});if(!p)return;editId=id;editType=p.type_prospection||"telephone";document.getElementById("edit-name").textContent=p.nom;document.getElementById("edit-meta").textContent=p.specialite+" - "+p.telephone_fixe;document.getElementById("edit-mobile").value=p.telephone_mobile||"";document.getElementById("edit-note").value=p.note||"";document.getElementById("edit-terrain-note").value=p.commentaire_terrain||"";document.getElementById("edit-rappel").value=p.date_rappel||"";document.getElementById("edit-overlay").classList.add("open");}
-window.renderCommSimulateur = function(){
-  document.getElementById('main-content').innerHTML = '<div style="font-size:22px;font-weight:700;color:#e2e8f0;margin-bottom:24px">Simulateur revenus</div><p style="color:#94a3b8">En construction...</p>';
-};
-window.renderCommCommissions = function(){
-  document.getElementById('main-content').innerHTML = '<div style="font-size:22px;font-weight:700;color:#e2e8f0;margin-bottom:24px">Mes commissions</div><p style="color:#94a3b8">En construction...</p>';
-};
-
-window.updateSim = function(){
-  const isTer=userRecord&&userRecord.type==='terrain';
-  const pSig=isTer?0.30:0.20;
-  const pRec=isTer?0.10:0.07;
-  const TD=1499;
-  const paliers=[{s:5,b:250},{s:10,b:500},{s:15,b:750}];
-  const nNew=parseInt((document.getElementById('sim-new')||{value:5}).value);
-  const nTot=parseInt((document.getElementById('sim-total')||{value:0}).value);
-  const snv=document.getElementById('sim-new-val');if(snv)snv.textContent=nNew;
-  const stv=document.getElementById('sim-total-val');if(stv)stv.textContent=nTot;
-  const commNew=nNew*Math.round(TD*pSig);
-  const commRec=nTot*Math.round(TD*pRec);
-  const bonus=([...paliers].reverse().find(function(p){return nNew>=p.s;})||{b:0}).b;
-  const total=commNew+commRec+bonus;
-  const panel=document.getElementById('sim-result-panel');
-  if(!panel)return;
-  panel.innerHTML='<div style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:8px">COMMISSION NOUVEAUX ('+Math.round(pSig*100)+'%)</div><div style="font-size:28px;font-weight:800;color:#f97316">'+commNew.toLocaleString('fr-FR')+' MAD</div><div style="font-size:12px;color:#64748b">'+nNew+' x 1499 x '+Math.round(pSig*100)+'%</div></div><div style="margin-bottom:16px;padding-top:16px;border-top:1px solid #1e293b"><div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:8px">RECURRENT ('+Math.round(pRec*100)+'%/MOIS)</div><div style="font-size:28px;font-weight:800;color:#10b981">'+commRec.toLocaleString('fr-FR')+' MAD</div></div><div style="padding-top:16px;border-top:1px solid #1e293b"><div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:8px">TOTAL CE MOIS</div><div style="font-size:36px;font-weight:800;color:#06b6d4">'+total.toLocaleString('fr-FR')+' MAD</div>'+(bonus>0?'<div style="margin-top:8px;background:rgba(245,158,11,0.1);border-radius:8px;padding:8px 12px;font-size:13px;color:#f59e0b">PALIER '+nNew+' CAB ! +'+bonus+' MAD</div>':'')+'</div>';
-};
-
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -460,8 +433,8 @@ textarea.finput{resize:none}
         </div>
       </div>
       <div class="content" id="main-content">
-      <div style="text-align:center;padding:60px;color:var(--muted)">Chargement...</div>
-      </div>
+        <div style="text-align:center;padding:60px;color:var(--muted)">Chargement...</div>
+        </div>
     </div>
   </div>
 </div>
@@ -524,26 +497,6 @@ textarea.finput{resize:none}
 <div class="toast" id="toast"></div>
 
 <script>
-
-window.openEdit = function(id) {
-  var p = window.prospects && window.prospects.find(function(x){ return x.id==id; });
-  if(!p) return;
-  window.editId = id;
-  window.editType = p.type_prospection || 'telephone';
-  var el = document.getElementById('edit-name');
-  if(el) el.textContent = p.nom;
-  var el2 = document.getElementById('edit-meta');
-  if(el2) el2.textContent = (p.specialite||'') + ' - ' + (p.telephone_fixe||'');
-  var el3 = document.getElementById('edit-mobile');
-  if(el3) el3.value = p.telephone_mobile || '';
-  var el4 = document.getElementById('edit-note');
-  if(el4) el4.value = p.note || '';
-  var el5 = document.getElementById('edit-rappel');
-  if(el5) el5.value = p.date_rappel || '';
-  var overlay = document.getElementById('edit-overlay');
-  if(overlay) overlay.classList.add('open');
-};
-
 const SB_URL='https://czttvnvcetgmjfqishig.supabase.co';
 const SB_KEY='sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m';
 const sb=supabase.createClient(SB_URL,SB_KEY);
@@ -651,7 +604,9 @@ function buildSidebar(role){
     commercial:[
       {section:'Mon espace',items:[
         {id:'comm-dashboard',icon:'ti-chart-bar',label:'Dashboard'},
-        {id:'comm-simulateur',icon:'ti-currency-dollar',label:'Simulateur revenus'},{id:'comm-prospects',icon:'ti-list',label:'Prospects'},{id:'comm-commissions',icon:'ti-receipt',label:'Commissions'},
+        {id:'comm-simulateur',icon:'ti-currency-dollar',label:'Simulateur revenus'},
+        {id:'comm-prospects',icon:'ti-list',label:'Prospects'},
+        {id:'comm-commissions',icon:'ti-receipt',label:'Commissions'},
         {id:'comm-valider',icon:'ti-circle-plus',label:'Valider cabinet'},
       ]}
     ],
@@ -696,7 +651,9 @@ function loadPage(pageId){
   else if(pageId==='owner-paiements')renderOwnerPaiements();
   else if(pageId==='owner-tresorerie')renderOwnerTresorerie();
   else if(pageId==='comm-dashboard')renderCommDashboard();
-  else if(pageId==='comm-prospects')renderCommProspects();else if(pageId==='comm-simulateur')renderCommSimulateur();else if(pageId==='comm-commissions')renderCommCommissions();
+  else if(pageId==='comm-prospects')renderCommProspects();
+  else if(pageId==='comm-simulateur')renderCommSimulateur();
+  else if(pageId==='comm-commissions')renderCommCommissions();
   else if(pageId==='comm-valider')renderCommValider();
   else if(pageId==='med-dashboard')renderMedDashboard();
   else if(pageId==='med-avis')renderMedAvis();
@@ -938,7 +895,7 @@ async function renderCommDashboard(){
   prospects=data||[];
   const mois=prospects.filter(p=>p.date_appel&&p.date_appel>=firstDay);
   const signes=mois.filter(p=>p.statut==='Signé');
-  const isTer=userRecord?.type==='terrain';
+  const isTer=userRecord&&userRecord.type==='terrain';
   const paliers=isTer?PAL_TER:PAL_TEL;
   const pSig=isTer?P_SIG_TER:P_SIG_TEL;
   const pRec=isTer?P_REC_TER:P_REC_TEL;
@@ -952,180 +909,79 @@ async function renderCommDashboard(){
   if(next){const base=prev?prev.s:0;pct=Math.round(((totalSignes-base)/(next.s-base))*100);}else{pct=100;}
   const daysLeft=Math.ceil((new Date(now.getFullYear(),now.getMonth()+1,0)-now)/(1000*60*60*24));
   const nom=(userRecord.nom||currentUser.email.split('@')[0]).split(' ')[0];
+  const typeLabel=isTer?'Terrain':'Téléphone';
 
-  const isFirstTime=prospects.length===0&&totalSignes===0;
   document.getElementById('main-content').innerHTML=`
-    <div style="margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
-      <div>
-        <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Bonjour, ${nom} 👋</div>
-        <div style="font-size:13px;color:#6B7280;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}</div>
-      </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+      <div style="font-size:22px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Mon Dashboard 💼</div>
+      <button onclick="loadPage('comm-valider')" style="padding:10px 20px;border-radius:8px;background:#10b981;color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">+ Nouveau cabinet</button>
     </div>
-    ${isFirstTime?`
-    <div style="background:linear-gradient(135deg,#EFF6FF,#F0F9FF);border:1px solid #BFDBFE;border-radius:16px;padding:24px;margin-bottom:20px">
-      <div style="font-size:16px;font-weight:700;color:#1D4ED8;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">🚀 Bienvenue sur MediPulse !</div>
-      <div style="font-size:13px;color:#374151;margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif;line-height:1.6">Voici comment démarrer :</div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;border-radius:10px;border:1px solid #BFDBFE;margin-bottom:8px">
-          <div style="width:24px;height:24px;border-radius:50%;background:#2563EB;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">1</div>
-          <span style="font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Consultez vos prospects dans Prospects</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;border-radius:10px;border:1px solid #BFDBFE;margin-bottom:8px">
-          <div style="width:24px;height:24px;border-radius:50%;background:#2563EB;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">2</div>
-          <span style="font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Appelez et mettez a jour le statut apres chaque appel</span>
-          </div>
-        <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#fff;border-radius:10px;border:1px solid #BFDBFE">
-          <div style="width:24px;height:24px;border-radius:50%;background:#2563EB;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">3</div>
-          <span style="font-size:13px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Quand un medecin signe, cliquez sur Valider cabinet</span>
-        </div>
-      </div>
-    </div>`:''}
 
-    <!-- PRIME HERO -->
-    <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);border-radius:20px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden">
-      <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,0.1),transparent 70%);top:-100px;right:-100px"></div>
-      <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">Primes ce mois</div>
-      <div style="display:flex;align-items:flex-end;gap:8px;margin-bottom:6px">
-        <div style="font-family:'Syne',sans-serif;font-size:52px;font-weight:800;color:#06B6D4;line-height:1">${total.toLocaleString('fr-FR')}</div>
-        <div style="font-size:18px;color:rgba(255,255,255,0.4);margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">DH</div>
+    <!-- HERO -->
+    <div style="background:linear-gradient(135deg,#1a2744,#0f1e3a);border-radius:16px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;right:0;background:#b45309;color:#fff;padding:8px 16px;border-radius:0 16px 0 16px;text-align:center">
+        <div style="font-size:24px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif">${daysLeft}</div>
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">JOURS RESTANTS</div>
       </div>
-      <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">${primeSig.toLocaleString('fr-FR')} DH signatures + ${bonus} DH bonus palier</div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-        <span style="font-size:12px;color:rgba(255,255,255,0.5);font-family:'Plus Jakarta Sans',sans-serif">Progression vers prochain palier</span>
-        <span style="font-size:12px;font-weight:700;color:#06B6D4;font-family:'Plus Jakarta Sans',sans-serif">${next?totalSignes+'/'+next.s+' signatures':'Objectif atteint !'}</span>
+      <div style="font-size:14px;color:#94a3b8;margin-bottom:4px;font-family:'Plus Jakarta Sans',sans-serif">Bonjour ${nom} 👋</div>
+      <div style="font-size:24px;font-weight:800;color:#fff;margin-bottom:4px;font-family:'Plus Jakarta Sans',sans-serif">${totalSignes===0?'Lance-toi — signe ton premier cabinet ! 🚀':'Excellent travail — continue ! 💪'}</div>
+      <div style="font-size:14px;color:#94a3b8;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">Chaque cabinet signé = ${Math.round(TD*pSig)} MAD + ${Math.round(TD*pRec)} MAD/mois à vie</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-size:14px;font-weight:600;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Progression vers l'objectif (${paliers[paliers.length-1].s} cabinets)</div>
+        <div style="font-size:14px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">${pct}%</div>
       </div>
-      <div style="height:8px;background:rgba(255,255,255,0.1);border-radius:99px;overflow:hidden;margin-bottom:20px">
-        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#2563EB,#06B6D4);border-radius:99px;transition:width 1s ease"></div>
+      <div style="height:8px;background:rgba(255,255,255,0.1);border-radius:99px;overflow:hidden;margin-bottom:12px;position:relative">
+        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#3b82f6,#06b6d4);border-radius:99px;transition:width 1s ease"></div>
+        ${paliers.map(p=>`<div style="position:absolute;top:50%;transform:translateY(-50%);left:${Math.round((p.s/paliers[paliers.length-1].s)*100)}%;width:2px;height:16px;background:rgba(255,255,255,0.3)"></div>`).join('')}
       </div>
-      <div style="display:flex;gap:12px">
-        ${paliers.map(p=>{
-          const reached=totalSignes>=p.s;const isCurr=next&&p.s===next.s;
-          return`<div style="flex:1;background:${reached?'rgba(16,185,129,0.2)':isCurr?'rgba(245,158,11,0.15)':'rgba(255,255,255,0.06)'};border:1px solid ${reached?'rgba(16,185,129,0.4)':isCurr?'rgba(245,158,11,0.3)':'rgba(255,255,255,0.1)'};border-radius:12px;padding:12px;text-align:center">
-            <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:${reached?'#4ADE80':isCurr?'#FCD34D':'rgba(255,255,255,0.4)'}">${p.b} DH</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif">${p.s} signés</div>
-          </div>`;}).join('')}
+      <div style="display:flex;gap:16px;align-items:center;font-size:13px;color:#94a3b8;font-family:'Plus Jakarta Sans',sans-serif">
+        ${paliers.map(p=>`<span>🏆 ${p.s} → <span style="color:#f59e0b;font-weight:600">+${p.b} MAD</span></span>`).join(' · ')}
       </div>
+      ${totalSignes<paliers[0].s?`
+      <div style="margin-top:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 16px;font-size:13px;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">
+        💡 Signe <strong>${paliers[0].s} cabinets</strong> pour débloquer ton premier bonus de <span style="color:#f59e0b;font-weight:700">+${paliers[0].b} MAD</span> — puis <span style="color:#f59e0b">+${paliers[1].b} MAD</span> à ${paliers[1].s} cabinets et <span style="color:#f59e0b">+${paliers[2].b} MAD</span> à ${paliers[2].s} !
+      </div>`:''}
     </div>
 
     <!-- KPI CARDS -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
-      ${[
-        {val:prospects.length,lbl:'Prospects',icon:'ti-users',color:'#2563EB',bg:'#EFF6FF'},
-        {val:prospects.filter(p=>p.statut!=='Nouveau').length,lbl:'Appelés',icon:'ti-phone-call',color:'#0891B2',bg:'#F0F9FF'},
-        {val:totalSignes,lbl:'Signés ce mois',icon:'ti-circle-check',color:'#16A34A',bg:'#F0FDF4'},
-        {val:prospects.filter(p=>p.statut==='Démo Bookée'||p.statut==='Démo Faite').length,lbl:'Démos',icon:'ti-calendar-check',color:'#7C3AED',bg:'#FAF5FF'},
-      ].map(k=>`
-        <div style="background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-          <div style="width:34px;height:34px;border-radius:10px;background:${k.bg};display:flex;align-items:center;justify-content:center;margin-bottom:12px">
-            <i class="ti ${k.icon}" style="font-size:17px;color:${k.color}"></i>
-          </div>
-          <div style="font-size:28px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif;line-height:1;margin-bottom:5px">${k.val}</div>
-          <div style="font-size:12px;color:#6B7280;font-family:'Plus Jakarta Sans',sans-serif">${k.lbl}</div>
-        </div>`).join('')}
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px">
+      <div style="background:#1e293b;border-radius:12px;border:1px solid #334155;padding:20px">
+        <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">PROCHAIN BONUS</div>
+        <div style="font-size:28px;font-weight:800;color:#f97316;font-family:'Plus Jakarta Sans',sans-serif">+${next?next.b:paliers[paliers.length-1].b} MAD</div>
+        <div style="font-size:12px;color:#94a3b8;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">→ Signe ${next?next.s:paliers[paliers.length-1].s} cabinets</div>
+      </div>
+      <div style="background:#1e293b;border-radius:12px;border:1px solid #334155;padding:20px">
+        <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">REVENUS CE MOIS</div>
+        <div style="font-size:28px;font-weight:800;color:#3b82f6;font-family:'Plus Jakarta Sans',sans-serif">${total.toLocaleString('fr-FR')} MAD</div>
+        <div style="font-size:12px;color:#94a3b8;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">→ ${totalSignes===0?'Signe ton 1er cabinet !':totalSignes+' cabinet'+(totalSignes>1?'s':'')+' signé'+(totalSignes>1?'s':'')}</div>
+      </div>
+      <div style="background:#1e293b;border-radius:12px;border:1px solid #334155;padding:20px">
+        <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">CABINETS SIGNÉS</div>
+        <div style="font-size:28px;font-weight:800;color:#10b981;font-family:'Plus Jakarta Sans',sans-serif">${totalSignes} / ${paliers[paliers.length-1].s}</div>
+        <div style="font-size:12px;color:#94a3b8;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">→ Objectif : ${paliers[paliers.length-1].s} cabinets</div>
+      </div>
+      <div style="background:#1e293b;border-radius:12px;border:1px solid #334155;padding:20px">
+        <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">RÉCURRENT GARANTI</div>
+        <div style="font-size:28px;font-weight:800;color:#06b6d4;font-family:'Plus Jakarta Sans',sans-serif">${(totalSignes*Math.round(TD*pRec)).toLocaleString('fr-FR')} MAD</div>
+        <div style="font-size:12px;color:#94a3b8;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">↑ +${Math.round(TD*pRec)} MAD par cabinet/mois</div>
+      </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px">
-      <!-- SIMULATEUR -->
-      <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-        <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:8px">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="8" height="8" rx="2"/><path d="M14 14h8"/><path d="M18 14v8"/></svg>
-          Simulateur de revenus
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;background:#F9FAFB;border-radius:12px;padding:14px 16px">
-          <span style="font-size:14px;color:#374151;font-family:'Plus Jakarta Sans',sans-serif">Si je signe X cabinets ce mois...</span>
-          <div style="display:flex;align-items:center;gap:10px">
-            <button onclick="simChange(-1)" style="width:30px;height:30px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#374151;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">−</button>
-            <span id="sim-count" style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#111827;min-width:28px;text-align:center">${simVal}</span>
-            <button onclick="simChange(1)" style="width:30px;height:30px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#374151;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">+</button>
-          </div>
-        </div>
-        <div id="sim-result" style="background:#F0F9FF;border:1px solid #BAE6FD;border-radius:12px;padding:16px;font-family:'Plus Jakarta Sans',sans-serif"></div>
+    <!-- MES CABINETS -->
+    <div style="background:#1e293b;border-radius:12px;border:1px solid #334155;padding:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="font-size:16px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Mes cabinets actifs</div>
+        <div style="font-size:13px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">0 cabinet · 0 MAD récurrent/mois</div>
       </div>
-
-      <!-- COUNTDOWN + PALIERS -->
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <div style="background:linear-gradient(135deg,#FFF7ED,#FFFBEB);border:1px solid #FED7AA;border-radius:14px;padding:18px">
-          <div style="font-size:12px;color:#92400E;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:6px">Fin du mois</div>
-          <div style="display:flex;align-items:baseline;gap:6px">
-            <div style="font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:#EA580C;line-height:1">${daysLeft}</div>
-            <div style="font-size:14px;color:#92400E;font-family:'Plus Jakarta Sans',sans-serif">jours</div>
-          </div>
-          <div style="font-size:12px;color:#B45309;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Pour atteindre l'objectif</div>
-        </div>
-        <div style="background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;flex:1;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-          <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:6px">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            Paliers bonus
-          </div>
-          ${paliers.map((p,i)=>{
-            const reached=totalSignes>=p.s;const isCurr=!reached&&(i===0||totalSignes>=paliers[i-1].s);
-            const icons=['🥉','🥈','🏆'];
-            const manque=Math.max(0,p.s-totalSignes);
-            return`<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #F9FAFB">
-              <div style="font-size:20px">${icons[i]}</div>
-              <div style="flex:1">
-                <div style="font-size:13px;font-weight:600;color:${reached?'#16A34A':isCurr?'#EA580C':'#9CA3AF'};font-family:'Plus Jakarta Sans',sans-serif">${p.s} signatures</div>
-                <div style="font-size:11px;color:#9CA3AF;font-family:'Plus Jakarta Sans',sans-serif">${reached?'Débloqué ✓':isCurr?manque+' manquante'+(manque>1?'s':''):'Verrouillé'}</div>
-              </div>
-              <div style="font-size:14px;font-weight:700;color:${reached?'#16A34A':isCurr?'#EA580C':'#D1D5DB'};font-family:'Syne',sans-serif">+${p.b} DH</div>
-            </div>`;}).join('')}
-        </div>
+      <div style="text-align:center;padding:32px;color:#64748b">
+        <div style="font-size:40px;margin-bottom:12px">🏥</div>
+        <div style="font-size:14px;font-weight:600;color:#94a3b8;font-family:'Plus Jakarta Sans',sans-serif">Aucun cabinet pour l'instant</div>
+        <div style="font-size:13px;color:#64748b;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Clique sur "+ Nouveau cabinet" pour commencer !</div>
       </div>
     </div>`;
-  renderSim();
-  // Notify if rappels
-  const rappels=prospects.filter(p=>p.statut==='Rappeler');
-  if(rappels.length>0)addNotif('🔔 '+rappels.length+' prospect'+( rappels.length>1?'s':'')+' à rappeler aujourd\'hui','warning','ti-bell');
-}
-
-
-function renderProspectsList(context){
-  const filtered=crmFilter==='Tous'?prospects:prospects.filter(p=>p.statut===crmFilter);
-  document.getElementById('main-content').innerHTML=`
-    <div style="margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
-      <div>
-        <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">${context==='owner'?'Tous les prospects':'Mes Prospects'}</div>
-        <div style="font-size:13px;color:#6B7280;margin-top:2px;font-family:'Plus Jakarta Sans',sans-serif">${prospects.length} prospects au total</div>
-      </div>
-      <button onclick="document.getElementById('add-overlay').classList.add('open')" style="padding:10px 18px;border-radius:10px;background:linear-gradient(135deg,#1E3A8A,#2563EB);color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:6px">
-        <i class="ti ti-plus" style="font-size:16px"></i> Ajouter prospect
-      </button>
-    </div>
-    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-      ${['Tous','Nouveau','Rappeler','Joignable','Démo Bookée','Signé','Refus'].map(f=>`
-        <div onclick="setCrmFilter('${f}')" style="padding:6px 16px;border-radius:99px;font-size:12px;font-weight:500;border:1px solid ${crmFilter===f?'rgba(37,99,235,0.3)':'#E5E7EB'};background:${crmFilter===f?'rgba(37,99,235,0.1)':'#fff'};color:${crmFilter===f?'#2563EB':'#6B7280'};cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">${f}</div>`).join('')}
-    </div>
-    <div id="prospects-list">
-      ${filtered.length?filtered.map(p=>{
-        const st=ST.find(s=>s.key===p.statut)||ST[0];
-        const isPrio=p.statut==='Rappeler'||p.statut==='Joignable';
-        return`<div style="background:#fff;border-radius:14px;border:1px solid ${isPrio?'#FED7AA':'#F3F4F6'};padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:14px;box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-          <div style="flex:1">
-            <div style="font-size:14px;font-weight:600;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">${p.nom}</div>
-            <div style="font-size:12px;color:#6B7280;margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif;display:flex;gap:8px">
-              <span><i class="ti ti-stethoscope" style="font-size:12px;vertical-align:-1px;margin-right:3px"></i>${p.specialite}</span>
-              <span><i class="ti ti-map-pin" style="font-size:12px;vertical-align:-1px;margin-right:3px"></i>${p.quartier||p.ville||''}</span>
-              <span><i class="ti ti-phone" style="font-size:12px;vertical-align:-1px;margin-right:3px"></i>${p.telephone_fixe||'—'}</span>
-            </div>
-            ${p.note?`<div style="font-size:12px;color:#9CA3AF;margin-top:4px;font-style:italic;font-family:'Plus Jakarta Sans',sans-serif">${p.note}</div>`:''}
-          </div>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span style="padding:4px 10px;border-radius:99px;font-size:11px;font-weight:600;background:${st.bg};color:${st.color};border:1px solid ${st.border};font-family:'Plus Jakarta Sans',sans-serif">${st.label}</span>
-            <button onclick="callNumById(${p.id})" style="width:32px;height:32px;border-radius:8px;border:1px solid #E5E7EB;background:#F9FAFB;color:#16A34A;cursor:pointer;display:flex;align-items:center;justify-content:center" title="Appeler"><i class="ti ti-phone" style="font-size:15px"></i></button>
-            <button onclick="openWAById(${p.id})" style="width:32px;height:32px;border-radius:8px;border:1px solid #E5E7EB;background:#F9FAFB;color:#16A34A;cursor:pointer;display:flex;align-items:center;justify-content:center" title="WhatsApp"><i class="ti ti-brand-whatsapp" style="font-size:15px"></i></button>
-            <button onclick="openEdit(${p.id})" style="width:32px;height:32px;border-radius:8px;border:1px solid #E5E7EB;background:#F9FAFB;color:#2563EB;cursor:pointer;display:flex;align-items:center;justify-content:center" title="Modifier"><i class="ti ti-edit" style="font-size:15px"></i></button>
-          </div>
-        </div>`;}).join(''):`<div style="text-align:center;padding:48px;color:#9CA3AF;font-family:'Plus Jakarta Sans',sans-serif"><i class="ti ti-search" style="font-size:40px;display:block;margin-bottom:12px;color:#E5E7EB"></i>Aucun prospect trouvé</div>`}
-    </div>`;
-}
-
-window.setCrmFilter=function(f){
-  crmFilter=f;
-  renderProspectsList(userRecord?.role==='owner'?'owner':'commercial');
 }
 
 async function renderCommProspects(){
-  // Load all prospects — commercial sees all unassigned + his own
   const{data}=await sb.from('prospection').select('*').order('id');
   prospects=data||[];
   renderProspectsList('commercial');
@@ -1133,55 +989,52 @@ async function renderCommProspects(){
 
 function renderCommValider(){
   document.getElementById('main-content').innerHTML=`
-    <div style="margin-bottom:24px">
-      <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Valider un cabinet signé</div>
-      <div style="width:40px;height:3px;background:#2563EB;border-radius:2px;margin-top:6px"></div>
-      <div style="font-size:14px;color:#6B7280;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif">Crée automatiquement les accès médecin et assistante — Trial 7 jours gratuit</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+      <div style="font-size:22px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Valider un cabinet signé</div>
     </div>
     <div style="max-width:600px">
-      <div style="background:#fff;border-radius:16px;border:1px solid #F3F4F6;padding:28px;box-shadow:0 1px 8px rgba(0,0,0,0.05)">
-        <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#1D4ED8;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:8px">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          Le cabinet bénéficiera d'un essai gratuit de 7 jours. Vous serez notifié la veille de l'expiration.
+      <div style="background:#1e293b;border-radius:16px;border:1px solid #334155;padding:28px">
+        <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#93c5fd;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;gap:8px">
+          ℹ️ Le cabinet bénéficiera d'un essai gratuit de 7 jours. Vous serez notifié la veille de l'expiration.
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
           <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom du cabinet *</label>
-            <input class="finput" id="cab-nom" placeholder="Cabinet Dr. Nom" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+            <label style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom du cabinet *</label>
+            <input class="finput" id="cab-nom" placeholder="Cabinet Dr. Nom" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
           </div>
           <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom du médecin *</label>
-            <input class="finput" id="cab-medecin" placeholder="Dr. Prénom Nom" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-          <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Spécialité *</label>
-            <input class="finput" id="cab-spec" placeholder="Dermatologue..." style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
-          </div>
-          <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Ville</label>
-            <input class="finput" id="cab-ville" value="Casablanca" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+            <label style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom du médecin *</label>
+            <input class="finput" id="cab-medecin" placeholder="Dr. Prénom Nom" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
           </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
           <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Email médecin *</label>
-            <input class="finput" type="email" id="cab-email-med" placeholder="dr.nom@medipulse.ma" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+            <label style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Spécialité *</label>
+            <input class="finput" id="cab-spec" placeholder="Dermatologue..." style="background:#0f172a;border-color:#334155;color:#e2e8f0">
           </div>
           <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom assistante *</label>
-            <input class="finput" id="cab-assistante" placeholder="Prénom Nom" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+            <label style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Ville</label>
+            <input class="finput" id="cab-ville" value="Casablanca" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
           <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Email assistante *</label>
-            <input class="finput" type="email" id="cab-email-ass" placeholder="assistante.nom@medipulse.ma" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+            <label style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Email médecin *</label>
+            <input class="finput" type="email" id="cab-email-med" placeholder="dr.nom@medipulse.ma" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
           </div>
           <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Plan</label>
-            <select class="finput" id="cab-plan" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
+            <label style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom assistante *</label>
+            <input class="finput" id="cab-assistante" placeholder="Prénom Nom" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+          <div>
+            <label style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Email assistante *</label>
+            <input class="finput" type="email" id="cab-email-ass" placeholder="assistante.nom@medipulse.ma" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
+          </div>
+          <div>
+            <label style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Plan</label>
+            <select class="finput" id="cab-plan" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
               <option value="starter">Starter — 999 DH/mois</option>
               <option value="pro" selected>Pro — 1499 DH/mois</option>
               <option value="enterprise">Enterprise — 2499 DH/mois</option>
@@ -1189,21 +1042,138 @@ function renderCommValider(){
           </div>
         </div>
         <div style="margin-bottom:16px">
-          <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Lien fiche Google Maps (optionnel)</label>
-          <input class="finput" id="cab-google-url" placeholder="https://g.page/..." style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
-          <div style="font-size:11px;color:#9CA3AF;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Ce lien sera inclus dans le message WhatsApp envoyé aux patients</div>
+          <label style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Lien fiche Google Maps</label>
+          <input class="finput" id="cab-google-url" placeholder="https://g.page/..." style="background:#0f172a;border-color:#334155;color:#e2e8f0">
         </div>
         <div style="margin-bottom:20px">
-          <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Numéro WhatsApp cabinet</label>
-          <input class="finput" id="cab-whatsapp" type="tel" placeholder="06 XX XX XX XX" style="background:#F9FAFB;border-color:#E5E7EB;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">
-          <div style="font-size:11px;color:#9CA3AF;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">L'assistante utilisera ce numéro pour envoyer les formulaires</div>
+          <label style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Numéro WhatsApp cabinet</label>
+          <input class="finput" type="tel" id="cab-whatsapp" placeholder="06 XX XX XX XX" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
         </div>
-        <button onclick="validerCabinet()" style="width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#1E3A8A,#2563EB);color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Valider le cabinet — Démarrer le trial
+        <button onclick="validerCabinet()" style="width:100%;padding:14px;border-radius:12px;background:#10b981;color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px">
+          ✓ Valider le cabinet — Démarrer le trial
         </button>
       </div>
-    </div>`;}
+    </div>`;
+}
+
+// Simulateur
+async function renderCommSimulateur(){
+  const isTer=userRecord&&userRecord.type==='terrain';
+  const pSig=isTer?P_SIG_TER:P_SIG_TEL;
+  const pRec=isTer?P_REC_TER:P_REC_TEL;
+  document.getElementById('main-content').innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+      <div style="font-size:22px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">💰 Simulateur revenus</div>
+      <button onclick="loadPage('comm-valider')" style="padding:10px 20px;border-radius:8px;background:#10b981;color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">+ Nouveau cabinet</button>
+    </div>
+    <div style="background:#1e293b;border-radius:16px;border:1px solid #334155;padding:24px;margin-bottom:20px">
+      <div style="font-size:18px;font-weight:700;color:#e2e8f0;margin-bottom:4px;font-family:'Plus Jakarta Sans',sans-serif">💰 Simulateur de revenus</div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">Combien peux-tu gagner selon tes efforts ?</div>
+      <div style="background:#0f172a;border-radius:12px;padding:16px 20px;margin-bottom:20px">
+        <div style="font-size:15px;font-weight:600;color:#e2e8f0;margin-bottom:4px;font-family:'Plus Jakarta Sans',sans-serif">🎯 Si je signe X cabinets ce mois...</div>
+        <div style="font-size:12px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">Paliers bonus : 5 cab → +250 MAD · 10 cab → +500 MAD · 15 cab → +750 MAD</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div>
+          <div style="margin-bottom:20px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+              <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;font-family:'Plus Jakarta Sans',sans-serif">NOUVEAUX CABINETS</div>
+            </div>
+            <div style="font-size:11px;color:#64748b;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Ce mois</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+              <input type="range" id="sim-new" min="0" max="20" value="5" oninput="updateSim()" style="flex:1;margin-right:12px;accent-color:#3b82f6">
+              <span id="sim-new-val" style="font-size:18px;font-weight:700;color:#3b82f6;min-width:24px;text-align:right;font-family:'Plus Jakarta Sans',sans-serif">5</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif"><span>0</span><span>20</span></div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">CABINETS ACTIFS TOTAL</div>
+            <div style="font-size:11px;color:#64748b;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Portefeuille</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+              <input type="range" id="sim-total" min="0" max="30" value="0" oninput="updateSim()" style="flex:1;margin-right:12px;accent-color:#06b6d4">
+              <span id="sim-total-val" style="font-size:18px;font-weight:700;color:#06b6d4;min-width:24px;text-align:right;font-family:'Plus Jakarta Sans',sans-serif">0</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif"><span>0</span><span>30</span></div>
+          </div>
+        </div>
+        <div id="sim-result-panel" style="background:#0f172a;border-radius:12px;padding:20px"></div>
+      </div>
+    </div>`;
+  updateSim();
+}
+
+function updateSim(){
+  const isTer=userRecord&&userRecord.type==='terrain';
+  const pSig=isTer?P_SIG_TER:P_SIG_TEL;
+  const pRec=isTer?P_REC_TER:P_REC_TEL;
+  const paliers=isTer?PAL_TER:PAL_TEL;
+  const nNew=parseInt(document.getElementById('sim-new')?.value||5);
+  const nTot=parseInt(document.getElementById('sim-total')?.value||0);
+  document.getElementById('sim-new-val').textContent=nNew;
+  document.getElementById('sim-total-val').textContent=nTot;
+  const commNew=nNew*Math.round(TD*pSig);
+  const commRec=nTot*Math.round(TD*pRec);
+  const bonus=([...paliers].reverse().find(p=>nNew>=p.s)||{b:0}).b;
+  const total=commNew+commRec+bonus;
+  const panel=document.getElementById('sim-result-panel');
+  if(!panel)return;
+  panel.innerHTML=`
+    <div style="margin-bottom:16px">
+      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">COMMISSION NOUVEAUX (${Math.round(pSig*100)}%)</div>
+      <div style="font-size:28px;font-weight:800;color:#f97316;font-family:'Plus Jakarta Sans',sans-serif">${commNew.toLocaleString('fr-FR')} MAD</div>
+      <div style="font-size:12px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">${nNew} × ${TD} × ${Math.round(pSig*100)}%</div>
+    </div>
+    <div style="margin-bottom:16px;padding-top:16px;border-top:1px solid #1e293b">
+      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">RÉCURRENT (${Math.round(pRec*100)}%/MOIS)</div>
+      <div style="font-size:28px;font-weight:800;color:#10b981;font-family:'Plus Jakarta Sans',sans-serif">${commRec.toLocaleString('fr-FR')} MAD</div>
+      <div style="font-size:12px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">${nTot} × ${TD} × ${Math.round(pRec*100)}%</div>
+    </div>
+    <div style="padding-top:16px;border-top:1px solid #1e293b">
+      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">TOTAL CE MOIS</div>
+      <div style="font-size:36px;font-weight:800;color:#06b6d4;font-family:'Plus Jakarta Sans',sans-serif">${total.toLocaleString('fr-FR')} MAD</div>
+      ${bonus>0?`<div style="margin-top:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:8px 12px;font-size:13px;color:#f59e0b;font-family:'Plus Jakarta Sans',sans-serif">🏆 PALIER ${nNew} CABINETS ! +${bonus} MAD</div>`:''}
+    </div>`;
+}
+
+// Commissions page
+function renderCommCommissions(){
+  const isTer=userRecord&&userRecord.type==='terrain';
+  const pSig=isTer?P_SIG_TER:P_SIG_TEL;
+  const pRec=isTer?P_REC_TER:P_REC_TEL;
+  document.getElementById('main-content').innerHTML=`
+    <div style="font-size:22px;font-weight:700;color:#e2e8f0;margin-bottom:24px;font-family:'Plus Jakarta Sans',sans-serif">Mes commissions</div>
+    <div style="background:#1e293b;border-radius:16px;border:1px solid #334155;padding:24px;margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;font-size:14px;font-weight:600;color:#94a3b8;font-family:'Plus Jakarta Sans',sans-serif">📋 Grille de commissions MediPulse</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+        <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:20px;text-align:center">
+          <div style="font-size:11px;font-weight:700;color:#3b82f6;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;font-family:'Plus Jakarta Sans',sans-serif">COMMISSION NOUVEAU CABINET</div>
+          <div style="font-size:36px;font-weight:800;color:#3b82f6;font-family:'Plus Jakarta Sans',sans-serif">${Math.round(pSig*100)}%</div>
+          <div style="font-size:13px;color:#64748b;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif">= ${Math.round(TD*pSig)} MAD / cabinet</div>
+        </div>
+        <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:20px;text-align:center">
+          <div style="font-size:11px;font-weight:700;color:#10b981;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;font-family:'Plus Jakarta Sans',sans-serif">COMMISSION RÉCURRENTE</div>
+          <div style="font-size:36px;font-weight:800;color:#10b981;font-family:'Plus Jakarta Sans',sans-serif">${Math.round(pRec*100)}%</div>
+          <div style="font-size:13px;color:#64748b;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif">= ${Math.round(TD*pRec)} MAD/mois à vie</div>
+        </div>
+      </div>
+      <div style="background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:20px">
+        <div style="font-size:13px;font-weight:600;color:#f59e0b;margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif">🏆 Bonus paliers</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          ${[{s:5,b:250},{s:10,b:500},{s:15,b:750}].map(p=>`
+            <div style="text-align:center">
+              <div style="font-size:22px;font-weight:800;color:#f59e0b;font-family:'Plus Jakarta Sans',sans-serif">+${p.b} MAD</div>
+              <div style="font-size:12px;color:#64748b;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${p.s} cabinets</div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div style="background:#1e293b;border-radius:16px;border:1px solid #334155;padding:24px">
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:12px">
+        ${['MOIS','NOUVEAUX (${Math.round(pSig*100)}%)','RÉCURRENT (${Math.round(pRec*100)}%)','BONUS','TOTAL','STATUT'].map(h=>`<div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;font-family:'Plus Jakarta Sans',sans-serif">${h}</div>`).join('')}
+      </div>
+      <div style="text-align:center;padding:32px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">Aucune commission pour l'instant</div>
+    </div>`;
+}
 
 // ══ MEDECIN ══
 function renderMedDashboard(){
@@ -1641,6 +1611,7 @@ async function renderTerrainDashboard(){
   const total=primeSig+bonus;
   const daysLeft=Math.ceil((new Date(now.getFullYear(),now.getMonth()+1,0)-now)/(1000*60*60*24));
   const nom=(userRecord.nom||currentUser.email.split('@')[0]).split(' ')[0];
+
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px">
       <div style="font-size:22px;font-weight:700;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">Bonjour, ${nom} 👋</div>
