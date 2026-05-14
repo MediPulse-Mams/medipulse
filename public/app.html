@@ -315,7 +315,7 @@ textarea.finput{resize:none}
 
 /* ══ MEDECIN THEME OVERRIDE ══ */
 .med-theme body,.med-layout{font-family:'Plus Jakarta Sans',sans-serif!important}
-.med-sidebar{background:#fff!important;border-right:1px solid #E8EDF5!important}
+.med-sidebar{background:#fff!important;border-right:1px solid #E8EDF5!important}.med-sidebar.comm-sidebar{background:#fff!important}
 .med-sidebar .sidebar-logo{border-bottom:1px solid #E8EDF5!important}
 .med-sidebar .sidebar-logo .sidebar-logo-text{color:#1E3A5F!important}
 .med-sidebar .sidebar-logo-text span{color:#2563EB!important}
@@ -569,10 +569,8 @@ function initApp(){
     },50);
     document.getElementById('sidebar').classList.add('med-sidebar');
     if(role==='commercial'){
-      document.getElementById('sidebar').style.background='#fff';
-      document.getElementById('sidebar').style.borderRight='1px solid #E8EDF5';
-      document.querySelectorAll('#sidebar .nav-link').forEach(l=>{l.style.color='#64748B';});
-      document.querySelector('#sidebar .sidebar-footer div').style.background='rgba(244,63,94,0.08)';
+      const sb=document.getElementById('sidebar');
+      sb.style.cssText='width:var(--sidebar-w);background:#fff!important;border-right:1px solid #E8EDF5!important;position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:50';
     }
     const topbar=document.getElementById('app').querySelector('.topbar');
     topbar.classList.add('med-topbar');
