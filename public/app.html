@@ -11,6 +11,26 @@ window.renderCommSimulateur = function(){
 window.renderCommCommissions = function(){
   document.getElementById('main-content').innerHTML = '<div style="font-size:22px;font-weight:700;color:#e2e8f0;margin-bottom:24px">Mes commissions</div><p style="color:#94a3b8">En construction...</p>';
 };
+
+window.updateSim = function(){
+  const isTer=userRecord&&userRecord.type==='terrain';
+  const pSig=isTer?0.30:0.20;
+  const pRec=isTer?0.10:0.07;
+  const TD=1499;
+  const paliers=[{s:5,b:250},{s:10,b:500},{s:15,b:750}];
+  const nNew=parseInt((document.getElementById('sim-new')||{value:5}).value);
+  const nTot=parseInt((document.getElementById('sim-total')||{value:0}).value);
+  const snv=document.getElementById('sim-new-val');if(snv)snv.textContent=nNew;
+  const stv=document.getElementById('sim-total-val');if(stv)stv.textContent=nTot;
+  const commNew=nNew*Math.round(TD*pSig);
+  const commRec=nTot*Math.round(TD*pRec);
+  const bonus=([...paliers].reverse().find(function(p){return nNew>=p.s;})||{b:0}).b;
+  const total=commNew+commRec+bonus;
+  const panel=document.getElementById('sim-result-panel');
+  if(!panel)return;
+  panel.innerHTML='<div style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:8px">COMMISSION NOUVEAUX ('+Math.round(pSig*100)+'%)</div><div style="font-size:28px;font-weight:800;color:#f97316">'+commNew.toLocaleString('fr-FR')+' MAD</div><div style="font-size:12px;color:#64748b">'+nNew+' x 1499 x '+Math.round(pSig*100)+'%</div></div><div style="margin-bottom:16px;padding-top:16px;border-top:1px solid #1e293b"><div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:8px">RECURRENT ('+Math.round(pRec*100)+'%/MOIS)</div><div style="font-size:28px;font-weight:800;color:#10b981">'+commRec.toLocaleString('fr-FR')+' MAD</div></div><div style="padding-top:16px;border-top:1px solid #1e293b"><div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:8px">TOTAL CE MOIS</div><div style="font-size:36px;font-weight:800;color:#06b6d4">'+total.toLocaleString('fr-FR')+' MAD</div>'+(bonus>0?'<div style="margin-top:8px;background:rgba(245,158,11,0.1);border-radius:8px;padding:8px 12px;font-size:13px;color:#f59e0b">PALIER '+nNew+' CAB ! +'+bonus+' MAD</div>':'')+'</div>';
+};
+
 </script>
 <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
