@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediPulse — Dashboard Commercial</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/shared.css">
+<style>
+body { background: #0f172a; color: #e2e8f0; }
+/* Slider accent */
+input[type=range] { accent-color: #3b82f6; }
+/* Filter chips */
+.chip { padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; }
+.chip-active { background: rgba(37,99,235,0.15); color: #2563EB; border-color: rgba(37,99,235,0.3); }
+.chip-inactive { background: #fff; color: #6B7280; border-color: #E5E7EB; }
+/* Prospect row */
+.prospect-row { background: #fff; border-radius: 12px; border: 1px solid #F3F4F6; padding: 14px 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 14px; }
+.prospect-row:hover { border-color: rgba(37,99,235,0.2); }
+.action-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #E5E7EB; background: #F9FAFB; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; }
+.action-btn:hover { background: #EFF6FF; border-color: #2563EB; }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar sidebar-light" id="sidebar">
+    <div class="sidebar-logo">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <div style="font-family:'Syne',sans-serif;font-size:19px;font-weight:800;letter-spacing:-0.5px;color:#1E3A5F">Medi<span style="color:#2563EB">Pulse</span></div>
+      </div>
+      <div style="font-size:10px;color:#94A3B8;padding-left:33px;font-style:italic">La réputation médicale, automatisée.</div>
+    </div>
+    <div class="sidebar-user">
+      <div class="sidebar-avatar" id="sb-avatar" style="background:#EFF6FF;color:#2563EB"></div>
+      <div>
+        <div class="sidebar-username" id="sb-name"></div>
+        <div class="sidebar-role" id="sb-role" style="font-size:11px"></div>
+      </div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="nav-section">Mon espace</div>
+      <div class="nav-link active" id="nav-dashboard" onclick="showPage('dashboard')"><i class="ti ti-chart-bar"></i>Dashboard</div>
+      <div class="nav-link" id="nav-simulateur" onclick="showPage('simulateur')"><i class="ti ti-currency-dollar"></i>Simulateur revenus</div>
+      <div class="nav-link" id="nav-prospects" onclick="showPage('prospects')"><i class="ti ti-list"></i>Prospects</div>
+      <div class="nav-link" id="nav-commissions" onclick="showPage('commissions')"><i class="ti ti-receipt"></i>Commissions</div>
+      <div class="nav-link" id="nav-valider" onclick="showPage('valider')"><i class="ti ti-circle-plus"></i>Valider cabinet</div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="logout-btn logout-btn-red" onclick="doLogout()">
+        <i class="ti ti-logout" style="font-size:16px"></i> Déconnexion
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar" id="topbar" style="background:#1c1f2e;border-bottom:1px solid rgba(255,255,255,0.08)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()" style="color:#e2e8f0"><i class="ti ti-menu-2"></i></button>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:700;color:#e2e8f0" id="page-title">Dashboard</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span id="role-pill" style="padding:4px 14px;border-radius:99px;font-size:11px;font-weight:600;background:rgba(6,182,212,0.15);color:#06B6D4;border:1px solid rgba(6,182,212,0.25)"></span>
+        <span style="font-size:13px;color:#64748B" id="topbar-date"></span>
+      </div>
+    </div>
+
+    <div class="content" id="main-content" style="background:#0f172a">
+      <div style="text-align:center;padding:60px;color:#64748b">Chargement...</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MODIFIER PROSPECT -->
+<div class="overlay" id="edit-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="background:#1e293b;border-color:#334155">
+    <div style="padding:20px 24px 16px;border-bottom:1px solid #334155;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:17px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif" id="edit-name"></div>
+        <div style="font-size:13px;color:#64748b;margin-top:2px;font-family:'Plus Jakarta Sans',sans-serif" id="edit-meta"></div>
+      </div>
+      <button onclick="document.getElementById('edit-overlay').classList.remove('open')" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:20px"><i class="ti ti-x"></i></button>
+    </div>
+    <div style="padding:20px 24px 24px">
+      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;font-family:'Plus Jakarta Sans',sans-serif">Statut</div>
+      <div id="status-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px"></div>
+      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">Mobile WhatsApp</div>
+      <input class="finput" type="tel" id="edit-mobile" placeholder="06 XX XX XX XX" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
+      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">Note rapide</div>
+      <textarea class="finput" id="edit-note" rows="2" placeholder="Résultat de l'appel..." style="background:#0f172a;border-color:#334155;color:#e2e8f0;resize:none"></textarea>
+      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">Date de rappel</div>
+      <input class="finput" type="date" id="edit-rappel" style="background:#0f172a;border-color:#334155;color:#e2e8f0;margin-bottom:16px">
+      <button onclick="saveEdit()" style="width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#2563EB,#06B6D4);color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">
+        <i class="ti ti-device-floppy"></i> Enregistrer
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL AJOUTER PROSPECT -->
+<div class="overlay" id="add-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="background:#1e293b;border-color:#334155">
+    <div style="padding:20px 24px 16px;border-bottom:1px solid #334155;display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:17px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Nouveau prospect</div>
+      <button onclick="document.getElementById('add-overlay').classList.remove('open')" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:20px"><i class="ti ti-x"></i></button>
+    </div>
+    <div style="padding:20px 24px 24px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom *</div>
+          <input class="finput" id="add-nom" placeholder="Dr Nom Prénom" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Spécialité *</div>
+          <input class="finput" id="add-spec" placeholder="Dermatologue..." style="background:#0f172a;border-color:#334155;color:#e2e8f0">
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Quartier</div>
+          <input class="finput" id="add-quartier" placeholder="Bd Abdelmoumen..." style="background:#0f172a;border-color:#334155;color:#e2e8f0">
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Tél mobile</div>
+          <input class="finput" type="tel" id="add-mobile" placeholder="06 XX XX XX XX" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
+        </div>
+      </div>
+      <button onclick="saveAdd()" style="width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#2563EB,#06B6D4);color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;margin-top:4px">
+        <i class="ti ti-user-plus"></i> Ajouter
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="/js/supabase.js"></script>
+<script src="/js/auth.js"></script>
+<script>
+// ══ STATE ══
+let currentUser = null;
+let userRecord = null;
+let prospects = [];
+let crmFilter = 'Tous';
+let editId = null;
+
+// ══ INIT ══
+(async () => {
+  const auth = await requireAuth('commercial');
+  if (!auth) return;
+  currentUser = auth.session.user;
+  userRecord = auth.user;
+
+  const isTer = userRecord.type === 'terrain';
+  const initials = (userRecord.nom || currentUser.email).substring(0, 2).toUpperCase();
+  document.getElementById('sb-avatar').textContent = initials;
+  document.getElementById('sb-name').textContent = userRecord.nom || currentUser.email.split('@')[0];
+  document.getElementById('sb-role').textContent = isTer ? 'Commercial Terrain' : 'Commercial Téléphone';
+  document.getElementById('role-pill').textContent = isTer ? 'Commercial Terrain' : 'Commercial Téléphone';
+  document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'});
+
+  showPage('dashboard');
+})();
+
+// ══ NAVIGATION ══
+function showPage(page) {
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + page);
+  if (navEl) navEl.classList.add('active');
+
+  const titles = {
+    dashboard: 'Mon Dashboard',
+    simulateur: 'Simulateur revenus',
+    prospects: 'Mes Prospects',
+    commissions: 'Mes commissions',
+    valider: 'Valider un cabinet'
+  };
+  document.getElementById('page-title').textContent = titles[page] || 'Dashboard';
+
+  if (page === 'dashboard') renderDashboard();
+  else if (page === 'simulateur') renderSimulateur();
+  else if (page === 'prospects') renderProspects();
+  else if (page === 'commissions') renderCommissions();
+  else if (page === 'valider') renderValider();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ══ DASHBOARD ══
+async function renderDashboard() {
+  const now = new Date();
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+  const { data } = await sb.from('prospection').select('*').order('id');
+  prospects = data || [];
+
+  const isTer = userRecord.type === 'terrain';
+  const paliers = isTer ? PAL_TER : PAL_TEL;
+  const pSig = isTer ? P_SIG_TER : P_SIG_TEL;
+  const pRec = isTer ? P_REC_TER : P_REC_TEL;
+  const signes = prospects.filter(p => p.statut === 'Signé' && p.date_appel >= firstDay);
+  const totalSignes = signes.length;
+  const primeSig = totalSignes * Math.round(TD * pSig);
+  const bonus = ([...paliers].reverse().find(p => totalSignes >= p.s) || {b:0}).b;
+  const total = primeSig + bonus;
+  const next = paliers.find(p => totalSignes < p.s);
+  const prev = [...paliers].reverse().find(p => totalSignes >= p.s);
+  let pct = 0;
+  if (next) { const base = prev ? prev.s : 0; pct = Math.round(((totalSignes - base) / (next.s - base)) * 100); }
+  else { pct = 100; }
+  const daysLeft = Math.ceil((new Date(now.getFullYear(), now.getMonth()+1, 0) - now) / (1000*60*60*24));
+  const nom = (userRecord.nom || currentUser.email.split('@')[0]).split(' ')[0];
+
+  document.getElementById('main-content').innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+      <div style="font-size:22px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Mon Dashboard 💼</div>
+      <button onclick="showPage('valider')" style="padding:10px 20px;border-radius:8px;background:#10b981;color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">+ Nouveau cabinet</button>
+    </div>
+
+    <!-- HERO -->
+    <div style="background:linear-gradient(135deg,#1a2744,#0f1e3a);border-radius:16px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;right:0;background:#b45309;color:#fff;padding:8px 16px;border-radius:0 16px 0 16px;text-align:center">
+        <div style="font-size:24px;font-weight:800;font-family:'Syne',sans-serif">${daysLeft}</div>
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">JOURS RESTANTS</div>
+      </div>
+      <div style="font-size:13px;color:#94a3b8;margin-bottom:4px;font-family:'Plus Jakarta Sans',sans-serif">Bonjour ${nom} 👋</div>
+      <div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;font-family:'Syne',sans-serif">
+        ${totalSignes === 0 ? 'Lance-toi — signe ton premier cabinet ! 🚀' : 'Excellent travail — continue ! 💪'}
+      </div>
+      <div style="font-size:13px;color:#94a3b8;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">
+        Chaque cabinet signé = ${Math.round(TD*pSig)} MAD + ${Math.round(TD*pRec)} MAD/mois à vie
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <div style="font-size:13px;font-weight:600;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Progression vers l'objectif (${paliers[paliers.length-1].s} cabinets)</div>
+        <div style="font-size:13px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">${pct}%</div>
+      </div>
+      <div style="height:8px;background:rgba(255,255,255,0.1);border-radius:99px;overflow:hidden;margin-bottom:12px;position:relative">
+        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#3b82f6,#06b6d4);border-radius:99px;transition:width 1s ease"></div>
+        ${paliers.map(p => `<div style="position:absolute;top:50%;transform:translateY(-50%);left:${Math.round((p.s/paliers[paliers.length-1].s)*100)}%;width:2px;height:16px;background:rgba(255,255,255,0.3)"></div>`).join('')}
+      </div>
+      <div style="display:flex;gap:16px;font-size:13px;color:#94a3b8;font-family:'Plus Jakarta Sans',sans-serif">
+        ${paliers.map(p => `<span>🏆 ${p.s} → <span style="color:#f59e0b;font-weight:600">+${p.b} MAD</span></span>`).join(' · ')}
+      </div>
+      ${totalSignes < paliers[0].s ? `
+        <div style="margin-top:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 16px;font-size:13px;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">
+          💡 Signe <strong>${paliers[0].s} cabinets</strong> pour débloquer ton premier bonus de <span style="color:#f59e0b;font-weight:700">+${paliers[0].b} MAD</span>
+        </div>` : ''}
+    </div>
+
+    <!-- KPI CARDS -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px">
+      ${[
+        {val:'+'+next?.b||paliers[paliers.length-1].b+' MAD',lbl:'PROCHAIN BONUS',sub:'→ Signe '+( next?.s||paliers[paliers.length-1].s)+' cabinets',color:'#f97316'},
+        {val:total.toLocaleString('fr-FR')+' MAD',lbl:'REVENUS CE MOIS',sub:totalSignes===0?'→ Signe ton 1er cabinet !':'→ '+totalSignes+' signé'+(totalSignes>1?'s':''),color:'#3b82f6'},
+        {val:totalSignes+' / '+paliers[paliers.length-1].s,lbl:'CABINETS SIGNÉS',sub:'→ Objectif : '+paliers[paliers.length-1].s+' cabinets',color:'#10b981'},
+        {val:(totalSignes*Math.round(TD*pRec)).toLocaleString('fr-FR')+' MAD',lbl:'RÉCURRENT GARANTI',sub:'↑ +'+Math.round(TD*pRec)+' MAD par cabinet/mois',color:'#06b6d4'},
+      ].map(k => `
+        <div style="background:#1e293b;border-radius:12px;border:1px solid #334155;padding:20px">
+          <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">${k.lbl}</div>
+          <div style="font-size:24px;font-weight:800;color:${k.color};font-family:'Syne',sans-serif">${k.val}</div>
+          <div style="font-size:12px;color:#94a3b8;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${k.sub}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- CABINETS ACTIFS -->
+    <div style="background:#1e293b;border-radius:12px;border:1px solid #334155;padding:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="font-size:16px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Mes cabinets actifs</div>
+        <div style="font-size:13px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">0 cabinet · 0 MAD récurrent/mois</div>
+      </div>
+      <div style="text-align:center;padding:32px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">
+        <div style="font-size:36px;margin-bottom:12px">🏥</div>
+        <div style="font-size:14px;font-weight:600;color:#94a3b8">Aucun cabinet pour l'instant</div>
+        <div style="font-size:13px;color:#64748b;margin-top:4px">Clique sur "+ Nouveau cabinet" pour commencer !</div>
+      </div>
+    </div>
+  `;
+}
+
+// ══ SIMULATEUR ══
+function renderSimulateur() {
+  const isTer = userRecord.type === 'terrain';
+  const pSig = isTer ? P_SIG_TER : P_SIG_TEL;
+  const pRec = isTer ? P_REC_TER : P_REC_TEL;
+
+  document.getElementById('main-content').innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+      <div style="font-size:22px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">💰 Simulateur revenus</div>
+      <button onclick="showPage('valider')" style="padding:10px 20px;border-radius:8px;background:#10b981;color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">+ Nouveau cabinet</button>
+    </div>
+
+    <div style="background:#1e293b;border-radius:16px;border:1px solid #334155;padding:24px">
+      <div style="font-size:17px;font-weight:700;color:#e2e8f0;margin-bottom:4px;font-family:'Syne',sans-serif">💰 Simulateur de revenus</div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">Combien peux-tu gagner selon tes efforts ?</div>
+
+      <div style="background:#0f172a;border-radius:12px;padding:16px 20px;margin-bottom:20px">
+        <div style="font-size:14px;font-weight:600;color:#e2e8f0;margin-bottom:4px;font-family:'Plus Jakarta Sans',sans-serif">🎯 Si je signe X cabinets ce mois...</div>
+        <div style="font-size:12px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">
+          Paliers bonus : 5 cab → +${isTer?250:200} MAD · 10 cab → +${isTer?500:400} MAD · 15 cab → +${isTer?750:600} MAD
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div>
+          <div style="margin-bottom:24px">
+            <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">NOUVEAUX CABINETS — CE MOIS</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+              <input type="range" id="sim-new" min="0" max="20" value="5" oninput="updateSim()" style="flex:1;margin-right:12px">
+              <span id="sim-new-val" style="font-size:20px;font-weight:700;color:#3b82f6;min-width:28px;text-align:right;font-family:'Syne',sans-serif">5</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif"><span>0</span><span>20</span></div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">CABINETS ACTIFS TOTAL — PORTEFEUILLE</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+              <input type="range" id="sim-total" min="0" max="30" value="0" oninput="updateSim()" style="flex:1;margin-right:12px;accent-color:#06b6d4">
+              <span id="sim-total-val" style="font-size:20px;font-weight:700;color:#06b6d4;min-width:28px;text-align:right;font-family:'Syne',sans-serif">0</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif"><span>0</span><span>30</span></div>
+          </div>
+        </div>
+        <div id="sim-result" style="background:#0f172a;border-radius:12px;padding:20px"></div>
+      </div>
+    </div>
+  `;
+  updateSim();
+}
+
+function updateSim() {
+  const isTer = userRecord.type === 'terrain';
+  const pSig = isTer ? P_SIG_TER : P_SIG_TEL;
+  const pRec = isTer ? P_REC_TER : P_REC_TEL;
+  const paliers = isTer ? PAL_TER : PAL_TEL;
+
+  const nNew = parseInt(document.getElementById('sim-new')?.value || 5);
+  const nTot = parseInt(document.getElementById('sim-total')?.value || 0);
+  const snv = document.getElementById('sim-new-val');
+  const stv = document.getElementById('sim-total-val');
+  if (snv) snv.textContent = nNew;
+  if (stv) stv.textContent = nTot;
+
+  const commNew = nNew * Math.round(TD * pSig);
+  const commRec = nTot * Math.round(TD * pRec);
+  const bonus = ([...paliers].reverse().find(p => nNew >= p.s) || {b:0}).b;
+  const total = commNew + commRec + bonus;
+
+  const panel = document.getElementById('sim-result');
+  if (!panel) return;
+
+  panel.innerHTML = `
+    <div style="margin-bottom:16px">
+      <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">COMMISSION NOUVEAUX (${Math.round(pSig*100)}%)</div>
+      <div style="font-size:28px;font-weight:800;color:#f97316;font-family:'Syne',sans-serif">${commNew.toLocaleString('fr-FR')} MAD</div>
+      <div style="font-size:12px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">${nNew} × ${TD} × ${Math.round(pSig*100)}%</div>
+    </div>
+    <div style="margin-bottom:16px;padding-top:16px;border-top:1px solid #1e293b">
+      <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">RÉCURRENT (${Math.round(pRec*100)}%/MOIS)</div>
+      <div style="font-size:28px;font-weight:800;color:#10b981;font-family:'Syne',sans-serif">${commRec.toLocaleString('fr-FR')} MAD</div>
+      <div style="font-size:12px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">${nTot} × ${TD} × ${Math.round(pRec*100)}%</div>
+    </div>
+    <div style="padding-top:16px;border-top:1px solid #1e293b">
+      <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">TOTAL CE MOIS</div>
+      <div style="font-size:36px;font-weight:800;color:#06b6d4;font-family:'Syne',sans-serif">${total.toLocaleString('fr-FR')} MAD</div>
+      ${bonus > 0 ? `<div style="margin-top:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:8px 12px;font-size:13px;color:#f59e0b;font-family:'Plus Jakarta Sans',sans-serif">🏆 PALIER ${nNew} CABINETS ! +${bonus} MAD</div>` : ''}
+    </div>
+  `;
+}
+
+// ══ PROSPECTS ══
+async function renderProspects() {
+  if (!prospects.length) {
+    const { data } = await sb.from('prospection').select('*').order('id');
+    prospects = data || [];
+  }
+  renderProspectsList();
+}
+
+function renderProspectsList() {
+  const filtered = crmFilter === 'Tous' ? prospects : prospects.filter(p => p.statut === crmFilter);
+
+  document.getElementById('main-content').innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-size:22px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Mes Prospects</div>
+        <div style="font-size:13px;color:#64748b;margin-top:2px;font-family:'Plus Jakarta Sans',sans-serif">${prospects.length} prospects</div>
+      </div>
+      <button onclick="document.getElementById('add-overlay').classList.add('open')" style="padding:10px 18px;border-radius:10px;background:linear-gradient(135deg,#1E3A8A,#2563EB);color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">
+        + Ajouter prospect
+      </button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      ${['Tous','Nouveau','Rappeler','Joignable','Démo Bookée','Signé','Refus'].map(f => `
+        <div onclick="setFilter('${f}')" class="chip ${crmFilter===f?'chip-active':'chip-inactive'}">${f}</div>
+      `).join('')}
+    </div>
+    <div id="prospects-list">
+      ${filtered.length ? filtered.map(p => {
+        const st = ST.find(s => s.key === p.statut) || ST[0];
+        return `
+          <div class="prospect-row">
+            <div style="flex:1">
+              <div style="font-size:14px;font-weight:600;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">${p.nom}</div>
+              <div style="font-size:12px;color:#6B7280;margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif">
+                ${p.specialite} · ${p.quartier||p.ville||''}
+                ${p.telephone_fixe ? ' · ' + p.telephone_fixe : ''}
+              </div>
+              ${p.note ? `<div style="font-size:11px;color:#94A3B8;margin-top:3px;font-style:italic;font-family:'Plus Jakarta Sans',sans-serif">${p.note}</div>` : ''}
+            </div>
+            <span style="padding:4px 10px;border-radius:99px;font-size:11px;font-weight:600;background:${st.bg};color:${st.color};white-space:nowrap">${st.label}</span>
+            <div style="display:flex;gap:6px">
+              <button class="action-btn" onclick="callProspect(${p.id})" title="Appeler">
+                <i class="ti ti-phone" style="font-size:15px;color:#16A34A"></i>
+              </button>
+              <button class="action-btn" onclick="waProspect(${p.id})" title="WhatsApp">
+                <i class="ti ti-brand-whatsapp" style="font-size:15px;color:#16A34A"></i>
+              </button>
+              <button class="action-btn" onclick="editProspect(${p.id})" title="Modifier">
+                <i class="ti ti-edit" style="font-size:15px;color:#2563EB"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('') : `
+        <div style="text-align:center;padding:48px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">
+          <i class="ti ti-search" style="font-size:40px;display:block;margin-bottom:12px;color:#334155"></i>
+          Aucun prospect trouvé
+        </div>
+      `}
+    </div>
+  `;
+}
+
+function setFilter(f) {
+  crmFilter = f;
+  renderProspectsList();
+}
+
+function callProspect(id) {
+  const p = prospects.find(x => x.id === id);
+  if (!p) return;
+  const tel = (p.telephone_fixe || p.telephone_mobile || '').replace(/\s/g, '');
+  if (tel) window.location.href = 'tel:' + tel;
+  else showToast('Aucun numéro disponible', 'error');
+}
+
+function waProspect(id) {
+  const p = prospects.find(x => x.id === id);
+  if (!p) return;
+  const tel = (p.telephone_mobile || p.telephone_fixe || '').replace(/\s/g, '').replace(/^0/, '212');
+  if (tel) window.open('https://wa.me/' + tel, '_blank');
+  else showToast('Ajouter le mobile via Modifier', 'error');
+}
+
+function editProspect(id) {
+  const p = prospects.find(x => x.id === id);
+  if (!p) return;
+  editId = id;
+  document.getElementById('edit-name').textContent = p.nom;
+  document.getElementById('edit-meta').textContent = p.specialite + (p.telephone_fixe ? ' · ' + p.telephone_fixe : '');
+  document.getElementById('edit-mobile').value = p.telephone_mobile || '';
+  document.getElementById('edit-note').value = p.note || '';
+  document.getElementById('edit-rappel').value = p.date_rappel || '';
+
+  document.getElementById('status-grid').innerHTML = ST.map(s => `
+    <div onclick="selectStatus('${s.key}',this)" style="padding:10px 12px;border-radius:10px;border:2px solid ${p.statut===s.key?s.border:'#334155'};background:${p.statut===s.key?s.bg:'transparent'};cursor:pointer;transition:all 0.15s" data-key="${s.key}">
+      <div style="font-size:12px;font-weight:600;color:${s.color};font-family:'Plus Jakarta Sans',sans-serif">${s.label}</div>
+      <div style="font-size:10px;color:#64748b;margin-top:2px;font-family:'Plus Jakarta Sans',sans-serif">${s.desc}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('edit-overlay').classList.add('open');
+}
+
+function selectStatus(key, el) {
+  document.querySelectorAll('#status-grid > div').forEach(d => {
+    const s = ST.find(x => x.key === d.dataset.key);
+    d.style.borderColor = '#334155';
+    d.style.background = 'transparent';
+  });
+  const s = ST.find(x => x.key === key);
+  el.style.borderColor = s.border;
+  el.style.background = s.bg;
+}
+
+async function saveEdit() {
+  const selEl = document.querySelector('#status-grid > div[style*="rgb"]');
+  const statut = selEl ? selEl.dataset.key : 'Nouveau';
+  const { error } = await sb.from('prospection').update({
+    statut,
+    telephone_mobile: document.getElementById('edit-mobile').value,
+    note: document.getElementById('edit-note').value,
+    date_rappel: document.getElementById('edit-rappel').value || null,
+    date_appel: new Date().toISOString().split('T')[0],
+    commercial_id: currentUser.email,
+  }).eq('id', editId);
+
+  if (error) { showToast('Erreur sauvegarde', 'error'); return; }
+  showToast('Enregistré', 'success');
+  document.getElementById('edit-overlay').classList.remove('open');
+  renderProspects();
+}
+
+async function saveAdd() {
+  const nom = document.getElementById('add-nom')?.value.trim();
+  const spec = document.getElementById('add-spec')?.value.trim();
+  if (!nom || !spec) { showToast('Nom et spécialité requis', 'error'); return; }
+
+  const { error } = await sb.from('prospection').insert([{
+    nom, specialite: spec,
+    quartier: document.getElementById('add-quartier').value,
+    ville: 'Casablanca',
+    telephone_mobile: document.getElementById('add-mobile').value,
+    statut: 'Nouveau',
+    commercial_id: currentUser.email,
+  }]);
+
+  if (error) { showToast('Erreur ajout', 'error'); return; }
+  showToast('Prospect ajouté', 'success');
+  document.getElementById('add-overlay').classList.remove('open');
+  ['add-nom','add-spec','add-quartier','add-mobile'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  renderProspects();
+}
+
+// ══ COMMISSIONS ══
+function renderCommissions() {
+  const isTer = userRecord.type === 'terrain';
+  const pSig = isTer ? P_SIG_TER : P_SIG_TEL;
+  const pRec = isTer ? P_REC_TER : P_REC_TEL;
+  const paliers = isTer ? PAL_TER : PAL_TEL;
+
+  document.getElementById('main-content').innerHTML = `
+    <div style="font-size:22px;font-weight:700;color:#e2e8f0;margin-bottom:24px;font-family:'Syne',sans-serif">Mes commissions</div>
+
+    <div style="background:#1e293b;border-radius:16px;border:1px solid #334155;padding:24px;margin-bottom:20px">
+      <div style="font-size:13px;font-weight:600;color:#94a3b8;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">📋 Grille de commissions MediPulse</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+        <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:20px;text-align:center">
+          <div style="font-size:10px;font-weight:700;color:#3b82f6;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;font-family:'Plus Jakarta Sans',sans-serif">COMMISSION NOUVEAU CABINET</div>
+          <div style="font-size:36px;font-weight:800;color:#3b82f6;font-family:'Syne',sans-serif">${Math.round(pSig*100)}%</div>
+          <div style="font-size:13px;color:#64748b;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif">= ${Math.round(TD*pSig)} MAD / cabinet</div>
+        </div>
+        <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:20px;text-align:center">
+          <div style="font-size:10px;font-weight:700;color:#10b981;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;font-family:'Plus Jakarta Sans',sans-serif">COMMISSION RÉCURRENTE</div>
+          <div style="font-size:36px;font-weight:800;color:#10b981;font-family:'Syne',sans-serif">${Math.round(pRec*100)}%</div>
+          <div style="font-size:13px;color:#64748b;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif">= ${Math.round(TD*pRec)} MAD/mois à vie</div>
+        </div>
+      </div>
+      <div style="background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:20px">
+        <div style="font-size:13px;font-weight:600;color:#f59e0b;margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif">🏆 Bonus paliers</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          ${paliers.map(p => `
+            <div style="text-align:center">
+              <div style="font-size:22px;font-weight:800;color:#f59e0b;font-family:'Syne',sans-serif">+${p.b} MAD</div>
+              <div style="font-size:12px;color:#64748b;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${p.s} cabinets</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#1e293b;border-radius:16px;border:1px solid #334155;padding:24px">
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #334155">
+        ${['MOIS', 'NOUVEAUX ('+Math.round(pSig*100)+'%)', 'RÉCURRENT ('+Math.round(pRec*100)+'%)', 'BONUS', 'TOTAL', 'STATUT'].map(h =>
+          `<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;font-family:'Plus Jakarta Sans',sans-serif">${h}</div>`
+        ).join('')}
+      </div>
+      <div style="text-align:center;padding:32px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">
+        Aucune commission pour l'instant
+      </div>
+    </div>
+  `;
+}
+
+// ══ VALIDER CABINET ══
+function renderValider() {
+  document.getElementById('main-content').innerHTML = `
+    <div style="margin-bottom:24px">
+      <div style="font-size:22px;font-weight:700;color:#e2e8f0;font-family:'Syne',sans-serif">Valider un cabinet signé</div>
+      <div style="font-size:13px;color:#64748b;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Crée automatiquement les accès médecin et assistante — Trial 7 jours</div>
+    </div>
+    <div style="max-width:600px">
+      <div style="background:#1e293b;border-radius:16px;border:1px solid #334155;padding:28px">
+        <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#93c5fd;font-family:'Plus Jakarta Sans',sans-serif">
+          ℹ️ Le cabinet bénéficiera d'un essai gratuit de 7 jours. Vous serez notifié la veille de l'expiration.
+        </div>
+        ${[
+          ['cab-nom','cab-medecin','Nom du cabinet *','Nom du médecin *','Cabinet Dr. Nom','Dr. Prénom Nom'],
+          ['cab-spec','cab-ville','Spécialité *','Ville','Dermatologue...','Casablanca'],
+          ['cab-email-med','cab-assistante','Email médecin *','Nom assistante *','dr.nom@medipulse.ma','Prénom Nom'],
+          ['cab-email-ass','','Email assistante *','','assistante.nom@medipulse.ma',''],
+        ].map(row => `
+          <div style="display:grid;grid-template-columns:${row[1]?'1fr 1fr':'1fr'};gap:16px;margin-bottom:16px">
+            <div>
+              <div style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">${row[2]}</div>
+              <input class="finput" id="${row[0]}" placeholder="${row[4]}" style="background:#0f172a;border-color:#334155;color:#e2e8f0" ${row[0]==='cab-ville'?'value="Casablanca"':''}>
+            </div>
+            ${row[1] ? `<div>
+              <div style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">${row[3]}</div>
+              <input class="finput" id="${row[1]}" placeholder="${row[5]}" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
+            </div>` : ''}
+          </div>
+        `).join('')}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+          <div>
+            <div style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Plan</div>
+            <select class="finput" id="cab-plan" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
+              <option value="starter">Starter — 999 DH/mois</option>
+              <option value="pro" selected>Pro — 1499 DH/mois</option>
+              <option value="enterprise">Enterprise — 2499 DH/mois</option>
+            </select>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Lien Google Maps</div>
+            <input class="finput" id="cab-google" placeholder="https://g.page/..." style="background:#0f172a;border-color:#334155;color:#e2e8f0">
+          </div>
+        </div>
+        <div style="margin-bottom:20px">
+          <div style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">WhatsApp cabinet</div>
+          <input class="finput" type="tel" id="cab-whatsapp" placeholder="06 XX XX XX XX" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
+        </div>
+        <button onclick="validerCabinet()" style="width:100%;padding:14px;border-radius:12px;background:#10b981;color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">
+          ✓ Valider le cabinet — Démarrer le trial
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+async function validerCabinet() {
+  const nom = document.getElementById('cab-nom')?.value.trim();
+  const med = document.getElementById('cab-medecin')?.value.trim();
+  const spec = document.getElementById('cab-spec')?.value.trim();
+  const ville = document.getElementById('cab-ville')?.value.trim();
+  const emailMed = document.getElementById('cab-email-med')?.value.trim();
+  const ass = document.getElementById('cab-assistante')?.value.trim();
+  const emailAss = document.getElementById('cab-email-ass')?.value.trim();
+  const plan = document.getElementById('cab-plan')?.value;
+  const googleUrl = document.getElementById('cab-google')?.value.trim();
+  const whatsapp = document.getElementById('cab-whatsapp')?.value.trim();
+
+  if (!nom || !med || !spec || !emailMed || !ass || !emailAss) {
+    showToast('Tous les champs requis', 'error'); return;
+  }
+
+  const today = new Date();
+  const trialEnd = new Date(today); trialEnd.setDate(trialEnd.getDate() + 7);
+  const renewDate = new Date(today); renewDate.setMonth(renewDate.getMonth() + 1);
+
+  const { error } = await sb.from('cabinets').insert([{
+    nom_cabinet: nom, nom_medecin: med, specialite: spec, ville,
+    email_medecin: emailMed, email_assistante: emailAss, nom_assistante: ass,
+    plan, statut: 'trial',
+    date_signature: today.toISOString().split('T')[0],
+    date_debut: today.toISOString().split('T')[0],
+    date_fin_trial: trialEnd.toISOString().split('T')[0],
+    date_renouvellement: renewDate.toISOString().split('T')[0],
+    statut_paiement: 'trial',
+    commercial_id: currentUser.email,
+    google_url: googleUrl,
+    whatsapp_cabinet: whatsapp,
+  }]);
+
+  if (error) { showToast('Erreur — ' + error.message, 'error'); return; }
+
+  // Create user accounts
+  await sb.from('users').insert([
+    { email: emailMed, nom: med, role: 'medecin', type: '', statut: 'actif', commercial_id: currentUser.email, date_creation: today.toISOString().split('T')[0] },
+    { email: emailAss, nom: ass, role: 'assistante', type: '', statut: 'actif', commercial_id: currentUser.email, date_creation: today.toISOString().split('T')[0] },
+  ]);
+
+  showToast('Cabinet validé ! Trial 7 jours activé.', 'success');
+  setTimeout(() => showPage('dashboard'), 1500);
+}
+</script>
+</body>
+</html>
