@@ -314,6 +314,7 @@ textarea.finput{resize:none}
 .sidebar-overlay.open{display:block}
 
 /* ══ MEDECIN THEME OVERRIDE ══ */
+.comm-white-sidebar{background:#fff!important;border-right:1px solid #E8EDF5!important;}
 .med-theme body,.med-layout{font-family:'Plus Jakarta Sans',sans-serif!important}
 .med-sidebar{background:#fff!important;border-right:1px solid #E8EDF5!important}.med-sidebar.comm-sidebar{background:#fff!important}
 .med-sidebar .sidebar-logo{border-bottom:1px solid #E8EDF5!important}
@@ -2052,6 +2053,7 @@ document.addEventListener('click',function(e){
 (async()=>{
   const{data:{session}}=await sb.auth.getSession();
   document.getElementById('loader').style.display='none';
+if(document.getElementById('sidebar'))document.getElementById('sidebar').classList.add('comm-white-sidebar');
   if(session){currentUser=session.user;await loadUserRecord();}
   else document.getElementById('login-wrap').style.display='flex';
 })();
