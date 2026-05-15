@@ -454,8 +454,9 @@ function selectSt(key,el){
 }
 
 async function saveEdit(){
-  const selEl=document.querySelector('#status-grid .st-opt[style*="rgb"]')||document.querySelector('#status-grid .st-opt[style*="#0"]');
-  const statut=selEl?selEl.dataset.key:'Nouveau';
+  const allOpts=document.querySelectorAll('#status-grid .st-opt');
+  let statut='Nouveau';
+  allOpts.forEach(d=>{if(d.classList.contains('selected'))statut=d.dataset.key;});
   const{error}=await sb.from('prospection').update({
     statut,telephone_mobile:document.getElementById('edit-mobile').value,
     note:document.getElementById('edit-note').value,
