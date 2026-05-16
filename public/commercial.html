@@ -182,7 +182,7 @@ let currentUser=null,userRecord=null,prospects=[],crmFilter='Tous',editId=null;
   showPage('dashboard');
 })();
 
-function showPage(page){
+function showPage(page){if(window.innerWidth<768){var sb=document.getElementById('sidebar');if(sb)sb.classList.remove('open');}
   document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
   const navEl=document.getElementById('nav-'+page);
   if(navEl)navEl.classList.add('active');
@@ -195,7 +195,7 @@ function showPage(page){
   else if(page==='valider')renderValider();
 }
 
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');}
+function toggleSidebar(){var sb=document.getElementById('sidebar');sb.classList.toggle('open');}
 
 // ── DASHBOARD ──
 async function renderDashboard(){
