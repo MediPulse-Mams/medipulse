@@ -54,6 +54,7 @@ input[type=range]{accent-color:#0D7490;width:100%}
 </style>
 </head>
 <body>
+<div id="mob-overlay" onclick="closeSidebar()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:49"></div>
 <div class="layout">
 
   <!-- SIDEBAR -->
@@ -182,7 +183,7 @@ let currentUser=null,userRecord=null,prospects=[],crmFilter='Tous',editId=null;
   showPage('dashboard');
 })();
 
-function showPage(page){if(window.innerWidth<768){var sb=document.getElementById('sidebar');if(sb)sb.classList.remove('open');}
+function showPage(page){closeSidebar();closeSidebar();
   document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
   const navEl=document.getElementById('nav-'+page);
   if(navEl)navEl.classList.add('active');
@@ -195,7 +196,7 @@ function showPage(page){if(window.innerWidth<768){var sb=document.getElementById
   else if(page==='valider')renderValider();
 }
 
-function toggleSidebar(){var sb=document.getElementById('sidebar');sb.classList.toggle('open');}
+function toggleSidebar(){var sb=document.getElementById('sidebar');var ov=document.getElementById('mob-overlay');var open=sb.classList.toggle('open');ov.style.display=open?'block':'none';}function closeSidebar(){var sb=document.getElementById('sidebar');var ov=document.getElementById('mob-overlay');sb.classList.remove('open');ov.style.display='none';}
 
 // ── DASHBOARD ──
 async function renderDashboard(){
