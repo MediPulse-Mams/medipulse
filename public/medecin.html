@@ -356,5 +356,16 @@ function renderStats() {
   }, 100);
 }
 </script>
+<script>
+if(window.innerWidth < 768){
+  var sb = document.getElementById('sidebar');
+  if(sb) sb.classList.remove('open');
+}
+window.addEventListener('resize', function(){
+  if(window.innerWidth >= 768){
+    document.getElementById('sidebar').style.transform = '';
+  }
+});
+</script>
 </body>
 </html>
