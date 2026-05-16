@@ -367,5 +367,23 @@ window.addEventListener('resize', function(){
   }
 });
 </script>
+
+<script>
+(function(){
+  function applyMobile(){
+    var isMobile = window.innerWidth < 768;
+    var sidebar = document.getElementById('sidebar');
+    var main = document.querySelector('.main');
+    if(isMobile){
+      if(sidebar) sidebar.classList.remove('open');
+      if(main) main.style.marginLeft = '0';
+    } else {
+      if(main) main.style.marginLeft = '240px';
+    }
+  }
+  applyMobile();
+  window.addEventListener('resize', applyMobile);
+})();
+</script>
 </body>
 </html>
