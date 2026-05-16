@@ -439,5 +439,25 @@ function renderStats(){
   },100);
 }
 </script>
+
+<script>
+function applyResponsive(){
+  var isMobile = window.innerWidth <= 768;
+  // KPI grid
+  var kpiGrid = document.querySelector('.kpi-grid');
+  if(kpiGrid) kpiGrid.style.gridTemplateColumns = isMobile ? '1fr 1fr' : 'repeat(4,1fr)';
+  // Charts row
+  var chartsRow = document.querySelector('.charts-row');
+  if(chartsRow) chartsRow.style.gridTemplateColumns = isMobile ? '1fr' : '3fr 2fr';
+  // Page header
+  var pageHeader = document.querySelector('.page-header');
+  if(pageHeader) pageHeader.style.flexDirection = isMobile ? 'column' : 'row';
+}
+document.addEventListener('DOMContentLoaded', applyResponsive);
+window.addEventListener('resize', applyResponsive);
+// Also run after page render
+setTimeout(applyResponsive, 100);
+setTimeout(applyResponsive, 500);
+</script>
 </body>
 </html>
