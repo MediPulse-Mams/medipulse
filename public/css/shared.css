@@ -57,3 +57,38 @@ body{font-family:var(--font);min-height:100vh}
 .modal{background:#fff;border-radius:20px;border:1px solid #E5E7EB;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
 @media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.content{padding:16px}.topbar{padding:0 16px}.mobile-menu-btn{display:flex!important}}
 .mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;font-size:22px;align-items:center}
+@media(max-width:768px){
+  /* Grilles -> 1 colonne */
+  [style*="grid-template-columns:repeat(4"]{grid-template-columns:1fr 1fr!important}
+  [style*="grid-template-columns:repeat(3"]{grid-template-columns:1fr 1fr!important}
+  [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
+  [style*="grid-template-columns:3fr"]{grid-template-columns:1fr!important}
+  [style*="grid-template-columns:repeat(6"]{grid-template-columns:repeat(3,1fr)!important}
+  /* Tables -> scroll horizontal */
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  /* Content padding */
+  .content{padding:16px 14px!important}
+  /* Topbar */
+  .topbar{padding:0 14px!important}
+  /* Hero commercial */
+  .hero{padding:18px 16px!important;border-radius:12px!important}
+  /* KPI grid */
+  .kpi-grid{grid-template-columns:1fr 1fr!important}
+  /* Sidebar */
+  .sidebar{transform:translateX(-100%);transition:transform 0.3s}
+  .sidebar.open{transform:translateX(0)!important}
+  .main{margin-left:0!important}
+  /* Simulateur */
+  [style*="grid-template-columns:1fr 1fr;gap:24px"]{grid-template-columns:1fr!important}
+  /* Charts */
+  [style*="grid-template-columns:3fr 2fr"]{grid-template-columns:1fr!important}
+  [style*="grid-template-columns:3fr 1fr"]{grid-template-columns:1fr!important}
+  /* Valider cabinet form */
+  [style*="max-width:580px"]{max-width:100%!important}
+  [style*="max-width:600px"]{max-width:100%!important}
+  /* Buttons wrap */
+  [style*="display:flex;align-items:center;justify-content:space-between"]{flex-wrap:wrap!important;gap:10px!important}
+  /* Font sizes */
+  .kpi-val{font-size:22px!important}
+  .hero [style*="font-size:20px"]{font-size:16px!important}
+}
