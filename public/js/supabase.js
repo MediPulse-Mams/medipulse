@@ -16,3 +16,22 @@ const ST=[
 {key:'Signe',label:'Signe',desc:'Contrat signe',bg:'#F0FDF4',color:'#15803D',border:'#86EFAC'},
 {key:'Refus',label:'Refus',desc:'Pas interesse',bg:'#FFF1F2',color:'#BE123C',border:'#FECDD3'},
 ];
+async function requireAuth(role){
+const{data:{session}}=await sb.auth.getSession();
+if(!session){window.location.href='/app.html';return null;}
+const{data:user}=await sb.from('users').select('*').eq('email',session.user.email).single();
+if(!user){await sb.auth.signOut();window.location.href='/app.html';return null;}
+if(user.statut==='suspendu'){await sb.auth.signOut();window.location.href='/app.html';return null;}
+const roles=Array.isArray(role)?role:[role];
+if(!roles.includes(user.role)){const redirects={owner:'/owner.html',commercial:'/commercial.html',medecin:'/medecin.html',assistante:'/assistante.html'};window.location.href=redirects[user.role]||'/app.html';return null;}
+return{session,user};
+}
+async function doLogout(){await sb.auth.signOut();window.location.href='/app.html';}
+function showToast(msg,type){
+const t=document.getElementById('toast');
+if(!t)return;
+const colors={success:'#10B981',error:'#F43F5E',info:'#0D7490',warning:'#F59E0B'};
+t.innerHTML='<span style="color:'+( colors[type]||colors.info)+'">●</span> '+msg;
+t.style.cssText='position:fixed;bottom:24px;right:24px;background:#fff;color:#111827;border:1px solid #E5E7EB;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:500;z-index:300;opacity:1;box-shadow:0 8px 24px rgba(0,0,0,0.1);font-family:Plus Jakarta Sans,sans-serif;display:flex;align-items:center;gap:8px;transition:opacity 0.3s';
+setTimeout(()=>{t.style.opacity='0';},3000);
+}
