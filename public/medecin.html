@@ -11,6 +11,17 @@
 <style>
 body { background: #F5F7FF; color: #111827; }
 .topbar-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: #0F172A; }
+@media(max-width:768px){
+    [style*="repeat(4,1fr)"]{grid-template-columns:1fr 1fr!important}
+    [style*="3fr 2fr"]{grid-template-columns:1fr!important}
+    [style*="3fr 1fr"]{grid-template-columns:1fr!important}
+    [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
+    .card-white{padding:14px!important}
+    [style*="font-size:32px"]{font-size:24px!important}
+    [style*="font-size:22px;font-weight:700"]{font-size:18px!important}
+    [style*="display:flex;align-items:center;justify-content:space-between;flex-wrap"]{gap:8px!important}
+    [style*="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px"]{flex-direction:column!important;align-items:flex-start!important}
+  }
 </style>
 </head>
 <body>
@@ -135,7 +146,7 @@ function renderDashboard() {
     </div>
 
     <!-- 4 KPIs -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
       ${[
         {val:'24',lbl:'Avis collectés',sub:'+42% vs mois précédent',subColor:'#10B981',icon:'ti-message',iconBg:'#EFF6FF',iconColor:'#2563EB'},
         {val:'3.7',lbl:'Note moyenne',sub:'sur 5.0 — 24 avis',subColor:'#6B7280',icon:'ti-star',iconBg:'#FFF7ED',iconColor:'#F59E0B'},
@@ -156,7 +167,7 @@ function renderDashboard() {
     </div>
 
     <!-- CHARTS -->
-    <div style="display:grid;grid-template-columns:3fr 2fr;gap:20px;margin-bottom:24px">
+    <div style="display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-bottom:20px">
       <!-- LINE CHART -->
       <div class="card-white">
         <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">Évolution des avis</div>
