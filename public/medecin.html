@@ -212,8 +212,12 @@ function avisContent(limit){
     </div>`;
 }
 
-function renderDashboard(){
+async function renderDashboard(){
   const nom=userRecord.nom||'Dr. Test';
+  // Fetch real cabinet data
+  const{data:cabinet}=await sb.from('cabinets').select('*').eq('email_medecin',currentUser.email).single();
+  const noteGoogle=cabinet?.note_google||0;
+  const nbAvis=cabinet?.nb_avis_depart||0;
   const googleUrl='https://www.google.com/search?q='+encodeURIComponent(nom+' médecin Casablanca avis');
   document.getElementById('main-content').innerHTML=`
     <div class="page-header">
@@ -238,12 +242,12 @@ function renderDashboard(){
     <div class="kpi-grid">
       <div class="kpi-card">
         <div class="kpi-head"><span class="kpi-label">Avis collectés</span><div class="kpi-icon" style="background:#EFF6FF"><i class="ti ti-message" style="font-size:16px;color:#2563EB"></i></div></div>
-        <div class="kpi-value">24</div>
-        <div class="kpi-sub" style="color:#10B981">+42% <span style="color:#6B7280;font-weight:400">vs mois précédent</span></div>
+        <div class="kpi-value">${nbAvis}</div>
+        <div class="kpi-sub" style="color:#10B981">Depuis le début <span style="color:#6B7280;font-weight:400">vs mois précédent</span></div>
       </div>
       <div class="kpi-card">
         <div class="kpi-head"><span class="kpi-label">Note moyenne</span><div class="kpi-icon" style="background:#FFF7ED"><i class="ti ti-star" style="font-size:16px;color:#F59E0B"></i></div></div>
-        <div style="display:flex;align-items:baseline;gap:5px"><div class="kpi-value">3.7</div><span style="color:#F59E0B;font-size:13px">⭐⭐⭐⭐</span></div>
+        <div style="display:flex;align-items:baseline;gap:5px"><div class="kpi-value">${noteGoogle}</div><span style="color:#F59E0B;font-size:13px">⭐⭐⭐⭐</span></div>
         <div class="kpi-sub" style="color:#6B7280;font-weight:400">sur 5.0 — 24 avis</div>
       </div>
       <div class="kpi-card">
