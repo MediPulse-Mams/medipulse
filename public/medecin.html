@@ -154,8 +154,8 @@ function closeSidebar(){
 function getCabinetStats(){
   if(!cabinetData) return {note:0,nbAvis:0,nomCabinet:'Mon Cabinet',googleUrl:'#',specialite:''};
   return {
-    note: cabinetData.note_google||0,
-    nbAvis: cabinetData.nb_avis_depart||0,
+    note: parseFloat(cabinetData.note_google)||0,
+    nbAvis: parseInt(cabinetData.nb_avis_depart)||0,
     nomCabinet: cabinetData.nom_cabinet||'Mon Cabinet',
     googleUrl: cabinetData.google_url||'https://www.google.com/maps/search/'+encodeURIComponent(cabinetData.nom_cabinet||''),
     specialite: cabinetData.specialite||'',
