@@ -80,7 +80,7 @@ body{font-family:var(--font);min-height:100vh}
 .nav-link{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;cursor:pointer;transition:all 0.15s;margin-bottom:2px;font-size:13px;font-weight:500}
 .nav-link i{font-size:18px}
 
-.sidebar-footer{padding:14px 20px;border-top:1px solid}
+.sidebar-footer{padding:14px 20px;border-top:1px solid;margin-top:auto;flex-shrink:0}
 .sidebar-light .sidebar-footer{border-color:#E8EDF5}
 .sidebar-dark .sidebar-footer{border-color:rgba(255,255,255,0.08)}
 
