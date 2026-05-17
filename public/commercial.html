@@ -435,7 +435,7 @@ function editProspect(id){
   document.getElementById('edit-note').value=p.note||'';
   document.getElementById('edit-rappel').value=p.date_rappel||'';
   document.getElementById('status-grid').innerHTML=ST.map(s=>`
-    <div onclick="selectSt('${s.key}',this)" class="st-opt ${p.statut===s.key?'selected':''}" data-key="${s.key}" style="border-color:${p.statut===s.key?s.border:'#E5E7EB'};background:${p.statut===s.key?s.bg:'#fff'}">
+    <div onclick="selectSt('${s.key}',this)" class="st-opt ${p.statut===s.key?'selected selected':''}" data-key="${s.key}" style="border-color:${p.statut===s.key?s.border:'#E5E7EB'};background:${p.statut===s.key?s.bg:'#fff'}">
       <div style="font-size:12px;font-weight:600;color:${s.color}">${s.label}</div>
       <div style="font-size:10px;color:#94A3B8;margin-top:1px">${s.desc}</div>
     </div>`).join('');
