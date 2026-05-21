@@ -211,7 +211,7 @@ function envoyerFormulaire(lang) {
 
   const msg = lang === 'ar'
     ? encodeURIComponent('مرحباً، نود معرفة رأيك في زيارتك للعيادة. يرجى تعبئة هذا الاستبيان (دقيقتان): https://medipulse-gamma.vercel.app/saisie.html' + googleText)
-    : encodeURIComponent('Bonjour ' + nom + ', merci pour votre visite ! Merci de remplir ce formulaire (2 min) : ' + (lang==='AR' ? (cabinetData?.form_ar_url||'') : (cabinetData?.form_fr_url||'')) + googleText);
+    : encodeURIComponent('Bonjour ' + nom + ', merci pour votre visite ! Merci de remplir ce formulaire (2 min) : ' + (lang==='ar' || lang==='AR' ? (cabinetData?.form_ar_url||'') : (cabinetData?.form_fr_url||'')) + googleText);
 
   const telFormatted = tel.replace(/\s/g, '').replace(/^0/, '212');
   window.open('https://wa.me/' + telFormatted + '?text=' + msg, '_blank');
