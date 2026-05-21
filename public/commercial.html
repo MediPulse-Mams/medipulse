@@ -549,6 +549,7 @@ function renderValider(){
     </div>`;
 }
 
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7H-Q8QqoQ19R_sekf0sctWGzg8mJ-jlWvj5-EdVvUYV9YCB8pElGe-yH8dY1SB-_G/exec';
 async function validerCabinet(){
   const nom=document.getElementById('cab-nom')?.value.trim();
   const med=document.getElementById('cab-medecin')?.value.trim();
@@ -580,6 +581,24 @@ async function validerCabinet(){
     {email:emailMed,nom:med,role:'medecin',type:'',statut:'actif',commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
     {email:emailAss,nom:ass,role:'assistante',type:'',statut:'actif',commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
   ]);
+  // Call Google Apps Script to create Sheet + Forms
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        nomCabinet:nom,
+        nomMedecin:med,
+        email:emailMed,
+        emailAssistante:emailAss,
+        lienGoogle:googleUrl,
+        specialite:spec,
+        ville:ville,
+        tel:whatsapp,
+        commercial:currentUser.email
+      })
+    });
+  } catch(e){ console.log('Apps Script error:', e); }
   showToast('Cabinet validé ! Trial 7 jours activé ✓','success');
   setTimeout(()=>showPage('dashboard'),1500);
 }
