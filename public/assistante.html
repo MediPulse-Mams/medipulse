@@ -236,7 +236,8 @@ function envoyerLienGoogle(tel, nom, langue){
   const lienGoogle=cabinetData?.lien_google||'';
   const nomCabinet=cabinetData?.nom_cabinet||'notre cabinet';
   if(!lienGoogle){showToast('Lien Google non configuré','error');return;}
-  const msgFR='Bonjour '+nom+' !\n\nMerci pour votre retour positif \n\nPourriez-vous partager votre experience sur Google ? Cela prend 30 secondes\n\n'+lienGoogle+'\n\nMerci !\nL equipe '+nomCabinet;
+  const formUrlFinal2=lang==='ar'?(cabinetData?.form_ar_url||'')+'&entry.1862822580='+codesuivi:formUrlFinal;
+const msgFR='Bonjour '+nom+' !\n\nMerci pour votre retour positif \n\nPourriez-vous partager votre experience sur Google ? Cela prend 30 secondes\n\n'+lienGoogle+'\n\nMerci !\nL equipe '+nomCabinet;
   const msgAR='مرحبا '+nom+'\n\nشكرا على تقييمك الايجابي\n\nهل يمكنك ترك تقييم على Google ؟\n\n'+lienGoogle;
   const msg=encodeURIComponent(langue==='ar'?msgAR:msgFR);
   const telF=tel.replace(/\s/g,'').replace(/^0/,'212');
@@ -251,11 +252,15 @@ async function envoyerFormulaire(lang){
   if(!tel){showToast('Entrez le numéro WhatsApp','error');return;}
 
   const formUrl=lang==='ar'?(cabinetData?.form_ar_url||''):(cabinetData?.form_fr_url||'');
+  const sheetId=cabinetData?.sheet_id||'';
+  const telClean=tel.replace(/\s/g,'').replace(/^0/,'212');
+  const codesuivi=sheetId+'_'+telClean;
+  const formUrlFinal=formUrl+'&entry.968738823='+codesuivi;
   if(!formUrl){showToast('Cabinet non configuré','error');return;}
 
   const nomCabinet=cabinetData?.nom_cabinet||'notre cabinet';
   const msgFR='Bonjour '+nom+' \n\nMerci pour votre visite au '+nomCabinet+' !\n\nPourriez-vous nous donner votre avis ? Cela prend 2 minutes\n\nFormulaire :\n'+formUrl+'\n\nMerci !';
-  const msgAR='مرحبا '+nom+' \n\nشكرا على زيارتكم\n\nهل يمكنكم تقييم تجربتكم ؟ دقيقتان فقط\n\n'+formUrl;
+  const msgAR='مرحبا '+nom+' \n\nشكرا على زيارتكم\n\nهل يمكنكم تقييم تجربتكم ؟ دقيقتان فقط\n\n'+formUrlFinal2;
   const msg=encodeURIComponent(lang==='ar'?msgAR:msgFR);
   const telF=tel.replace(/\s/g,'').replace(/^0/,'212');
 
@@ -268,7 +273,7 @@ async function envoyerFormulaire(lang){
     tel_patient:tel,
     langue:lang,
     statut:'envoye',
-    form_url:formUrl
+    form_url:formUrlFinal
   }]);
 
   if(error){console.error(error);showToast('Erreur sauvegarde','error');}
