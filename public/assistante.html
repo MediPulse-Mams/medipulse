@@ -208,7 +208,7 @@ function renderAccueil(){
 }
 
 // ── ENVOYER FORMULAIRE ──
-function envoyerFormulaire(lang){
+async function envoyerFormulaire(lang){
   const nom=document.getElementById('ass-nom')?.value.trim()||'';
   const tel=document.getElementById('ass-tel')?.value.trim()||'';
   if(!tel){showToast('Entrez le numéro WhatsApp','error');return;}
@@ -259,13 +259,25 @@ function envoyerFormulaire(lang){
     `);
   }
 
+  // Sauvegarder dans Supabase
+  await sb.from('envois').insert([{
+    assistante_email: currentUser.email,
+    cabinet_id: cabinetData?.id||'',
+    nom_patient: nom,
+    tel_patient: tel,
+    langue: lang,
+    statut: 'envoye',
+    form_url: formUrl
+  }]);
   document.getElementById('ass-nom').value='';
   document.getElementById('ass-tel').value='';
   showToast('Formulaire '+(lang==='ar'?'Arabe':'Français')+' envoyé !','success');
 }
 
 // ── HISTORIQUE PAGE ──
-function renderHistorique(){
+async function renderHistorique(){
+  const{data:envois}=await sb.from('envois').select('*').eq('assistante_email',currentUser?.email||'').order('created_at',{ascending:false}).limit(50);
+  envisList=envois||[];
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px">
       <div style="font-size:20px;font-weight:700;color:#0F172A">Historique des envois</div>
