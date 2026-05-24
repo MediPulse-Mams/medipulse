@@ -98,7 +98,7 @@ function showPage(page){
   document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
   const navEl=document.getElementById('nav-'+page);
   if(navEl)navEl.classList.add('active');
-  const titles={accueil:'Espace Assistante',historique:'Historique des envois'};
+  const titles={accueil:'Espace Assistante',historique:'Historique des envois_whatsapp'};
   document.getElementById('page-title').textContent=titles[page]||'Accueil';
   if(page==='accueil')renderAccueil();
   else if(page==='historique')renderHistorique();
@@ -235,7 +235,7 @@ async function envoyerFormulaire(lang){
   sendCount++;
   envisList.unshift({nom,tel,lang,time:new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})});
 
-  const countEl=document.getElementById('count-envois');
+  const countEl=document.getElementById('count-envois_whatsapp');
   if(countEl)countEl.textContent=sendCount;
 
   const hist=document.getElementById('historique-list');
@@ -260,7 +260,7 @@ async function envoyerFormulaire(lang){
   }
 
   // Sauvegarder dans Supabase
-  await sb.from('envois').insert([{
+  await sb.from('envois_whatsapp').insert([{
     assistante_email: currentUser.email,
     cabinet_id: cabinetData?.id||'',
     nom_patient: nom,
@@ -276,7 +276,7 @@ async function envoyerFormulaire(lang){
 
 // ── HISTORIQUE PAGE ──
 async function renderHistorique(){
-  const{data:envois}=await sb.from('envois').select('*').eq('assistante_email',currentUser?.email||'').order('created_at',{ascending:false}).limit(50);
+  const{data:envois}=await sb.from('envois_whatsapp').select('*').eq('assistante_email',currentUser?.email||'').order('created_at',{ascending:false}).limit(50);
   envisList=envois||[];
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px">
