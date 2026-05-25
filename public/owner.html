@@ -481,7 +481,8 @@ async function renderPaiements(){
         <button onclick="renderPaiements()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#2563EB;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif">↻ Actualiser</button>
       </div>
       ${paiements.length?`
-        <div style="overflow-x:auto">
+        <!-- DESKTOP -->
+        <div class="table-desktop-wrap">
           <table style="width:100%;border-collapse:collapse;min-width:500px">
             <thead><tr>
               ${['Cabinet','Montant','Mode','Statut','Date'].map(h=>`<th style="text-align:left;font-size:10px;font-weight:600;color:#9CA3AF;text-transform:uppercase;padding:0 8px 10px 0;white-space:nowrap">${h}</th>`).join('')}
@@ -498,6 +499,21 @@ async function renderPaiements(){
               `).join('')}
             </tbody>
           </table>
+        </div>
+        <!-- MOBILE CARDS -->
+        <div class="cards-mobile">
+          ${paiements.map(p=>`
+            <div style="background:#F9FAFB;border-radius:12px;padding:14px;border:1px solid #F3F4F6;margin-bottom:8px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+                <div style="font-size:14px;font-weight:700;color:#111827">${cabMap[p.cabinet_id]?.nom_cabinet||'—'}</div>
+                <div style="font-size:15px;font-weight:700;color:#10B981">${Number(p.montant).toLocaleString()} DH</div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#EFF6FF;color:#2563EB">${p.mode||'—'}</span>
+                <span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:${p.statut==='valide'?'#F0FDF4':'#FFF7ED'};color:${p.statut==='valide'?'#15803D':'#EA580C'}">${p.statut==='valide'?'✅ Validé':'⏳ En attente'}</span>
+                <span style="font-size:11px;color:#9CA3AF">${new Date(p.created_at).toLocaleDateString('fr-FR')}</span>
+              </div>
+            </div>`).join('')}
         </div>
       `:`
         <div style="text-align:center;padding:48px;color:#9CA3AF">
