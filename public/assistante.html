@@ -19,41 +19,17 @@ body{background:#F5F7FF;color:#111827;font-family:'Plus Jakarta Sans',sans-serif
 .hist-table td{padding:11px 8px 11px 0;border-top:1px solid #F9FAFB;font-size:12px;vertical-align:middle}
 .btn-wa{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;border:none;background:#25D366;color:#fff;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Plus Jakarta Sans',sans-serif}
 .btn-wa:hover{background:#20B858}
-/* ══ RESPONSIVE MOBILE ══ */
-@media(max-width:768px){
+/* ══ MOBILE FIRST ══ */
+.table-desktop-wrap{display:none!important}
+.cards-mobile{display:flex!important;flex-direction:column;gap:10px}
 
-  /* Form grid — 1 colonne */
-  .form-grid{
-    grid-template-columns:1fr;
-    gap:14px;
-  }
+.form-grid{grid-template-columns:1fr;gap:14px}
+.kpi-mini{grid-template-columns:1fr 1fr;gap:10px}
 
-  /* KPI mini — 2 colonnes */
-  .kpi-mini{
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-  }
-
-  /* Cards padding réduit */
-  .card{padding:14px}
-
-  /* Inputs full width */
-  input,select,textarea{
-    width:100%!important;
-    font-size:16px!important;
-  }
-
-  /* Tableau desktop caché sur mobile */
-  .table-desktop-wrap{display:none!important}
-
-  /* Cards mobile visibles */
-  .cards-mobile{display:flex!important;flex-direction:column;gap:10px}
-}
-
-/* Cards mobile cachées sur desktop */
 @media(min-width:769px){
-  .cards-mobile{display:none}
-  .table-desktop-wrap{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .table-desktop-wrap{display:block!important;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .cards-mobile{display:none!important}
+  .form-grid{grid-template-columns:1fr 1fr;gap:20px}
 }
 </style>
 </head>
