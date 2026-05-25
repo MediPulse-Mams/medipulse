@@ -250,12 +250,8 @@ async function envoyerFormulaire(lang){
   const tel=document.getElementById('ass-tel')?.value.trim()||'';
   if(!tel){showToast('Entrez le numéro WhatsApp','error');return;}
 
-  const sheetIdCab=cabinetData?.sheet_id||'';
-  const telClean=tel.replace(/\s/g,'').replace(/^0/,'212');
-  const codesuivi=sheetIdCab+'_'+telClean;
-  const baseUrlFR=(cabinetData?.form_fr_url||'')+'&entry.968738823='+encodeURIComponent(codesuivi);
-  const baseUrlAR=(cabinetData?.form_ar_url||'')+'&entry.1862822580='+encodeURIComponent(codesuivi);
-  const formUrl=lang==='ar'?baseUrlAR:baseUrlFR;
+  const token=crypto.randomUUID();
+  const formUrl='https://medipulse-gamma.vercel.app/patient.html?token='+token;
   if(!formUrl){showToast('Cabinet non configuré','error');return;}
 
   const nomCabinet=cabinetData?.nom_cabinet||'notre cabinet';
@@ -273,7 +269,8 @@ async function envoyerFormulaire(lang){
     tel_patient:tel,
     langue:lang,
     statut:'envoye',
-    form_url:formUrl
+    form_url:formUrl,
+    feedback_token:token
   }]);
 
   if(error){console.error(error);showToast('Erreur sauvegarde','error');}
