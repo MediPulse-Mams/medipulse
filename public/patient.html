@@ -237,14 +237,18 @@ let cabinet = null;
   // Charger l'envoi depuis le token
   const { data, error } = await sb
     .from('envois_whatsapp')
-    .select('*, cabinets(*)')
+    .select('*')
     .eq('feedback_token', token)
     .single();
 
   if (error || !data) { showScreen('error'); return; }
 
   envoi = data;
-  cabinet = data.cabinets;
+  // Charger cabinet séparément
+  if(data.cabinet_id){
+    const{data:cab}=await sb.from('cabinets').select('*').eq('id',data.cabinet_id).single();
+    cabinet=cab;
+  }
 
   // Si déjà répondu
   if (data.feedback_completed) { showScreen('done'); return; }
