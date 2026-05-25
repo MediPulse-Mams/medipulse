@@ -274,7 +274,7 @@ async function envoyerFormulaire(lang){
   if(!tel){showToast('Entrez le numéro WhatsApp','error');return;}
 
   const token=crypto.randomUUID();
-  const formUrl='https://medipulse-gamma.vercel.app/patient.html?token='+token;
+  const formUrl='https://medipulse-gamma.vercel.app/patient.html?token='+token+'&lang='+lang;
   if(!formUrl){showToast('Cabinet non configuré','error');return;}
 
   const nomCabinet=cabinetData?.nom_cabinet||'notre cabinet';
