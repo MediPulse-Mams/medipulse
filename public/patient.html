@@ -235,18 +235,19 @@ let cabinet = null;
   if (!token) { showScreen('error'); return; }
 
   // Charger l'envoi depuis le token
-  const { data, error } = await sb
-    .from('envois_whatsapp')
-    .select('*')
-    .eq('feedback_token', token)
-    .single();
-
-  if (error || !data) { showScreen('error'); return; }
+  const resp = await fetch(SB_URL+'/rest/v1/envois_whatsapp?feedback_token=eq.'+token+'&limit=1',{
+    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Accept':'application/json'}
+  });
+  const rows = await resp.json();
+  if(!rows||!rows.length){showScreen('error');return;}
+  const data=rows[0]; const error=null;
 
   envoi = data;
   // Charger cabinet séparément
   if(data.cabinet_id){
-    const{data:cab}=await sb.from('cabinets').select('*').eq('id',data.cabinet_id).single();
+    const cabResp=await fetch(SB_URL+'/rest/v1/cabinets?id=eq.'+data.cabinet_id+'&limit=1',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Accept':'application/json'}});
+    const cabRows=await cabResp.json();
+    const cab=cabRows&&cabRows.length?cabRows[0]:null;
     cabinet=cab;
   }
 
@@ -278,14 +279,12 @@ let cabinet = null;
 async function repondre(sentiment) {
   if (!envoi) return;
 
-  // Update Supabase
-  await sb.from('envois_whatsapp')
-    .update({
-      statut: sentiment === 'positif' ? 'positif' : 'negatif',
-      sentiment: sentiment,
-      feedback_completed: true
-    })
-    .eq('feedback_token', envoi.feedback_token);
+  // Update via fetch direct
+  await fetch(SB_URL+'/rest/v1/envois_whatsapp?feedback_token=eq.'+envoi.feedback_token,{
+    method:'PATCH',
+    headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY},
+    body:JSON.stringify({statut:sentiment==='positif'?'positif':'negatif',sentiment:sentiment,feedback_completed:true})
+  });
 
   if (sentiment === 'positif') {
     showScreen('positif');
@@ -297,9 +296,11 @@ async function repondre(sentiment) {
 // ── MARQUER AVIS LAISSÉ ──
 async function marquerAvisLaisse() {
   if (!envoi) return;
-  await sb.from('envois_whatsapp')
-    .update({ statut: 'avis_laisse' })
-    .eq('feedback_token', envoi.feedback_token);
+  await fetch(SB_URL+'/rest/v1/envois_whatsapp?feedback_token=eq.'+envoi.feedback_token,{
+    method:'PATCH',
+    headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY},
+    body:JSON.stringify({statut:'avis_laisse'})
+  });
   setTimeout(() => showScreen('done'), 1500);
 }
 
