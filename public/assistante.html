@@ -251,7 +251,12 @@ async function envoyerFormulaire(lang){
   const tel=document.getElementById('ass-tel')?.value.trim()||'';
   if(!tel){showToast('Entrez le numéro WhatsApp','error');return;}
 
-  const formUrl=lang==='ar'?(cabinetData?.form_ar_url||''):(cabinetData?.form_fr_url||'');
+  const sheetId=cabinetData?.sheet_id||'';
+  const telClean=tel.replace(/\s/g,'').replace(/^0/,'212');
+  const codesuivi=sheetId+'_'+telClean;
+  const baseUrlFR=(cabinetData?.form_fr_url||'')+'&entry.968738823='+encodeURIComponent(codesuivi);
+  const baseUrlAR=(cabinetData?.form_ar_url||'')+'&entry.1862822580='+encodeURIComponent(codesuivi);
+  const formUrl=lang==='ar'?baseUrlAR:baseUrlFR;
   const sheetId=cabinetData?.sheet_id||'';
   const telClean=tel.replace(/\s/g,'').replace(/^0/,'212');
   const codesuivi=sheetId+'_'+telClean;
