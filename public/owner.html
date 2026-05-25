@@ -434,101 +434,79 @@ async function renderProspects(){
 
 // ── PAIEMENTS ──
 async function renderPaiements(){
-  const{data:cabs}=await sb.from('cabinets').select('*');
-  const c=cabs||[];
+  document.getElementById('main-content').innerHTML='<div style="text-align:center;padding:60px;color:#94A3B8">Chargement...</div>';
+
+  const[{data:pays},{data:cabs}]=await Promise.all([
+    sb.from('paiements').select('*').order('created_at',{ascending:false}).limit(50),
+    sb.from('cabinets').select('id,nom_cabinet,statut,plan')
+  ]);
+
+  const paiements=pays||[];
+  const cabinets=cabs||[];
+  const cabMap={};
+  cabinets.forEach(cab=>cabMap[cab.id]=cab);
+
+  const now=new Date();
+  const firstDay=new Date(now.getFullYear(),now.getMonth(),1).toISOString();
+  const encaisseMois=paiements.filter(p=>p.statut==='valide'&&p.created_at>=firstDay).reduce((a,p)=>a+Number(p.montant),0);
+  const enAttente=paiements.filter(p=>p.statut==='en_attente').length;
+
   document.getElementById('main-content').innerHTML=`
     <div class="page-header">
       <div class="page-title">Paiements</div>
+      <button onclick="openPaiement()" style="display:flex;align-items:center;gap:6px;padding:9px 18px;border-radius:10px;border:none;background:#2563EB;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">
+        <i class="ti ti-plus" style="font-size:15px"></i> Enregistrer
+      </button>
     </div>
     <div class="kpi-grid" style="margin-bottom:18px">
-      <div class="kpi-card" style="border-left-color:#10B981"><i class="ti ti-trending-up" style="font-size:18px;color:#10B981;display:block;margin-bottom:10px"></i><div class="kpi-val">0 DH</div><div class="kpi-lbl">Encaissé ce mois</div></div>
-      <div class="kpi-card" style="border-left-color:#F59E0B"><i class="ti ti-clock" style="font-size:18px;color:#F59E0B;display:block;margin-bottom:10px"></i><div class="kpi-val">0</div><div class="kpi-lbl">En attente validation</div></div>
-      <div class="kpi-card" style="border-left-color:#2563EB"><i class="ti ti-building-hospital" style="font-size:18px;color:#2563EB;display:block;margin-bottom:10px"></i><div class="kpi-val">${c.filter(x=>x.statut==='actif').length}</div><div class="kpi-lbl">Cabinets actifs</div></div>
+      <div class="kpi-card" style="border-left-color:#10B981">
+        <i class="ti ti-trending-up" style="font-size:18px;color:#10B981;display:block;margin-bottom:10px"></i>
+        <div class="kpi-val">${encaisseMois.toLocaleString()} DH</div>
+        <div class="kpi-lbl">Encaissé ce mois</div>
+      </div>
+      <div class="kpi-card" style="border-left-color:#F59E0B">
+        <i class="ti ti-clock" style="font-size:18px;color:#F59E0B;display:block;margin-bottom:10px"></i>
+        <div class="kpi-val">${enAttente}</div>
+        <div class="kpi-lbl">En attente validation</div>
+      </div>
+      <div class="kpi-card" style="border-left-color:#2563EB">
+        <i class="ti ti-building-hospital" style="font-size:18px;color:#2563EB;display:block;margin-bottom:10px"></i>
+        <div class="kpi-val">${cabinets.filter(x=>x.statut==='actif').length}</div>
+        <div class="kpi-lbl">Cabinets actifs</div>
+      </div>
     </div>
     <div class="panel">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-        <div style="font-size:13px;font-weight:700;color:#E8ECF4">Historique des paiements</div>
-        <button onclick="openPaiement()" style="padding:8px 14px;border-radius:8px;background:linear-gradient(135deg,#2563EB,#06B6D4);color:#fff;border:none;font-size:12px;font-weight:600;cursor:pointer">+ Enregistrer</button>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="font-size:15px;font-weight:700;color:#0F172A">Historique des paiements</div>
+        <button onclick="renderPaiements()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#2563EB;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif">↻ Actualiser</button>
       </div>
-      <div style="text-align:center;padding:28px;color:#7B8BAA;font-size:13px">Aucun paiement enregistré</div>
-    </div>`;
-}
-
-function openPaiement(){
-  // Charger les cabinets pour le select
-  sb.from('cabinets').select('id,nom_cabinet').eq('statut','actif').then(({data})=>{
-    const opts=(data||[]).map(cab=>'<option value="'+cab.id+'">'+cab.nom_cabinet+'</option>').join('');
-    document.getElementById('modal-overlay').innerHTML=`
-      <div style="background:#fff;border-radius:20px;padding:28px;width:100%;max-width:460px;box-shadow:0 20px 60px rgba(0,0,0,0.15)">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
-          <div style="font-size:17px;font-weight:700;color:#0F172A">Enregistrer un paiement</div>
-          <button onclick="closeModal()" style="background:none;border:none;cursor:pointer;font-size:20px;color:#94A3B8">✕</button>
+      ${paiements.length?`
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;min-width:500px">
+            <thead><tr>
+              ${['Cabinet','Montant','Mode','Statut','Date'].map(h=>`<th style="text-align:left;font-size:10px;font-weight:600;color:#9CA3AF;text-transform:uppercase;padding:0 8px 10px 0;white-space:nowrap">${h}</th>`).join('')}
+            </tr></thead>
+            <tbody>
+              ${paiements.map(p=>`
+                <tr style="border-top:1px solid #F9FAFB">
+                  <td style="padding:12px 8px 12px 0;font-size:13px;font-weight:600;color:#111827">${cabMap[p.cabinet_id]?.nom_cabinet||'—'}</td>
+                  <td style="padding:12px 8px;font-size:13px;font-weight:700;color:#10B981">${Number(p.montant).toLocaleString()} DH</td>
+                  <td style="padding:12px 8px"><span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#EFF6FF;color:#2563EB">${p.mode||'—'}</span></td>
+                  <td style="padding:12px 8px"><span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:${p.statut==='valide'?'#F0FDF4':'#FFF7ED'};color:${p.statut==='valide'?'#15803D':'#EA580C'}">${p.statut==='valide'?'✅ Validé':'⏳ En attente'}</span></td>
+                  <td style="padding:12px 0;font-size:11px;color:#9CA3AF">${new Date(p.created_at).toLocaleDateString('fr-FR')}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
         </div>
-        <div style="display:flex;flex-direction:column;gap:14px">
-          <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px">Cabinet</label>
-            <select id="pay-cabinet" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid #E5E7EB;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;background:#F9FAFB">
-              <option value="">Sélectionner un cabinet</option>
-              ${opts}
-            </select>
-          </div>
-          <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px">Montant (DH)</label>
-            <input id="pay-montant" type="number" placeholder="1499" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid #E5E7EB;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;background:#F9FAFB">
-          </div>
-          <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px">Mode de paiement</label>
-            <select id="pay-mode" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid #E5E7EB;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;background:#F9FAFB">
-              <option value="virement">Virement</option>
-              <option value="carte">Carte</option>
-              <option value="cash">Cash</option>
-              <option value="cheque">Chèque</option>
-            </select>
-          </div>
-          <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px">Statut</label>
-            <select id="pay-statut" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid #E5E7EB;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;background:#F9FAFB">
-              <option value="valide">Validé</option>
-              <option value="en_attente">En attente</option>
-            </select>
-          </div>
-          <div>
-            <label style="font-size:11px;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px">Note (optionnel)</label>
-            <input id="pay-note" type="text" placeholder="Ex: Mois de mai 2026" style="width:100%;padding:11px 14px;border-radius:10px;border:1px solid #E5E7EB;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;background:#F9FAFB">
-          </div>
-          <button onclick="handleCreatePayment()" style="width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#0A2540,#2563EB);color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;margin-top:4px">
-            Enregistrer le paiement
-          </button>
+      `:`
+        <div style="text-align:center;padding:48px;color:#9CA3AF">
+          <i class="ti ti-receipt" style="font-size:40px;display:block;margin-bottom:12px;color:#E5E7EB"></i>
+          Aucun paiement enregistré
         </div>
-      </div>`;
-    document.getElementById('modal-overlay').style.display='flex';
-  });
-}
-
-function closeModal(){
-  document.getElementById('modal-overlay').style.display='none';
-}
-
-async function handleCreatePayment(){
-  const cabinet_id=document.getElementById('pay-cabinet').value;
-  const montant=parseFloat(document.getElementById('pay-montant').value);
-  const mode=document.getElementById('pay-mode').value;
-  const statut=document.getElementById('pay-statut').value;
-  const note=document.getElementById('pay-note').value;
-
-  if(!cabinet_id){showToast('Sélectionnez un cabinet','error');return;}
-  if(!montant||montant<=0){showToast('Entrez un montant valide','error');return;}
-
-  const{error}=await sb.from('paiements').insert([{
-    cabinet_id,montant,mode,statut,note,
-    mois:new Date().toLocaleDateString('fr-FR',{month:'long',year:'numeric'})
-  }]);
-
-  if(error){showToast('Erreur: '+error.message,'error');return;}
-  
-  closeModal();
-  showToast('Paiement enregistré !','success');
-  renderPaiements();
+      `}
+    </div>
+  `;
 }
 
 // ── TRESORERIE ──
