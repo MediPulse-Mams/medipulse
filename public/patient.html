@@ -222,7 +222,7 @@ body{
 <script>
 const SB_URL = 'https://czttvnvcetgmjfqishig.supabase.co';
 const SB_KEY = 'sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m';
-const sb = supabase.createClient(SB_URL, SB_KEY);
+const sb = window.supabase.createClient(SB_URL, SB_KEY);
 
 let envoi = null;
 let cabinet = null;
