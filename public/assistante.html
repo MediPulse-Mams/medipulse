@@ -227,6 +227,7 @@ async function renderAccueil(){
 }
 
 function getStatutBadge(statut){
+  if(statut==='avis_laisse') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#EFF6FF;color:#2563EB">⭐ Avis laissé</span>';
   if(statut==='positif') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#F0FDF4;color:#15803D">⭐ Positif</span>';
   if(statut==='negatif') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#FFF1F2;color:#BE123C">⚠ Négatif</span>';
   return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#FFF7ED;color:#EA580C">En attente</span>';
