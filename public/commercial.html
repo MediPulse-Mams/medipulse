@@ -585,7 +585,8 @@ async function validerCabinet(){
   try {
     await fetch(APPS_SCRIPT_URL, {
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      mode:'no-cors',
+      headers:{'Content-Type':'text/plain'},
       body:JSON.stringify({
         nomCabinet:nom,
         nomMedecin:med,
