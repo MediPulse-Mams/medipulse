@@ -577,6 +577,7 @@ async function validerCabinet(){
     google_url:googleUrl,whatsapp_cabinet:whatsapp,
   }]);
   if(error){showToast('Erreur — '+error.message,'error');return;}
+  const cabinetInsertId = insertData?.[0]?.id || '';
   await sb.from('users').insert([
     {email:emailMed,nom:med,role:'medecin',type:'',statut:'actif',commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
     {email:emailAss,nom:ass,role:'assistante',type:'',statut:'actif',commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
@@ -596,7 +597,8 @@ async function validerCabinet(){
         specialite:spec,
         ville:ville,
         tel:whatsapp,
-        commercial:currentUser.email
+        commercial:currentUser.email,
+        cabinetId:cabinetInsertId
       })
     });
   } catch(e){ console.log('Apps Script error:', e); }
