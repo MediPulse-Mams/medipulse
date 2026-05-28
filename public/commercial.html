@@ -579,8 +579,8 @@ async function validerCabinet(){
   if(error){showToast('Erreur — '+error.message,'error');return;}
   const cabinetInsertId = insertData?.[0]?.id || '';
   await sb.from('users').insert([
-    {email:emailMed,nom:med,role:'medecin',type:'',statut:'actif',commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
-    {email:emailAss,nom:ass,role:'assistante',type:'',statut:'actif',commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
+    {email:emailMed,nom:med,role:'medecin',type:'',statut:'actif',cabinet_id:cabinetInsertId},
+    {email:emailAss,nom:ass,role:'assistante',type:'',statut:'actif',cabinet_id:cabinetInsertId},
   ]);
   // Call Edge Function to create Auth accounts
   try {
