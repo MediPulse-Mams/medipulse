@@ -582,7 +582,25 @@ async function validerCabinet(){
     {email:emailMed,nom:med,role:'medecin',type:'',statut:'actif',commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
     {email:emailAss,nom:ass,role:'assistante',type:'',statut:'actif',commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
   ]);
-  // Call Google Apps Script to create Sheet + Forms
+  // Call Edge Function to create Auth accounts
+  try {
+    await fetch('https://czttvnvcetgmjfqishig.supabase.co/functions/v1/onboard-cabinet', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m'
+      },
+      body:JSON.stringify({
+        emailMedecin:emailMed,
+        emailAssistante:emailAss,
+        nomMedecin:med,
+        nomAssistante:ass,
+        cabinetId:cabinetInsertId
+      })
+    });
+  } catch(e){ console.log('Edge Function error:', e); }
+
+  // Call Google Apps Script for Drive/Sheet/Forms/Emails
   try {
     await fetch(APPS_SCRIPT_URL, {
       method:'POST',
