@@ -578,6 +578,8 @@ async function validerCabinet(){
   }]).select();
   if(error){showToast('Erreur — '+error.message,'error');return;}
   const cabinetInsertId = insertData?.[0]?.id || '';
+  console.log('cabinetInsertId:', cabinetInsertId);
+  console.log('insertData:', JSON.stringify(insertData));
   await sb.from('users').insert([
     {email:emailMed,nom:med,role:'medecin',type:'',statut:'actif',cabinet_id:cabinetInsertId},
     {email:emailAss,nom:ass,role:'assistante',type:'',statut:'actif',cabinet_id:cabinetInsertId},
