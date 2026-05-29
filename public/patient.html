@@ -248,6 +248,7 @@ async function afficherDone(){
 
   const r=await fetch(SB_URL+'/rest/v1/envois_whatsapp?feedback_token=eq.'+token+'&limit=1',{headers:HDR});
   const rows=await r.json();
+  console.log('🚀 ROWS:', JSON.stringify(rows));
   if(!rows||!rows.length){show('error');return;}
   envoi=rows[0];
 
@@ -273,6 +274,7 @@ async function afficherDone(){
 </script>
 </body>
 </html>
+ 
  
  
  
