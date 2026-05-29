@@ -120,8 +120,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#F5F7FF;min-height:10
 </div>
 
 <script>
-console.log("🔥 SCRIPT PATIENT CHARGÉ");
-console.log("VERSION: 2.0");
 const SB_URL='https://czttvnvcetgmjfqishig.supabase.co';
 const SB_KEY='sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m';
 const HDR={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Accept':'application/json'};
@@ -215,7 +213,6 @@ async function repondre(sentiment){
 }
 
 async function ouvrirGoogle(){
-  console.log('googleUrl:', googleUrl);
   if(!envoi)return;
   // Update statut first
   await fetch(SB_URL+'/rest/v1/envois_whatsapp?feedback_token=eq.'+envoi.feedback_token,{
@@ -248,24 +245,20 @@ async function afficherDone(){
 
   const r=await fetch(SB_URL+'/rest/v1/envois_whatsapp?feedback_token=eq.'+token+'&limit=1',{headers:HDR});
   const rows=await r.json();
-  console.log('🚀 ROWS:', JSON.stringify(rows));
-  console.log('🚀 ROWS:', JSON.stringify(rows));
   if(!rows||!rows.length){show('error');return;}
   envoi=rows[0];
 
   if(envoi.feedback_completed){show('done');return;}
 
-  console.log('🏥 cabinet_id:', envoi.cabinet_id);
   if(envoi.cabinet_id){
     const cr=await fetch(SB_URL+'/rest/v1/cabinets?id=eq.'+envoi.cabinet_id+'&limit=1',{headers:HDR});
     const cabs=await cr.json();
-  console.log('🏥 CABS:', JSON.stringify(cabs));
     if(cabs&&cabs.length){
       const cab=cabs[0];
       document.getElementById('cabinet-name').textContent=cab.nom_cabinet||cab.nom_medecin||'';
       document.getElementById('cabinet-spec').textContent=(cab.specialite||'')+(cab.ville?' · '+cab.ville:'');
       document.getElementById('cabinet-info').style.display='block';
-      googleUrl=cab.lien_google||cab.google_url||'';
+      if(cab.lien_google) googleUrl=cab.lien_google;
       const nomCab=cab.nom_cabinet||'le cabinet';
       const t=TEXTS[lang]||TEXTS.fr;
       document.getElementById('txt-sub').textContent=lang==='ar'?'رأيكم يساعد '+nomCab+' على التحسين':'Votre retour aide '+nomCab+' à s\'améliorer';
@@ -277,10 +270,3 @@ async function afficherDone(){
 </script>
 </body>
 </html>
- 
- 
- 
- 
- 
- 
- 

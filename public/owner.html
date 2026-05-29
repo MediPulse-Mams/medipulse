@@ -133,17 +133,7 @@ function showPage(page) {
   else if (page === 'tresorerie') renderTresorerie();
 }
 
-function toggleSidebar() {
-  var sb = document.getElementById('sidebar');
-  var ov = document.getElementById('mob-overlay');
-  sb.classList.toggle('open');
-  if(ov) ov.classList.toggle('active', sb.classList.contains('open'));
-}
-function closeSidebar() {
-  document.getElementById('sidebar').classList.remove('open');
-  var ov = document.getElementById('mob-overlay');
-  if(ov) ov.classList.remove('active');
-}
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
 
 // ══ NOTIFICATIONS ══
 function addNotif(msg, type = 'info', icon = 'ti-bell') {

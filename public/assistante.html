@@ -19,17 +19,41 @@ body{background:#F5F7FF;color:#111827;font-family:'Plus Jakarta Sans',sans-serif
 .hist-table td{padding:11px 8px 11px 0;border-top:1px solid #F9FAFB;font-size:12px;vertical-align:middle}
 .btn-wa{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;border:none;background:#25D366;color:#fff;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Plus Jakarta Sans',sans-serif}
 .btn-wa:hover{background:#20B858}
-/* ══ MOBILE FIRST ══ */
-.table-desktop-wrap{display:none!important}
-.cards-mobile{display:flex!important;flex-direction:column;gap:10px}
+/* ══ RESPONSIVE MOBILE ══ */
+@media(max-width:768px){
 
-.form-grid{grid-template-columns:1fr;gap:14px}
-.kpi-mini{grid-template-columns:1fr 1fr;gap:10px}
+  /* Form grid — 1 colonne */
+  .form-grid{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
 
+  /* KPI mini — 2 colonnes */
+  .kpi-mini{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  /* Cards padding réduit */
+  .card{padding:14px}
+
+  /* Inputs full width */
+  input,select,textarea{
+    width:100%!important;
+    font-size:16px!important;
+  }
+
+  /* Tableau desktop caché sur mobile */
+  .table-desktop-wrap{display:none!important}
+
+  /* Cards mobile visibles */
+  .cards-mobile{display:flex!important;flex-direction:column;gap:10px}
+}
+
+/* Cards mobile cachées sur desktop */
 @media(min-width:769px){
-  .table-desktop-wrap{display:block!important;overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .cards-mobile{display:none!important}
-  .form-grid{grid-template-columns:1fr 1fr;gap:20px}
+  .cards-mobile{display:none}
+  .table-desktop-wrap{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
 }
 </style>
 </head>
@@ -250,11 +274,7 @@ async function renderAccueil(){
 }
 
 function getStatutBadge(statut){
-  if(statut==='avis_laisse') return '<span style="padding:3px 9px;border-radius:99px;font-size
-  if(statut==='avis_laisse') return '<span style="padding:3px 9px;border-radius:99px;font-size
-  if(statut==='avis_laisse') return '<span style="padding:3px 9px;border-radius:99px;font-size
-  if(statut==='avis_laisse') return '<span style="padding:3px 9px;border-radius:99px;font-size
-  if(statut==='avis_laisse') return '<span style="padding:3px 9px;border-radius:99px;font-size
+  if(statut==='avis_laisse') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#EFF6FF;color:#2563EB">⭐ Avis laissé</span>';
   if(statut==='positif') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#F0FDF4;color:#15803D">⭐ Positif</span>';
   if(statut==='negatif') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#FFF1F2;color:#BE123C">⚠ Négatif</span>';
   return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#FFF7ED;color:#EA580C">En attente</span>';
@@ -278,8 +298,12 @@ async function envoyerFormulaire(lang){
   const tel=document.getElementById('ass-tel')?.value.trim()||'';
   if(!tel){showToast('Entrez le numéro WhatsApp','error');return;}
 
-  const token=crypto.randomUUID();
-  const formUrl='https://medipulse-gamma.vercel.app/patient.html?token='+token+'&lang='+lang;
+  const sheetIdCab=cabinetData?.sheet_id||'';
+  const telClean=tel.replace(/\s/g,'').replace(/^0/,'212');
+  const codesuivi=sheetIdCab+'_'+telClean;
+  const baseUrlFR=(cabinetData?.form_fr_url||'')+'&entry.968738823='+encodeURIComponent(codesuivi);
+  const baseUrlAR=(cabinetData?.form_ar_url||'')+'&entry.1862822580='+encodeURIComponent(codesuivi);
+  const formUrl=lang==='ar'?baseUrlAR:baseUrlFR;
   if(!formUrl){showToast('Cabinet non configuré','error');return;}
 
   const nomCabinet=cabinetData?.nom_cabinet||'notre cabinet';
@@ -297,8 +321,7 @@ async function envoyerFormulaire(lang){
     tel_patient:tel,
     langue:lang,
     statut:'envoye',
-    form_url:formUrl,
-    feedback_token:token
+    form_url:formUrl
   }]);
 
   if(error){console.error(error);showToast('Erreur sauvegarde','error');}
@@ -334,8 +357,7 @@ async function renderHistorique(){
   if(!panel)return;
 
   panel.innerHTML=liste.length?`
-    <!-- DESKTOP -->
-    <div class="table-desktop-wrap">
+    <div class="table-scroll">
       <table class="hist-table">
         <thead><tr>
           <th>Patient</th><th>Téléphone</th><th>Langue</th><th>Date</th><th>Heure</th><th>Statut</th><th>Action</th>
@@ -352,21 +374,6 @@ async function renderHistorique(){
           </tr>`).join('')}
         </tbody>
       </table>
-    </div>
-    <!-- MOBILE CARDS -->
-    <div class="cards-mobile">
-      ${liste.map(e=>`
-        <div style="background:#F9FAFB;border-radius:12px;padding:14px;border:1px solid #F3F4F6">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-            <div style="font-size:14px;font-weight:700;color:#111827">${e.nom_patient||'—'}</div>
-            ${getStatutBadge(e.statut)}
-          </div>
-          <div style="font-size:12px;color:#6B7280;margin-bottom:4px">${e.tel_patient||'—'} · ${e.langue==='ar'?'Arabe':'Français'}</div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
-            <div style="font-size:11px;color:#9CA3AF">${new Date(e.created_at).toLocaleDateString('fr-FR')} ${new Date(e.created_at).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</div>
-            ${e.statut==='positif'&&e.tel_patient?`<button class="btn-wa" onclick="envoyerLienGoogle('${e.tel_patient}','${e.nom_patient||''}','${e.langue||'fr'}')"><svg width="11" height="11" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.528 5.843L.057 23.786c-.092.355.232.68.587.587l5.943-1.471A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg> Google</button>`:''}
-          </div>
-        </div>`).join('')}
     </div>`:`
     <div style="text-align:center;padding:48px;color:#9CA3AF">
       <i class="ti ti-inbox" style="font-size:40px;display:block;margin-bottom:12px;color:#E5E7EB"></i>
@@ -376,5 +383,3 @@ async function renderHistorique(){
 </script>
 </body>
 </html>
- 
- 

@@ -45,10 +45,12 @@ body{background:#F5F7FF;color:#111827;font-family:'Plus Jakarta Sans',sans-serif
 .finput:focus{border-color:#0D7490;background:#fff}
 .save-btn{width:100%;padding:13px;border-radius:11px;background:linear-gradient(135deg,#0A2540,#0D7490);color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px}
 .save-btn:disabled{opacity:0.6;cursor:not-allowed}
-.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.comm-table{width:100%;border-collapse:collapse;min-width:500px}
-.comm-table th{font-size:10px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;padding:8px 0;border-bottom:1px solid #F3F4F6;text-align:left}
-.comm-table td{padding:11px 0;border-bottom:1px solid #F9FAFB;font-size:12px;color:#374151}
+.acces-box{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.acces-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.acces-label{font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:0.07em}
+.acces-val{font-size:13px;font-weight:600;color:#0A2540;font-family:monospace;word-break:break-all}
+.copy-btn{padding:4px 10px;border-radius:6px;border:1px solid #E5E7EB;background:#fff;font-size:11px;font-weight:600;color:#0D7490;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.copy-btn:hover{background:#EFF6FF;border-color:#BFDBFE}
 @media(max-width:768px){
   .kpi-grid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
   .sim-grid{grid-template-columns:1fr}
@@ -56,7 +58,6 @@ body{background:#F5F7FF;color:#111827;font-family:'Plus Jakarta Sans',sans-serif
   .paliers-grid{grid-template-columns:1fr}
   .kpi-value{font-size:20px}
   .hero{padding:16px 18px;margin-bottom:14px}
-  .hero .page-title{font-size:17px}
   .page-title{font-size:18px}
   .card,.kpi-card{padding:14px}
   .modal{max-height:85vh}
@@ -65,8 +66,6 @@ body{background:#F5F7FF;color:#111827;font-family:'Plus Jakarta Sans',sans-serif
 </head>
 <body>
 <div class="layout">
-
-  <!-- SIDEBAR -->
   <div class="sidebar sidebar-light" id="sidebar">
     <div class="sidebar-logo">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
@@ -91,16 +90,10 @@ body{background:#F5F7FF;color:#111827;font-family:'Plus Jakarta Sans',sans-serif
       <div class="nav-link" id="nav-valider" onclick="showPage('valider')"><i class="ti ti-circle-plus"></i>Valider cabinet</div>
     </div>
     <div class="sidebar-footer">
-      <button class="logout-btn logout-btn-red" onclick="doLogout()">
-        <i class="ti ti-logout" style="font-size:15px"></i> Déconnexion
-      </button>
+      <button class="logout-btn logout-btn-red" onclick="doLogout()"><i class="ti ti-logout" style="font-size:15px"></i> Déconnexion</button>
     </div>
   </div>
-
-  <!-- Mobile overlay -->
   <div class="sidebar-overlay" id="mob-overlay" onclick="closeSidebar()"></div>
-
-  <!-- MAIN -->
   <div class="main">
     <div class="topbar topbar-light">
       <div style="display:flex;align-items:center;gap:10px">
@@ -157,6 +150,66 @@ body{background:#F5F7FF;color:#111827;font-family:'Plus Jakarta Sans',sans-serif
         <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Tél mobile</div><input class="finput" type="tel" id="add-mobile" placeholder="06 XX XX XX XX"></div>
       </div>
       <button class="save-btn" onclick="saveAdd()"><i class="ti ti-user-plus" style="font-size:15px"></i> Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ACCÈS CABINET -->
+<div class="overlay" id="acces-overlay">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-hd">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#0A2540">✅ Cabinet créé avec succès</div>
+        <div style="font-size:12px;color:#64748B;margin-top:2px">Transmettez ces accès au cabinet</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#15803D;display:flex;align-items:center;gap:8px">
+        <i class="ti ti-lock" style="font-size:15px;flex-shrink:0"></i>
+        Ces accès sont uniques — notez-les maintenant.
+      </div>
+
+      <div style="font-size:11px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">🩺 Médecin</div>
+      <div class="acces-box">
+        <div class="acces-row">
+          <div>
+            <div class="acces-label">Email</div>
+            <div class="acces-val" id="acc-med-email"></div>
+          </div>
+          <button class="copy-btn" onclick="copyText('acc-med-email')"><i class="ti ti-copy"></i> Copier</button>
+        </div>
+        <div class="acces-row" style="margin-bottom:0">
+          <div>
+            <div class="acces-label">Mot de passe</div>
+            <div class="acces-val" id="acc-pwd"></div>
+          </div>
+          <button class="copy-btn" onclick="copyText('acc-pwd')"><i class="ti ti-copy"></i> Copier</button>
+        </div>
+      </div>
+
+      <div style="font-size:11px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;margin-top:4px">👩‍⚕️ Assistante</div>
+      <div class="acces-box">
+        <div class="acces-row" style="margin-bottom:0">
+          <div>
+            <div class="acces-label">Email</div>
+            <div class="acces-val" id="acc-ass-email"></div>
+          </div>
+          <button class="copy-btn" onclick="copyText('acc-ass-email')"><i class="ti ti-copy"></i> Copier</button>
+        </div>
+      </div>
+
+      <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;margin-top:4px;margin-bottom:16px">
+        <div class="acces-label" style="margin-bottom:6px">URLs de connexion</div>
+        <div style="font-size:12px;color:#64748B;margin-bottom:4px">🩺 <span style="color:#0D7490;font-weight:600">medipulse-gamma.vercel.app/medecin.html</span></div>
+        <div style="font-size:12px;color:#64748B">👩‍⚕️ <span style="color:#0D7490;font-weight:600">medipulse-gamma.vercel.app/assistante.html</span></div>
+      </div>
+
+      <button class="save-btn" onclick="copyAll()" style="margin-bottom:10px">
+        <i class="ti ti-clipboard-copy" style="font-size:15px"></i> Tout copier
+      </button>
+      <button onclick="document.getElementById('acces-overlay').classList.remove('open');showPage('dashboard')" style="width:100%;padding:11px;border-radius:11px;border:1px solid #E5E7EB;background:#fff;font-size:13px;font-weight:600;color:#64748B;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">
+        Retour au dashboard
+      </button>
     </div>
   </div>
 </div>
@@ -226,7 +279,6 @@ async function renderDashboard(){
   const pct=next?Math.round(((totalSignes-(prev?prev.s:0))/(next.s-(prev?prev.s:0)))*100):100;
   const daysLeft=Math.ceil((new Date(now.getFullYear(),now.getMonth()+1,0)-now)/(1000*60*60*24));
   const nom=(userRecord.nom||currentUser.email.split('@')[0]).split(' ')[0];
-
   document.getElementById('main-content').innerHTML=`
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
       <div>
@@ -282,24 +334,13 @@ async function renderDashboard(){
         <div style="font-size:14px;font-weight:700;color:#0A2540">Derniers prospects</div>
         <span onclick="showPage('prospects')" style="font-size:12px;color:#0D7490;font-weight:600;cursor:pointer">Voir tout →</span>
       </div>
-      ${prospects.slice(0,5).map(p=>{
-        const st=ST.find(s=>s.key===p.statut)||ST[0];
-        return`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F9FAFB;flex-wrap:wrap">
-          <div style="flex:1;min-width:0">
-            <div style="font-size:13px;font-weight:600;color:#0A2540">${p.nom}</div>
-            <div style="font-size:11px;color:#94A3B8;margin-top:1px">${p.specialite} · ${p.quartier||p.ville||''}</div>
-          </div>
-          <span style="padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;background:${st.bg};color:${st.color};white-space:nowrap;flex-shrink:0">${st.label}</span>
-        </div>`;
-      }).join('')}
+      ${prospects.slice(0,5).map(p=>{const st=ST.find(s=>s.key===p.statut)||ST[0];return`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F9FAFB;flex-wrap:wrap"><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#0A2540">${p.nom}</div><div style="font-size:11px;color:#94A3B8;margin-top:1px">${p.specialite} · ${p.quartier||p.ville||''}</div></div><span style="padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;background:${st.bg};color:${st.color};white-space:nowrap;flex-shrink:0">${st.label}</span></div>`;}).join('')}
       ${prospects.length===0?'<div style="text-align:center;padding:24px;color:#94A3B8;font-size:13px">Aucun prospect</div>':''}
-    </div>
-  `;
+    </div>`;
 }
 
 // ── SIMULATEUR ──
 function renderSimulateur(){
-  const isTer=userRecord.type==='terrain';
   document.getElementById('main-content').innerHTML=`
     <div class="page-header"><div><div class="page-title">Simulateur de revenus</div><div class="page-bar"></div></div></div>
     <div class="card">
@@ -365,43 +406,23 @@ async function renderProspects(){
   if(!prospects.length){const{data}=await sb.from('prospection').select('*').order('id');prospects=data||[];}
   renderProspectsList();
 }
-
 function renderProspectsList(){
   const filtered=crmFilter==='Tous'?prospects:prospects.filter(p=>p.statut===crmFilter);
   document.getElementById('main-content').innerHTML=`
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
       <div><div class="page-title">Mes Prospects</div><div style="font-size:12px;color:#64748B;margin-top:3px">${prospects.length} prospects</div></div>
-      <button onclick="document.getElementById('add-overlay').classList.add('open')" style="padding:10px 14px;border-radius:10px;background:linear-gradient(135deg,#0A2540,#0D7490);color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap">
-        <i class="ti ti-plus" style="font-size:13px"></i> Ajouter
-      </button>
+      <button onclick="document.getElementById('add-overlay').classList.add('open')" style="padding:10px 14px;border-radius:10px;background:linear-gradient(135deg,#0A2540,#0D7490);color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap"><i class="ti ti-plus" style="font-size:13px"></i> Ajouter</button>
     </div>
     <div class="chips-wrap">
       ${['Tous','Nouveau','Rappeler','Joignable','Démo Bookée','Signé','Refus'].map(f=>`<div onclick="setCrmFilter('${f}')" class="chip ${crmFilter===f?'chip-on':'chip-off'}">${f}</div>`).join('')}
     </div>
     <div>
-      ${filtered.length?filtered.map(p=>{
-        const st=ST.find(s=>s.key===p.statut)||ST[0];
-        return`<div class="prospect-card">
-          <div style="flex:1;min-width:0">
-            <div style="font-size:13px;font-weight:600;color:#0A2540">${p.nom}</div>
-            <div style="font-size:11px;color:#94A3B8;margin-top:2px">${p.specialite} · ${p.quartier||p.ville||''}${p.telephone_fixe?' · '+p.telephone_fixe:''}</div>
-            ${p.note?`<div style="font-size:10px;color:#CBD5E1;margin-top:2px;font-style:italic">${p.note}</div>`:''}
-          </div>
-          <span style="padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;background:${st.bg};color:${st.color};white-space:nowrap;flex-shrink:0">${st.label}</span>
-          <div style="display:flex;gap:4px;flex-shrink:0">
-            <button class="p-action" onclick="callProspect(${p.id})" title="Appeler"><i class="ti ti-phone"></i></button>
-            <button class="p-action" onclick="waProspect(${p.id})" title="WhatsApp" style="color:#16A34A"><i class="ti ti-brand-whatsapp"></i></button>
-            <button class="p-action" onclick="editProspect(${p.id})" title="Modifier"><i class="ti ti-edit"></i></button>
-          </div>
-        </div>`;
-      }).join(''):'<div style="text-align:center;padding:48px;color:#94A3B8;font-size:13px">Aucun prospect trouvé</div>'}
+      ${filtered.length?filtered.map(p=>{const st=ST.find(s=>s.key===p.statut)||ST[0];return`<div class="prospect-card"><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#0A2540">${p.nom}</div><div style="font-size:11px;color:#94A3B8;margin-top:2px">${p.specialite} · ${p.quartier||p.ville||''}${p.telephone_fixe?' · '+p.telephone_fixe:''}</div>${p.note?`<div style="font-size:10px;color:#CBD5E1;margin-top:2px;font-style:italic">${p.note}</div>`:''}</div><span style="padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;background:${st.bg};color:${st.color};white-space:nowrap;flex-shrink:0">${st.label}</span><div style="display:flex;gap:4px;flex-shrink:0"><button class="p-action" onclick="callProspect(${p.id})" title="Appeler"><i class="ti ti-phone"></i></button><button class="p-action" onclick="waProspect(${p.id})" title="WhatsApp" style="color:#16A34A"><i class="ti ti-brand-whatsapp"></i></button><button class="p-action" onclick="editProspect(${p.id})" title="Modifier"><i class="ti ti-edit"></i></button></div></div>`;}).join(''):'<div style="text-align:center;padding:48px;color:#94A3B8;font-size:13px">Aucun prospect trouvé</div>'}
     </div>`;
 }
-
 function setCrmFilter(f){crmFilter=f;renderProspectsList();}
 function callProspect(id){const p=prospects.find(x=>x.id===id);if(!p)return;const tel=(p.telephone_fixe||p.telephone_mobile||'').replace(/\s/g,'');if(tel)window.location.href='tel:'+tel;else showToast('Aucun numéro','error');}
 function waProspect(id){const p=prospects.find(x=>x.id===id);if(!p)return;const tel=(p.telephone_mobile||p.telephone_fixe||'').replace(/\s/g,'').replace(/^0/,'212');if(tel)window.open('https://wa.me/'+tel,'_blank');else showToast('Ajouter le mobile','error');}
-
 function editProspect(id){
   const p=prospects.find(x=>x.id===id);if(!p)return;
   editId=id;
@@ -410,59 +431,37 @@ function editProspect(id){
   document.getElementById('edit-mobile').value=p.telephone_mobile||'';
   document.getElementById('edit-note').value=p.note||'';
   document.getElementById('edit-rappel').value=p.date_rappel||'';
-  document.getElementById('status-grid').innerHTML=ST.map(s=>`
-    <div onclick="selectSt('${s.key}',this)" class="st-opt ${p.statut===s.key?'selected':''}" data-key="${s.key}" style="border-color:${p.statut===s.key?s.border:'#E5E7EB'};background:${p.statut===s.key?s.bg:'#fff'}">
-      <div style="font-size:12px;font-weight:600;color:${s.color}">${s.label}</div>
-      <div style="font-size:10px;color:#94A3B8;margin-top:1px">${s.desc}</div>
-    </div>`).join('');
+  document.getElementById('status-grid').innerHTML=ST.map(s=>`<div onclick="selectSt('${s.key}',this)" class="st-opt ${p.statut===s.key?'selected':''}" data-key="${s.key}" style="border-color:${p.statut===s.key?s.border:'#E5E7EB'};background:${p.statut===s.key?s.bg:'#fff'}"><div style="font-size:12px;font-weight:600;color:${s.color}">${s.label}</div><div style="font-size:10px;color:#94A3B8;margin-top:1px">${s.desc}</div></div>`).join('');
   document.getElementById('edit-overlay').classList.add('open');
 }
-
 function selectSt(key,el){
   document.querySelectorAll('#status-grid .st-opt').forEach(d=>{d.style.borderColor='#E5E7EB';d.style.background='#fff';d.classList.remove('selected');});
   const s=ST.find(x=>x.key===key);
   if(s){el.style.borderColor=s.border;el.style.background=s.bg;}
   el.classList.add('selected');
 }
-
 async function saveEdit(){
   var allOpts=document.querySelectorAll('#status-grid .st-opt');
   var statut='Nouveau';
   for(var i=0;i<allOpts.length;i++){if(allOpts[i].classList.contains('selected')){statut=allOpts[i].dataset.key;break;}}
-  const{error}=await sb.from('prospection').update({
-    statut,
-    telephone_mobile:document.getElementById('edit-mobile').value,
-    note:document.getElementById('edit-note').value,
-    date_rappel:document.getElementById('edit-rappel').value||null,
-    date_appel:new Date().toISOString().split('T')[0],
-    commercial_id:currentUser.email,
-  }).eq('id',editId);
+  const{error}=await sb.from('prospection').update({statut,telephone_mobile:document.getElementById('edit-mobile').value,note:document.getElementById('edit-note').value,date_rappel:document.getElementById('edit-rappel').value||null,date_appel:new Date().toISOString().split('T')[0],commercial_id:currentUser.email}).eq('id',editId);
   if(error){showToast('Erreur','error');return;}
   showToast('Enregistré ✓','success');
   document.getElementById('edit-overlay').classList.remove('open');
   const{data}=await sb.from('prospection').select('*').order('id');
-  prospects=data||[];
-  renderProspectsList();
+  prospects=data||[];renderProspectsList();
 }
-
 async function saveAdd(){
   const nom=document.getElementById('add-nom')?.value.trim();
   const spec=document.getElementById('add-spec')?.value.trim();
   if(!nom||!spec){showToast('Nom et spécialité requis','error');return;}
-  const{error}=await sb.from('prospection').insert([{
-    nom,specialite:spec,
-    quartier:document.getElementById('add-quartier').value,
-    ville:'Casablanca',
-    telephone_mobile:document.getElementById('add-mobile').value,
-    statut:'Nouveau',commercial_id:currentUser.email,
-  }]);
+  const{error}=await sb.from('prospection').insert([{nom,specialite:spec,quartier:document.getElementById('add-quartier').value,ville:'Casablanca',telephone_mobile:document.getElementById('add-mobile').value,statut:'Nouveau',commercial_id:currentUser.email}]);
   if(error){showToast('Erreur ajout','error');return;}
   showToast('Prospect ajouté ✓','success');
   document.getElementById('add-overlay').classList.remove('open');
   ['add-nom','add-spec','add-quartier','add-mobile'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   const{data}=await sb.from('prospection').select('*').order('id');
-  prospects=data||[];
-  renderProspectsList();
+  prospects=data||[];renderProspectsList();
 }
 
 // ── COMMISSIONS ──
@@ -488,10 +487,7 @@ function renderCommissions(){
     <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:14px;padding:18px;margin-bottom:18px">
       <div style="font-size:13px;font-weight:600;color:#92400E;margin-bottom:14px">🏆 Bonus paliers</div>
       <div class="paliers-grid">
-        ${paliers.map(p=>`<div style="text-align:center;background:#fff;border-radius:10px;padding:14px;border:1px solid #FDE68A">
-          <div style="font-size:22px;font-weight:800;color:#EA580C">+${p.b} MAD</div>
-          <div style="font-size:11px;color:#94A3B8;margin-top:4px">${p.s} cabinets</div>
-        </div>`).join('')}
+        ${paliers.map(p=>`<div style="text-align:center;background:#fff;border-radius:10px;padding:14px;border:1px solid #FDE68A"><div style="font-size:22px;font-weight:800;color:#EA580C">+${p.b} MAD</div><div style="font-size:11px;color:#94A3B8;margin-top:4px">${p.s} cabinets</div></div>`).join('')}
       </div>
     </div>
     <div class="card">
@@ -504,55 +500,30 @@ function renderCommissions(){
 function renderValider(){
   document.getElementById('main-content').innerHTML=`
     <div class="page-header"><div><div class="page-title">Valider un cabinet</div><div class="page-bar"></div></div></div>
-
     <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:12px 16px;margin-bottom:12px;font-size:13px;color:#1D4ED8;display:flex;align-items:center;gap:8px">
       <i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0"></i>
       Trial gratuit de 7 jours — vous serez notifié la veille de l'expiration.
     </div>
-
     <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:#15803D;display:flex;align-items:center;gap:8px">
       <i class="ti ti-mail-off" style="font-size:16px;flex-shrink:0"></i>
       Les emails sont optionnels — un accès sera généré automatiquement si absent.
     </div>
-
     <div class="card">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom du cabinet *</div><input class="finput" id="cab-nom" placeholder="Cabinet Dr. Nom"></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom du médecin *</div><input class="finput" id="cab-medecin" placeholder="Dr. Prénom Nom"></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Spécialité *</div><input class="finput" id="cab-spec" placeholder="Dermatologue..."></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Ville</div><input class="finput" id="cab-ville" value="Casablanca"></div>
         <div>
-          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom du cabinet *</div>
-          <input class="finput" id="cab-nom" placeholder="Cabinet Dr. Nom">
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom du médecin *</div>
-          <input class="finput" id="cab-medecin" placeholder="Dr. Prénom Nom">
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Spécialité *</div>
-          <input class="finput" id="cab-spec" placeholder="Dermatologue...">
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Ville</div>
-          <input class="finput" id="cab-ville" value="Casablanca">
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">
-            Email médecin
-            <span style="font-weight:400;color:#94A3B8;text-transform:none;letter-spacing:0"> — optionnel</span>
-          </div>
+          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Email médecin <span style="font-weight:400;color:#94A3B8;text-transform:none;letter-spacing:0"> — optionnel</span></div>
           <input class="finput" type="email" id="cab-email-med" placeholder="dr.nom@email.com">
         </div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom assistante *</div><input class="finput" id="cab-assistante" placeholder="Prénom Nom"></div>
         <div>
-          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom assistante *</div>
-          <input class="finput" id="cab-assistante" placeholder="Prénom Nom">
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">
-            Email assistante
-            <span style="font-weight:400;color:#94A3B8;text-transform:none;letter-spacing:0"> — optionnel</span>
-          </div>
+          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Email assistante <span style="font-weight:400;color:#94A3B8;text-transform:none;letter-spacing:0"> — optionnel</span></div>
           <input class="finput" type="email" id="cab-email-ass" placeholder="assistante@email.com">
         </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Plan</div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Plan</div>
           <select class="finput" id="cab-plan">
             <option value="starter">Starter — 999 DH/mois</option>
             <option value="pro" selected>Pro — 1499 DH/mois</option>
@@ -560,14 +531,8 @@ function renderValider(){
           </select>
         </div>
       </div>
-      <div style="margin-bottom:12px">
-        <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Lien Google Maps</div>
-        <input class="finput" id="cab-google" placeholder="https://g.page/...">
-      </div>
-      <div style="margin-bottom:18px">
-        <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">WhatsApp cabinet</div>
-        <input class="finput" type="tel" id="cab-whatsapp" placeholder="06 XX XX XX XX">
-      </div>
+      <div style="margin-bottom:12px"><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Lien Google Maps</div><input class="finput" id="cab-google" placeholder="https://g.page/..."></div>
+      <div style="margin-bottom:18px"><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">WhatsApp cabinet</div><input class="finput" type="tel" id="cab-whatsapp" placeholder="06 XX XX XX XX"></div>
       <button onclick="validerCabinet()" class="save-btn" id="btn-valider">
         <i class="ti ti-check" style="font-size:15px"></i> Valider le cabinet — Démarrer le trial
       </button>
@@ -575,78 +540,51 @@ function renderValider(){
 }
 
 async function validerCabinet(){
-  const nom       = document.getElementById('cab-nom')?.value.trim();
-  const med       = document.getElementById('cab-medecin')?.value.trim();
-  const spec      = document.getElementById('cab-spec')?.value.trim();
-  const ville     = document.getElementById('cab-ville')?.value.trim();
-  const emailMed  = document.getElementById('cab-email-med')?.value.trim();
-  const ass       = document.getElementById('cab-assistante')?.value.trim();
-  const emailAss  = document.getElementById('cab-email-ass')?.value.trim();
-  const plan      = document.getElementById('cab-plan')?.value;
-  const googleUrl = document.getElementById('cab-google')?.value.trim();
-  const whatsapp  = document.getElementById('cab-whatsapp')?.value.trim();
+  const nom      =document.getElementById('cab-nom')?.value.trim();
+  const med      =document.getElementById('cab-medecin')?.value.trim();
+  const spec     =document.getElementById('cab-spec')?.value.trim();
+  const ville    =document.getElementById('cab-ville')?.value.trim();
+  const emailMed =document.getElementById('cab-email-med')?.value.trim();
+  const ass      =document.getElementById('cab-assistante')?.value.trim();
+  const emailAss =document.getElementById('cab-email-ass')?.value.trim();
+  const plan     =document.getElementById('cab-plan')?.value;
+  const googleUrl=document.getElementById('cab-google')?.value.trim();
+  const whatsapp =document.getElementById('cab-whatsapp')?.value.trim();
 
-  if(!nom||!med||!spec||!ass){
-    showToast('Nom cabinet, médecin, spécialité et assistante requis','error');
-    return;
-  }
+  if(!nom||!med||!spec||!ass){showToast('Nom cabinet, médecin, spécialité et assistante requis','error');return;}
 
   const btn=document.getElementById('btn-valider');
   if(btn){btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2" style="font-size:15px"></i> Création en cours...';}
 
-  try {
+  try{
     const today=new Date();
     const trialEnd=new Date(today);trialEnd.setDate(trialEnd.getDate()+7);
     const renewDate=new Date(today);renewDate.setMonth(renewDate.getMonth()+1);
 
-    // 1. INSERT CABINET → récupère UUID
+    // 1. INSERT CABINET
     const{data:cabData,error:cabErr}=await sb.from('cabinets').insert([{
-      nom_cabinet:nom,
-      nom_medecin:med,
-      specialite:spec,
-      ville:ville||'Casablanca',
-      email_medecin:emailMed||null,
-      email_assistante:emailAss||null,
-      nom_assistante:ass,
-      plan:plan||'pro',
-      statut:'trial',
+      nom_cabinet:nom,nom_medecin:med,specialite:spec,ville:ville||'Casablanca',
+      email_medecin:emailMed||null,email_assistante:emailAss||null,nom_assistante:ass,
+      plan:plan||'pro',statut:'trial',
       date_signature:today.toISOString().split('T')[0],
       date_debut:today.toISOString().split('T')[0],
       date_fin_trial:trialEnd.toISOString().split('T')[0],
       date_renouvellement:renewDate.toISOString().split('T')[0],
-      statut_paiement:'trial',
-      commercial_id:currentUser.email,
-      google_url:googleUrl||null,
-      whatsapp_cabinet:whatsapp||null,
+      statut_paiement:'trial',commercial_id:currentUser.email,
+      google_url:googleUrl||null,whatsapp_cabinet:whatsapp||null,
     }]).select('id').single();
 
-    if(cabErr||!cabData?.id){
-      throw new Error('Erreur création cabinet : '+(cabErr?.message||'ID manquant'));
-    }
-
+    if(cabErr||!cabData?.id) throw new Error('Erreur création cabinet : '+(cabErr?.message||'ID manquant'));
     const cabinetId=cabData.id;
-    console.log('[validerCabinet] Cabinet créé :',cabinetId);
 
-    // 2. INSERT USERS avec cabinet_id
-    const{error:usersErr}=await sb.from('users').insert([
-      {
-        email:emailMed||`medecin-${cabinetId}@medipulse.ma`,
-        nom:med,role:'medecin',type:'',statut:'actif',
-        cabinet_id:cabinetId,commercial_id:currentUser.email,
-        date_creation:today.toISOString().split('T')[0],
-      },
-      {
-        email:emailAss||`assistante-${cabinetId}@medipulse.ma`,
-        nom:ass,role:'assistante',type:'',statut:'actif',
-        cabinet_id:cabinetId,commercial_id:currentUser.email,
-        date_creation:today.toISOString().split('T')[0],
-      },
+    // 2. INSERT USERS
+    await sb.from('users').insert([
+      {email:emailMed||`dr-temp-${cabinetId}@medipulse.ma`,nom:med,role:'medecin',type:'',statut:'actif',cabinet_id:cabinetId,commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
+      {email:emailAss||`as-temp-${cabinetId}@medipulse.ma`,nom:ass,role:'assistante',type:'',statut:'actif',cabinet_id:cabinetId,commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
     ]);
-    if(usersErr)console.warn('[validerCabinet] Erreur insert users :',usersErr.message);
 
     // 3. APPELER HYPER-WORKER
     showToast('Cabinet créé — configuration en cours...','info');
-
     const hwRes=await fetch('https://czttvnvcetgmjfqishig.supabase.co/functions/v1/hyper-worker',{
       method:'POST',
       headers:{
@@ -655,16 +593,10 @@ async function validerCabinet(){
         'apikey':'sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m',
       },
       body:JSON.stringify({
-        cabinetId,
-        nomCabinet:nom,
-        nomMedecin:med,
-        nomAssistante:ass,
-        emailMedecin:emailMed||'',
-        emailAssistante:emailAss||'',
-        specialite:spec,
-        ville:ville||'Casablanca',
-        whatsapp:whatsapp||'',
-        lienGoogle:googleUrl||'',
+        cabinetId,nomCabinet:nom,nomMedecin:med,nomAssistante:ass,
+        emailMedecin:emailMed||'',emailAssistante:emailAss||'',
+        specialite:spec,ville:ville||'Casablanca',
+        whatsapp:whatsapp||'',lienGoogle:googleUrl||'',
         commercial:currentUser.email,
       }),
     });
@@ -672,21 +604,37 @@ async function validerCabinet(){
     const hwData=await hwRes.json();
     console.log('[validerCabinet] hyper-worker :',JSON.stringify(hwData));
 
-    const nbErrors=hwData.results?.errors?.length||0;
-    if(hwData.success||nbErrors===0){
-      showToast('✅ Cabinet '+nom+' — onboarding complet !','success');
+    // 4. AFFICHER MODAL ACCÈS
+    if(hwData.acces){
+      document.getElementById('acc-med-email').textContent=hwData.acces.medecin.email;
+      document.getElementById('acc-ass-email').textContent=hwData.acces.assistante.email;
+      document.getElementById('acc-pwd').textContent=hwData.acces.medecin.password;
+      document.getElementById('acces-overlay').classList.add('open');
     } else {
-      console.warn('[validerCabinet] Avertissements :',hwData.results?.errors);
-      showToast('Cabinet créé — vérifier les logs ('+nbErrors+' avertissement'+(nbErrors>1?'s':'')+')', 'warning');
+      showToast('✅ Cabinet '+nom+' créé !','success');
+      setTimeout(()=>showPage('dashboard'),2000);
     }
 
-    setTimeout(()=>showPage('dashboard'),2000);
-
-  } catch(err){
+  }catch(err){
     console.error('[validerCabinet] ERREUR :',err.message);
     showToast('Erreur : '+err.message,'error');
     if(btn){btn.disabled=false;btn.innerHTML='<i class="ti ti-check" style="font-size:15px"></i> Valider le cabinet — Démarrer le trial';}
   }
+}
+
+// ── COPIER ACCÈS ──
+function copyText(id){
+  const val=document.getElementById(id)?.textContent;
+  if(!val)return;
+  navigator.clipboard.writeText(val).then(()=>showToast('Copié ✓','success'));
+}
+
+function copyAll(){
+  const med=document.getElementById('acc-med-email')?.textContent;
+  const ass=document.getElementById('acc-ass-email')?.textContent;
+  const pwd=document.getElementById('acc-pwd')?.textContent;
+  const txt=`🩺 MÉDECIN\nEmail : ${med}\nMot de passe : ${pwd}\nURL : https://medipulse-gamma.vercel.app/medecin.html\n\n👩‍⚕️ ASSISTANTE\nEmail : ${ass}\nMot de passe : ${pwd}\nURL : https://medipulse-gamma.vercel.app/assistante.html`;
+  navigator.clipboard.writeText(txt).then(()=>showToast('Tout copié ✓','success'));
 }
 </script>
 </body>
