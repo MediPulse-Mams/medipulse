@@ -256,7 +256,7 @@ function getStatutBadge(statut){
 }
 
 function envoyerLienGoogle(tel, nom, langue){
-  const lienGoogle=cabinetData?.lien_google||'';
+  const lienGoogle=cabinetData?.lien_google||cabinetData?.google_url||'';
   const nomCabinet=cabinetData?.nom_cabinet||'notre cabinet';
   if(!lienGoogle){showToast('Lien Google non configuré','error');return;}
   const msgFR='Bonjour '+nom+' !\n\nMerci pour votre retour positif \n\nPourriez-vous partager votre experience sur Google ? Cela prend 30 secondes\n\n'+lienGoogle+'\n\nMerci !\nL equipe '+nomCabinet;
@@ -371,3 +371,4 @@ async function renderHistorique(){
 </script>
 </body>
 </html>
+ 
