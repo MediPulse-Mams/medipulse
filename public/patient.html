@@ -213,6 +213,8 @@ async function repondre(sentiment){
 }
 
 async function ouvrirGoogle(){
+  console.log('googleUrl:', googleUrl);
+  console.log('cabinet:', JSON.stringify(cabinet));
   if(!envoi)return;
   // Update statut first
   await fetch(SB_URL+'/rest/v1/envois_whatsapp?feedback_token=eq.'+envoi.feedback_token,{
