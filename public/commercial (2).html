@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediPulse — Dashboard Commercial</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/shared.css">
+<style>
+body{background:#F5F7FF;color:#111827;font-family:'Plus Jakarta Sans',sans-serif}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:20px}
+.sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.comm-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.paliers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.05);min-width:0}
+.kpi-card{background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,0.05);min-width:0}
+.kpi-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.kpi-label{font-size:12px;color:#6B7280;font-weight:500}
+.kpi-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.kpi-value{font-size:26px;font-weight:800;line-height:1;margin-bottom:4px}
+.kpi-sub{font-size:11px;color:#6B7280}
+.hero{background:linear-gradient(135deg,#0A2540 0%,#0D3B5E 60%,#083352 100%);border-radius:16px;padding:22px 24px;margin-bottom:20px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:250px;height:250px;border-radius:50%;border:1px solid rgba(56,189,248,0.08);bottom:-80px;right:-80px}
+.prog-track{height:6px;background:rgba(255,255,255,0.1);border-radius:99px;overflow:hidden;margin-bottom:10px}
+.prog-fill{height:100%;background:linear-gradient(90deg,#38BDF8,#06B6D4);border-radius:99px;transition:width 1s ease}
+.prospect-card{background:#fff;border-radius:12px;border:1px solid #F3F4F6;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.p-action{width:32px;height:32px;border-radius:8px;border:1px solid #E5E7EB;background:#F9FAFB;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#64748B;transition:all 0.15s;flex-shrink:0}
+.p-action:hover{background:#EFF6FF;border-color:#2563EB;color:#2563EB}
+.chip{padding:6px 12px;border-radius:99px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid;transition:all 0.15s;white-space:nowrap}
+.chip-on{background:#EFF6FF;color:#2563EB;border-color:#BFDBFE}
+.chip-off{background:#fff;color:#64748B;border-color:#E5E7EB}
+.chips-wrap{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.page-title{font-size:20px;font-weight:700;color:#0F172A}
+.page-bar{width:36px;height:3px;background:#2563EB;border-radius:2px;margin-top:5px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;border:1px solid #E5E7EB;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+.modal-hd{padding:16px 20px 12px;border-bottom:1px solid #F3F4F6;display:flex;align-items:center;justify-content:space-between}
+.modal-body{padding:16px 20px 20px}
+.st-opt{padding:10px 12px;border-radius:10px;border:2px solid #E5E7EB;cursor:pointer;transition:all 0.15s;margin-bottom:8px}
+.finput{width:100%;padding:11px 14px;border-radius:10px;border:1.5px solid #E5E7EB;font-size:14px;color:#0A2540;font-family:'Plus Jakarta Sans',sans-serif;outline:none;margin-bottom:12px;background:#F8FAFC;transition:border-color 0.2s;box-sizing:border-box}
+.finput:focus{border-color:#0D7490;background:#fff}
+.save-btn{width:100%;padding:13px;border-radius:11px;background:linear-gradient(135deg,#0A2540,#0D7490);color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px}
+.save-btn:disabled{opacity:0.6;cursor:not-allowed}
+.acces-box{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.acces-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.acces-label{font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:0.07em}
+.acces-val{font-size:13px;font-weight:600;color:#0A2540;font-family:monospace;word-break:break-all}
+.copy-btn{padding:4px 10px;border-radius:6px;border:1px solid #E5E7EB;background:#fff;font-size:11px;font-weight:600;color:#0D7490;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.copy-btn:hover{background:#EFF6FF;border-color:#BFDBFE}
+@media(max-width:768px){
+  .kpi-grid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+  .sim-grid{grid-template-columns:1fr}
+  .comm-grid{grid-template-columns:1fr}
+  .paliers-grid{grid-template-columns:1fr}
+  .kpi-value{font-size:20px}
+  .hero{padding:16px 18px;margin-bottom:14px}
+  .page-title{font-size:18px}
+  .card,.kpi-card{padding:14px}
+  .modal{max-height:85vh}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <div class="sidebar sidebar-light" id="sidebar">
+    <div class="sidebar-logo">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <div style="font-size:18px;font-weight:800;letter-spacing:-0.5px;color:#1E3A5F">Medi<span style="color:#2563EB">Pulse</span></div>
+      </div>
+      <div style="font-size:10px;color:#94A3B8;padding-left:30px;font-style:italic">La réputation médicale, automatisée.</div>
+    </div>
+    <div class="sidebar-user">
+      <div class="sidebar-avatar" id="sb-avatar" style="background:#EFF6FF;color:#2563EB"></div>
+      <div>
+        <div class="sidebar-username" id="sb-name"></div>
+        <div class="sidebar-role" id="sb-role" style="font-size:11px"></div>
+      </div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="nav-section">Mon espace</div>
+      <div class="nav-link active" id="nav-dashboard" onclick="showPage('dashboard')"><i class="ti ti-chart-bar"></i>Dashboard</div>
+      <div class="nav-link" id="nav-simulateur" onclick="showPage('simulateur')"><i class="ti ti-currency-dollar"></i>Simulateur</div>
+      <div class="nav-link" id="nav-prospects" onclick="showPage('prospects')"><i class="ti ti-users"></i>Prospects</div>
+      <div class="nav-link" id="nav-commissions" onclick="showPage('commissions')"><i class="ti ti-receipt"></i>Commissions</div>
+      <div class="nav-link" id="nav-valider" onclick="showPage('valider')"><i class="ti ti-circle-plus"></i>Valider cabinet</div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="logout-btn logout-btn-red" onclick="doLogout()"><i class="ti ti-logout" style="font-size:15px"></i> Déconnexion</button>
+    </div>
+  </div>
+  <div class="sidebar-overlay" id="mob-overlay" onclick="closeSidebar()"></div>
+  <div class="main">
+    <div class="topbar topbar-light">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()" style="color:#0F172A"><i class="ti ti-menu-2"></i></button>
+        <div style="font-size:15px;font-weight:700;color:#0F172A" id="page-title">Dashboard</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span id="role-pill" style="padding:3px 12px;border-radius:99px;font-size:11px;font-weight:600;background:rgba(6,182,212,0.1);color:#0D7490;border:1px solid rgba(13,116,144,0.2)"></span>
+        <span style="font-size:11px;color:#94A3B8" id="topbar-date"></span>
+      </div>
+    </div>
+    <div class="content content-light" id="main-content">
+      <div style="text-align:center;padding:60px;color:#94A3B8">Chargement...</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MODIFIER -->
+<div class="overlay" id="edit-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <div class="modal-hd">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#0A2540" id="edit-name"></div>
+        <div style="font-size:12px;color:#64748B;margin-top:2px" id="edit-meta"></div>
+      </div>
+      <button onclick="document.getElementById('edit-overlay').classList.remove('open')" style="background:none;border:none;cursor:pointer;font-size:20px;color:#94A3B8"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">Statut</div>
+      <div id="status-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px"></div>
+      <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Mobile WhatsApp</div>
+      <input class="finput" type="tel" id="edit-mobile" placeholder="06 XX XX XX XX">
+      <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Note rapide</div>
+      <textarea class="finput" id="edit-note" rows="2" placeholder="Résultat de l'appel..." style="resize:none"></textarea>
+      <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Date de rappel</div>
+      <input class="finput" type="date" id="edit-rappel">
+      <button class="save-btn" onclick="saveEdit()"><i class="ti ti-device-floppy" style="font-size:15px"></i> Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL AJOUTER -->
+<div class="overlay" id="add-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <div class="modal-hd">
+      <div style="font-size:15px;font-weight:700;color:#0A2540">Nouveau prospect</div>
+      <button onclick="document.getElementById('add-overlay').classList.remove('open')" style="background:none;border:none;cursor:pointer;font-size:20px;color:#94A3B8"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom *</div><input class="finput" id="add-nom" placeholder="Dr Nom Prénom"></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Spécialité *</div><input class="finput" id="add-spec" placeholder="Dermatologue..."></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Quartier</div><input class="finput" id="add-quartier" placeholder="Bd Abdelmoumen..."></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Tél mobile</div><input class="finput" type="tel" id="add-mobile" placeholder="06 XX XX XX XX"></div>
+      </div>
+      <button class="save-btn" onclick="saveAdd()"><i class="ti ti-user-plus" style="font-size:15px"></i> Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ACCÈS CABINET -->
+<div class="overlay" id="acces-overlay">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-hd">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#0A2540">✅ Cabinet créé avec succès</div>
+        <div style="font-size:12px;color:#64748B;margin-top:2px">Transmettez ces accès au cabinet</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#15803D;display:flex;align-items:center;gap:8px">
+        <i class="ti ti-lock" style="font-size:15px;flex-shrink:0"></i>
+        Ces accès sont uniques — notez-les maintenant.
+      </div>
+
+      <div style="font-size:11px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">🩺 Médecin</div>
+      <div class="acces-box">
+        <div class="acces-row">
+          <div>
+            <div class="acces-label">Email</div>
+            <div class="acces-val" id="acc-med-email"></div>
+          </div>
+          <button class="copy-btn" onclick="copyText('acc-med-email')"><i class="ti ti-copy"></i> Copier</button>
+        </div>
+        <div class="acces-row" style="margin-bottom:0">
+          <div>
+            <div class="acces-label">Mot de passe</div>
+            <div class="acces-val" id="acc-pwd"></div>
+          </div>
+          <button class="copy-btn" onclick="copyText('acc-pwd')"><i class="ti ti-copy"></i> Copier</button>
+        </div>
+      </div>
+
+      <div style="font-size:11px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;margin-top:4px">👩‍⚕️ Assistante</div>
+      <div class="acces-box">
+        <div class="acces-row" style="margin-bottom:0">
+          <div>
+            <div class="acces-label">Email</div>
+            <div class="acces-val" id="acc-ass-email"></div>
+          </div>
+          <button class="copy-btn" onclick="copyText('acc-ass-email')"><i class="ti ti-copy"></i> Copier</button>
+        </div>
+      </div>
+
+      <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:12px 14px;margin-top:4px;margin-bottom:16px">
+        <div class="acces-label" style="margin-bottom:6px">URLs de connexion</div>
+        <div style="font-size:12px;color:#64748B;margin-bottom:4px">🩺 <span style="color:#0D7490;font-weight:600">medipulse-gamma.vercel.app/medecin.html</span></div>
+        <div style="font-size:12px;color:#64748B">👩‍⚕️ <span style="color:#0D7490;font-weight:600">medipulse-gamma.vercel.app/assistante.html</span></div>
+      </div>
+
+      <button class="save-btn" onclick="copyAll()" style="margin-bottom:10px">
+        <i class="ti ti-clipboard-copy" style="font-size:15px"></i> Tout copier
+      </button>
+      <button onclick="document.getElementById('acces-overlay').classList.remove('open');showPage('dashboard')" style="width:100%;padding:11px;border-radius:11px;border:1px solid #E5E7EB;background:#fff;font-size:13px;font-weight:600;color:#64748B;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">
+        Retour au dashboard
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="/js/supabase.js"></script>
+<script>
+let currentUser=null,userRecord=null,prospects=[],crmFilter='Tous',editId=null;
+
+(async()=>{
+  const auth=await requireAuth('commercial');
+  if(!auth)return;
+  currentUser=auth.session.user;
+  userRecord=auth.user;
+  const isTer=userRecord.type==='terrain';
+  document.getElementById('sb-avatar').textContent=(userRecord.nom||currentUser.email).substring(0,2).toUpperCase();
+  document.getElementById('sb-name').textContent=userRecord.nom||currentUser.email.split('@')[0];
+  document.getElementById('sb-role').textContent=isTer?'Commercial Terrain':'Commercial Téléphone';
+  document.getElementById('role-pill').textContent=isTer?'Terrain':'Téléphone';
+  document.getElementById('topbar-date').textContent=new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long'});
+  showPage('dashboard');
+})();
+
+function showPage(page){
+  closeSidebar();
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  const el=document.getElementById('nav-'+page);
+  if(el)el.classList.add('active');
+  const titles={dashboard:'Mon Dashboard',simulateur:'Simulateur revenus',prospects:'Mes Prospects',commissions:'Mes commissions',valider:'Valider un cabinet'};
+  document.getElementById('page-title').textContent=titles[page]||'Dashboard';
+  if(page==='dashboard')renderDashboard();
+  else if(page==='simulateur')renderSimulateur();
+  else if(page==='prospects')renderProspects();
+  else if(page==='commissions')renderCommissions();
+  else if(page==='valider')renderValider();
+}
+
+function toggleSidebar(){
+  var sb=document.getElementById('sidebar');
+  var ov=document.getElementById('mob-overlay');
+  var open=sb.classList.toggle('open');
+  if(ov)ov.classList.toggle('active',open);
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  var ov=document.getElementById('mob-overlay');
+  if(ov)ov.classList.remove('active');
+}
+
+// ── DASHBOARD ──
+async function renderDashboard(){
+  const now=new Date();
+  const firstDay=new Date(now.getFullYear(),now.getMonth(),1).toISOString().split('T')[0];
+  const{data}=await sb.from('prospection').select('*');
+  prospects=data||[];
+  const isTer=userRecord.type==='terrain';
+  const paliers=isTer?PAL_TER:PAL_TEL;
+  const pSig=isTer?P_SIG_TER:P_SIG_TEL;
+  const pRec=isTer?P_REC_TER:P_REC_TEL;
+  const signes=prospects.filter(p=>p.statut==='Signé'&&p.date_appel&&p.date_appel>=firstDay);
+  const totalSignes=signes.length;
+  const primeSig=totalSignes*Math.round(TD*pSig);
+  const bonus=([...paliers].reverse().find(p=>totalSignes>=p.s)||{b:0}).b;
+  const total=primeSig+bonus;
+  const next=paliers.find(p=>totalSignes<p.s);
+  const prev=[...paliers].reverse().find(p=>totalSignes>=p.s);
+  const pct=next?Math.round(((totalSignes-(prev?prev.s:0))/(next.s-(prev?prev.s:0)))*100):100;
+  const daysLeft=Math.ceil((new Date(now.getFullYear(),now.getMonth()+1,0)-now)/(1000*60*60*24));
+  const nom=(userRecord.nom||currentUser.email.split('@')[0]).split(' ')[0];
+  document.getElementById('main-content').innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-size:20px;font-weight:800;color:#0A2540">Bonjour ${nom} 👋</div>
+        <div style="font-size:12px;color:#64748B;margin-top:2px">${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}</div>
+      </div>
+      <button onclick="showPage('valider')" style="padding:10px 16px;border-radius:10px;background:linear-gradient(135deg,#0A2540,#0D7490);color:#fff;border:none;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap">
+        <i class="ti ti-plus" style="font-size:14px"></i> Nouveau cabinet
+      </button>
+    </div>
+    <div class="hero">
+      <div style="position:absolute;top:0;right:0;background:#B45309;color:#fff;padding:8px 12px;border-radius:0 16px 0 12px;text-align:center;z-index:2">
+        <div style="font-size:20px;font-weight:800">${daysLeft}</div>
+        <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em">JOURS</div>
+      </div>
+      <div style="position:relative;z-index:2">
+        <div style="font-size:17px;font-weight:800;color:#F0F9FF;margin-bottom:3px;letter-spacing:-0.3px">${totalSignes===0?'Lance-toi — signe ton premier cabinet ! 🚀':'Excellent travail — continue ! 💪'}</div>
+        <div style="font-size:11px;color:rgba(186,230,253,0.55);margin-bottom:16px">Chaque cabinet signé = ${Math.round(TD*pSig)} MAD + ${Math.round(TD*pRec)} MAD/mois à vie</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+          <div style="font-size:11px;font-weight:600;color:rgba(186,230,253,0.8)">Objectif : ${paliers[paliers.length-1].s} cabinets</div>
+          <div style="font-size:11px;font-weight:700;color:#38BDF8">${pct}%</div>
+        </div>
+        <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
+        <div style="display:flex;gap:12px;font-size:11px;color:rgba(186,230,253,0.5);flex-wrap:wrap">
+          ${paliers.map(p=>`<span>🏆 ${p.s} → <span style="color:#FBBF24;font-weight:600">+${p.b} MAD</span></span>`).join(' · ')}
+        </div>
+      </div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-head"><span class="kpi-label">Prochain bonus</span><div class="kpi-icon" style="background:#FFF7ED"><i class="ti ti-trophy" style="font-size:16px;color:#EA580C"></i></div></div>
+        <div class="kpi-value" style="color:#EA580C">+${next?next.b:paliers[paliers.length-1].b} MAD</div>
+        <div class="kpi-sub">→ Signe ${next?next.s:paliers[paliers.length-1].s} cabinets</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-head"><span class="kpi-label">Revenus ce mois</span><div class="kpi-icon" style="background:#F0FDFA"><i class="ti ti-currency-dollar" style="font-size:16px;color:#0D7490"></i></div></div>
+        <div class="kpi-value" style="color:#0D7490">${total.toLocaleString('fr-FR')} MAD</div>
+        <div class="kpi-sub">${totalSignes===0?'→ Signe ton 1er cabinet !':'→ '+totalSignes+' signé'+(totalSignes>1?'s':'')}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-head"><span class="kpi-label">Cabinets signés</span><div class="kpi-icon" style="background:#F0FDF4"><i class="ti ti-building-hospital" style="font-size:16px;color:#059669"></i></div></div>
+        <div class="kpi-value" style="color:#059669">${totalSignes} / ${paliers[paliers.length-1].s}</div>
+        <div class="kpi-sub">→ Objectif : ${paliers[paliers.length-1].s} cabinets</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-head"><span class="kpi-label">Récurrent garanti</span><div class="kpi-icon" style="background:#EFF6FF"><i class="ti ti-refresh" style="font-size:16px;color:#2563EB"></i></div></div>
+        <div class="kpi-value" style="color:#2563EB">${(totalSignes*Math.round(TD*pRec)).toLocaleString('fr-FR')} MAD</div>
+        <div class="kpi-sub">↑ +${Math.round(TD*pRec)} MAD/cabinet/mois</div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:14px;font-weight:700;color:#0A2540">Derniers prospects</div>
+        <span onclick="showPage('prospects')" style="font-size:12px;color:#0D7490;font-weight:600;cursor:pointer">Voir tout →</span>
+      </div>
+      ${prospects.slice(0,5).map(p=>{const st=ST.find(s=>s.key===p.statut)||ST[0];return`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F9FAFB;flex-wrap:wrap"><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#0A2540">${p.nom}</div><div style="font-size:11px;color:#94A3B8;margin-top:1px">${p.specialite} · ${p.quartier||p.ville||''}</div></div><span style="padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;background:${st.bg};color:${st.color};white-space:nowrap;flex-shrink:0">${st.label}</span></div>`;}).join('')}
+      ${prospects.length===0?'<div style="text-align:center;padding:24px;color:#94A3B8;font-size:13px">Aucun prospect</div>':''}
+    </div>`;
+}
+
+// ── SIMULATEUR ──
+function renderSimulateur(){
+  document.getElementById('main-content').innerHTML=`
+    <div class="page-header"><div><div class="page-title">Simulateur de revenus</div><div class="page-bar"></div></div></div>
+    <div class="card">
+      <div style="font-size:13px;color:#64748B;margin-bottom:20px">Combien peux-tu gagner selon tes efforts ?</div>
+      <div class="sim-grid">
+        <div>
+          <div style="margin-bottom:20px">
+            <div style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">Nouveaux cabinets ce mois</div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+              <input type="range" id="sim-new" min="0" max="20" value="5" oninput="updateSim()" style="flex:1;accent-color:#0D7490">
+              <span id="sim-new-val" style="font-size:22px;font-weight:800;color:#0D7490;min-width:26px;text-align:right">5</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:#CBD5E1"><span>0</span><span>20</span></div>
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">Portefeuille actif total</div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+              <input type="range" id="sim-total" min="0" max="30" value="0" oninput="updateSim()" style="flex:1;accent-color:#2563EB">
+              <span id="sim-total-val" style="font-size:22px;font-weight:800;color:#2563EB;min-width:26px;text-align:right">0</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:#CBD5E1"><span>0</span><span>30</span></div>
+          </div>
+        </div>
+        <div id="sim-result" style="background:#F8FAFC;border-radius:12px;padding:18px;border:1px solid #E2E8F0"></div>
+      </div>
+    </div>`;
+  updateSim();
+}
+
+function updateSim(){
+  const isTer=userRecord.type==='terrain';
+  const pSig=isTer?P_SIG_TER:P_SIG_TEL;
+  const pRec=isTer?P_REC_TER:P_REC_TEL;
+  const paliers=isTer?PAL_TER:PAL_TEL;
+  const nNew=parseInt(document.getElementById('sim-new')?.value||5);
+  const nTot=parseInt(document.getElementById('sim-total')?.value||0);
+  const snv=document.getElementById('sim-new-val');if(snv)snv.textContent=nNew;
+  const stv=document.getElementById('sim-total-val');if(stv)stv.textContent=nTot;
+  const commNew=nNew*Math.round(TD*pSig);
+  const commRec=nTot*Math.round(TD*pRec);
+  const bonus=([...paliers].reverse().find(p=>nNew>=p.s)||{b:0}).b;
+  const total=commNew+commRec+bonus;
+  const panel=document.getElementById('sim-result');
+  if(!panel)return;
+  panel.innerHTML=`
+    <div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #E2E8F0">
+      <div style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;margin-bottom:5px">Commission nouveaux (${Math.round(pSig*100)}%)</div>
+      <div style="font-size:24px;font-weight:800;color:#EA580C">${commNew.toLocaleString('fr-FR')} MAD</div>
+    </div>
+    <div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #E2E8F0">
+      <div style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;margin-bottom:5px">Récurrent (${Math.round(pRec*100)}%/mois)</div>
+      <div style="font-size:24px;font-weight:800;color:#059669">${commRec.toLocaleString('fr-FR')} MAD</div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;margin-bottom:5px">Total ce mois</div>
+      <div style="font-size:32px;font-weight:800;color:#0D7490">${total.toLocaleString('fr-FR')} MAD</div>
+      ${bonus>0?`<div style="margin-top:8px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:8px 12px;font-size:12px;color:#EA580C;font-weight:600">🏆 Palier atteint ! +${bonus} MAD de bonus</div>`:''}
+    </div>`;
+}
+
+// ── PROSPECTS ──
+async function renderProspects(){
+  if(!prospects.length){const{data}=await sb.from('prospection').select('*').order('id');prospects=data||[];}
+  renderProspectsList();
+}
+function renderProspectsList(){
+  const filtered=crmFilter==='Tous'?prospects:prospects.filter(p=>p.statut===crmFilter);
+  document.getElementById('main-content').innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+      <div><div class="page-title">Mes Prospects</div><div style="font-size:12px;color:#64748B;margin-top:3px">${prospects.length} prospects</div></div>
+      <button onclick="document.getElementById('add-overlay').classList.add('open')" style="padding:10px 14px;border-radius:10px;background:linear-gradient(135deg,#0A2540,#0D7490);color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap"><i class="ti ti-plus" style="font-size:13px"></i> Ajouter</button>
+    </div>
+    <div class="chips-wrap">
+      ${['Tous','Nouveau','Rappeler','Joignable','Démo Bookée','Signé','Refus'].map(f=>`<div onclick="setCrmFilter('${f}')" class="chip ${crmFilter===f?'chip-on':'chip-off'}">${f}</div>`).join('')}
+    </div>
+    <div>
+      ${filtered.length?filtered.map(p=>{const st=ST.find(s=>s.key===p.statut)||ST[0];return`<div class="prospect-card"><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#0A2540">${p.nom}</div><div style="font-size:11px;color:#94A3B8;margin-top:2px">${p.specialite} · ${p.quartier||p.ville||''}${p.telephone_fixe?' · '+p.telephone_fixe:''}</div>${p.note?`<div style="font-size:10px;color:#CBD5E1;margin-top:2px;font-style:italic">${p.note}</div>`:''}</div><span style="padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;background:${st.bg};color:${st.color};white-space:nowrap;flex-shrink:0">${st.label}</span><div style="display:flex;gap:4px;flex-shrink:0"><button class="p-action" onclick="callProspect(${p.id})" title="Appeler"><i class="ti ti-phone"></i></button><button class="p-action" onclick="waProspect(${p.id})" title="WhatsApp" style="color:#16A34A"><i class="ti ti-brand-whatsapp"></i></button><button class="p-action" onclick="editProspect(${p.id})" title="Modifier"><i class="ti ti-edit"></i></button></div></div>`;}).join(''):'<div style="text-align:center;padding:48px;color:#94A3B8;font-size:13px">Aucun prospect trouvé</div>'}
+    </div>`;
+}
+function setCrmFilter(f){crmFilter=f;renderProspectsList();}
+function callProspect(id){const p=prospects.find(x=>x.id===id);if(!p)return;const tel=(p.telephone_fixe||p.telephone_mobile||'').replace(/\s/g,'');if(tel)window.location.href='tel:'+tel;else showToast('Aucun numéro','error');}
+function waProspect(id){const p=prospects.find(x=>x.id===id);if(!p)return;const tel=(p.telephone_mobile||p.telephone_fixe||'').replace(/\s/g,'').replace(/^0/,'212');if(tel)window.open('https://wa.me/'+tel,'_blank');else showToast('Ajouter le mobile','error');}
+function editProspect(id){
+  const p=prospects.find(x=>x.id===id);if(!p)return;
+  editId=id;
+  document.getElementById('edit-name').textContent=p.nom;
+  document.getElementById('edit-meta').textContent=p.specialite+(p.telephone_fixe?' · '+p.telephone_fixe:'');
+  document.getElementById('edit-mobile').value=p.telephone_mobile||'';
+  document.getElementById('edit-note').value=p.note||'';
+  document.getElementById('edit-rappel').value=p.date_rappel||'';
+  document.getElementById('status-grid').innerHTML=ST.map(s=>`<div onclick="selectSt('${s.key}',this)" class="st-opt ${p.statut===s.key?'selected':''}" data-key="${s.key}" style="border-color:${p.statut===s.key?s.border:'#E5E7EB'};background:${p.statut===s.key?s.bg:'#fff'}"><div style="font-size:12px;font-weight:600;color:${s.color}">${s.label}</div><div style="font-size:10px;color:#94A3B8;margin-top:1px">${s.desc}</div></div>`).join('');
+  document.getElementById('edit-overlay').classList.add('open');
+}
+function selectSt(key,el){
+  document.querySelectorAll('#status-grid .st-opt').forEach(d=>{d.style.borderColor='#E5E7EB';d.style.background='#fff';d.classList.remove('selected');});
+  const s=ST.find(x=>x.key===key);
+  if(s){el.style.borderColor=s.border;el.style.background=s.bg;}
+  el.classList.add('selected');
+}
+async function saveEdit(){
+  var allOpts=document.querySelectorAll('#status-grid .st-opt');
+  var statut='Nouveau';
+  for(var i=0;i<allOpts.length;i++){if(allOpts[i].classList.contains('selected')){statut=allOpts[i].dataset.key;break;}}
+  const{error}=await sb.from('prospection').update({statut,telephone_mobile:document.getElementById('edit-mobile').value,note:document.getElementById('edit-note').value,date_rappel:document.getElementById('edit-rappel').value||null,date_appel:new Date().toISOString().split('T')[0],commercial_id:currentUser.email}).eq('id',editId);
+  if(error){showToast('Erreur','error');return;}
+  showToast('Enregistré ✓','success');
+  document.getElementById('edit-overlay').classList.remove('open');
+  const{data}=await sb.from('prospection').select('*').order('id');
+  prospects=data||[];renderProspectsList();
+}
+async function saveAdd(){
+  const nom=document.getElementById('add-nom')?.value.trim();
+  const spec=document.getElementById('add-spec')?.value.trim();
+  if(!nom||!spec){showToast('Nom et spécialité requis','error');return;}
+  const{error}=await sb.from('prospection').insert([{nom,specialite:spec,quartier:document.getElementById('add-quartier').value,ville:'Casablanca',telephone_mobile:document.getElementById('add-mobile').value,statut:'Nouveau',commercial_id:currentUser.email}]);
+  if(error){showToast('Erreur ajout','error');return;}
+  showToast('Prospect ajouté ✓','success');
+  document.getElementById('add-overlay').classList.remove('open');
+  ['add-nom','add-spec','add-quartier','add-mobile'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const{data}=await sb.from('prospection').select('*').order('id');
+  prospects=data||[];renderProspectsList();
+}
+
+// ── COMMISSIONS ──
+function renderCommissions(){
+  const isTer=userRecord.type==='terrain';
+  const pSig=isTer?P_SIG_TER:P_SIG_TEL;
+  const pRec=isTer?P_REC_TER:P_REC_TEL;
+  const paliers=isTer?PAL_TER:PAL_TEL;
+  document.getElementById('main-content').innerHTML=`
+    <div class="page-header"><div><div class="page-title">Mes Commissions</div><div class="page-bar"></div></div></div>
+    <div class="comm-grid">
+      <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:10px;font-weight:700;color:#2563EB;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px">Commission nouveau cabinet</div>
+        <div style="font-size:34px;font-weight:800;color:#2563EB">${Math.round(pSig*100)}%</div>
+        <div style="font-size:12px;color:#64748B;margin-top:6px">= ${Math.round(TD*pSig)} MAD / cabinet</div>
+      </div>
+      <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:14px;padding:18px;text-align:center">
+        <div style="font-size:10px;font-weight:700;color:#059669;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px">Commission récurrente</div>
+        <div style="font-size:34px;font-weight:800;color:#059669">${Math.round(pRec*100)}%</div>
+        <div style="font-size:12px;color:#64748B;margin-top:6px">= ${Math.round(TD*pRec)} MAD/mois à vie</div>
+      </div>
+    </div>
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:14px;padding:18px;margin-bottom:18px">
+      <div style="font-size:13px;font-weight:600;color:#92400E;margin-bottom:14px">🏆 Bonus paliers</div>
+      <div class="paliers-grid">
+        ${paliers.map(p=>`<div style="text-align:center;background:#fff;border-radius:10px;padding:14px;border:1px solid #FDE68A"><div style="font-size:22px;font-weight:800;color:#EA580C">+${p.b} MAD</div><div style="font-size:11px;color:#94A3B8;margin-top:4px">${p.s} cabinets</div></div>`).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:14px;font-weight:700;color:#0A2540;margin-bottom:14px">Historique</div>
+      <div style="text-align:center;padding:28px;color:#94A3B8;font-size:13px">Aucune commission pour l'instant</div>
+    </div>`;
+}
+
+// ── VALIDER ──
+function renderValider(){
+  document.getElementById('main-content').innerHTML=`
+    <div class="page-header"><div><div class="page-title">Valider un cabinet</div><div class="page-bar"></div></div></div>
+    <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:12px 16px;margin-bottom:12px;font-size:13px;color:#1D4ED8;display:flex;align-items:center;gap:8px">
+      <i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0"></i>
+      Trial gratuit de 7 jours — vous serez notifié la veille de l'expiration.
+    </div>
+    <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:#15803D;display:flex;align-items:center;gap:8px">
+      <i class="ti ti-mail-off" style="font-size:16px;flex-shrink:0"></i>
+      Les emails sont optionnels — un accès sera généré automatiquement si absent.
+    </div>
+    <div class="card">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom du cabinet *</div><input class="finput" id="cab-nom" placeholder="Cabinet Dr. Nom"></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom du médecin *</div><input class="finput" id="cab-medecin" placeholder="Dr. Prénom Nom"></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Spécialité *</div><input class="finput" id="cab-spec" placeholder="Dermatologue..."></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Ville</div><input class="finput" id="cab-ville" value="Casablanca"></div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Email médecin <span style="font-weight:400;color:#94A3B8;text-transform:none;letter-spacing:0"> — optionnel</span></div>
+          <input class="finput" type="email" id="cab-email-med" placeholder="dr.nom@email.com">
+        </div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom assistante *</div><input class="finput" id="cab-assistante" placeholder="Prénom Nom"></div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Email assistante <span style="font-weight:400;color:#94A3B8;text-transform:none;letter-spacing:0"> — optionnel</span></div>
+          <input class="finput" type="email" id="cab-email-ass" placeholder="assistante@email.com">
+        </div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Plan</div>
+          <select class="finput" id="cab-plan">
+            <option value="starter">Starter — 999 DH/mois</option>
+            <option value="pro" selected>Pro — 1499 DH/mois</option>
+            <option value="enterprise">Enterprise — 2499 DH/mois</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:12px"><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Lien Google Maps</div><input class="finput" id="cab-google" placeholder="https://g.page/..."></div>
+      <div style="margin-bottom:18px"><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">WhatsApp cabinet</div><input class="finput" type="tel" id="cab-whatsapp" placeholder="06 XX XX XX XX"></div>
+      <button onclick="validerCabinet()" class="save-btn" id="btn-valider">
+        <i class="ti ti-check" style="font-size:15px"></i> Valider le cabinet — Démarrer le trial
+      </button>
+    </div>`;
+}
+
+async function validerCabinet(){
+  const nom      =document.getElementById('cab-nom')?.value.trim();
+  const med      =document.getElementById('cab-medecin')?.value.trim();
+  const spec     =document.getElementById('cab-spec')?.value.trim();
+  const ville    =document.getElementById('cab-ville')?.value.trim();
+  const emailMed =document.getElementById('cab-email-med')?.value.trim();
+  const ass      =document.getElementById('cab-assistante')?.value.trim();
+  const emailAss =document.getElementById('cab-email-ass')?.value.trim();
+  const plan     =document.getElementById('cab-plan')?.value;
+  const googleUrl=document.getElementById('cab-google')?.value.trim();
+  const whatsapp =document.getElementById('cab-whatsapp')?.value.trim();
+
+  if(!nom||!med||!spec||!ass){showToast('Nom cabinet, médecin, spécialité et assistante requis','error');return;}
+
+  const btn=document.getElementById('btn-valider');
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2" style="font-size:15px"></i> Création en cours...';}
+
+  try{
+    const today=new Date();
+    const trialEnd=new Date(today);trialEnd.setDate(trialEnd.getDate()+7);
+    const renewDate=new Date(today);renewDate.setMonth(renewDate.getMonth()+1);
+
+    // 1. INSERT CABINET
+    const{data:cabData,error:cabErr}=await sb.from('cabinets').insert([{
+      nom_cabinet:nom,nom_medecin:med,specialite:spec,ville:ville||'Casablanca',
+      email_medecin:emailMed||null,email_assistante:emailAss||null,nom_assistante:ass,
+      plan:plan||'pro',statut:'trial',
+      date_signature:today.toISOString().split('T')[0],
+      date_debut:today.toISOString().split('T')[0],
+      date_fin_trial:trialEnd.toISOString().split('T')[0],
+      date_renouvellement:renewDate.toISOString().split('T')[0],
+      statut_paiement:'trial',commercial_id:currentUser.email,
+      google_url:googleUrl||null,whatsapp_cabinet:whatsapp||null,
+    }]).select('id').single();
+
+    if(cabErr||!cabData?.id) throw new Error('Erreur création cabinet : '+(cabErr?.message||'ID manquant'));
+    const cabinetId=cabData.id;
+
+    // 2. INSERT USERS
+    await sb.from('users').insert([
+      {email:emailMed||`dr-temp-${cabinetId}@medipulse.ma`,nom:med,role:'medecin',type:'',statut:'actif',cabinet_id:cabinetId,commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
+      {email:emailAss||`as-temp-${cabinetId}@medipulse.ma`,nom:ass,role:'assistante',type:'',statut:'actif',cabinet_id:cabinetId,commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
+    ]);
+
+    // 3. APPELER HYPER-WORKER
+    showToast('Cabinet créé — configuration en cours...','info');
+    const hwRes=await fetch('https://czttvnvcetgmjfqishig.supabase.co/functions/v1/hyper-worker',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6dHR2bnZjZXRnbWpmcWlzaGlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjc2OTMsImV4cCI6MjA5MzMwMzY5M30.diTXQqKQOU4QoRwqKwwbeHmhE_ulAI3RLJEtTs0I1w8',
+        'apikey':'sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m',
+      },
+      body:JSON.stringify({
+        cabinetId,nomCabinet:nom,nomMedecin:med,nomAssistante:ass,
+        emailMedecin:emailMed||'',emailAssistante:emailAss||'',
+        specialite:spec,ville:ville||'Casablanca',
+        whatsapp:whatsapp||'',lienGoogle:googleUrl||'',
+        commercial:currentUser.email,
+      }),
+    });
+
+    const hwData=await hwRes.json();
+    console.log('[validerCabinet] hyper-worker :',JSON.stringify(hwData));
+
+    // 4. AFFICHER MODAL ACCÈS
+    if(hwData.acces){
+      document.getElementById('acc-med-email').textContent=hwData.acces.medecin.email;
+      document.getElementById('acc-ass-email').textContent=hwData.acces.assistante.email;
+      document.getElementById('acc-pwd').textContent=hwData.acces.medecin.password;
+      document.getElementById('acces-overlay').classList.add('open');
+    } else {
+      showToast('✅ Cabinet '+nom+' créé !','success');
+      setTimeout(()=>showPage('dashboard'),2000);
+    }
+
+  }catch(err){
+    console.error('[validerCabinet] ERREUR :',err.message);
+    showToast('Erreur : '+err.message,'error');
+    if(btn){btn.disabled=false;btn.innerHTML='<i class="ti ti-check" style="font-size:15px"></i> Valider le cabinet — Démarrer le trial';}
+  }
+}
+
+// ── COPIER ACCÈS ──
+function copyText(id){
+  const val=document.getElementById(id)?.textContent;
+  if(!val)return;
+  navigator.clipboard.writeText(val).then(()=>showToast('Copié ✓','success'));
+}
+
+function copyAll(){
+  const med=document.getElementById('acc-med-email')?.textContent;
+  const ass=document.getElementById('acc-ass-email')?.textContent;
+  const pwd=document.getElementById('acc-pwd')?.textContent;
+  const txt=`🩺 MÉDECIN\nEmail : ${med}\nMot de passe : ${pwd}\nURL : https://medipulse-gamma.vercel.app/medecin.html\n\n👩‍⚕️ ASSISTANTE\nEmail : ${ass}\nMot de passe : ${pwd}\nURL : https://medipulse-gamma.vercel.app/assistante.html`;
+  navigator.clipboard.writeText(txt).then(()=>showToast('Tout copié ✓','success'));
+}
+</script>
+</body>
+</html>
