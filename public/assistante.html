@@ -134,7 +134,7 @@ async function renderAccueil(){
   const total=envois.length;
   const positifs=envois.filter(e=>e.statut==='positif').length;
   const nomCabinet=cabinetData?.nom_cabinet||'votre cabinet';
-  const lienGoogle=cabinetData?.lien_google||'';
+  const lienGoogle=cabinetData?.lien_google||cabinetData?.google_url||'';
 
   document.getElementById('main-content').innerHTML=`
     <div style="margin-bottom:24px">
