@@ -255,9 +255,11 @@ async function afficherDone(){
 
   if(envoi.feedback_completed){show('done');return;}
 
+  console.log('🏥 cabinet_id:', envoi.cabinet_id);
   if(envoi.cabinet_id){
     const cr=await fetch(SB_URL+'/rest/v1/cabinets?id=eq.'+envoi.cabinet_id+'&limit=1',{headers:HDR});
     const cabs=await cr.json();
+  console.log('🏥 CABS:', JSON.stringify(cabs));
     if(cabs&&cabs.length){
       const cab=cabs[0];
       document.getElementById('cabinet-name').textContent=cab.nom_cabinet||cab.nom_medecin||'';
@@ -275,6 +277,7 @@ async function afficherDone(){
 </script>
 </body>
 </html>
+ 
  
  
  
