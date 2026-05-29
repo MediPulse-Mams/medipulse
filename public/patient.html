@@ -259,6 +259,7 @@ async function afficherDone(){
       document.getElementById('cabinet-spec').textContent=(cab.specialite||'')+(cab.ville?' · '+cab.ville:'');
       document.getElementById('cabinet-info').style.display='block';
       if(cab.lien_google) googleUrl=cab.lien_google;
+    else if(cab.google_url) googleUrl=cab.google_url;
       const nomCab=cab.nom_cabinet||'le cabinet';
       const t=TEXTS[lang]||TEXTS.fr;
       document.getElementById('txt-sub').textContent=lang==='ar'?'رأيكم يساعد '+nomCab+' على التحسين':'Votre retour aide '+nomCab+' à s\'améliorer';
