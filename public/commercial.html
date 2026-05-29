@@ -10,64 +10,45 @@
 <link rel="stylesheet" href="/css/shared.css">
 <style>
 body{background:#F5F7FF;color:#111827;font-family:'Plus Jakarta Sans',sans-serif}
-
-/* ── GRIDS — CSS only ── */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:20px}
 .sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .comm-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
 .paliers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-
-/* ── CARDS ── */
 .card{background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.05);min-width:0}
 .kpi-card{background:#fff;border-radius:14px;border:1px solid #F3F4F6;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,0.05);min-width:0}
-
-/* ── KPI ── */
 .kpi-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .kpi-label{font-size:12px;color:#6B7280;font-weight:500}
 .kpi-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .kpi-value{font-size:26px;font-weight:800;line-height:1;margin-bottom:4px}
 .kpi-sub{font-size:11px;color:#6B7280}
-
-/* ── HERO ── */
 .hero{background:linear-gradient(135deg,#0A2540 0%,#0D3B5E 60%,#083352 100%);border-radius:16px;padding:22px 24px;margin-bottom:20px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;width:250px;height:250px;border-radius:50%;border:1px solid rgba(56,189,248,0.08);bottom:-80px;right:-80px}
 .prog-track{height:6px;background:rgba(255,255,255,0.1);border-radius:99px;overflow:hidden;margin-bottom:10px}
 .prog-fill{height:100%;background:linear-gradient(90deg,#38BDF8,#06B6D4);border-radius:99px;transition:width 1s ease}
-
-/* ── PROSPECT CARD ── */
 .prospect-card{background:#fff;border-radius:12px;border:1px solid #F3F4F6;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
 .p-action{width:32px;height:32px;border-radius:8px;border:1px solid #E5E7EB;background:#F9FAFB;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#64748B;transition:all 0.15s;flex-shrink:0}
 .p-action:hover{background:#EFF6FF;border-color:#2563EB;color:#2563EB}
-
-/* ── FILTER CHIPS ── */
 .chip{padding:6px 12px;border-radius:99px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid;transition:all 0.15s;white-space:nowrap}
 .chip-on{background:#EFF6FF;color:#2563EB;border-color:#BFDBFE}
 .chip-off{background:#fff;color:#64748B;border-color:#E5E7EB}
 .chips-wrap{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
-
-/* ── PAGE HEADER ── */
 .page-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px}
 .page-title{font-size:20px;font-weight:700;color:#0F172A}
 .page-bar{width:36px;height:3px;background:#2563EB;border-radius:2px;margin-top:5px}
-
-/* ── MODAL ── */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
 .overlay.open{display:flex}
 .modal{background:#fff;border-radius:16px;border:1px solid #E5E7EB;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
 .modal-hd{padding:16px 20px 12px;border-bottom:1px solid #F3F4F6;display:flex;align-items:center;justify-content:space-between}
 .modal-body{padding:16px 20px 20px}
 .st-opt{padding:10px 12px;border-radius:10px;border:2px solid #E5E7EB;cursor:pointer;transition:all 0.15s;margin-bottom:8px}
-.finput{width:100%;padding:11px 14px;border-radius:10px;border:1.5px solid #E5E7EB;font-size:14px;color:#0A2540;font-family:'Plus Jakarta Sans',sans-serif;outline:none;margin-bottom:12px;background:#F8FAFC;transition:border-color 0.2s}
+.finput{width:100%;padding:11px 14px;border-radius:10px;border:1.5px solid #E5E7EB;font-size:14px;color:#0A2540;font-family:'Plus Jakarta Sans',sans-serif;outline:none;margin-bottom:12px;background:#F8FAFC;transition:border-color 0.2s;box-sizing:border-box}
 .finput:focus{border-color:#0D7490;background:#fff}
 .save-btn{width:100%;padding:13px;border-radius:11px;background:linear-gradient(135deg,#0A2540,#0D7490);color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px}
-
-/* ── TABLE ── */
+.save-btn:disabled{opacity:0.6;cursor:not-allowed}
 .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .comm-table{width:100%;border-collapse:collapse;min-width:500px}
 .comm-table th{font-size:10px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.05em;padding:8px 0;border-bottom:1px solid #F3F4F6;text-align:left}
 .comm-table td{padding:11px 0;border-bottom:1px solid #F9FAFB;font-size:12px;color:#374151}
-
-/* ── RESPONSIVE ── */
 @media(max-width:768px){
   .kpi-grid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
   .sim-grid{grid-template-columns:1fr}
@@ -256,7 +237,6 @@ async function renderDashboard(){
         <i class="ti ti-plus" style="font-size:14px"></i> Nouveau cabinet
       </button>
     </div>
-
     <div class="hero">
       <div style="position:absolute;top:0;right:0;background:#B45309;color:#fff;padding:8px 12px;border-radius:0 16px 0 12px;text-align:center;z-index:2">
         <div style="font-size:20px;font-weight:800">${daysLeft}</div>
@@ -275,7 +255,6 @@ async function renderDashboard(){
         </div>
       </div>
     </div>
-
     <div class="kpi-grid">
       <div class="kpi-card">
         <div class="kpi-head"><span class="kpi-label">Prochain bonus</span><div class="kpi-icon" style="background:#FFF7ED"><i class="ti ti-trophy" style="font-size:16px;color:#EA580C"></i></div></div>
@@ -298,7 +277,6 @@ async function renderDashboard(){
         <div class="kpi-sub">↑ +${Math.round(TD*pRec)} MAD/cabinet/mois</div>
       </div>
     </div>
-
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
         <div style="font-size:14px;font-weight:700;color:#0A2540">Derniers prospects</div>
@@ -322,8 +300,6 @@ async function renderDashboard(){
 // ── SIMULATEUR ──
 function renderSimulateur(){
   const isTer=userRecord.type==='terrain';
-  const pSig=isTer?P_SIG_TER:P_SIG_TEL;
-  const pRec=isTer?P_REC_TER:P_REC_TEL;
   document.getElementById('main-content').innerHTML=`
     <div class="page-header"><div><div class="page-title">Simulateur de revenus</div><div class="page-bar"></div></div></div>
     <div class="card">
@@ -435,7 +411,7 @@ function editProspect(id){
   document.getElementById('edit-note').value=p.note||'';
   document.getElementById('edit-rappel').value=p.date_rappel||'';
   document.getElementById('status-grid').innerHTML=ST.map(s=>`
-    <div onclick="selectSt('${s.key}',this)" class="st-opt ${p.statut===s.key?'selected selected':''}" data-key="${s.key}" style="border-color:${p.statut===s.key?s.border:'#E5E7EB'};background:${p.statut===s.key?s.bg:'#fff'}">
+    <div onclick="selectSt('${s.key}',this)" class="st-opt ${p.statut===s.key?'selected':''}" data-key="${s.key}" style="border-color:${p.statut===s.key?s.border:'#E5E7EB'};background:${p.statut===s.key?s.bg:'#fff'}">
       <div style="font-size:12px;font-weight:600;color:${s.color}">${s.label}</div>
       <div style="font-size:10px;color:#94A3B8;margin-top:1px">${s.desc}</div>
     </div>`).join('');
@@ -528,102 +504,189 @@ function renderCommissions(){
 function renderValider(){
   document.getElementById('main-content').innerHTML=`
     <div class="page-header"><div><div class="page-title">Valider un cabinet</div><div class="page-bar"></div></div></div>
-    <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:#1D4ED8;display:flex;align-items:center;gap:8px">
+
+    <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:12px 16px;margin-bottom:12px;font-size:13px;color:#1D4ED8;display:flex;align-items:center;gap:8px">
       <i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0"></i>
       Trial gratuit de 7 jours — vous serez notifié la veille de l'expiration.
     </div>
+
+    <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:#15803D;display:flex;align-items:center;gap:8px">
+      <i class="ti ti-mail-off" style="font-size:16px;flex-shrink:0"></i>
+      Les emails sont optionnels — un accès sera généré automatiquement si absent.
+    </div>
+
     <div class="card">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom du cabinet *</div><input class="finput" id="cab-nom" placeholder="Cabinet Dr. Nom"></div>
-        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom du médecin *</div><input class="finput" id="cab-medecin" placeholder="Dr. Prénom Nom"></div>
-        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Spécialité *</div><input class="finput" id="cab-spec" placeholder="Dermatologue..."></div>
-        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Ville</div><input class="finput" id="cab-ville" value="Casablanca"></div>
-        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Email médecin *</div><input class="finput" type="email" id="cab-email-med" placeholder="dr.nom@email.com"></div>
-        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom assistante *</div><input class="finput" id="cab-assistante" placeholder="Prénom Nom"></div>
-        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Email assistante *</div><input class="finput" type="email" id="cab-email-ass" placeholder="assistante@email.com"></div>
-        <div><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Plan</div><select class="finput" id="cab-plan"><option value="starter">Starter — 999 DH/mois</option><option value="pro" selected>Pro — 1499 DH/mois</option><option value="enterprise">Enterprise — 2499 DH/mois</option></select></div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom du cabinet *</div>
+          <input class="finput" id="cab-nom" placeholder="Cabinet Dr. Nom">
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom du médecin *</div>
+          <input class="finput" id="cab-medecin" placeholder="Dr. Prénom Nom">
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Spécialité *</div>
+          <input class="finput" id="cab-spec" placeholder="Dermatologue...">
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Ville</div>
+          <input class="finput" id="cab-ville" value="Casablanca">
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">
+            Email médecin
+            <span style="font-weight:400;color:#94A3B8;text-transform:none;letter-spacing:0"> — optionnel</span>
+          </div>
+          <input class="finput" type="email" id="cab-email-med" placeholder="dr.nom@email.com">
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Nom assistante *</div>
+          <input class="finput" id="cab-assistante" placeholder="Prénom Nom">
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">
+            Email assistante
+            <span style="font-weight:400;color:#94A3B8;text-transform:none;letter-spacing:0"> — optionnel</span>
+          </div>
+          <input class="finput" type="email" id="cab-email-ass" placeholder="assistante@email.com">
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Plan</div>
+          <select class="finput" id="cab-plan">
+            <option value="starter">Starter — 999 DH/mois</option>
+            <option value="pro" selected>Pro — 1499 DH/mois</option>
+            <option value="enterprise">Enterprise — 2499 DH/mois</option>
+          </select>
+        </div>
       </div>
-      <div style="margin-bottom:12px"><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Lien Google Maps</div><input class="finput" id="cab-google" placeholder="https://g.page/..."></div>
-      <div style="margin-bottom:18px"><div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">WhatsApp cabinet</div><input class="finput" type="tel" id="cab-whatsapp" placeholder="06 XX XX XX XX"></div>
-      <button onclick="validerCabinet()" class="save-btn"><i class="ti ti-check" style="font-size:15px"></i> Valider le cabinet — Démarrer le trial</button>
+      <div style="margin-bottom:12px">
+        <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Lien Google Maps</div>
+        <input class="finput" id="cab-google" placeholder="https://g.page/...">
+      </div>
+      <div style="margin-bottom:18px">
+        <div style="font-size:10px;font-weight:700;color:#0A2540;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">WhatsApp cabinet</div>
+        <input class="finput" type="tel" id="cab-whatsapp" placeholder="06 XX XX XX XX">
+      </div>
+      <button onclick="validerCabinet()" class="save-btn" id="btn-valider">
+        <i class="ti ti-check" style="font-size:15px"></i> Valider le cabinet — Démarrer le trial
+      </button>
     </div>`;
 }
 
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz7H-Q8QqoQ19R_sekf0sctWGzg8mJ-jlWvj5-EdVvUYV9YCB8pElGe-yH8dY1SB-_G/exec';
 async function validerCabinet(){
-  const nom=document.getElementById('cab-nom')?.value.trim();
-  const med=document.getElementById('cab-medecin')?.value.trim();
-  const spec=document.getElementById('cab-spec')?.value.trim();
-  const ville=document.getElementById('cab-ville')?.value.trim();
-  const emailMed=document.getElementById('cab-email-med')?.value.trim();
-  const ass=document.getElementById('cab-assistante')?.value.trim();
-  const emailAss=document.getElementById('cab-email-ass')?.value.trim();
-  const plan=document.getElementById('cab-plan')?.value;
-  const googleUrl=document.getElementById('cab-google')?.value.trim();
-  const whatsapp=document.getElementById('cab-whatsapp')?.value.trim();
-  if(!nom||!med||!spec||!emailMed||!ass||!emailAss){showToast('Tous les champs requis','error');return;}
-  const today=new Date();
-  const trialEnd=new Date(today);trialEnd.setDate(trialEnd.getDate()+7);
-  const renewDate=new Date(today);renewDate.setMonth(renewDate.getMonth()+1);
-  const{data:insertData,error}=await sb.from('cabinets').insert([{
-    nom_cabinet:nom,nom_medecin:med,specialite:spec,ville,
-    email_medecin:emailMed,email_assistante:emailAss,nom_assistante:ass,
-    plan,statut:'trial',
-    date_signature:today.toISOString().split('T')[0],
-    date_debut:today.toISOString().split('T')[0],
-    date_fin_trial:trialEnd.toISOString().split('T')[0],
-    date_renouvellement:renewDate.toISOString().split('T')[0],
-    statut_paiement:'trial',commercial_id:currentUser.email,
-    google_url:googleUrl,whatsapp_cabinet:whatsapp,
-  }]).select();
-  if(error){showToast('Erreur — '+error.message,'error');return;}
-  const cabinetInsertId = insertData?.[0]?.id || '';
-  console.log('cabinetInsertId:', cabinetInsertId);
-  console.log('insertData:', JSON.stringify(insertData));
-  await sb.from('users').insert([
-    {email:emailMed,nom:med,role:'medecin',type:'',statut:'actif',cabinet_id:cabinetInsertId},
-    {email:emailAss,nom:ass,role:'assistante',type:'',statut:'actif',cabinet_id:cabinetInsertId},
-  ]);
-  // Call Edge Function to create Auth accounts
+  const nom       = document.getElementById('cab-nom')?.value.trim();
+  const med       = document.getElementById('cab-medecin')?.value.trim();
+  const spec      = document.getElementById('cab-spec')?.value.trim();
+  const ville     = document.getElementById('cab-ville')?.value.trim();
+  const emailMed  = document.getElementById('cab-email-med')?.value.trim();
+  const ass       = document.getElementById('cab-assistante')?.value.trim();
+  const emailAss  = document.getElementById('cab-email-ass')?.value.trim();
+  const plan      = document.getElementById('cab-plan')?.value;
+  const googleUrl = document.getElementById('cab-google')?.value.trim();
+  const whatsapp  = document.getElementById('cab-whatsapp')?.value.trim();
+
+  if(!nom||!med||!spec||!ass){
+    showToast('Nom cabinet, médecin, spécialité et assistante requis','error');
+    return;
+  }
+
+  const btn=document.getElementById('btn-valider');
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2" style="font-size:15px"></i> Création en cours...';}
+
   try {
-    await fetch('https://czttvnvcetgmjfqishig.supabase.co/functions/v1/hyper-worker', {
+    const today=new Date();
+    const trialEnd=new Date(today);trialEnd.setDate(trialEnd.getDate()+7);
+    const renewDate=new Date(today);renewDate.setMonth(renewDate.getMonth()+1);
+
+    // 1. INSERT CABINET → récupère UUID
+    const{data:cabData,error:cabErr}=await sb.from('cabinets').insert([{
+      nom_cabinet:nom,
+      nom_medecin:med,
+      specialite:spec,
+      ville:ville||'Casablanca',
+      email_medecin:emailMed||null,
+      email_assistante:emailAss||null,
+      nom_assistante:ass,
+      plan:plan||'pro',
+      statut:'trial',
+      date_signature:today.toISOString().split('T')[0],
+      date_debut:today.toISOString().split('T')[0],
+      date_fin_trial:trialEnd.toISOString().split('T')[0],
+      date_renouvellement:renewDate.toISOString().split('T')[0],
+      statut_paiement:'trial',
+      commercial_id:currentUser.email,
+      google_url:googleUrl||null,
+      whatsapp_cabinet:whatsapp||null,
+    }]).select('id').single();
+
+    if(cabErr||!cabData?.id){
+      throw new Error('Erreur création cabinet : '+(cabErr?.message||'ID manquant'));
+    }
+
+    const cabinetId=cabData.id;
+    console.log('[validerCabinet] Cabinet créé :',cabinetId);
+
+    // 2. INSERT USERS avec cabinet_id
+    const{error:usersErr}=await sb.from('users').insert([
+      {
+        email:emailMed||`medecin-${cabinetId}@medipulse.ma`,
+        nom:med,role:'medecin',type:'',statut:'actif',
+        cabinet_id:cabinetId,commercial_id:currentUser.email,
+        date_creation:today.toISOString().split('T')[0],
+      },
+      {
+        email:emailAss||`assistante-${cabinetId}@medipulse.ma`,
+        nom:ass,role:'assistante',type:'',statut:'actif',
+        cabinet_id:cabinetId,commercial_id:currentUser.email,
+        date_creation:today.toISOString().split('T')[0],
+      },
+    ]);
+    if(usersErr)console.warn('[validerCabinet] Erreur insert users :',usersErr.message);
+
+    // 3. APPELER HYPER-WORKER
+    showToast('Cabinet créé — configuration en cours...','info');
+
+    const hwRes=await fetch('https://czttvnvcetgmjfqishig.supabase.co/functions/v1/hyper-worker',{
       method:'POST',
       headers:{
         'Content-Type':'application/json',
-        'Authorization':'Bearer '+(await sb.auth.getSession()).data.session.access_token
+        'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6dHR2bnZjZXRnbWpmcWlzaGlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjc2OTMsImV4cCI6MjA5MzMwMzY5M30.diTXQqKQOU4QoRwqKwwbeHmhE_ulAI3RLJEtTs0I1w8',
+        'apikey':'sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m',
       },
       body:JSON.stringify({
-        emailMedecin:emailMed,
-        emailAssistante:emailAss,
-        nomMedecin:med,
-        nomAssistante:ass,
-        cabinetId:cabinetInsertId
-      })
-    });
-  } catch(e){ console.log('Edge Function error:', e); }
-
-  // Call Google Apps Script for Drive/Sheet/Forms/Emails
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method:'POST',
-      mode:'no-cors',
-      headers:{'Content-Type':'text/plain'},
-      body:JSON.stringify({
+        cabinetId,
         nomCabinet:nom,
         nomMedecin:med,
-        email:emailMed,
-        emailAssistante:emailAss,
-        lienGoogle:googleUrl,
+        nomAssistante:ass,
+        emailMedecin:emailMed||'',
+        emailAssistante:emailAss||'',
         specialite:spec,
-        ville:ville,
-        tel:whatsapp,
+        ville:ville||'Casablanca',
+        whatsapp:whatsapp||'',
+        lienGoogle:googleUrl||'',
         commercial:currentUser.email,
-        cabinetId:cabinetInsertId
-      })
+      }),
     });
-  } catch(e){ console.log('Apps Script error:', e); }
-  showToast('Cabinet validé ! Trial 7 jours activé ✓','success');
-  setTimeout(()=>showPage('dashboard'),1500);
+
+    const hwData=await hwRes.json();
+    console.log('[validerCabinet] hyper-worker :',JSON.stringify(hwData));
+
+    const nbErrors=hwData.results?.errors?.length||0;
+    if(hwData.success||nbErrors===0){
+      showToast('✅ Cabinet '+nom+' — onboarding complet !','success');
+    } else {
+      console.warn('[validerCabinet] Avertissements :',hwData.results?.errors);
+      showToast('Cabinet créé — vérifier les logs ('+nbErrors+' avertissement'+(nbErrors>1?'s':'')+')', 'warning');
+    }
+
+    setTimeout(()=>showPage('dashboard'),2000);
+
+  } catch(err){
+    console.error('[validerCabinet] ERREUR :',err.message);
+    showToast('Erreur : '+err.message,'error');
+    if(btn){btn.disabled=false;btn.innerHTML='<i class="ti ti-check" style="font-size:15px"></i> Valider le cabinet — Démarrer le trial';}
+  }
 }
 </script>
 </body>
