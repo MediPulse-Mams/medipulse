@@ -23,6 +23,7 @@ body{background:#13151f;color:#E8ECF4;font-family:inherit}
 .badge-suspendu{background:rgba(244,63,94,0.15);color:#F43F5E;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600}
 .badge-paye{background:rgba(16,185,129,0.15);color:#10B981;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600}
 .badge-attente{background:rgba(245,158,11,0.15);color:#F59E0B;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600}
+.badge-en-attente-conf{background:rgba(251,146,60,0.15);color:#FB923C;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;white-space:nowrap}
 .btn-action{padding:7px 14px;border-radius:10px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:all 0.15s}
 .btn-cyan{background:rgba(6,182,212,0.15);color:#06B6D4}
 .btn-cyan:hover{background:rgba(6,182,212,0.25)}
@@ -32,6 +33,8 @@ body{background:#13151f;color:#E8ECF4;font-family:inherit}
 .btn-red:hover{background:rgba(244,63,94,0.25)}
 .btn-amber{background:rgba(245,158,11,0.15);color:#F59E0B}
 .btn-amber:hover{background:rgba(245,158,11,0.25)}
+.btn-orange{background:rgba(251,146,60,0.15);color:#FB923C}
+.btn-orange:hover{background:rgba(251,146,60,0.25)}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
 .overlay.open{display:flex}
 .modal{background:#252936;border-radius:20px;border:1px solid rgba(255,255,255,0.1);width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
@@ -45,6 +48,18 @@ body{background:#13151f;color:#E8ECF4;font-family:inherit}
 .stat-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
 .stat-row:last-child{border-bottom:none;padding-bottom:0}
 .cab-row{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px;margin-bottom:10px}
+/* Justif thumbnail */
+.justif-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;cursor:pointer;border:1px solid rgba(255,255,255,0.1);transition:transform 0.15s;flex-shrink:0}
+.justif-thumb:hover{transform:scale(1.08)}
+/* Lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
+.lightbox.open{display:flex}
+.lightbox img{max-width:100%;max-height:90vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.lightbox-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:44px;height:44px;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s}
+.lightbox-close:hover{background:rgba(255,255,255,0.2)}
+/* Pending badge pulsing */
+@keyframes pulse-amber{0%,100%{opacity:1}50%{opacity:0.6}}
+.pending-pulse{animation:pulse-amber 2s ease-in-out infinite}
 @media(max-width:768px){
   .kpi-grid-4{grid-template-columns:1fr 1fr!important}
   .table-desktop-wrap{display:none!important}
@@ -77,7 +92,7 @@ body{background:#13151f;color:#E8ECF4;font-family:inherit}
       <div class="nav-section">Vue globale</div>
       <div class="nav-link active" id="nav-dashboard" onclick="showPage('dashboard')"><i class="ti ti-chart-bar"></i>Dashboard</div>
       <div class="nav-link" id="nav-cabinets" onclick="showPage('cabinets')"><i class="ti ti-building-hospital"></i>Cabinets</div>
-      <div class="nav-link" id="nav-paiements" onclick="showPage('paiements')"><i class="ti ti-credit-card"></i>Paiements</div>
+      <div class="nav-link" id="nav-paiements" onclick="showPage('paiements')"><i class="ti ti-credit-card"></i>Paiements <span id="pending-count-badge" style="display:none;background:#FB923C;color:#fff;border-radius:99px;font-size:10px;font-weight:700;padding:1px 7px;margin-left:4px"></span></div>
       <div class="nav-link" id="nav-equipe" onclick="showPage('equipe')"><i class="ti ti-users-group"></i>Equipe</div>
       <div class="nav-link" id="nav-prospects" onclick="showPage('prospects')"><i class="ti ti-users"></i>Prospects</div>
       <div class="nav-link" id="nav-tresorerie" onclick="showPage('tresorerie')"><i class="ti ti-chart-line"></i>Tresorerie</div>
@@ -104,7 +119,7 @@ body{background:#13151f;color:#E8ECF4;font-family:inherit}
   </div>
 </div>
 
-<!-- MODAL PAIEMENT -->
+<!-- MODAL PAIEMENT (owner direct) -->
 <div class="overlay" id="paiement-overlay" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal">
     <div class="modal-hd">
@@ -166,11 +181,57 @@ body{background:#13151f;color:#E8ECF4;font-family:inherit}
   </div>
 </div>
 
+<!-- MODAL CONFIRMER JUSTIF (P1) -->
+<div class="overlay" id="confirmer-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-hd">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#E8ECF4">Confirmer le paiement</div>
+        <div style="font-size:12px;color:#7B8BAA;margin-top:2px" id="conf-cab-name"></div>
+      </div>
+      <button onclick="document.getElementById('confirmer-overlay').classList.remove('open')" style="background:none;border:none;cursor:pointer;font-size:20px;color:#7B8BAA"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <!-- Infos paiement -->
+      <div style="background:rgba(255,255,255,0.04);border-radius:12px;padding:14px;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div><div style="font-size:10px;color:#7B8BAA;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:3px">Montant</div><div style="font-size:18px;font-weight:800;color:#10B981" id="conf-montant"></div></div>
+        <div><div style="font-size:10px;color:#7B8BAA;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:3px">Mois</div><div style="font-size:14px;font-weight:600;color:#E8ECF4" id="conf-mois"></div></div>
+        <div><div style="font-size:10px;color:#7B8BAA;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:3px">Mode</div><div style="font-size:13px;font-weight:600;color:#E8ECF4" id="conf-mode"></div></div>
+        <div><div style="font-size:10px;color:#7B8BAA;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:3px">Commercial</div><div style="font-size:11px;font-weight:600;color:#E8ECF4" id="conf-commercial"></div></div>
+      </div>
+      <!-- Note -->
+      <div id="conf-note-wrap" style="display:none;background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.15);border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:12px;color:#7B8BAA"><i class="ti ti-note" style="margin-right:6px;color:#06B6D4"></i><span id="conf-note"></span></div>
+      <!-- Photo justificatif -->
+      <div style="font-size:10px;font-weight:700;color:#7B8BAA;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">Justificatif</div>
+      <div id="conf-justif-wrap">
+        <div style="text-align:center;padding:24px;color:#7B8BAA;font-size:12px" id="conf-loading-justif"><i class="ti ti-loader-2"></i> Chargement...</div>
+        <img id="conf-justif-img" style="width:100%;border-radius:12px;display:none;cursor:pointer;margin-bottom:12px" onclick="ouvrirLightbox(this.src)" alt="Justificatif">
+        <a id="conf-justif-link" href="#" target="_blank" style="display:none;padding:8px 14px;border-radius:10px;background:rgba(6,182,212,0.12);color:#06B6D4;font-size:12px;font-weight:600;text-decoration:none;align-items:center;gap:6px"><i class="ti ti-external-link" style="font-size:13px"></i> Ouvrir dans un nouvel onglet</a>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:16px">
+        <button class="save-btn" id="btn-confirmer-pmt" onclick="confirmerPaiement()" style="flex:1">
+          <i class="ti ti-check" style="font-size:15px"></i> Confirmer
+        </button>
+        <button onclick="rejeterPaiement()" style="flex:1;padding:14px;border-radius:14px;background:rgba(244,63,94,0.12);color:#F43F5E;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.15s" id="btn-rejeter-pmt">
+          <i class="ti ti-x" style="font-size:15px"></i> Rejeter
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+  <button class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('open')"><i class="ti ti-x"></i></button>
+  <img id="lightbox-img" src="" alt="Justificatif">
+</div>
+
 <div id="toast"></div>
 <script src="/js/supabase.js"></script>
 <script>
 var currentUser = null, userRecord = null;
 var pmtCabinetId = null, noteCabinetId = null, statutCabinetId = null;
+var confPaiementId = null, confCabinetId = null, confCabinetStatut = null;
 
 (async function() {
   var auth = await requireAuth('owner');
@@ -180,8 +241,24 @@ var pmtCabinetId = null, noteCabinetId = null, statutCabinetId = null;
   document.getElementById('sb-avatar').textContent = (userRecord.nom || currentUser.email).substring(0, 2).toUpperCase();
   document.getElementById('sb-name').textContent = userRecord.nom || currentUser.email.split('@')[0];
   document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
+  // Charger le badge de paiements en attente
+  loadPendingBadge();
   showPage('dashboard');
 })();
+
+async function loadPendingBadge(){
+  var r = await sb.from('paiements').select('id', {count:'exact'}).eq('statut','en_attente_confirmation');
+  var count = r.count || 0;
+  var badge = document.getElementById('pending-count-badge');
+  if(badge){
+    if(count > 0){
+      badge.textContent = count;
+      badge.style.display = 'inline-block';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+}
 
 function showPage(page) {
   document.querySelectorAll('.nav-link').forEach(function(l) { l.classList.remove('active'); });
@@ -206,6 +283,11 @@ function statutBadge(s) {
   return '<span class="badge-attente">' + (s||'—') + '</span>';
 }
 
+function ouvrirLightbox(src){
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+
 // ── DASHBOARD ──
 async function renderDashboard() {
   var r1 = await sb.from('cabinets').select('*');
@@ -225,9 +307,21 @@ async function renderDashboard() {
   var daysLeft = Math.ceil((new Date(now.getFullYear(), now.getMonth()+1, 0) - now) / (1000*60*60*24));
   var colors = ['#06B6D4', '#8B5CF6', '#10B981', '#F59E0B'];
 
+  // Paiements en attente pour alerte dashboard
+  var rPending = await sb.from('paiements').select('id', {count:'exact'}).eq('statut','en_attente_confirmation');
+  var pendingCount = rPending.count || 0;
+
   document.getElementById('main-content').innerHTML =
     '<div style="font-family:inherit;font-size:24px;font-weight:800;color:#E8ECF4;margin-bottom:4px;letter-spacing:-0.5px">Vue 360</div>' +
-    '<div style="font-size:13px;color:#7B8BAA;margin-bottom:24px">' + new Date().toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'}) + '</div>' +
+    '<div style="font-size:13px;color:#7B8BAA;margin-bottom:' + (pendingCount > 0 ? '16px' : '24px') + '">' + new Date().toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'}) + '</div>' +
+
+    // Alerte paiements en attente
+    (pendingCount > 0 ?
+      '<div onclick="showPage(\'paiements\')" style="background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.3);border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background=\'rgba(251,146,60,0.15)\'" onmouseout="this.style.background=\'rgba(251,146,60,0.1)\'">' +
+        '<div class="pending-pulse" style="width:36px;height:36px;border-radius:10px;background:rgba(251,146,60,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-clock" style="font-size:18px;color:#FB923C"></i></div>' +
+        '<div style="flex:1"><div style="font-size:14px;font-weight:700;color:#FB923C">' + pendingCount + ' paiement' + (pendingCount > 1 ? 's' : '') + ' en attente de validation</div><div style="font-size:12px;color:#7B8BAA;margin-top:2px">Cliquez pour voir et confirmer les justificatifs</div></div>' +
+        '<i class="ti ti-chevron-right" style="color:#FB923C;font-size:18px"></i>' +
+      '</div>' : '') +
 
     '<div class="kpi-grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px">' +
       [
@@ -245,7 +339,6 @@ async function renderDashboard() {
     '</div>' +
 
     '<div style="display:grid;grid-template-columns:2fr 1fr;gap:20px">' +
-
       '<div class="panel">' +
         '<div class="panel-title"><i class="ti ti-users-group" style="color:#06B6D4;font-size:16px"></i> Equipe commerciale</div>' +
         (commerciaux.length ? commerciaux.map(function(usr, i) {
@@ -254,18 +347,11 @@ async function renderDashboard() {
           var initials = (usr.nom || usr.email).substring(0, 2).toUpperCase();
           return '<div class="stat-row">' +
             '<div style="width:40px;height:40px;border-radius:12px;background:' + colors[i%4] + '22;color:' + colors[i%4] + ';display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0">' + initials + '</div>' +
-            '<div style="flex:1">' +
-              '<div style="font-size:14px;font-weight:600;color:#E8ECF4">' + (usr.nom || usr.email.split('@')[0]) + '</div>' +
-              '<div style="font-size:12px;color:#7B8BAA;margin-top:2px">' + (usr.type === 'terrain' ? 'Terrain' : 'Telephone') + '</div>' +
-            '</div>' +
-            '<div style="display:flex;gap:20px;text-align:right">' +
-              '<div><div style="font-family:inherit;font-size:18px;font-weight:800;color:#10B981">' + signes + '</div><div style="font-size:10px;color:#7B8BAA">Actifs</div></div>' +
-              '<div><div style="font-family:inherit;font-size:18px;font-weight:800;color:#F59E0B">' + enTrial + '</div><div style="font-size:10px;color:#7B8BAA">Trial</div></div>' +
-            '</div>' +
+            '<div style="flex:1"><div style="font-size:14px;font-weight:600;color:#E8ECF4">' + (usr.nom || usr.email.split('@')[0]) + '</div><div style="font-size:12px;color:#7B8BAA;margin-top:2px">' + (usr.type === 'terrain' ? 'Terrain' : 'Telephone') + '</div></div>' +
+            '<div style="display:flex;gap:20px;text-align:right"><div><div style="font-family:inherit;font-size:18px;font-weight:800;color:#10B981">' + signes + '</div><div style="font-size:10px;color:#7B8BAA">Actifs</div></div><div><div style="font-family:inherit;font-size:18px;font-weight:800;color:#F59E0B">' + enTrial + '</div><div style="font-size:10px;color:#7B8BAA">Trial</div></div></div>' +
           '</div>';
         }).join('') : '<div style="text-align:center;padding:32px;color:#7B8BAA">Aucun commercial</div>') +
       '</div>' +
-
       '<div style="display:flex;flex-direction:column;gap:16px">' +
         '<div style="background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(234,88,12,0.05));border:1px solid rgba(245,158,11,0.2);border-radius:14px;padding:18px">' +
           '<div style="font-size:12px;color:#7B8BAA;margin-bottom:4px">Fin du mois</div>' +
@@ -282,7 +368,6 @@ async function renderDashboard() {
           }).join('') +
         '</div>' +
       '</div>' +
-
     '</div>';
 }
 
@@ -344,30 +429,108 @@ async function savePaiement() {
   if (!montant || !mois) { showToast('Montant et mois requis', 'error'); return; }
 
   var res = await sb.from('paiements').insert([{
-    cabinet_id: pmtCabinetId,
-    montant: parseFloat(montant),
-    mode: mode,
-    statut: 'confirme',
-    note: note,
-    mois: mois,
+    cabinet_id: pmtCabinetId, montant: parseFloat(montant), mode: mode, statut: 'confirme', note: note, mois: mois,
   }]);
-
   if (res.error) { showToast('Erreur: ' + res.error.message, 'error'); return; }
 
-  // Passer cabinet en actif si trial
   var cabRes = await sb.from('cabinets').select('statut').eq('id', pmtCabinetId).single();
   if (cabRes.data && cabRes.data.statut === 'trial') {
+    var renew = new Date(); renew.setMonth(renew.getMonth() + 1);
+    await sb.from('cabinets').update({statut: 'actif', date_renouvellement: renew.toISOString().split('T')[0], statut_paiement: 'paye'}).eq('id', pmtCabinetId);
+  }
+  showToast('Paiement confirme - cabinet actif !', 'success');
+  document.getElementById('paiement-overlay').classList.remove('open');
+  renderCabinets();
+}
+
+// ── CONFIRMER JUSTIF (P1) ──
+async function ouvrirConfirmerJustif(paiementId, cabinetId, cabinetStatut, nomCab, montant, mois, mode, commercial, note, justifPath){
+  confPaiementId = paiementId;
+  confCabinetId = cabinetId;
+  confCabinetStatut = cabinetStatut;
+
+  document.getElementById('conf-cab-name').textContent = nomCab;
+  document.getElementById('conf-montant').textContent = parseFloat(montant).toLocaleString('fr-FR') + ' MAD';
+  document.getElementById('conf-mois').textContent = mois || '—';
+  document.getElementById('conf-mode').textContent = mode || '—';
+  document.getElementById('conf-commercial').textContent = commercial || '—';
+
+  var noteWrap = document.getElementById('conf-note-wrap');
+  if(note){
+    document.getElementById('conf-note').textContent = note;
+    noteWrap.style.display = 'block';
+  } else {
+    noteWrap.style.display = 'none';
+  }
+
+  // Reset photo
+  document.getElementById('conf-justif-img').style.display = 'none';
+  document.getElementById('conf-justif-link').style.display = 'none';
+  document.getElementById('conf-loading-justif').style.display = 'block';
+
+  document.getElementById('confirmer-overlay').classList.add('open');
+
+  // Charger URL signée
+  if(justifPath){
+    try{
+      var r = await sb.storage.from('justificatifs').createSignedUrl(justifPath, 3600);
+      if(r.data && r.data.signedUrl){
+        var img = document.getElementById('conf-justif-img');
+        img.src = r.data.signedUrl;
+        img.style.display = 'block';
+        img.onload = function(){ document.getElementById('conf-loading-justif').style.display='none'; };
+        var lnk = document.getElementById('conf-justif-link');
+        lnk.href = r.data.signedUrl;
+        lnk.style.display = 'flex';
+      } else {
+        document.getElementById('conf-loading-justif').textContent = 'Photo non disponible';
+      }
+    }catch(e){
+      document.getElementById('conf-loading-justif').textContent = 'Erreur chargement photo';
+    }
+  } else {
+    document.getElementById('conf-loading-justif').textContent = 'Aucun justificatif joint';
+  }
+}
+
+async function confirmerPaiement(){
+  var btn = document.getElementById('btn-confirmer-pmt');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="ti ti-loader-2"></i> Confirmation...';
+
+  var res = await sb.from('paiements').update({statut: 'confirme'}).eq('id', confPaiementId);
+  if(res.error){ showToast('Erreur: ' + res.error.message, 'error'); btn.disabled=false; btn.innerHTML='<i class="ti ti-check"></i> Confirmer'; return; }
+
+  // Passer cabinet en actif si trial
+  if(confCabinetStatut === 'trial'){
     var renew = new Date(); renew.setMonth(renew.getMonth() + 1);
     await sb.from('cabinets').update({
       statut: 'actif',
       date_renouvellement: renew.toISOString().split('T')[0],
       statut_paiement: 'paye'
-    }).eq('id', pmtCabinetId);
+    }).eq('id', confCabinetId);
   }
 
-  showToast('Paiement confirme - cabinet actif !', 'success');
-  document.getElementById('paiement-overlay').classList.remove('open');
-  renderCabinets();
+  showToast('Paiement confirme' + (confCabinetStatut === 'trial' ? ' — cabinet passe en Actif !' : ' !'), 'success');
+  document.getElementById('confirmer-overlay').classList.remove('open');
+  btn.disabled = false;
+  btn.innerHTML = '<i class="ti ti-check" style="font-size:15px"></i> Confirmer';
+  loadPendingBadge();
+  renderPaiements();
+}
+
+async function rejeterPaiement(){
+  var btn = document.getElementById('btn-rejeter-pmt');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="ti ti-loader-2"></i>...';
+  var res = await sb.from('paiements').update({statut: 'rejete'}).eq('id', confPaiementId);
+  if(res.error){ showToast('Erreur', 'error'); btn.disabled=false; btn.innerHTML='<i class="ti ti-x"></i> Rejeter'; return; }
+  showToast('Paiement rejete', 'error');
+  document.getElementById('confirmer-overlay').classList.remove('open');
+  btn.disabled = false;
+  btn.innerHTML = '<i class="ti ti-x" style="font-size:15px"></i> Rejeter';
+  loadPendingBadge();
+  renderPaiements();
 }
 
 function ouvrirNote(cabinetId, nomCab, noteActuelle, nbAvis) {
@@ -398,9 +561,7 @@ function ouvrirStatut(cabinetId, nomCab, statutActuel) {
     {val: 'suspendu', lbl: 'Suspendu', color: '#F43F5E', bg: 'rgba(244,63,94,0.1)'},
   ];
   document.getElementById('statut-options').innerHTML = statuts.map(function(s) {
-    return '<button onclick="changerStatut(\'' + s.val + '\')" style="width:100%;padding:14px 16px;border-radius:12px;border:2px solid ' + (statutActuel === s.val ? s.color : 'rgba(255,255,255,0.1)') + ';background:' + (statutActuel === s.val ? s.bg : 'transparent') + ';color:' + s.color + ';font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;text-align:left">' +
-      s.lbl + (statutActuel === s.val ? ' (actuel)' : '') +
-    '</button>';
+    return '<button onclick="changerStatut(\'' + s.val + '\')" style="width:100%;padding:14px 16px;border-radius:12px;border:2px solid ' + (statutActuel === s.val ? s.color : 'rgba(255,255,255,0.1)') + ';background:' + (statutActuel === s.val ? s.bg : 'transparent') + ';color:' + s.color + ';font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;text-align:left">' + s.lbl + (statutActuel === s.val ? ' (actuel)' : '') + '</button>';
   }).join('');
   document.getElementById('statut-overlay').classList.add('open');
 }
@@ -415,10 +576,11 @@ async function changerStatut(newStatut) {
 
 // ── PAIEMENTS ──
 async function renderPaiements() {
-  var r1 = await sb.from('paiements').select('*, cabinets(nom_cabinet, nom_medecin, commercial_id, plan)').order('mois', {ascending: false}).limit(50);
+  var r1 = await sb.from('paiements').select('*, cabinets(nom_cabinet, nom_medecin, commercial_id, plan, statut)').order('created_at', {ascending: false}).limit(100);
   var paiements = r1.data || [];
 
   var totalConfirme = paiements.filter(function(p) { return p.statut === 'confirme'; }).reduce(function(acc, p) { return acc + (p.montant || 0); }, 0);
+  var pendingList = paiements.filter(function(p){ return p.statut === 'en_attente_confirmation'; });
 
   document.getElementById('main-content').innerHTML =
     '<div style="font-family:inherit;font-size:22px;font-weight:800;color:#E8ECF4;margin-bottom:4px;letter-spacing:-0.5px">Paiements</div>' +
@@ -427,45 +589,106 @@ async function renderPaiements() {
     '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px">' +
       '<div class="kpi-card" style="border-left:3px solid #10B981"><i class="ti ti-currency-dollar" style="font-size:20px;color:#10B981;display:block;margin-bottom:12px"></i><div class="kpi-val">' + totalConfirme.toLocaleString('fr-FR') + '</div><div class="kpi-lbl">MAD encaisses total</div></div>' +
       '<div class="kpi-card" style="border-left:3px solid #06B6D4"><i class="ti ti-check" style="font-size:20px;color:#06B6D4;display:block;margin-bottom:12px"></i><div class="kpi-val">' + paiements.filter(function(p){return p.statut==='confirme';}).length + '</div><div class="kpi-lbl">Paiements confirmes</div></div>' +
-      '<div class="kpi-card" style="border-left:3px solid #F59E0B"><i class="ti ti-clock" style="font-size:20px;color:#F59E0B;display:block;margin-bottom:12px"></i><div class="kpi-val">' + paiements.filter(function(p){return p.statut==='en_attente';}).length + '</div><div class="kpi-lbl">En attente</div></div>' +
+      '<div class="kpi-card" style="border-left:3px solid #FB923C"><i class="ti ti-clock" style="font-size:20px;color:#FB923C;display:block;margin-bottom:12px"></i><div class="kpi-val" style="color:#FB923C">' + pendingList.length + '</div><div class="kpi-lbl">En attente validation</div></div>' +
     '</div>' +
+
+    // Section justificatifs en attente
+    (pendingList.length > 0 ?
+      '<div class="panel" style="border-color:rgba(251,146,60,0.3);margin-bottom:20px">' +
+        '<div class="panel-title" style="color:#FB923C"><i class="ti ti-clock pending-pulse" style="color:#FB923C;font-size:16px"></i> Justificatifs a valider (' + pendingList.length + ')</div>' +
+        pendingList.map(function(p){
+          var cab = p.cabinets || {};
+          return '<div style="background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.15);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">' +
+            (p.justif_path ?
+              '<img src="/placeholder.png" data-path="' + p.justif_path + '" class="justif-thumb pending-thumb" alt="justif" style="width:56px;height:56px;border-radius:10px;object-fit:cover;cursor:pointer;border:1px solid rgba(251,146,60,0.3);flex-shrink:0">' : '') +
+            '<div style="flex:1;min-width:0">' +
+              '<div style="font-size:14px;font-weight:700;color:#E8ECF4">' + (cab.nom_cabinet || cab.nom_medecin || '—') + '</div>' +
+              '<div style="font-size:12px;color:#7B8BAA;margin-top:2px">' + (p.mois || '—') + ' · ' + (p.mode || '') + '</div>' +
+              '<div style="font-size:13px;font-weight:700;color:#10B981;margin-top:4px">' + (p.montant ? p.montant.toLocaleString('fr-FR') + ' MAD' : '') + '</div>' +
+            '</div>' +
+            '<button onclick="ouvrirConfirmerJustif(\'' + p.id + '\',\'' + (p.cabinet_id||'') + '\',\'' + (cab.statut||'trial') + '\',\'' + (cab.nom_cabinet || cab.nom_medecin || '').replace(/'/g, '') + '\',' + p.montant + ',\'' + (p.mois||'') + '\',\'' + (p.mode||'') + '\',\'' + (p.commercial_id||cab.commercial_id||'') + '\',\'' + (p.note||'').replace(/'/g,'') + '\',\'' + (p.justif_path||'') + '\')" class="btn-action btn-orange" style="flex-shrink:0"><i class="ti ti-eye" style="font-size:13px"></i> Voir & Confirmer</button>' +
+          '</div>';
+        }).join('') +
+      '</div>' : '') +
 
     '<div class="panel">' +
       '<div class="panel-title"><i class="ti ti-credit-card" style="color:#06B6D4;font-size:16px"></i> Historique paiements</div>' +
       (paiements.length ?
         '<div class="table-desktop-wrap"><table class="data-table">' +
-          '<thead><tr><th>Cabinet</th><th>Mois</th><th>Montant</th><th>Mode</th><th>Statut</th><th>Note</th></tr></thead>' +
+          '<thead><tr><th>Cabinet</th><th>Mois</th><th>Montant</th><th>Mode</th><th>Justif</th><th>Statut</th><th>Action</th></tr></thead>' +
           '<tbody>' +
           paiements.map(function(p) {
-            var cab = p.cabinets;
+            var cab = p.cabinets || {};
+            var statutHtml = p.statut === 'confirme'
+              ? '<span class="badge-paye">Confirme</span>'
+              : p.statut === 'en_attente_confirmation'
+              ? '<span class="badge-en-attente-conf pending-pulse">En attente</span>'
+              : p.statut === 'rejete'
+              ? '<span style="background:rgba(244,63,94,0.15);color:#F43F5E;padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600">Rejete</span>'
+              : '<span class="badge-attente">' + p.statut + '</span>';
+            var actionHtml = p.statut === 'en_attente_confirmation'
+              ? '<button onclick="ouvrirConfirmerJustif(\'' + p.id + '\',\'' + (p.cabinet_id||'') + '\',\'' + (cab.statut||'trial') + '\',\'' + (cab.nom_cabinet || cab.nom_medecin || '').replace(/'/g, '') + '\',' + p.montant + ',\'' + (p.mois||'') + '\',\'' + (p.mode||'') + '\',\'' + (p.commercial_id||cab.commercial_id||'') + '\',\'' + (p.note||'').replace(/'/g,'') + '\',\'' + (p.justif_path||'') + '\')" class="btn-action btn-orange" style="padding:5px 10px"><i class="ti ti-check" style="font-size:12px"></i> Valider</button>'
+              : (p.justif_path ? '<span data-path="' + p.justif_path + '" class="pending-thumb" onclick="chargerEtOuvrirLightbox(this)" style="font-size:11px;color:#06B6D4;cursor:pointer;text-decoration:underline">Voir justif</span>' : '—');
             return '<tr>' +
-              '<td style="font-weight:600">' + (cab ? cab.nom_cabinet || cab.nom_medecin : '—') + '</td>' +
+              '<td style="font-weight:600">' + (cab.nom_cabinet || cab.nom_medecin || '—') + '</td>' +
               '<td style="color:#7B8BAA">' + (p.mois || '—') + '</td>' +
               '<td style="font-weight:700;color:#10B981">' + (p.montant ? p.montant.toLocaleString('fr-FR') + ' DH' : '—') + '</td>' +
               '<td style="color:#7B8BAA">' + (p.mode || '—') + '</td>' +
-              '<td>' + (p.statut === 'confirme' ? '<span class="badge-paye">Confirme</span>' : '<span class="badge-attente">En attente</span>') + '</td>' +
-              '<td style="color:#7B8BAA;font-size:11px">' + (p.note || '—') + '</td>' +
+              '<td>' + actionHtml + '</td>' +
+              '<td>' + statutHtml + '</td>' +
+              '<td></td>' +
             '</tr>';
           }).join('') +
           '</tbody></table></div>' +
         '<div class="cards-mobile">' +
         paiements.map(function(p) {
-          var cab = p.cabinets;
-          return '<div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.07);margin-bottom:8px">' +
+          var cab = p.cabinets || {};
+          return '<div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:14px;border:1px solid ' + (p.statut==='en_attente_confirmation' ? 'rgba(251,146,60,0.3)' : 'rgba(255,255,255,0.07)') + ';margin-bottom:8px">' +
             '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">' +
-              '<div style="font-size:13px;font-weight:700;color:#E8ECF4">' + (cab ? cab.nom_cabinet || cab.nom_medecin : '—') + '</div>' +
-              (p.statut === 'confirme' ? '<span class="badge-paye">Confirme</span>' : '<span class="badge-attente">En attente</span>') +
+              '<div style="font-size:13px;font-weight:700;color:#E8ECF4">' + (cab.nom_cabinet || cab.nom_medecin || '—') + '</div>' +
+              (p.statut === 'confirme' ? '<span class="badge-paye">Confirme</span>' : p.statut === 'en_attente_confirmation' ? '<span class="badge-en-attente-conf">En attente</span>' : '<span class="badge-attente">' + p.statut + '</span>') +
             '</div>' +
-            '<div style="display:flex;justify-content:space-between;font-size:12px;color:#7B8BAA">' +
+            '<div style="display:flex;justify-content:space-between;font-size:12px;color:#7B8BAA;margin-bottom:' + (p.statut==='en_attente_confirmation' ? '10px' : '0') + '">' +
               '<span>' + (p.mois || '—') + ' - ' + (p.mode || '') + '</span>' +
               '<span style="color:#10B981;font-weight:700">' + (p.montant ? p.montant.toLocaleString('fr-FR') + ' DH' : '') + '</span>' +
             '</div>' +
+            (p.statut === 'en_attente_confirmation' ?
+              '<button onclick="ouvrirConfirmerJustif(\'' + p.id + '\',\'' + (p.cabinet_id||'') + '\',\'' + (cab.statut||'trial') + '\',\'' + (cab.nom_cabinet || cab.nom_medecin || '').replace(/'/g, '') + '\',' + p.montant + ',\'' + (p.mois||'') + '\',\'' + (p.mode||'') + '\',\'' + (p.commercial_id||cab.commercial_id||'') + '\',\'' + (p.note||'').replace(/'/g,'') + '\',\'' + (p.justif_path||'') + '\')" class="btn-action btn-orange" style="width:100%;justify-content:center"><i class="ti ti-eye" style="font-size:13px"></i> Voir & Valider</button>' : '') +
           '</div>';
-        }).join('') +
-        '</div>' :
+        }).join('') + '</div>' :
         '<div style="text-align:center;padding:48px;color:#7B8BAA">Aucun paiement enregistre</div>'
       ) +
     '</div>';
+
+  // Charger les miniatures des justificatifs en attente
+  setTimeout(function(){
+    document.querySelectorAll('.pending-thumb[data-path]').forEach(function(el){
+      var path = el.getAttribute('data-path');
+      if(!path) return;
+      sb.storage.from('justificatifs').createSignedUrl(path, 3600).then(function(r){
+        if(r.data && r.data.signedUrl){
+          if(el.tagName === 'IMG'){
+            el.src = r.data.signedUrl;
+            el.addEventListener('click', function(){ ouvrirLightbox(r.data.signedUrl); });
+          } else {
+            el.setAttribute('data-signed-url', r.data.signedUrl);
+          }
+        }
+      });
+    });
+  }, 100);
+}
+
+async function chargerEtOuvrirLightbox(el){
+  var url = el.getAttribute('data-signed-url');
+  if(url){ ouvrirLightbox(url); return; }
+  var path = el.getAttribute('data-path');
+  if(!path) return;
+  var r = await sb.storage.from('justificatifs').createSignedUrl(path, 3600);
+  if(r.data && r.data.signedUrl){
+    el.setAttribute('data-signed-url', r.data.signedUrl);
+    ouvrirLightbox(r.data.signedUrl);
+  }
 }
 
 // ── EQUIPE ──
@@ -491,10 +714,7 @@ async function renderEquipe() {
         return '<div class="panel" style="margin-bottom:16px">' +
           '<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">' +
             '<div style="width:48px;height:48px;border-radius:14px;background:' + colors[i%4] + '22;color:' + colors[i%4] + ';display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0">' + initials + '</div>' +
-            '<div>' +
-              '<div style="font-size:16px;font-weight:700;color:#E8ECF4">' + (usr.nom || usr.email.split('@')[0]) + '</div>' +
-              '<div style="font-size:12px;color:#7B8BAA;margin-top:2px">' + (isTer ? 'Commercial Terrain' : 'Commercial Telephone') + ' - ' + usr.email + '</div>' +
-            '</div>' +
+            '<div><div style="font-size:16px;font-weight:700;color:#E8ECF4">' + (usr.nom || usr.email.split('@')[0]) + '</div><div style="font-size:12px;color:#7B8BAA;margin-top:2px">' + (isTer ? 'Commercial Terrain' : 'Commercial Telephone') + ' - ' + usr.email + '</div></div>' +
           '</div>' +
           '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">' +
             '<div style="background:rgba(16,185,129,0.08);border-radius:12px;padding:12px;text-align:center"><div style="font-family:inherit;font-size:22px;font-weight:800;color:#10B981">' + actifs + '</div><div style="font-size:11px;color:#7B8BAA">Actifs</div></div>' +
@@ -526,8 +746,7 @@ async function renderProspects() {
           '<td style="color:#7B8BAA;font-size:11px">' + (p.commercial_id || '—') + '</td>' +
           '<td style="color:#7B8BAA;font-size:11px">' + (p.note ? p.note.substring(0, 30) + (p.note.length > 30 ? '...' : '') : '—') + '</td>' +
         '</tr>';
-      }).join('') +
-      '</tbody></table></div>' +
+      }).join('') + '</tbody></table></div>' +
     '</div>';
 }
 
@@ -541,37 +760,23 @@ async function renderTresorerie() {
   var totalEncaisse = paiements.reduce(function(acc, p) { return acc + (p.montant || 0); }, 0);
   var mrr = actifs.reduce(function(acc, c) { return acc + (TARIF[c.plan] || TD); }, 0);
   var arr = mrr * 12;
-
   var parMois = {};
-  paiements.forEach(function(p) {
-    if (p.mois) {
-      parMois[p.mois] = (parMois[p.mois] || 0) + (p.montant || 0);
-    }
-  });
+  paiements.forEach(function(p) { if (p.mois) parMois[p.mois] = (parMois[p.mois] || 0) + (p.montant || 0); });
   var moisSorted = Object.keys(parMois).sort().reverse().slice(0, 6);
 
   document.getElementById('main-content').innerHTML =
     '<div style="font-family:inherit;font-size:22px;font-weight:800;color:#E8ECF4;margin-bottom:24px;letter-spacing:-0.5px">Tresorerie</div>' +
-
     '<div class="kpi-grid-4" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px">' +
       '<div class="kpi-card" style="border-left:3px solid #10B981"><i class="ti ti-currency-dollar" style="font-size:20px;color:#10B981;display:block;margin-bottom:12px"></i><div class="kpi-val">' + totalEncaisse.toLocaleString('fr-FR') + '</div><div class="kpi-lbl">Total encaisse (DH)</div></div>' +
       '<div class="kpi-card" style="border-left:3px solid #06B6D4"><i class="ti ti-refresh" style="font-size:20px;color:#06B6D4;display:block;margin-bottom:12px"></i><div class="kpi-val">' + mrr.toLocaleString('fr-FR') + '</div><div class="kpi-lbl">MRR actuel (DH/mois)</div></div>' +
       '<div class="kpi-card" style="border-left:3px solid #8B5CF6"><i class="ti ti-chart-line" style="font-size:20px;color:#8B5CF6;display:block;margin-bottom:12px"></i><div class="kpi-val">' + arr.toLocaleString('fr-FR') + '</div><div class="kpi-lbl">ARR projete (DH/an)</div></div>' +
     '</div>' +
-
-    '<div class="panel">' +
-      '<div class="panel-title"><i class="ti ti-chart-bar" style="color:#06B6D4;font-size:16px"></i> Revenus par mois</div>' +
+    '<div class="panel"><div class="panel-title"><i class="ti ti-chart-bar" style="color:#06B6D4;font-size:16px"></i> Revenus par mois</div>' +
       (moisSorted.length ?
         moisSorted.map(function(m) {
           var val = parMois[m];
           var pct = Math.round((val / (mrr || 1)) * 100);
-          return '<div class="stat-row">' +
-            '<div style="font-size:13px;font-weight:600;color:#E8ECF4;min-width:80px">' + m + '</div>' +
-            '<div style="flex:1;background:rgba(255,255,255,0.06);border-radius:99px;height:8px;overflow:hidden;margin:0 16px">' +
-              '<div style="height:100%;background:#06B6D4;border-radius:99px;width:' + Math.min(pct, 100) + '%"></div>' +
-            '</div>' +
-            '<div style="font-size:14px;font-weight:700;color:#10B981;min-width:80px;text-align:right">' + val.toLocaleString('fr-FR') + ' DH</div>' +
-          '</div>';
+          return '<div class="stat-row"><div style="font-size:13px;font-weight:600;color:#E8ECF4;min-width:80px">' + m + '</div><div style="flex:1;background:rgba(255,255,255,0.06);border-radius:99px;height:8px;overflow:hidden;margin:0 16px"><div style="height:100%;background:#06B6D4;border-radius:99px;width:' + Math.min(pct, 100) + '%"></div></div><div style="font-size:14px;font-weight:700;color:#10B981;min-width:80px;text-align:right">' + val.toLocaleString('fr-FR') + ' DH</div></div>';
         }).join('') :
         '<div style="text-align:center;padding:32px;color:#7B8BAA">Aucun paiement confirme</div>'
       ) +
