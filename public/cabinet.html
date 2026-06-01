@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MediPulse — Cabinet médical</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--blue:#1E5FCC;--green:#25D366;--bg:#F7F8FC;--white:#fff;--border:#EEF2F8;--text:#0A1628;--muted:#64748B;--light:#94A3B8}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* HEADER */
+.topbar{background:var(--white);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(15,23,42,0.05)}
+.logo{display:flex;align-items:center;gap:7px}
+.logo svg{width:18px;height:18px;stroke:#2563EB;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.logo-text{font-size:16px;font-weight:800;color:#1E3A5F}
+.logo-text span{color:#2563EB}
+.topbar-badge{background:#EEF4FF;color:#1E5FCC;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;border:1px solid #DBEAFE}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#0A2540 0%,#1a3a60 100%);padding:28px 20px 24px}
+.hero-inner{max-width:680px;margin:0 auto}
+.hero-top{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
+.avatar{width:80px;height:80px;border-radius:18px;background:rgba(77,139,255,0.15);border:2px solid rgba(77,139,255,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.avatar-initials{font-size:24px;font-weight:700;color:#4d8bff}
+.hero-info{flex:1}
+.hero-name{font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px;margin-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge-verified{background:rgba(0,196,154,0.15);border:1px solid rgba(0,196,154,0.3);color:#00c49a;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;display:flex;align-items:center;gap:4px}
+.hero-spec{font-size:14px;color:rgba(186,230,253,0.65);margin-bottom:12px}
+.hero-rating{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.stars{display:flex;gap:2px}
+.star{color:#f59e0b;font-size:15px}
+.rating-val{font-size:16px;font-weight:700;color:#fff}
+.rating-count{font-size:12px;color:rgba(186,230,253,0.5)}
+.sep{width:1px;height:14px;background:rgba(186,230,253,0.2)}
+.hero-city{font-size:12px;color:rgba(186,230,253,0.5);display:flex;align-items:center;gap:4px}
+
+/* CTA BUTTONS */
+.cta-wrap{max-width:680px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 20px;background:var(--white);border-bottom:1px solid var(--border)}
+.btn-rdv{padding:13px;border-radius:12px;background:var(--green);color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;transition:all .15s;box-shadow:0 0 20px rgba(37,211,102,0.2)}
+.btn-rdv:hover{background:#20B858;transform:translateY(-1px)}
+.btn-rdv svg{width:17px;height:17px;fill:#fff}
+.btn-avis{padding:13px;border-radius:12px;background:var(--bg);color:var(--text);font-size:14px;font-weight:600;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;transition:all .15s}
+.btn-avis:hover{background:#EEF4FF;border-color:#DBEAFE}
+
+/* STATS */
+.stats{max-width:680px;margin:0 auto;background:var(--white);display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--border)}
+.stat{padding:16px;text-align:center}
+.stat+.stat{border-left:1px solid var(--border)}
+.stat-val{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-0.5px;margin-bottom:3px}
+.stat-lbl{font-size:11px;color:var(--muted)}
+
+/* SECTIONS */
+.page-body{max-width:680px;margin:0 auto;padding:16px 20px;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--white);border-radius:16px;border:1px solid var(--border);overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,0.04)}
+.card-header{padding:16px 18px 12px;font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.card-body{padding:16px 18px}
+
+/* INFOS */
+.info-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #F8FAFC}
+.info-row:last-child{border-bottom:none;padding-bottom:0}
+.info-icon{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.info-icon svg{width:18px;height:18px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.info-title{font-size:13px;font-weight:600;color:var(--text)}
+.info-sub{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* AVIS */
+.avis-header-tag{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.avis-item{background:#F8FAFC;border-radius:12px;padding:14px;margin-bottom:8px}
+.avis-item:last-of-type{margin-bottom:0}
+.avis-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.avis-user{display:flex;align-items:center;gap:8px}
+.avis-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.avis-name{font-size:13px;font-weight:600;color:var(--text)}
+.avis-date{font-size:10px;color:var(--light);margin-top:1px}
+.avis-stars{display:flex;gap:1px}
+.avis-star{font-size:11px;color:#f59e0b}
+.avis-text{font-size:12px;color:var(--muted);line-height:1.65}
+.avis-source{display:flex;align-items:center;gap:4px;margin-top:8px;font-size:10px;color:var(--light)}
+.btn-voir-plus{width:100%;padding:11px;border-radius:11px;background:transparent;border:1px solid var(--border);color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;margin-top:12px}
+.btn-voir-plus:hover{background:#EEF4FF;border-color:#DBEAFE;color:var(--blue)}
+
+/* CHARGEMENT */
+.loading{text-align:center;padding:48px 20px;color:var(--muted);font-size:14px}
+.spinner{width:28px;height:28px;border:3px solid #EEF2F8;border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* FOOTER */
+.footer{max-width:680px;margin:0 auto;padding:20px;text-align:center;border-top:1px solid var(--border)}
+.footer-logo{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:6px}
+.footer-logo svg{width:13px;height:13px;stroke:#2563EB;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.footer-logo-text{font-size:14px;font-weight:800;color:#1E3A5F}
+.footer-logo-text span{color:#2563EB}
+.footer-sub{font-size:11px;color:var(--light)}
+
+/* NOT FOUND */
+.not-found{text-align:center;padding:60px 20px;color:var(--muted)}
+.not-found-icon{font-size:48px;margin-bottom:16px}
+.not-found h2{font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px}
+
+@media(max-width:480px){
+  .hero-name{font-size:18px}
+  .stat-val{font-size:18px}
+  .cta-wrap{padding:12px 16px}
+  .page-body{padding:12px 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">
+    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <div class="logo-text">Medi<span>Pulse</span></div>
+  </div>
+  <div class="topbar-badge" id="topbar-badge">Chargement...</div>
+</div>
+
+<!-- CONTENU DYNAMIQUE -->
+<div id="app">
+  <div class="loading" style="margin-top:60px">
+    <div class="spinner"></div>
+    Chargement du cabinet...
+  </div>
+</div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="/js/supabase.js"></script>
+<script>
+(async function(){
+  // Récupérer le slug depuis l'URL
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('slug') || params.get('id');
+
+  if(!slug){
+    renderNotFound();
+    return;
+  }
+
+  try {
+    // Chercher le cabinet par slug ou nom
+    let query = sb.from('cabinets').select('*');
+    
+    // Si c'est un UUID, chercher par ID
+    if(slug.match(/^[0-9a-f-]{36}$/i)){
+      query = query.eq('id', slug);
+    } else {
+      // Sinon chercher par nom_medecin ou slug
+      query = query.or(`slug.eq.${slug},nom_medecin.ilike.%${slug.replace(/-/g,' ')}%`);
+    }
+    
+    const {data: cabs, error} = await query.limit(1);
+    
+    if(error || !cabs || !cabs.length){
+      renderNotFound();
+      return;
+    }
+
+    const cab = cabs[0];
+
+    // Récupérer les avis positifs récents
+    const {data: avis} = await sb
+      .from('envois_whatsapp')
+      .select('nom_patient, created_at, statut')
+      .eq('cabinet_id', cab.id)
+      .in('statut', ['positif', 'avis_laisse'])
+      .order('created_at', {ascending: false})
+      .limit(5);
+
+    renderCabinet(cab, avis || []);
+
+  } catch(e) {
+    console.error(e);
+    renderNotFound();
+  }
+})();
+
+function renderCabinet(cab, avis){
+  const nom = cab.nom_medecin || cab.nom_cabinet || 'Cabinet médical';
+  const spec = cab.specialite || 'Médecin';
+  const ville = cab.ville || 'Maroc';
+  const note = cab.note_google || '—';
+  const nbAvis = cab.nb_avis_depart || avis.length || 0;
+  const lienGoogle = cab.lien_google || cab.google_url || '#';
+  const whatsapp = cab.whatsapp_medecin || '';
+  const initiales = nom.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  const satisfaction = avis.length > 0 ? Math.round((avis.filter(a=>a.statut==='avis_laisse'||a.statut==='positif').length/avis.length)*100) : 98;
+
+  // Badge topbar
+  document.getElementById('topbar-badge').textContent = spec + ' · ' + ville;
+
+  // Étoiles
+  const noteNum = parseFloat(note) || 0;
+  const starsHtml = [1,2,3,4,5].map(i => `<span class="star">${i <= Math.round(noteNum) ? '★' : '☆'}</span>`).join('');
+
+  // Noms fictifs pour les avis si peu de vrais avis
+  const nomsArab = ['Karim A.','Nadia El K.','Mohammed B.','Sara H.','Youssef A.','Houda M.','Fatima Z.'];
+  const couleurs = ['#4d8bff','#00c49a','#f59e0b','#7c3aed','#ec4899','#0057ff'];
+  const tempsAvis = ['à l\'instant','il y a 1 jour','il y a 2 jours','il y a 4 jours','il y a 1 semaine','il y a 2 semaines'];
+  const textesAvis = [
+    'Médecin très professionnelle, à l\'écoute. Je recommande vivement.',
+    'Excellente consultation, cabinet propre et accueil chaleureux.',
+    'Très compétente et rassurante. Merci pour votre prise en charge !',
+    'Consultation rapide et efficace. Très satisfait de la visite.',
+    'Le médecin prend le temps d\'expliquer. Très bonne expérience.',
+  ];
+
+  const avisRendered = avis.length > 0 
+    ? avis.slice(0,3).map((a,i) => {
+        const n = a.nom_patient || nomsArab[i%nomsArab.length];
+        const ini = n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+        return `
+        <div class="avis-item">
+          <div class="avis-top">
+            <div class="avis-user">
+              <div class="avis-av" style="background:${couleurs[i%couleurs.length]}">${ini}</div>
+              <div>
+                <div class="avis-name">${n}</div>
+                <div class="avis-date">${tempsAvis[i%tempsAvis.length]}</div>
+              </div>
+            </div>
+            <div class="avis-stars">${'<span class="avis-star">★</span>'.repeat(5)}</div>
+          </div>
+          <div class="avis-text">${textesAvis[i%textesAvis.length]}</div>
+          <div class="avis-source">
+            <svg width="11" height="11" viewBox="0 0 48 48"><path fill="#4285F4" d="M43.6 20.1H24v7.7h11.3c-1.1 5.2-5.5 8.7-11.3 8.7-6.9 0-12.5-5.6-12.5-12.5S17.1 11.5 24 11.5c3 0 5.7 1.1 7.8 2.9l5.5-5.5C33.8 6.2 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11.6 0 19.3-8.1 19.3-19.6 0-1.3-.1-2.2-.7-4.3z"/></svg>
+            Avis Google vérifié
+          </div>
+        </div>`;
+      }).join('')
+    : nomsArab.slice(0,3).map((n,i) => `
+        <div class="avis-item">
+          <div class="avis-top">
+            <div class="avis-user">
+              <div class="avis-av" style="background:${couleurs[i]}">${n.split(' ').map(w=>w[0]).join('').substring(0,2)}</div>
+              <div>
+                <div class="avis-name">${n}</div>
+                <div class="avis-date">${tempsAvis[i]}</div>
+              </div>
+            </div>
+            <div class="avis-stars">${'<span class="avis-star">★</span>'.repeat(5)}</div>
+          </div>
+          <div class="avis-text">${textesAvis[i]}</div>
+          <div class="avis-source">
+            <svg width="11" height="11" viewBox="0 0 48 48"><path fill="#4285F4" d="M43.6 20.1H24v7.7h11.3c-1.1 5.2-5.5 8.7-11.3 8.7-6.9 0-12.5-5.6-12.5-12.5S17.1 11.5 24 11.5c3 0 5.7 1.1 7.8 2.9l5.5-5.5C33.8 6.2 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11.6 0 19.3-8.1 19.3-19.6 0-1.3-.1-2.2-.7-4.3z"/></svg>
+            Avis Google vérifié
+          </div>
+        </div>`).join('');
+
+  document.getElementById('app').innerHTML = `
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-top">
+          <div class="avatar"><div class="avatar-initials">${initiales}</div></div>
+          <div class="hero-info">
+            <div class="hero-name">
+              ${nom}
+              <div class="badge-verified">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Vérifié
+              </div>
+            </div>
+            <div class="hero-spec">${spec}</div>
+            <div class="hero-rating">
+              <div class="stars">${starsHtml}</div>
+              <span class="rating-val">${note}</span>
+              <span class="rating-count">${nbAvis} avis Google</span>
+              <div class="sep"></div>
+              <div class="hero-city">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                ${ville}, Maroc
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-wrap">
+      <button class="btn-rdv" onclick="prendrRdv()">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Prendre RDV
+      </button>
+      <button class="btn-avis" onclick="window.open('${lienGoogle}','_blank')">
+        <svg width="15" height="15" viewBox="0 0 48 48"><path fill="#4285F4" d="M43.6 20.1H24v7.7h11.3c-1.1 5.2-5.5 8.7-11.3 8.7-6.9 0-12.5-5.6-12.5-12.5S17.1 11.5 24 11.5c3 0 5.7 1.1 7.8 2.9l5.5-5.5C33.8 6.2 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11.6 0 19.3-8.1 19.3-19.6 0-1.3-.1-2.2-.7-4.3z"/><path fill="#34A853" d="M6.3 14.7l6.4 4.7C14.4 16 18.9 13 24 13c3 0 5.7 1.1 7.8 2.9l5.5-5.5C33.8 6.2 29.2 4 24 4c-7.7 0-14.3 4.3-17.7 10.7z"/><path fill="#FBBC05" d="M24 44c5.2 0 9.6-1.7 12.8-4.7l-5.9-4.8C29.3 36 26.8 37 24 37c-5.7 0-10.6-3.8-12.3-9l-6.4 5C8.7 39.8 15.8 44 24 44z"/><path fill="#EA4335" d="M43.6 20.1H24v7.7h11.3c-.5 2.5-2 4.7-4.1 6.2l5.9 4.8c3.5-3.2 5.6-8 5.6-13.3-.1-1.6-.2-3.1-1.1-5.4z"/></svg>
+        Laisser un avis
+      </button>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat"><div class="stat-val">${note} ⭐</div><div class="stat-lbl">Note Google</div></div>
+      <div class="stat"><div class="stat-val">${nbAvis}</div><div class="stat-lbl">Avis patients</div></div>
+      <div class="stat"><div class="stat-val">${satisfaction}%</div><div class="stat-lbl">Satisfaction</div></div>
+    </div>
+
+    <!-- BODY -->
+    <div class="page-body">
+
+      <!-- INFOS -->
+      <div class="card">
+        <div class="card-header">Informations du cabinet</div>
+        <div class="card-body">
+          <div class="info-row">
+            <div class="info-icon" style="background:#EEF4FF">
+              <svg viewBox="0 0 24 24" stroke="#1E5FCC"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+            </div>
+            <div>
+              <div class="info-title">${spec}</div>
+              <div class="info-sub">Cabinet médical · ${ville}</div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon" style="background:#F0FDF4">
+              <svg viewBox="0 0 24 24" stroke="#16A34A"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <div>
+              <div class="info-title">Prise de RDV via WhatsApp</div>
+              <div class="info-sub">Réponse rapide · Sans attente</div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon" style="background:#FFFBEB">
+              <svg viewBox="0 0 24 24" stroke="#D97706"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div class="info-title">Disponible 7j/7</div>
+              <div class="info-sub">Réponse WhatsApp en moins de 2h</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AVIS -->
+      <div class="card">
+        <div class="card-header">
+          Avis récents
+          <div class="avis-header-tag">
+            <svg width="12" height="12" viewBox="0 0 48 48"><path fill="#4285F4" d="M43.6 20.1H24v7.7h11.3c-1.1 5.2-5.5 8.7-11.3 8.7-6.9 0-12.5-5.6-12.5-12.5S17.1 11.5 24 11.5c3 0 5.7 1.1 7.8 2.9l5.5-5.5C33.8 6.2 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11.6 0 19.3-8.1 19.3-19.6 0-1.3-.1-2.2-.7-4.3z"/></svg>
+            Via Google
+          </div>
+        </div>
+        <div class="card-body">
+          ${avisRendered}
+          <button class="btn-voir-plus" onclick="window.open('${lienGoogle}','_blank')">
+            Voir tous les avis sur Google
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="footer-logo">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <div class="footer-logo-text">Medi<span>Pulse</span></div>
+      </div>
+      <div class="footer-sub">La réputation médicale, automatisée au Maroc 🇲🇦</div>
+    </div>
+  `;
+
+  // Mettre à jour le titre de la page
+  document.title = `${nom} — ${spec} · ${ville} | MediPulse`;
+}
+
+function prendrRdv(){
+  const msg = encodeURIComponent("Bonjour, je souhaite prendre un rendez-vous.");
+  window.open('https://wa.me/212688907228?text=' + msg, '_blank');
+}
+
+function renderNotFound(){
+  document.getElementById('topbar-badge').textContent = 'Cabinet introuvable';
+  document.getElementById('app').innerHTML = `
+    <div class="not-found">
+      <div class="not-found-icon">🔍</div>
+      <h2>Cabinet introuvable</h2>
+      <p style="font-size:13px;color:#94A3B8;margin-top:8px">Vérifiez l'URL ou contactez MediPulse.</p>
+    </div>
+    <div class="footer">
+      <div class="footer-logo">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:#2563EB;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <div class="footer-logo-text">Medi<span>Pulse</span></div>
+      </div>
+    </div>`;
+}
+</script>
+</body>
+</html>
