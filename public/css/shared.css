@@ -256,3 +256,5 @@ body{font-family:var(--font);min-height:100vh}
     width:100%!important;
   }
 }
+
+[dir='rtl'] .sidebar{left:auto;right:0;transform:translateX(100%)}[dir='rtl'] .sidebar.open{transform:translateX(0)}[dir='rtl'] .main{margin-left:0;margin-right:240px}@media(max-width:768px){[dir='rtl'] .main{margin-right:0}}
