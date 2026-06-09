@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MediPulse - Owner</title>
-<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js">
+
+</script>
 <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/shared.css">
@@ -173,6 +175,8 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
       <div class="nav-link" id="nav-paiements" onclick="showPage('paiements')"><i class="ti ti-credit-card"></i>Paiements <span id="pending-count-badge" style="display:none;background:#FF8C32;color:#fff;border-radius:99px;font-size:10px;font-weight:700;padding:1px 7px;margin-left:4px"></span></div>
       <div class="nav-link" id="nav-equipe" onclick="showPage('equipe')"><i class="ti ti-users-group"></i>Equipe</div>
       <div class="nav-link" id="nav-prospects" onclick="showPage('prospects')"><i class="ti ti-users"></i>Prospects</div>
+ <div class="nav-link" id="nav-prospection" onclick="showPage('prospection')" style="border-left:3px solid var(--accent);background:rgba(79,127,255,0.06)"><i class="ti ti-brain" style="color:var(--accent)"></i>Prospection IA</div>
+      <div class="nav-link" id="nav-prospection" onclick="showPage('prospection')" style="border-left:3px solid var(--accent);background:rgba(79,127,255,0.06)"><i class="ti ti-brain" style="color:var(--accent)"></i>Prospection IA</div>
       <div class="nav-link" id="nav-tresorerie" onclick="showPage('tresorerie')"><i class="ti ti-chart-line"></i>Tresorerie</div>
     </div>
     <div class="sidebar-footer">
@@ -297,7 +301,9 @@ body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans
 </div>
 
 <div id="toast"></div>
-<script src="/js/supabase.js"></script>
+<script src="/js/supabase.js">
+
+</script>
 <script>
 var currentUser=null,userRecord=null;
 var pmtCabinetId=null,noteCabinetId=null,statutCabinetId=null;
@@ -339,13 +345,14 @@ function showPage(page){
   document.querySelectorAll('.nav-link').forEach(function(l){l.classList.remove('active');});
   var el=document.getElementById('nav-'+page);
   if(el)el.classList.add('active');
-  var titles={dashboard:'Vue 360',cabinets:'Cabinets',paiements:'Paiements',equipe:'Equipe',prospects:'Prospects',tresorerie:'Tresorerie'};
+  var titles={dashboard:'Vue 360',cabinets:'Cabinets',paiements:'Paiements',equipe:'Equipe',prospects:'Prospects',prospection:'Prospection IA',tresorerie:'Tresorerie'};
   document.getElementById('page-title').textContent=titles[page]||'Dashboard';
   if(page==='dashboard')renderDashboard();
   else if(page==='cabinets')renderCabinets();
   else if(page==='paiements')renderPaiements();
   else if(page==='equipe')renderEquipe();
   else if(page==='prospects')renderProspects();
+  else if(page==='prospection')renderProspectionOwner();
   else if(page==='tresorerie')renderTresorerie();
 }
 
@@ -755,6 +762,11 @@ async function renderTresorerie(){
       '<div style="text-align:center;padding:32px;color:var(--text3)">Aucun paiement confirme</div>'
     )+'</div>';
 }
+
+
 </script>
 </body>
 </html>
+
+
+
