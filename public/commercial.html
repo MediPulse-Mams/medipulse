@@ -13,13 +13,13 @@
 body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif}
 [dir="rtl"] body,[dir="rtl"]{font-family:'Noto Sans Arabic','Plus Jakarta Sans',sans-serif}
 
-/* â”€â”€ Lang switcher â”€â”€ */
+/*  Lang switcher  */
 .lang-bar{display:flex;gap:4px;align-items:center}
 .lang-btn{padding:4px 10px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;font-size:11px;font-weight:600;cursor:pointer;color:#64748B;transition:all 0.15s;font-family:inherit}
 .lang-btn.active{background:#EEF4FF;color:#1E5FCC;border-color:#B5D4F4}
 .lang-btn:hover:not(.active){background:#F8FAFC}
 
-/* â”€â”€ KPIs â”€â”€ */
+/*  KPIs  */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
 .kpi-card{background:#fff;border-radius:18px;border:1px solid #EEF2F8;padding:18px;box-shadow:0 1px 3px rgba(15,23,42,0.05)}
 .kpi-icon{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
@@ -29,29 +29,29 @@ body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif
 .section-title{font-size:22px;font-weight:800;color:#0A1628;letter-spacing:-0.4px;margin-bottom:4px}
 .section-sub{font-size:13px;color:#64748B;margin-bottom:24px}
 
-/* â”€â”€ Hero â”€â”€ */
+/*  Hero  */
 .hero{background:linear-gradient(135deg,#0A2540 0%,#0D3B5E 60%,#083352 100%);border-radius:20px;padding:22px 24px;margin-bottom:20px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;width:250px;height:250px;border-radius:50%;border:1px solid rgba(56,189,248,0.08);bottom:-80px;right:-80px}
 .prog-track{height:6px;background:rgba(255,255,255,0.1);border-radius:99px;overflow:hidden;margin-bottom:10px}
 .prog-fill{height:100%;background:linear-gradient(90deg,#38BDF8,#06B6D4);border-radius:99px;transition:width 1s ease}
 
-/* â”€â”€ Grids â”€â”€ */
+/*  Grids  */
 .sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .comm-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
 .paliers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 
-/* â”€â”€ Prospect cards â”€â”€ */
+/*  Prospect cards  */
 .prospect-card{background:#fff;border-radius:14px;border:1px solid #EEF2F8;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(15,23,42,0.04)}
 .p-action{width:32px;height:32px;border-radius:8px;border:1px solid #E5E7EB;background:#F9FAFB;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#64748B;transition:all 0.15s;flex-shrink:0}
 .p-action:hover{background:#EEF4FF;border-color:#1E5FCC;color:#1E5FCC}
 
-/* â”€â”€ Chips â”€â”€ */
+/*  Chips  */
 .chip{padding:6px 12px;border-radius:99px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid;transition:all 0.15s;white-space:nowrap}
 .chip-on{background:#EEF4FF;color:#1E5FCC;border-color:#B5D4F4}
 .chip-off{background:#fff;color:#64748B;border-color:#E5E7EB}
 .chips-wrap{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
 
-/* â”€â”€ Modals â”€â”€ */
+/*  Modals  */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
 .overlay.open{display:flex}
 .modal{background:#fff;border-radius:20px;border:1px solid #EEF2F8;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
@@ -64,7 +64,7 @@ body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif
 .save-btn:hover{background:#1E2D40}
 .save-btn:disabled{opacity:0.6;cursor:not-allowed}
 
-/* â”€â”€ Acces â”€â”€ */
+/*  Acces  */
 .acces-box{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:14px 16px;margin-bottom:10px}
 .acces-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
 .acces-label{font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:0.07em}
@@ -72,13 +72,13 @@ body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif
 .copy-btn{padding:5px 12px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;font-size:11px;font-weight:600;color:#1E5FCC;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s}
 .copy-btn:hover{background:#EEF4FF;border-color:#B5D4F4}
 
-/* â”€â”€ Badges â”€â”€ */
+/*  Badges  */
 .badge{padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;white-space:nowrap}
 .badge-trial{background:#FFFBEB;color:#B45309}
 .badge-actif{background:#F0FDF4;color:#15803D}
 .badge-suspendu{background:#FFF1F2;color:#BE123C}
 
-/* â”€â”€ Cabinet rows â”€â”€ */
+/*  Cabinet rows  */
 .cabinet-row{background:#fff;border-radius:16px;border:1px solid #EEF2F8;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(15,23,42,0.04)}
 .btn-sm{padding:7px 14px;border-radius:10px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans','Noto Sans Arabic',sans-serif;display:inline-flex;align-items:center;gap:5px;transition:all 0.15s}
 .btn-sm:active{transform:scale(0.97)}
@@ -93,13 +93,13 @@ body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif
 .btn-red{background:#FFF1F2;color:#BE123C}
 .btn-red:hover{background:#FFE4E6}
 
-/* â”€â”€ Upload â”€â”€ */
+/*  Upload  */
 .upload-zone{border:2px dashed #B5D4F4;border-radius:14px;padding:24px;text-align:center;cursor:pointer;transition:all 0.2s;background:#F8FBFF;margin-bottom:12px;position:relative}
 .upload-zone:hover,.upload-zone.dragover{border-color:#1E5FCC;background:#EEF4FF}
 .upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .preview-img{width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-bottom:12px;display:none}
 
-/* â”€â”€ Prospection IA â”€â”€ */
+/*  Prospection IA  */
 .mission-card{background:#fff;border-radius:16px;border:2px solid #EEF2F8;padding:18px;margin-bottom:12px;position:relative;transition:all 0.2s;cursor:pointer}
 .mission-card:hover{border-color:#1E5FCC;box-shadow:0 4px 20px rgba(26,107,255,0.1)}
 .mission-card.priority-a{border-left:4px solid #EF4444}
@@ -133,12 +133,12 @@ body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif
 .detail-panel{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:16px;padding:20px;margin-top:12px;display:none}
 .detail-panel.open{display:block}
 
-/* â”€â”€ CSV Import â”€â”€ */
+/*  CSV Import  */
 .csv-zone{border:2px dashed #B5D4F4;border-radius:14px;padding:32px;text-align:center;cursor:pointer;transition:all 0.2s;background:#F8FBFF;position:relative}
 .csv-zone:hover{border-color:#1E5FCC;background:#EEF4FF}
 .csv-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 
-/* â”€â”€ RTL â”€â”€ */
+/*  RTL  */
 [dir="rtl"] .mission-card.priority-a{border-left:none;border-right:4px solid #EF4444}
 [dir="rtl"] .mission-card.priority-b{border-left:none;border-right:4px solid #F59E0B}
 [dir="rtl"] .mission-card.priority-c{border-left:none;border-right:4px solid #94A3B8}
@@ -159,7 +159,7 @@ body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif
 </head>
 <body>
 <div class="layout">
-  <!-- â”€â”€ SIDEBAR â”€â”€ -->
+  <!--  SIDEBAR  -->
   <div class="sidebar sidebar-light" id="sidebar">
     <div class="sidebar-logo">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
@@ -192,7 +192,7 @@ body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif
 
   <div class="sidebar-overlay" id="mob-overlay" onclick="closeSidebar()"></div>
 
-  <!-- â”€â”€ MAIN â”€â”€ -->
+  <!--  MAIN  -->
   <div class="main">
     <div class="topbar topbar-light">
       <div style="display:flex;align-items:center;gap:10px">
@@ -202,9 +202,9 @@ body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <!-- Lang switcher -->
         <div class="lang-bar">
-          <button class="lang-btn active" id="btn-fr" onclick="setLang('fr')">ðŸ‡«ðŸ‡· FR</button>
-          <button class="lang-btn" id="btn-en" onclick="setLang('en')">ðŸ‡¬ðŸ‡§ EN</button>
-          <button class="lang-btn" id="btn-ar" onclick="setLang('ar')">ðŸ‡²ðŸ‡¦ AR</button>
+          <button class="lang-btn active" id="btn-fr" onclick="setLang('fr')"> FR</button>
+          <button class="lang-btn" id="btn-en" onclick="setLang('en')"> EN</button>
+          <button class="lang-btn" id="btn-ar" onclick="setLang('ar')"> AR</button>
         </div>
         <span id="role-pill" style="padding:3px 12px;border-radius:99px;font-size:11px;font-weight:600;background:rgba(6,182,212,0.1);color:#0D7490;border:1px solid rgba(13,116,144,0.2)"></span>
         <span style="font-size:11px;color:#94A3B8" id="topbar-date"></span>
@@ -216,9 +216,9 @@ body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif
   </div>
 </div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+<!-- 
      MODALS
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+ -->
 
 <!-- MODIFIER PROSPECT -->
 <div class="overlay" id="edit-overlay" onclick="if(event.target===this)this.classList.remove('open')">
@@ -281,7 +281,7 @@ body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif
   </div>
 </div>
 
-<!-- ACCES CABINET (crÃ©ation) -->
+<!-- ACCES CABINET (cration) -->
 <div class="overlay" id="acces-overlay">
   <div class="modal" style="max-width:480px">
     <div class="modal-hd">
@@ -293,7 +293,7 @@ body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif
     <div class="modal-body">
       <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#15803D;display:flex;align-items:center;gap:8px">
         <i class="ti ti-lock" style="font-size:15px;flex-shrink:0"></i>
-        <span data-t="unique_access">Ces acces sont uniques â€” notez-les maintenant.</span>
+        <span data-t="unique_access">Ces acces sont uniques  notez-les maintenant.</span>
       </div>
       <div style="font-size:11px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px" data-t="doctor">Medecin</div>
       <div class="acces-box">
@@ -385,7 +385,7 @@ body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif
         <div id="pmt-upload-content">
           <i class="ti ti-upload" style="font-size:28px;color:#1E5FCC;margin-bottom:8px;display:block"></i>
           <div style="font-size:13px;font-weight:600;color:#0A1628" data-t="click_or_drag">Cliquez ou glissez une photo</div>
-          <div style="font-size:11px;color:#94A3B8;margin-top:4px">JPG, PNG â€” max 10 Mo</div>
+          <div style="font-size:11px;color:#94A3B8;margin-top:4px">JPG, PNG  max 10 Mo</div>
         </div>
       </div>
       <div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="note_optional">Note (optionnel)</div>
@@ -399,14 +399,14 @@ body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif
 
 <div id="toast"></div>
 
-<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+<!-- 
      SCRIPTS
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+ -->
 <script src="/js/supabase.js"></script>
 <script>
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// i18n â€” Traductions trilingues
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
+// i18n  Traductions trilingues
+// 
 var LANG_DATA = {
   fr: {
     nav_dashboard:'Dashboard', nav_cabinets:'Mes Cabinets', nav_simulateur:'Simulateur',
@@ -420,7 +420,7 @@ var LANG_DATA = {
     area:'Quartier', mobile:'Tel mobile', google_rating:'Note Google', nb_reviews:'Nb avis',
     add_prospect:'Ajouter',
     cabinet_created:'Cabinet cree avec succes', send_access:'Transmettez ces acces',
-    unique_access:'Ces acces sont uniques â€” notez-les maintenant.',
+    unique_access:'Ces acces sont uniques  notez-les maintenant.',
     doctor:'Medecin', assistant:'Assistante', password:'Mot de passe',
     copy:'Copier', copy_all:'Tout copier',
     send_whatsapp:'Envoyer par WhatsApp', see_cabinets:'Voir mes cabinets',
@@ -448,7 +448,7 @@ var LANG_DATA = {
     todays_mission:"Mission du jour",
     mission_sub:'Top 5 prospects a contacter maintenant',
     wa_today:'WhatsApp / jour',
-    wa_limit_reached:'Limite atteinte â€” reprise demain',
+    wa_limit_reached:'Limite atteinte  reprise demain',
     analyze_ai:'Analyser IA',
     call_script:'Script appel',
     wa_message_label:'Message WhatsApp',
@@ -463,15 +463,15 @@ var LANG_DATA = {
     import_instructions:'Exporte ta liste Sales Navigator (CSV), glisse-la ici.',
     all_prospects:'Tous les prospects',
     score_label:'Score',
-    priority_a:'Priorite A â€” Appeler maintenant',
-    priority_b:'Priorite B â€” Cette semaine',
-    priority_c:'Priorite C â€” Faible priorite',
-    temp_hot:'ðŸ”¥ Chaud', temp_warm:'ðŸŸ¡ Tiede', temp_cold:'â„ï¸ Froid',
+    priority_a:'Priorite A  Appeler maintenant',
+    priority_b:'Priorite B  Cette semaine',
+    priority_c:'Priorite C  Faible priorite',
+    temp_hot:' Chaud', temp_warm:' Tiede', temp_cold:' Froid',
     cas_label:'Cas',
     reception_script:'Script receptionniste',
     doctor_script:'Script medecin direct',
     response_to_objection:'Reponse recommandee',
-    no_mission:'Aucun prospect IA â€” ajoutez des prospects et cliquez Analyser IA.',
+    no_mission:'Aucun prospect IA  ajoutez des prospects et cliquez Analyser IA.',
     generating:'Generation en cours...',
     generated:'Genere',
     copy_ok:'Copie !',
@@ -500,7 +500,7 @@ var LANG_DATA = {
     tier_reached:'Palier atteint !',
     // Cabinets
     my_cabinets:'Mes Cabinets',
-    cabinets_sub:'cabinets valides â€” soumettez les paiements',
+    cabinets_sub:'cabinets valides  soumettez les paiements',
     no_cabinet:'Aucun cabinet valide',
     start_first:'Commencez par valider votre premier cabinet.',
     validate_btn:'Valider un cabinet',
@@ -510,13 +510,13 @@ var LANG_DATA = {
     // Valider
     validate_cabinet:'Valider un cabinet',
     trial_sub:'Trial gratuit de 7 jours',
-    trial_info:"Trial gratuit de 7 jours â€” vous serez notifie la veille de l'expiration.",
-    email_optional:"Les emails sont optionnels â€” un acces sera genere automatiquement.",
+    trial_info:"Trial gratuit de 7 jours  vous serez notifie la veille de l'expiration.",
+    email_optional:"Les emails sont optionnels  un acces sera genere automatiquement.",
     cabinet_name:'Nom du cabinet *', doctor_name:'Nom du medecin *',
     specialty2:'Specialite *', city:'Ville', assistant_name:'Nom assistante *',
     plan:'Plan', google_link:'Lien Google Maps',
     cabinet_whatsapp:'WhatsApp cabinet', doctor_whatsapp:'WhatsApp medecin',
-    validate_start:'Valider le cabinet â€” Demarrer le trial',
+    validate_start:'Valider le cabinet  Demarrer le trial',
     creating:'Creation en cours...',
     // Errors
     err_name_spec_required:'Nom et specialite requis',
@@ -525,7 +525,7 @@ var LANG_DATA = {
     err_photo_required:'Photo justificatif requise',
     err_cabinet_required:'Nom cabinet, medecin, specialite et assistante requis',
     saved:'Enregistre', prospect_added:'Prospect ajoute',
-    payment_submitted:'Paiement soumis â€” en attente de validation',
+    payment_submitted:'Paiement soumis  en attente de validation',
     pwd_generated:'Mot de passe genere !',
     err_generic:'Erreur',
     copied:'Copie !', all_copied:'Tout copie !'
@@ -542,7 +542,7 @@ var LANG_DATA = {
     area:'Area', mobile:'Mobile', google_rating:'Google Rating', nb_reviews:'Reviews count',
     add_prospect:'Add',
     cabinet_created:'Practice created successfully', send_access:'Send credentials to practice',
-    unique_access:'These credentials are unique â€” save them now.',
+    unique_access:'These credentials are unique  save them now.',
     doctor:'Doctor', assistant:'Assistant', password:'Password',
     copy:'Copy', copy_all:'Copy all',
     send_whatsapp:'Send via WhatsApp', see_cabinets:'See my practices',
@@ -568,7 +568,7 @@ var LANG_DATA = {
     todays_mission:"Today's Mission",
     mission_sub:'Top 5 prospects to contact right now',
     wa_today:'WhatsApp / day',
-    wa_limit_reached:"Limit reached â€” resumes tomorrow",
+    wa_limit_reached:"Limit reached  resumes tomorrow",
     analyze_ai:'AI Analyze',
     call_script:'Call script',
     wa_message_label:'WhatsApp message',
@@ -583,15 +583,15 @@ var LANG_DATA = {
     import_instructions:'Export your Sales Navigator list (CSV), drop it here.',
     all_prospects:'All prospects',
     score_label:'Score',
-    priority_a:'Priority A â€” Call now',
-    priority_b:'Priority B â€” This week',
-    priority_c:'Priority C â€” Low priority',
-    temp_hot:'ðŸ”¥ Hot', temp_warm:'ðŸŸ¡ Warm', temp_cold:'â„ï¸ Cold',
+    priority_a:'Priority A  Call now',
+    priority_b:'Priority B  This week',
+    priority_c:'Priority C  Low priority',
+    temp_hot:' Hot', temp_warm:' Warm', temp_cold:' Cold',
     cas_label:'Case',
     reception_script:'Receptionist script',
     doctor_script:'Direct doctor script',
     response_to_objection:'Recommended response',
-    no_mission:'No AI prospects â€” add prospects and click AI Analyze.',
+    no_mission:'No AI prospects  add prospects and click AI Analyze.',
     generating:'Generating...', generated:'Generated', copy_ok:'Copied!',
     analyze_all:'Analyze all',
     my_prospects:'My Prospects', add:'Add',
@@ -613,7 +613,7 @@ var LANG_DATA = {
     total_month:'Total this month',
     tier_reached:'Tier reached!',
     my_cabinets:'My Practices',
-    cabinets_sub:'validated practices â€” submit received payments',
+    cabinets_sub:'validated practices  submit received payments',
     no_cabinet:'No validated practice',
     start_first:'Start by validating your first practice.',
     validate_btn:'Add a practice',
@@ -622,13 +622,13 @@ var LANG_DATA = {
     google_fiche:'Google listing',
     validate_cabinet:'Add a practice',
     trial_sub:'7-day free trial',
-    trial_info:'7-day free trial â€” you will be notified the day before expiration.',
-    email_optional:'Emails are optional â€” access will be auto-generated.',
+    trial_info:'7-day free trial  you will be notified the day before expiration.',
+    email_optional:'Emails are optional  access will be auto-generated.',
     cabinet_name:'Practice name *', doctor_name:'Doctor name *',
     specialty2:'Specialty *', city:'City', assistant_name:'Assistant name *',
     plan:'Plan', google_link:'Google Maps link',
     cabinet_whatsapp:'Practice WhatsApp', doctor_whatsapp:'Doctor WhatsApp',
-    validate_start:'Validate practice â€” Start trial',
+    validate_start:'Validate practice  Start trial',
     creating:'Creating...',
     err_name_spec_required:'Name and specialty required',
     err_upload_too_large:'File too large (max 10MB)',
@@ -636,121 +636,121 @@ var LANG_DATA = {
     err_photo_required:'Receipt photo required',
     err_cabinet_required:'Practice name, doctor, specialty and assistant required',
     saved:'Saved', prospect_added:'Prospect added',
-    payment_submitted:'Payment submitted â€” pending validation',
+    payment_submitted:'Payment submitted  pending validation',
     pwd_generated:'Password generated!',
     err_generic:'Error',
     copied:'Copied!', all_copied:'All copied!'
   },
   ar: {
-    nav_dashboard:'Ù„ÙˆØ­Ø© Ø§Ù„Ù‚ÙŠØ§Ø¯Ø©', nav_cabinets:'Ø¹ÙŠØ§Ø¯Ø§ØªÙŠ', nav_simulateur:'Ø§Ù„Ù…Ø­Ø§ÙƒÙŠ',
-    nav_prospects:'Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡ Ø§Ù„Ù…Ø­ØªÙ…Ù„ÙˆÙ†', nav_commissions:'Ø§Ù„Ø¹Ù…ÙˆÙ„Ø§Øª', nav_valider:'Ø¥Ø¶Ø§ÙØ© Ø¹ÙŠØ§Ø¯Ø©',
-    nav_prospection:'Ø§Ù„ØªÙ†Ù‚ÙŠØ¨ Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ', logout:'ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø®Ø±ÙˆØ¬',
-    tagline:'Ø§Ù„Ø³Ù…Ø¹Ø© Ø§Ù„Ø·Ø¨ÙŠØ©ØŒ Ø¢Ù„ÙŠÙ‹Ø§.',
-    my_space:'Ù…Ø³Ø§Ø­ØªÙŠ',
-    status:'Ø§Ù„Ø­Ø§Ù„Ø©', mobile_wa:'ÙˆØ§ØªØ³Ø§Ø¨ Ø§Ù„Ù…Ø­Ù…ÙˆÙ„', quick_note:'Ù…Ù„Ø§Ø­Ø¸Ø© Ø³Ø±ÙŠØ¹Ø©',
-    callback_date:'ØªØ§Ø±ÙŠØ® Ø§Ù„Ù…Ø¹Ø§ÙˆØ¯Ø©', save:'Ø­ÙØ¸',
-    new_prospect:'Ø¹Ù…ÙŠÙ„ Ù…Ø­ØªÙ…Ù„ Ø¬Ø¯ÙŠØ¯', name:'Ø§Ù„Ø§Ø³Ù… *', specialty:'Ø§Ù„ØªØ®ØµØµ *',
-    area:'Ø§Ù„Ø­ÙŠ', mobile:'Ø§Ù„Ù‡Ø§ØªÙ', google_rating:'ØªÙ‚ÙŠÙŠÙ… Ø¬ÙˆØ¬Ù„', nb_reviews:'Ø¹Ø¯Ø¯ Ø§Ù„ØªÙ‚ÙŠÙŠÙ…Ø§Øª',
-    add_prospect:'Ø¥Ø¶Ø§ÙØ©',
-    cabinet_created:'ØªÙ… Ø¥Ù†Ø´Ø§Ø¡ Ø§Ù„Ø¹ÙŠØ§Ø¯Ø© Ø¨Ù†Ø¬Ø§Ø­', send_access:'Ø£Ø±Ø³Ù„ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ÙˆØµÙˆÙ„',
-    unique_access:'Ù‡Ø°Ù‡ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª ÙØ±ÙŠØ¯Ø© â€” Ø§Ø­ÙØ¸Ù‡Ø§ Ø§Ù„Ø¢Ù†.',
-    doctor:'Ø§Ù„Ø·Ø¨ÙŠØ¨', assistant:'Ø§Ù„Ù…Ø³Ø§Ø¹Ø¯Ø©', password:'ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±',
-    copy:'Ù†Ø³Ø®', copy_all:'Ù†Ø³Ø® Ø§Ù„ÙƒÙ„',
-    send_whatsapp:'Ø¥Ø±Ø³Ø§Ù„ Ø¹Ø¨Ø± ÙˆØ§ØªØ³Ø§Ø¨', see_cabinets:'Ø¹Ø±Ø¶ Ø§Ù„Ø¹ÙŠØ§Ø¯Ø§Øª',
-    emergency_access:'ÙˆØµÙˆÙ„ Ø·Ø§Ø±Ø¦',
-    confidential_warning:'Ù‡Ø°Ù‡ Ø§Ù„Ù…Ø¹Ù„ÙˆÙ…Ø§Øª Ø³Ø±ÙŠØ©.',
-    generate_password:'ØªÙˆÙ„ÙŠØ¯ ÙƒÙ„Ù…Ø© Ù…Ø±ÙˆØ± Ø¬Ø¯ÙŠØ¯Ø©',
-    new_password_generated:'ØªÙ… ØªÙˆÙ„ÙŠØ¯ ÙƒÙ„Ù…Ø© Ù…Ø±ÙˆØ± Ø¬Ø¯ÙŠØ¯Ø©',
-    submit_payment:'ØªÙ‚Ø¯ÙŠÙ… Ø¯ÙØ¹Ø©',
-    payment_info:'Ø³ÙŠØªÙ… Ø§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† Ø§Ù„Ø¥ÙŠØµØ§Ù„ Ù…Ù† Ù‚Ø¨Ù„ Ø§Ù„Ù…Ø§Ù„Ùƒ.',
-    amount:'Ø§Ù„Ù…Ø¨Ù„Øº (Ø¯Ø±Ù‡Ù…) *', month:'Ø§Ù„Ø´Ù‡Ø± *',
-    payment_method:'Ø·Ø±ÙŠÙ‚Ø© Ø§Ù„Ø¯ÙØ¹', wire_transfer:'ØªØ­ÙˆÙŠÙ„ Ø¨Ù†ÙƒÙŠ', check:'Ø´ÙŠÙƒ',
-    receipt_photo:'ØµÙˆØ±Ø© Ø§Ù„Ø¥ÙŠØµØ§Ù„ *', click_or_drag:'Ø§Ø¶ØºØ· Ø£Ùˆ Ø§Ø³Ø­Ø¨ ØµÙˆØ±Ø©',
-    note_optional:'Ù…Ù„Ø§Ø­Ø¸Ø© (Ø§Ø®ØªÙŠØ§Ø±ÙŠ)', submit_for_validation:'ØªÙ‚Ø¯ÙŠÙ… Ù„Ù„Ù…Ø±Ø§Ø¬Ø¹Ø©',
-    hello:'Ù…Ø±Ø­Ø¨Ø§Ù‹', new_cabinet:'Ø¹ÙŠØ§Ø¯Ø© Ø¬Ø¯ÙŠØ¯Ø©',
-    active_cabinets:'Ø§Ù„Ø¹ÙŠØ§Ø¯Ø§Øª Ø§Ù„Ù†Ø´Ø·Ø©', in_trial:'ÙÙŠ Ø§Ù„ÙØªØ±Ø© Ø§Ù„ØªØ¬Ø±ÙŠØ¨ÙŠØ©',
-    revenue:'Ø§Ù„Ø¥ÙŠØ±Ø§Ø¯Ø§Øª (Ø¯Ø±Ù‡Ù…)', recurring:'Ù…ØªÙƒØ±Ø±/Ø´Ù‡Ø±',
-    last_prospects:'Ø¢Ø®Ø± Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡', see_all:'Ø¹Ø±Ø¶ Ø§Ù„ÙƒÙ„',
-    no_prospect:'Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ø¹Ù…Ù„Ø§Ø¡',
-    objective:'Ø§Ù„Ù‡Ø¯Ù', days_left:'Ø£ÙŠØ§Ù…',
-    each_cabinet:'ÙƒÙ„ Ø¹ÙŠØ§Ø¯Ø© Ù†Ø´Ø·Ø© =',
-    per_month_life:'/Ø´Ù‡Ø± Ù…Ø¯Ù‰ Ø§Ù„Ø­ÙŠØ§Ø©',
-    prospection_ia:'Ø§Ù„ØªÙ†Ù‚ÙŠØ¨ Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ',
-    todays_mission:'Ù…Ù‡Ù…Ø© Ø§Ù„ÙŠÙˆÙ…',
-    mission_sub:'Ø£ÙØ¶Ù„ 5 Ø¹Ù…Ù„Ø§Ø¡ Ù„Ù„ØªÙˆØ§ØµÙ„ Ø§Ù„Ø¢Ù†',
-    wa_today:'ÙˆØ§ØªØ³Ø§Ø¨ / ÙŠÙˆÙ…',
-    wa_limit_reached:'ØªÙ… Ø§Ù„ÙˆØµÙˆÙ„ Ù„Ù„Ø­Ø¯ â€” ÙŠØ³ØªØ£Ù†Ù ØºØ¯Ù‹Ø§',
-    analyze_ai:'ØªØ­Ù„ÙŠÙ„ Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ',
-    call_script:'Ù†Øµ Ø§Ù„Ù…ÙƒØ§Ù„Ù…Ø©',
-    wa_message_label:'Ø±Ø³Ø§Ù„Ø© ÙˆØ§ØªØ³Ø§Ø¨',
-    objection_label:'Ø§Ù„Ø§Ø¹ØªØ±Ø§Ø¶ Ø§Ù„Ù…Ø­ØªÙ…Ù„',
-    next_action:'Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡ Ø§Ù„ØªØ§Ù„ÙŠ',
-    angle_label:'Ø§Ù„Ø²Ø§ÙˆÙŠØ© Ø§Ù„Ù…ÙˆØµÙ‰ Ø¨Ù‡Ø§',
-    copy_script:'Ù†Ø³Ø® Ø§Ù„Ù†Øµ',
-    copy_wa:'Ù†Ø³Ø® ÙˆØ¥Ø±Ø³Ø§Ù„ ÙˆØ§ØªØ³Ø§Ø¨',
-    move_to:'Ù†Ù‚Ù„ Ø¥Ù„Ù‰',
-    enrich_title:'Ø¥Ø«Ø±Ø§Ø¡ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø¹Ù…ÙŠÙ„',
-    import_linkedin:'Ø§Ø³ØªÙŠØ±Ø§Ø¯ CSV Ù„ÙŠÙ†ÙƒØ¯Ø¥Ù†',
-    import_instructions:'ØµØ¯Ù‘Ø± Ù‚Ø§Ø¦Ù…Ø© Sales Navigator (CSV) ÙˆØ£Ø³Ù‚Ø·Ù‡Ø§ Ù‡Ù†Ø§.',
-    all_prospects:'Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡',
-    score_label:'Ø§Ù„Ù†Ù‚Ø§Ø·',
-    priority_a:'Ø§Ù„Ø£ÙˆÙ„ÙˆÙŠØ© Ø£ â€” Ø§ØªØµÙ„ Ø§Ù„Ø¢Ù†',
-    priority_b:'Ø§Ù„Ø£ÙˆÙ„ÙˆÙŠØ© Ø¨ â€” Ù‡Ø°Ø§ Ø§Ù„Ø£Ø³Ø¨ÙˆØ¹',
-    priority_c:'Ø§Ù„Ø£ÙˆÙ„ÙˆÙŠØ© Ø¬ â€” Ø£ÙˆÙ„ÙˆÙŠØ© Ù…Ù†Ø®ÙØ¶Ø©',
-    temp_hot:'ðŸ”¥ Ø³Ø§Ø®Ù†', temp_warm:'ðŸŸ¡ Ø¯Ø§ÙØ¦', temp_cold:'â„ï¸ Ø¨Ø§Ø±Ø¯',
-    cas_label:'Ø§Ù„Ø­Ø§Ù„Ø©',
-    reception_script:'Ù†Øµ Ø§Ù„Ù…ÙˆØ¸Ù',
-    doctor_script:'Ù†Øµ Ø§Ù„Ø·Ø¨ÙŠØ¨ Ù…Ø¨Ø§Ø´Ø±Ø©',
-    response_to_objection:'Ø§Ù„Ø±Ø¯ Ø§Ù„Ù…ÙˆØµÙ‰ Ø¨Ù‡',
-    no_mission:'Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ø¹Ù…Ù„Ø§Ø¡ â€” Ø£Ø¶Ù Ø¹Ù…Ù„Ø§Ø¡ ÙˆØ§Ø¶ØºØ· ØªØ­Ù„ÙŠÙ„.',
-    generating:'Ø¬Ø§Ø±Ù Ø§Ù„ØªÙˆÙ„ÙŠØ¯...', generated:'ØªÙ… Ø§Ù„ØªÙˆÙ„ÙŠØ¯', copy_ok:'ØªÙ… Ø§Ù„Ù†Ø³Ø®!',
-    analyze_all:'ØªØ­Ù„ÙŠÙ„ Ø§Ù„ÙƒÙ„',
-    my_prospects:'Ø¹Ù…Ù„Ø§Ø¦ÙŠ Ø§Ù„Ù…Ø­ØªÙ…Ù„ÙˆÙ†', add:'Ø¥Ø¶Ø§ÙØ©',
-    filter_all:'Ø§Ù„ÙƒÙ„', filter_new:'Ø¬Ø¯ÙŠØ¯', filter_callback:'Ù…Ø¹Ø§ÙˆØ¯Ø©',
-    filter_reachable:'Ù…ØªØ§Ø­', filter_demo:'Ø¹Ø±Ø¶ Ù…Ø­Ø¬ÙˆØ²',
-    filter_signed:'Ù…ÙˆÙ‚Ø¹', filter_refused:'Ø±ÙØ¶',
-    no_tel:'Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ø±Ù‚Ù…', add_mobile:'Ø£Ø¶Ù Ø±Ù‚Ù… Ø§Ù„Ù‡Ø§ØªÙ',
-    commissions:'Ø¹Ù…ÙˆÙ„Ø§ØªÙŠ', remuneration:'Ù‡ÙŠÙƒÙ„ Ø§Ù„ØªØ¹ÙˆÙŠØ¶',
-    new_commission:'Ø¹Ù…ÙˆÙ„Ø© Ø¹ÙŠØ§Ø¯Ø© Ø¬Ø¯ÙŠØ¯Ø©', recurring_commission:'Ø¹Ù…ÙˆÙ„Ø© Ù…ØªÙƒØ±Ø±Ø©',
-    per_cabinet:'/ Ø¹ÙŠØ§Ø¯Ø©', per_month_life2:'/Ø´Ù‡Ø± Ù…Ø¯Ù‰ Ø§Ù„Ø­ÙŠØ§Ø©',
-    bonus_tiers:'Ù…ÙƒØ§ÙØ¢Øª Ø§Ù„Ù…Ø³ØªÙˆÙŠØ§Øª', history:'Ø§Ù„Ø³Ø¬Ù„',
-    no_commission:'Ù„Ø§ ØªÙˆØ¬Ø¯ Ø¹Ù…ÙˆÙ„Ø§Øª Ø¨Ø¹Ø¯',
-    revenue_sim:'Ù…Ø­Ø§ÙƒÙŠ Ø§Ù„Ø¥ÙŠØ±Ø§Ø¯Ø§Øª',
-    sim_sub:'ÙƒÙ… ÙŠÙ…ÙƒÙ†Ùƒ ÙƒØ³Ø¨Ù‡ØŸ',
-    new_this_month:'Ø¹ÙŠØ§Ø¯Ø§Øª Ø¬Ø¯ÙŠØ¯Ø© Ù‡Ø°Ø§ Ø§Ù„Ø´Ù‡Ø±',
-    active_portfolio:'Ø¥Ø¬Ù…Ø§Ù„ÙŠ Ø§Ù„Ù…Ø­ÙØ¸Ø© Ø§Ù„Ù†Ø´Ø·Ø©',
-    new_commission_pct:'Ø¹Ù…ÙˆÙ„Ø§Øª Ø§Ù„Ø¬Ø¯ÙŠØ¯Ø©',
-    recurring_pct:'Ø§Ù„Ù…ØªÙƒØ±Ø±',
-    total_month:'Ø§Ù„Ø¥Ø¬Ù…Ø§Ù„ÙŠ Ù‡Ø°Ø§ Ø§Ù„Ø´Ù‡Ø±',
-    tier_reached:'ØªÙ… Ø§Ù„ÙˆØµÙˆÙ„ Ù„Ù„Ù…Ø³ØªÙˆÙ‰!',
-    my_cabinets:'Ø¹ÙŠØ§Ø¯Ø§ØªÙŠ',
-    cabinets_sub:'Ø¹ÙŠØ§Ø¯Ø§Øª Ù…ØµØ§Ø¯Ù‚ Ø¹Ù„ÙŠÙ‡Ø§ â€” Ù‚Ø¯Ù… Ø§Ù„Ù…Ø¯ÙÙˆØ¹Ø§Øª',
-    no_cabinet:'Ù„Ø§ ØªÙˆØ¬Ø¯ Ø¹ÙŠØ§Ø¯Ø§Øª',
-    start_first:'Ø§Ø¨Ø¯Ø£ Ø¨Ø§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† Ø£ÙˆÙ„ Ø¹ÙŠØ§Ø¯Ø©.',
-    validate_btn:'Ø¥Ø¶Ø§ÙØ© Ø¹ÙŠØ§Ø¯Ø©',
-    submit_payment_btn:'ØªÙ‚Ø¯ÙŠÙ… Ø¯ÙØ¹Ø©',
-    see_access:'Ø¹Ø±Ø¶ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ÙˆØµÙˆÙ„',
-    google_fiche:'ØµÙØ­Ø© Ø¬ÙˆØ¬Ù„',
-    validate_cabinet:'Ø¥Ø¶Ø§ÙØ© Ø¹ÙŠØ§Ø¯Ø©',
-    trial_sub:'ÙØªØ±Ø© ØªØ¬Ø±ÙŠØ¨ÙŠØ© Ù…Ø¬Ø§Ù†ÙŠØ© 7 Ø£ÙŠØ§Ù…',
-    trial_info:'ÙØªØ±Ø© ØªØ¬Ø±ÙŠØ¨ÙŠØ© Ù…Ø¬Ø§Ù†ÙŠØ© 7 Ø£ÙŠØ§Ù… â€” Ø³ØªØªÙ„Ù‚Ù‰ Ø¥Ø´Ø¹Ø§Ø±Ù‹Ø§ Ù‚Ø¨Ù„ ÙŠÙˆÙ… Ù…Ù† Ø§Ù„Ø§Ù†ØªÙ‡Ø§Ø¡.',
-    email_optional:'Ø§Ù„Ø¥ÙŠÙ…ÙŠÙ„Ø§Øª Ø§Ø®ØªÙŠØ§Ø±ÙŠØ© â€” Ø³ÙŠØªÙ… Ø¥Ù†Ø´Ø§Ø¡ ÙˆØµÙˆÙ„ ØªÙ„Ù‚Ø§Ø¦ÙŠÙ‹Ø§.',
-    cabinet_name:'Ø§Ø³Ù… Ø§Ù„Ø¹ÙŠØ§Ø¯Ø© *', doctor_name:'Ø§Ø³Ù… Ø§Ù„Ø·Ø¨ÙŠØ¨ *',
-    specialty2:'Ø§Ù„ØªØ®ØµØµ *', city:'Ø§Ù„Ù…Ø¯ÙŠÙ†Ø©', assistant_name:'Ø§Ø³Ù… Ø§Ù„Ù…Ø³Ø§Ø¹Ø¯Ø© *',
-    plan:'Ø§Ù„Ø®Ø·Ø©', google_link:'Ø±Ø§Ø¨Ø· Ø®Ø±Ø§Ø¦Ø· Ø¬ÙˆØ¬Ù„',
-    cabinet_whatsapp:'ÙˆØ§ØªØ³Ø§Ø¨ Ø§Ù„Ø¹ÙŠØ§Ø¯Ø©', doctor_whatsapp:'ÙˆØ§ØªØ³Ø§Ø¨ Ø§Ù„Ø·Ø¨ÙŠØ¨',
-    validate_start:'Ø§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† Ø§Ù„Ø¹ÙŠØ§Ø¯Ø© â€” Ø¨Ø¯Ø¡ Ø§Ù„ÙØªØ±Ø© Ø§Ù„ØªØ¬Ø±ÙŠØ¨ÙŠØ©',
-    creating:'Ø¬Ø§Ø±Ù Ø§Ù„Ø¥Ù†Ø´Ø§Ø¡...',
-    err_name_spec_required:'Ø§Ù„Ø§Ø³Ù… ÙˆØ§Ù„ØªØ®ØµØµ Ù…Ø·Ù„ÙˆØ¨Ø§Ù†',
-    err_upload_too_large:'Ø§Ù„Ù…Ù„Ù ÙƒØ¨ÙŠØ± Ø¬Ø¯Ø§Ù‹ (Ø§Ù„Ø­Ø¯ 10 Ù…ÙŠØºØ§Ø¨Ø§ÙŠØª)',
-    err_amount_month:'Ø§Ù„Ù…Ø¨Ù„Øº ÙˆØ§Ù„Ø´Ù‡Ø± Ù…Ø·Ù„ÙˆØ¨Ø§Ù†',
-    err_photo_required:'ØµÙˆØ±Ø© Ø§Ù„Ø¥ÙŠØµØ§Ù„ Ù…Ø·Ù„ÙˆØ¨Ø©',
-    err_cabinet_required:'Ø§Ø³Ù… Ø§Ù„Ø¹ÙŠØ§Ø¯Ø© ÙˆØ§Ù„Ø·Ø¨ÙŠØ¨ ÙˆØ§Ù„ØªØ®ØµØµ ÙˆØ§Ù„Ù…Ø³Ø§Ø¹Ø¯Ø© Ù…Ø·Ù„ÙˆØ¨Ø©',
-    saved:'ØªÙ… Ø§Ù„Ø­ÙØ¸', prospect_added:'ØªÙ…Øª Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ø¹Ù…ÙŠÙ„',
-    payment_submitted:'ØªÙ… ØªÙ‚Ø¯ÙŠÙ… Ø§Ù„Ø¯ÙØ¹Ø© â€” ÙÙŠ Ø§Ù†ØªØ¸Ø§Ø± Ø§Ù„ØªØ­Ù‚Ù‚',
-    pwd_generated:'ØªÙ… ØªÙˆÙ„ÙŠØ¯ ÙƒÙ„Ù…Ø© Ø§Ù„Ù…Ø±ÙˆØ±!',
-    err_generic:'Ø®Ø·Ø£',
-    copied:'ØªÙ… Ø§Ù„Ù†Ø³Ø®!', all_copied:'ØªÙ… Ù†Ø³Ø® Ø§Ù„ÙƒÙ„!'
+    nav_dashboard:' ', nav_cabinets:'', nav_simulateur:'',
+    nav_prospects:' ', nav_commissions:'', nav_valider:' ',
+    nav_prospection:'  ', logout:' ',
+    tagline:'  .',
+    my_space:'',
+    status:'', mobile_wa:' ', quick_note:' ',
+    callback_date:' ', save:'',
+    new_prospect:'  ', name:' *', specialty:' *',
+    area:'', mobile:'', google_rating:' ', nb_reviews:' ',
+    add_prospect:'',
+    cabinet_created:'   ', send_access:'  ',
+    unique_access:'     .',
+    doctor:'', assistant:'', password:' ',
+    copy:'', copy_all:' ',
+    send_whatsapp:'  ', see_cabinets:' ',
+    emergency_access:' ',
+    confidential_warning:'  .',
+    generate_password:'   ',
+    new_password_generated:'    ',
+    submit_payment:' ',
+    payment_info:'      .',
+    amount:' () *', month:' *',
+    payment_method:' ', wire_transfer:' ', check:'',
+    receipt_photo:'  *', click_or_drag:'   ',
+    note_optional:' ()', submit_for_validation:' ',
+    hello:'', new_cabinet:' ',
+    active_cabinets:' ', in_trial:'  ',
+    revenue:' ()', recurring:'/',
+    last_prospects:' ', see_all:' ',
+    no_prospect:'  ',
+    objective:'', days_left:'',
+    each_cabinet:'   =',
+    per_month_life:'/  ',
+    prospection_ia:'  ',
+    todays_mission:' ',
+    mission_sub:' 5   ',
+    wa_today:' / ',
+    wa_limit_reached:'     ',
+    analyze_ai:'  ',
+    call_script:' ',
+    wa_message_label:' ',
+    objection_label:' ',
+    next_action:' ',
+    angle_label:'  ',
+    copy_script:' ',
+    copy_wa:'  ',
+    move_to:' ',
+    enrich_title:'  ',
+    import_linkedin:' CSV ',
+    import_instructions:'  Sales Navigator (CSV)  .',
+    all_prospects:' ',
+    score_label:'',
+    priority_a:'    ',
+    priority_b:'    ',
+    priority_c:'    ',
+    temp_hot:' ', temp_warm:' ', temp_cold:' ',
+    cas_label:'',
+    reception_script:' ',
+    doctor_script:'  ',
+    response_to_objection:'  ',
+    no_mission:'       .',
+    generating:' ...', generated:' ', copy_ok:' !',
+    analyze_all:' ',
+    my_prospects:' ', add:'',
+    filter_all:'', filter_new:'', filter_callback:'',
+    filter_reachable:'', filter_demo:' ',
+    filter_signed:'', filter_refused:'',
+    no_tel:'  ', add_mobile:'  ',
+    commissions:'', remuneration:' ',
+    new_commission:'  ', recurring_commission:' ',
+    per_cabinet:'/ ', per_month_life2:'/  ',
+    bonus_tiers:' ', history:'',
+    no_commission:'   ',
+    revenue_sim:' ',
+    sim_sub:'  ',
+    new_this_month:'   ',
+    active_portfolio:'  ',
+    new_commission_pct:' ',
+    recurring_pct:'',
+    total_month:'  ',
+    tier_reached:'  !',
+    my_cabinets:'',
+    cabinets_sub:'     ',
+    no_cabinet:'  ',
+    start_first:'    .',
+    validate_btn:' ',
+    submit_payment_btn:' ',
+    see_access:'  ',
+    google_fiche:' ',
+    validate_cabinet:' ',
+    trial_sub:'   7 ',
+    trial_info:'   7        .',
+    email_optional:'      .',
+    cabinet_name:'  *', doctor_name:'  *',
+    specialty2:' *', city:'', assistant_name:'  *',
+    plan:'', google_link:'  ',
+    cabinet_whatsapp:' ', doctor_whatsapp:' ',
+    validate_start:'      ',
+    creating:' ...',
+    err_name_spec_required:'  ',
+    err_upload_too_large:'   ( 10 )',
+    err_amount_month:'  ',
+    err_photo_required:'  ',
+    err_cabinet_required:'     ',
+    saved:' ', prospect_added:'  ',
+    payment_submitted:'      ',
+    pwd_generated:'   !',
+    err_generic:'',
+    copied:' !', all_copied:'  !'
   }
 };
 
@@ -776,9 +776,9 @@ function setLang(lang) {
   showPage(currentPage);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // Constants
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 
 var ST = [
   {key:'Nouveau',label:'Nouveau',desc:'Pas encore contacte',bg:'#F1F5F9',color:'#64748B',border:'#CBD5E1'},
@@ -789,9 +789,9 @@ var ST = [
   {key:'Refus',label:'Refus',desc:'Pas interesse',bg:'#FFF1F2',color:'#BE123C',border:'#FECDD3'},
 ];
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // State
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 var currentUser = null, userRecord = null;
 var prospects = [], crmFilter = 'Tous', editId = null;
 var urgenceCabinetId = null, urgenceMedEmail = null, urgenceAssEmail = null;
@@ -801,9 +801,9 @@ var iaProspects = [];
 var selectedIAId = null;
 var waCount = 0;
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // Init
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 (async function(){
   var auth = await requireAuth('commercial');
   if (!auth) return;
@@ -819,9 +819,9 @@ var waCount = 0;
   showPage('dashboard');
 })();
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // WA Counter
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 var WA_MAX = 15;
 var WA_KEY = 'mp_wa_' + new Date().toISOString().slice(0,10);
 function loadWaCount() {
@@ -832,9 +832,9 @@ function incrementWa() {
   try { localStorage.setItem(WA_KEY, waCount); } catch(e){}
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // Navigation
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 function showPage(page) {
   currentPage = page;
   closeSidebar();
@@ -869,9 +869,9 @@ function closeSidebar() {
   if (ov) ov.classList.remove('active');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // DASHBOARD
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 async function renderDashboard() {
   var r1 = await sb.from('prospection').select('*');
   prospects = r1.data || [];
@@ -905,7 +905,7 @@ async function renderDashboard() {
         '<div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em">'+t('days_left')+'</div>' +
       '</div>' +
       '<div style="position:relative;z-index:2">' +
-        '<div style="font-size:17px;font-weight:800;color:#F0F9FF;margin-bottom:3px;letter-spacing:-0.3px">'+(cabActifs===0?'ðŸŽ¯':'âœ… ')+(cabActifs===0?'':'')+(cabActifs===0?t('new_cabinet'):'')+'</div>' +
+        '<div style="font-size:17px;font-weight:800;color:#F0F9FF;margin-bottom:3px;letter-spacing:-0.3px">'+(cabActifs===0?'':' ')+(cabActifs===0?'':'')+(cabActifs===0?t('new_cabinet'):'')+'</div>' +
         '<div style="font-size:11px;color:rgba(186,230,253,0.55);margin-bottom:16px">'+t('each_cabinet')+' '+Math.round(TD*pSig)+' MAD + '+Math.round(TD*pRec)+' MAD'+t('per_month_life')+'</div>' +
         '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">' +
           '<div style="font-size:11px;font-weight:600;color:rgba(186,230,253,0.8)">'+t('objective')+' : '+paliers[paliers.length-1].s+'</div>' +
@@ -913,7 +913,7 @@ async function renderDashboard() {
         '</div>' +
         '<div class="prog-track"><div class="prog-fill" style="width:'+pct+'%"></div></div>' +
         '<div style="display:flex;gap:12px;font-size:11px;color:rgba(186,230,253,0.5);flex-wrap:wrap">' +
-          paliers.map(function(p){ return '<span>'+p.s+' <span style="color:#FBBF24;font-weight:600">+'+p.b+' MAD</span></span>'; }).join(' Â· ') +
+          paliers.map(function(p){ return '<span>'+p.s+' <span style="color:#FBBF24;font-weight:600">+'+p.b+' MAD</span></span>'; }).join('  ') +
         '</div>' +
       '</div>' +
     '</div>' +
@@ -932,16 +932,16 @@ async function renderDashboard() {
         var st = ST.find(function(s){ return s.key === p.statut; }) || ST[0];
         return '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F9FAFB;flex-wrap:wrap">' +
           '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#0A1628">'+p.nom+'</div>' +
-          '<div style="font-size:11px;color:#94A3B8;margin-top:1px">'+p.specialite+' Â· '+(p.quartier||p.ville||'')+'</div></div>' +
+          '<div style="font-size:11px;color:#94A3B8;margin-top:1px">'+p.specialite+'  '+(p.quartier||p.ville||'')+'</div></div>' +
           '<span style="padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;background:'+st.bg+';color:'+st.color+';white-space:nowrap;flex-shrink:0">'+st.label+'</span>' +
         '</div>';
       }).join('') || '<div style="text-align:center;padding:24px;color:#94A3B8;font-size:13px">'+t('no_prospect')+'</div>') +
     '</div>';
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // MES CABINETS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 async function renderCabinets() {
   var res = await sb.from('cabinets').select('*').eq('commercial_id', currentUser.email).order('date_debut', {ascending:false});
   var cabinets = res.data || [];
@@ -961,11 +961,11 @@ async function renderCabinets() {
         return '<div class="cabinet-row">' +
           '<div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">' +
             '<div><div style="font-size:15px;font-weight:700;color:#0A1628">'+c.nom_cabinet+'</div>' +
-            '<div style="font-size:12px;color:#64748B;margin-top:3px">'+(c.specialite||'')+' Â· '+(c.ville||'')+'</div></div>' +
+            '<div style="font-size:12px;color:#64748B;margin-top:3px">'+(c.specialite||'')+'  '+(c.ville||'')+'</div></div>' +
             statutBadge(c.statut) +
           '</div>' +
           '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">' +
-            '<div style="font-size:11px;color:#94A3B8">'+t('doctor')+'<br><span style="color:#0A1628;font-weight:600">'+(c.nom_medecin||'â€”')+'</span></div>' +
+            '<div style="font-size:11px;color:#94A3B8">'+t('doctor')+'<br><span style="color:#0A1628;font-weight:600">'+(c.nom_medecin||'')+'</span></div>' +
             '<div style="font-size:11px;color:#94A3B8">'+t('plan')+'<br><span style="color:#0A1628;font-weight:600">'+(c.plan||'pro').charAt(0).toUpperCase()+(c.plan||'pro').slice(1)+'</span></div>' +
           '</div>' +
           '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
@@ -984,9 +984,9 @@ async function renderCabinets() {
     );
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // PROSPECTION IA
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 async function renderProspectionIA() {
   // Load prospects
   var res = await sb.from('prospection').select('*').order('id', {ascending:false});
@@ -1017,15 +1017,15 @@ async function renderProspectionIA() {
           '<span style="font-size:12px;font-weight:800;color:'+waColor+'">'+waCount+'/'+WA_MAX+'</span>' +
         '</div>' +
         '<div class="wa-bar"><div class="wa-fill" style="width:'+waPct+'%;background:'+waColor+'"></div></div>' +
-        (waCount>=WA_MAX?'<div style="font-size:10px;color:#EF4444;margin-top:4px;font-weight:600">âš ï¸ '+t('wa_limit_reached')+'</div>':'') +
+        (waCount>=WA_MAX?'<div style="font-size:10px;color:#EF4444;margin-top:4px;font-weight:600"> '+t('wa_limit_reached')+'</div>':'') +
       '</div>' +
     '</div>' +
 
     // Tabs
     '<div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">' +
-      '<button class="tab-btn active" id="tab-mission" onclick="switchIATab(\'mission\')">ðŸŽ¯ '+t('todays_mission')+'</button>' +
-      '<button class="tab-btn" id="tab-all" onclick="switchIATab(\'all\')">ðŸ“‹ '+t('all_prospects')+'</button>' +
-      '<button class="tab-btn" id="tab-import" onclick="switchIATab(\'import\')">ðŸ“¥ '+t('import_linkedin')+'</button>' +
+      '<button class="tab-btn active" id="tab-mission" onclick="switchIATab(\'mission\')"> '+t('todays_mission')+'</button>' +
+      '<button class="tab-btn" id="tab-all" onclick="switchIATab(\'all\')"> '+t('all_prospects')+'</button>' +
+      '<button class="tab-btn" id="tab-import" onclick="switchIATab(\'import\')"> '+t('import_linkedin')+'</button>' +
     '</div>' +
 
     '<div id="ia-tab-content"></div>';
@@ -1058,7 +1058,7 @@ function renderMission() {
   if (!prioritized.length) {
     document.getElementById('ia-tab-content').innerHTML =
       '<div class="card" style="text-align:center;padding:48px;color:#94A3B8">' +
-        '<div style="font-size:40px;margin-bottom:12px">ðŸŽ¯</div>' +
+        '<div style="font-size:40px;margin-bottom:12px"></div>' +
         '<div style="font-size:14px;font-weight:600">'+t('no_mission')+'</div>' +
       '</div>';
     return;
@@ -1086,8 +1086,8 @@ function renderMissionCard(p, i) {
           (p.temperature?'<span class="'+tempClass+'">'+tempLabel+'</span>':'') +
           (p.cas?'<span class="cas-badge '+casClass+'">'+t('cas_label')+' '+p.cas+'</span>':'') +
         '</div>' +
-        '<div style="font-size:12px;color:#64748B;margin-bottom:8px">'+p.specialite+' Â· '+(p.quartier||p.ville||'')+
-          (p.rating?' Â· â­'+p.rating+(p.nb_avis?' ('+p.nb_avis+' avis)':''):'')+'</div>' +
+        '<div style="font-size:12px;color:#64748B;margin-bottom:8px">'+p.specialite+'  '+(p.quartier||p.ville||'')+
+          (p.rating?'  '+p.rating+(p.nb_avis?' ('+p.nb_avis+' avis)':''):'')+'</div>' +
         (p.angle?'<div class="angle-box" style="margin-bottom:8px;font-size:12px;padding:10px 12px">'+p.angle+'</div>':'') +
         '<div style="font-size:11px;font-weight:600;color:#64748B">'+priLabel+'</div>' +
       '</div>' +
@@ -1130,10 +1130,10 @@ function renderAllCard(p) {
   var scoreColor = (p.score||0)>=70?'#10B981':(p.score||0)>=40?'#F59E0B':'#EF4444';
   var scoreBg = (p.score||0)>=70?'#F0FDF4':(p.score||0)>=40?'#FFFBEB':'#FFF1F2';
   return '<div class="prospect-card">' +
-    '<div class="score-ring" style="background:'+scoreBg+';color:'+scoreColor+';font-size:12px">'+(p.score||'â€”')+'</div>' +
+    '<div class="score-ring" style="background:'+scoreBg+';color:'+scoreColor+';font-size:12px">'+(p.score||'')+'</div>' +
     '<div style="flex:1;min-width:0">' +
       '<div style="font-size:13px;font-weight:600;color:#0A1628">'+p.nom+'</div>' +
-      '<div style="font-size:11px;color:#94A3B8;margin-top:2px">'+p.specialite+' Â· '+(p.quartier||p.ville||'')+(p.rating?' Â· â­'+p.rating:'')+'</div>' +
+      '<div style="font-size:11px;color:#94A3B8;margin-top:2px">'+p.specialite+'  '+(p.quartier||p.ville||'')+(p.rating?'  '+p.rating:'')+'</div>' +
     '</div>' +
     '<span style="padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;background:'+st.bg+';color:'+st.color+';white-space:nowrap;flex-shrink:0">'+st.label+'</span>' +
     '<div style="display:flex;gap:4px;flex-shrink:0">' +
@@ -1187,7 +1187,7 @@ async function handleCSVImport(event) {
       var nom = 'Dr '+(r['first name']||r['firstname']||r['prenom']||'')+' '+(r['last name']||r['lastname']||r['nom']||'');
       var spec = r['title']||r['titre']||r['specialty']||'';
       var ville = r['location']||r['ville']||'Casablanca';
-      return '<div style="padding:8px 0;border-bottom:1px solid #F1F5F9;font-size:12px;color:#64748B">'+nom.trim()+' Â· '+spec+' Â· '+ville+'</div>';
+      return '<div style="padding:8px 0;border-bottom:1px solid #F1F5F9;font-size:12px;color:#64748B">'+nom.trim()+'  '+spec+'  '+ville+'</div>';
     }).join('') +
     '<button onclick="importCSVConfirm('+JSON.stringify(rows).replace(/</g,'&lt;')+')" style="margin-top:14px;padding:11px 18px;border-radius:12px;background:#0A1628;color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px"><i class="ti ti-download"></i> Importer '+rows.length+' prospects</button>';
 }
@@ -1210,9 +1210,9 @@ async function importCSVConfirm(rows) {
   renderProspectionIA();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // AI Analysis
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 async function analyzeOne(id) {
   var p = iaProspects.find(function(x){ return x.id===id; });
   if (!p) return;
@@ -1236,7 +1236,7 @@ async function analyzeOne(id) {
       script_receptionniste: result.script_receptionniste,
       prochaine_action: result.prochaine_action
     });
-    showToast(t('generated')+ ' âœ“', 'success');
+    showToast(t('generated')+ ' ', 'success');
     renderMission();
   } catch(e) {
     showToast(t('err_generic'), 'error');
@@ -1278,15 +1278,15 @@ async function claudeScore(p) {
   return JSON.parse(clean);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // IA Detail Modal
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 function openIADetail(id) {
   var p = iaProspects.find(function(x){ return x.id===id; });
   if (!p) return;
   selectedIAId = id;
   document.getElementById('ia-name').textContent = p.nom;
-  document.getElementById('ia-meta').textContent = p.specialite+' Â· '+(p.quartier||p.ville||'')+(p.rating?' Â· â­'+p.rating+(p.nb_avis?' ('+p.nb_avis+' avis)':''):'');
+  document.getElementById('ia-meta').textContent = p.specialite+'  '+(p.quartier||p.ville||'')+(p.rating?'  '+p.rating+(p.nb_avis?' ('+p.nb_avis+' avis)':''):'');
 
   var body = document.getElementById('ia-body');
   if (!p.score) {
@@ -1324,24 +1324,24 @@ function renderIAModal(p) {
       '</div>' +
     '</div>' +
     '<div style="font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px">'+t('angle_label')+'</div>' +
-    '<div class="angle-box" style="margin-bottom:14px">'+(p.angle||'â€”')+'</div>' +
+    '<div class="angle-box" style="margin-bottom:14px">'+(p.angle||'')+'</div>' +
 
     '<div style="display:flex;gap:8px;margin-bottom:14px">' +
-      '<button class="tab-btn active" id="st-doctor" onclick="switchScriptTab(\'doctor\')">ðŸ‘¨â€âš•ï¸ '+t('doctor_script')+'</button>' +
-      '<button class="tab-btn" id="st-reception" onclick="switchScriptTab(\'reception\')">ðŸ“ž '+t('reception_script')+'</button>' +
+      '<button class="tab-btn active" id="st-doctor" onclick="switchScriptTab(\'doctor\')"> '+t('doctor_script')+'</button>' +
+      '<button class="tab-btn" id="st-reception" onclick="switchScriptTab(\'reception\')"> '+t('reception_script')+'</button>' +
     '</div>' +
     '<div id="script-content">' +
-      '<div class="script-box" id="script-text">'+(p.script_medecin||'â€”')+'</div>' +
+      '<div class="script-box" id="script-text">'+(p.script_medecin||'')+'</div>' +
     '</div>' +
     '<button onclick="copyScript()" class="btn-sm btn-blue" style="margin-top:8px;margin-bottom:16px;width:100%;justify-content:center"><i class="ti ti-copy"></i> '+t('copy_script')+'</button>' +
 
     '<div style="font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px">'+t('objection_label')+'</div>' +
-    '<div class="objection-box" style="margin-bottom:8px">'+(p.objection||'â€”')+'</div>' +
+    '<div class="objection-box" style="margin-bottom:8px">'+(p.objection||'')+'</div>' +
     '<div style="font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px">'+t('response_to_objection')+'</div>' +
-    '<div class="angle-box" style="margin-bottom:16px">'+(p.reponse_objection||p.angle||'â€”')+'</div>' +
+    '<div class="angle-box" style="margin-bottom:16px">'+(p.reponse_objection||p.angle||'')+'</div>' +
 
     '<div style="font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">'+t('next_action')+'</div>' +
-    '<div style="background:#EEF4FF;border:1px solid #B5D4F4;border-radius:12px;padding:14px;font-size:13px;font-weight:600;color:#1E5FCC;margin-bottom:16px">'+(p.prochaine_action||'â€”')+'</div>' +
+    '<div style="background:#EEF4FF;border:1px solid #B5D4F4;border-radius:12px;padding:14px;font-size:13px;font-weight:600;color:#1E5FCC;margin-bottom:16px">'+(p.prochaine_action||'')+'</div>' +
 
     '<button onclick="openWAMessageModal('+p.id+')" '+(waCount>=WA_MAX?'disabled style="opacity:0.5"':'')+' class="save-btn" style="background:#16A34A"><i class="ti ti-brand-whatsapp"></i> '+t('copy_wa')+'</button>';
 
@@ -1356,7 +1356,7 @@ function switchScriptTab(type) {
   window._currentScriptType = type;
   document.getElementById('st-doctor').classList.toggle('active', type==='doctor');
   document.getElementById('st-reception').classList.toggle('active', type==='reception');
-  document.getElementById('script-text').textContent = type==='doctor' ? (p.script_medecin||'â€”') : (p.script_receptionniste||'â€”');
+  document.getElementById('script-text').textContent = type==='doctor' ? (p.script_medecin||'') : (p.script_receptionniste||'');
 }
 
 function copyScript() {
@@ -1401,7 +1401,7 @@ async function openWAMessageModal(id) {
     // Update counter display
     loadWaCount();
     document.getElementById('ia-overlay').classList.remove('open');
-    showToast(t('copied')+' â€” WA ouvert', 'success');
+    showToast(t('copied')+'  WA ouvert', 'success');
   } catch(e) {
     showToast(t('err_generic'), 'error');
   }
@@ -1411,9 +1411,9 @@ function openAddOverlay() {
   document.getElementById('add-overlay').classList.add('open');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // PROSPECTS (existing page)
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 async function renderProspects() {
   if (!prospects.length) { var r = await sb.from('prospection').select('*').order('id'); prospects = r.data||[]; }
   renderProspectsList();
@@ -1436,7 +1436,7 @@ function renderProspectsList() {
         var st = ST.find(function(s){ return s.key===p.statut; }) || ST[0];
         return '<div class="prospect-card">' +
           '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#0A1628">'+p.nom+'</div>' +
-          '<div style="font-size:11px;color:#94A3B8;margin-top:2px">'+p.specialite+' Â· '+(p.quartier||p.ville||'')+(p.telephone_fixe?' Â· '+p.telephone_fixe:'')+'</div>' +
+          '<div style="font-size:11px;color:#94A3B8;margin-top:2px">'+p.specialite+'  '+(p.quartier||p.ville||'')+(p.telephone_fixe?'  '+p.telephone_fixe:'')+'</div>' +
           (p.note?'<div style="font-size:10px;color:#CBD5E1;margin-top:2px;font-style:italic">'+p.note+'</div>':'') +
           '</div>' +
           '<span style="padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;background:'+st.bg+';color:'+st.color+';white-space:nowrap;flex-shrink:0">'+st.label+'</span>' +
@@ -1457,7 +1457,7 @@ function editProspect(id) {
   if(!p)return;
   editId = id;
   document.getElementById('edit-name').textContent = p.nom;
-  document.getElementById('edit-meta').textContent = p.specialite+(p.telephone_fixe?' Â· '+p.telephone_fixe:'');
+  document.getElementById('edit-meta').textContent = p.specialite+(p.telephone_fixe?'  '+p.telephone_fixe:'');
   document.getElementById('edit-mobile').value = p.telephone_mobile||'';
   document.getElementById('edit-note').value = p.note||'';
   document.getElementById('edit-rappel').value = p.date_rappel||'';
@@ -1513,9 +1513,9 @@ async function saveAdd() {
   else if(currentPage==='prospection')renderProspectionIA();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // SIMULATEUR
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 function renderSimulateur() {
   document.getElementById('main-content').innerHTML =
     '<div style="margin-bottom:24px"><div class="section-title">'+t('revenue_sim')+'</div><div class="section-sub">'+t('sim_sub')+'</div></div>' +
@@ -1559,9 +1559,9 @@ function updateSim() {
     '</div>';
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // COMMISSIONS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 function renderCommissions() {
   var isTer=userRecord.type==='terrain';
   var pSig=isTer?P_SIG_TER:P_SIG_TEL;
@@ -1582,9 +1582,9 @@ function renderCommissions() {
     '<div class="card"><div style="font-size:14px;font-weight:700;color:#0A1628;margin-bottom:14px">'+t('history')+'</div><div style="text-align:center;padding:28px;color:#94A3B8;font-size:13px">'+t('no_commission')+'</div></div>';
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // VALIDER
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 function renderValider() {
   document.getElementById('main-content').innerHTML=
     '<div style="margin-bottom:24px"><div class="section-title">'+t('validate_cabinet')+'</div><div class="section-sub">'+t('trial_sub')+'</div></div>'+
@@ -1597,7 +1597,7 @@ function renderValider() {
         '<div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('specialty2')+'</div><input class="finput" id="cab-spec" placeholder="Dermatologue..."></div>'+
         '<div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('city')+'</div><input class="finput" id="cab-ville" value="Casablanca"></div>'+
         '<div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('assistant_name')+'</div><input class="finput" id="cab-assistante" placeholder="Prenom Nom"></div>'+
-        '<div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('plan')+'</div><select class="finput" id="cab-plan"><option value="starter">Starter â€” 999 DH/mois</option><option value="pro" selected>Pro â€” 1499 DH/mois</option><option value="enterprise">Enterprise â€” 2499 DH/mois</option></select></div>'+
+        '<div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('plan')+'</div><select class="finput" id="cab-plan"><option value="starter">Starter  999 DH/mois</option><option value="pro" selected>Pro  1499 DH/mois</option><option value="enterprise">Enterprise  2499 DH/mois</option></select></div>'+
       '</div>'+
       '<div style="margin-bottom:12px"><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('google_link')+'</div><input class="finput" id="cab-google" placeholder="https://g.page/..."></div>'+
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">'+
@@ -1608,9 +1608,9 @@ function renderValider() {
     '</div>';
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // VALIDER CABINET (logic)
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 async function validerCabinet(){
   var nom=document.getElementById('cab-nom')?.value.trim();
   var med=document.getElementById('cab-medecin')?.value.trim();
@@ -1668,9 +1668,9 @@ async function validerCabinet(){
   }
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // PAIEMENT
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 function ouvrirSoumettreJustif(cabinetId,nomCab,plan){
   pmtCabinetId=cabinetId;pmtCabinetPlan=plan||'pro';pmtFile=null;
   document.getElementById('pmt-cab-name').textContent=nomCab;
@@ -1716,14 +1716,14 @@ async function soumettreJustif(){
   btn.disabled=false;btn.innerHTML='<i class="ti ti-send" style="font-size:15px"></i> '+t('submit_for_validation');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // URGENCE / ACCES
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 function voirAcces(cabinetId,nomCab,emailMed,emailAss){
   urgenceCabinetId=cabinetId;urgenceMedEmail=emailMed;urgenceAssEmail=emailAss;
   document.getElementById('urg-title').textContent=nomCab;
-  document.getElementById('urg-med-email').textContent=emailMed||'â€”';
-  document.getElementById('urg-ass-email').textContent=emailAss||'â€”';
+  document.getElementById('urg-med-email').textContent=emailMed||'';
+  document.getElementById('urg-ass-email').textContent=emailAss||'';
   document.getElementById('new-pwd-box').style.display='none';
   document.getElementById('urgence-overlay').classList.add('open');
 }
@@ -1744,9 +1744,9 @@ async function resetPassword(){
   if(btn){btn.disabled=false;btn.innerHTML='<i class="ti ti-refresh" style="font-size:15px"></i> '+t('generate_password');}
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // COPY / WA helpers
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 function copyText(id){var val=document.getElementById(id)?.textContent;if(!val)return;navigator.clipboard.writeText(val).then(function(){showToast(t('copied'),'success');});}
 function copyAll(){
   var med=document.getElementById('acc-med-email')?.textContent;
@@ -1765,13 +1765,14 @@ function envoyerParWhatsApp(){
   window.open(url,'_blank');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 // CSS animation for loaders
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// 
 var styleEl = document.createElement('style');
 styleEl.textContent = '@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}.ti-loader-2{animation:spin 1s linear infinite;display:inline-block}';
 document.head.appendChild(styleEl);
 </script>
 </body>
 </html>
+
 
