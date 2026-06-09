@@ -1,135 +1,397 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MediPulse — Dashboard Commercial</title>
+<title>MediPulse - Dashboard Commercial</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/shared.css">
 <style>
-body { background: #0f172a; color: #e2e8f0; }
-/* Slider accent */
-input[type=range] { accent-color: #3b82f6; }
-/* Filter chips */
-.chip { padding: 6px 16px; border-radius: 99px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; }
-.chip-active { background: rgba(37,99,235,0.15); color: #2563EB; border-color: rgba(37,99,235,0.3); }
-.chip-inactive { background: #fff; color: #6B7280; border-color: #E5E7EB; }
-/* Prospect row */
-.prospect-row { background: #fff; border-radius: 12px; border: 1px solid #F3F4F6; padding: 14px 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 14px; }
-.prospect-row:hover { border-color: rgba(37,99,235,0.2); }
-.action-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #E5E7EB; background: #F9FAFB; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; }
-.action-btn:hover { background: #EFF6FF; border-color: #2563EB; }
+*{box-sizing:border-box}
+body{background:#F7F8FC;color:#0A1628;font-family:'Plus Jakarta Sans',sans-serif}
+[dir="rtl"] body,[dir="rtl"]{font-family:'Noto Sans Arabic','Plus Jakarta Sans',sans-serif}
+
+/* ── Lang switcher ── */
+.lang-bar{display:flex;gap:4px;align-items:center}
+.lang-btn{padding:4px 10px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;font-size:11px;font-weight:600;cursor:pointer;color:#64748B;transition:all 0.15s;font-family:inherit}
+.lang-btn.active{background:#EEF4FF;color:#1E5FCC;border-color:#B5D4F4}
+.lang-btn:hover:not(.active){background:#F8FAFC}
+
+/* ── KPIs ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
+.kpi-card{background:#fff;border-radius:18px;border:1px solid #EEF2F8;padding:18px;box-shadow:0 1px 3px rgba(15,23,42,0.05)}
+.kpi-icon{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.kpi-val{font-size:28px;font-weight:800;line-height:1;letter-spacing:-0.5px;margin-bottom:4px}
+.kpi-lbl{font-size:11px;color:#64748B;font-weight:500}
+.card{background:#fff;border-radius:18px;border:1px solid #EEF2F8;padding:20px;box-shadow:0 1px 3px rgba(15,23,42,0.05);margin-bottom:16px;min-width:0}
+.section-title{font-size:22px;font-weight:800;color:#0A1628;letter-spacing:-0.4px;margin-bottom:4px}
+.section-sub{font-size:13px;color:#64748B;margin-bottom:24px}
+
+/* ── Hero ── */
+.hero{background:linear-gradient(135deg,#0A2540 0%,#0D3B5E 60%,#083352 100%);border-radius:20px;padding:22px 24px;margin-bottom:20px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:250px;height:250px;border-radius:50%;border:1px solid rgba(56,189,248,0.08);bottom:-80px;right:-80px}
+.prog-track{height:6px;background:rgba(255,255,255,0.1);border-radius:99px;overflow:hidden;margin-bottom:10px}
+.prog-fill{height:100%;background:linear-gradient(90deg,#38BDF8,#06B6D4);border-radius:99px;transition:width 1s ease}
+
+/* ── Grids ── */
+.sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.comm-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.paliers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+
+/* ── Prospect cards ── */
+.prospect-card{background:#fff;border-radius:14px;border:1px solid #EEF2F8;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(15,23,42,0.04)}
+.p-action{width:32px;height:32px;border-radius:8px;border:1px solid #E5E7EB;background:#F9FAFB;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:#64748B;transition:all 0.15s;flex-shrink:0}
+.p-action:hover{background:#EEF4FF;border-color:#1E5FCC;color:#1E5FCC}
+
+/* ── Chips ── */
+.chip{padding:6px 12px;border-radius:99px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid;transition:all 0.15s;white-space:nowrap}
+.chip-on{background:#EEF4FF;color:#1E5FCC;border-color:#B5D4F4}
+.chip-off{background:#fff;color:#64748B;border-color:#E5E7EB}
+.chips-wrap{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+
+/* ── Modals ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:20px;border:1px solid #EEF2F8;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+.modal-hd{padding:16px 20px 12px;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;justify-content:space-between}
+.modal-body{padding:16px 20px 20px}
+.st-opt{padding:10px 12px;border-radius:12px;border:2px solid #E5E7EB;cursor:pointer;transition:all 0.15s;margin-bottom:8px}
+.finput{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid #E5E7EB;font-size:14px;color:#0A1628;font-family:'Plus Jakarta Sans','Noto Sans Arabic',sans-serif;outline:none;margin-bottom:12px;background:#F8FAFC;transition:border-color 0.2s;box-sizing:border-box}
+.finput:focus{border-color:#1E5FCC;background:#fff}
+.save-btn{width:100%;padding:14px;border-radius:14px;background:#0A1628;color:#fff;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:'Plus Jakarta Sans','Noto Sans Arabic',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.15s}
+.save-btn:hover{background:#1E2D40}
+.save-btn:disabled{opacity:0.6;cursor:not-allowed}
+
+/* ── Acces ── */
+.acces-box{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.acces-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.acces-label{font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:0.07em}
+.acces-val{font-size:13px;font-weight:600;color:#0A1628;font-family:monospace;word-break:break-all}
+.copy-btn{padding:5px 12px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;font-size:11px;font-weight:600;color:#1E5FCC;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.15s}
+.copy-btn:hover{background:#EEF4FF;border-color:#B5D4F4}
+
+/* ── Badges ── */
+.badge{padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;white-space:nowrap}
+.badge-trial{background:#FFFBEB;color:#B45309}
+.badge-actif{background:#F0FDF4;color:#15803D}
+.badge-suspendu{background:#FFF1F2;color:#BE123C}
+
+/* ── Cabinet rows ── */
+.cabinet-row{background:#fff;border-radius:16px;border:1px solid #EEF2F8;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(15,23,42,0.04)}
+.btn-sm{padding:7px 14px;border-radius:10px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans','Noto Sans Arabic',sans-serif;display:inline-flex;align-items:center;gap:5px;transition:all 0.15s}
+.btn-sm:active{transform:scale(0.97)}
+.btn-blue{background:#EEF4FF;color:#1E5FCC}
+.btn-blue:hover{background:#D6E8FF}
+.btn-dark{background:#0A1628;color:#fff}
+.btn-dark:hover{background:#1E2D40}
+.btn-orange{background:#FFFBEB;color:#B45309}
+.btn-orange:hover{background:#FEF3C7}
+.btn-green{background:#F0FDF4;color:#15803D}
+.btn-green:hover{background:#DCFCE7}
+.btn-red{background:#FFF1F2;color:#BE123C}
+.btn-red:hover{background:#FFE4E6}
+
+/* ── Upload ── */
+.upload-zone{border:2px dashed #B5D4F4;border-radius:14px;padding:24px;text-align:center;cursor:pointer;transition:all 0.2s;background:#F8FBFF;margin-bottom:12px;position:relative}
+.upload-zone:hover,.upload-zone.dragover{border-color:#1E5FCC;background:#EEF4FF}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.preview-img{width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-bottom:12px;display:none}
+
+/* ── Prospection IA ── */
+.mission-card{background:#fff;border-radius:16px;border:2px solid #EEF2F8;padding:18px;margin-bottom:12px;position:relative;transition:all 0.2s;cursor:pointer}
+.mission-card:hover{border-color:#1E5FCC;box-shadow:0 4px 20px rgba(26,107,255,0.1)}
+.mission-card.priority-a{border-left:4px solid #EF4444}
+.mission-card.priority-b{border-left:4px solid #F59E0B}
+.mission-card.priority-c{border-left:4px solid #94A3B8}
+.temp-hot{background:#FEF2F2;color:#EF4444;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700}
+.temp-warm{background:#FFFBEB;color:#F59E0B;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700}
+.temp-cold{background:#F1F5F9;color:#94A3B8;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700}
+.score-ring{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0}
+.script-box{background:#F0F9FF;border:1px solid #BAE6FD;border-radius:12px;padding:14px;font-size:13px;line-height:1.6;color:#0C4A6E;white-space:pre-wrap;font-family:'Plus Jakarta Sans','Noto Sans Arabic',sans-serif}
+.objection-box{background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:14px;font-size:13px;line-height:1.6;color:#92400E}
+.angle-box{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:14px;font-size:13px;line-height:1.6;color:#14532D;font-style:italic}
+.wa-counter{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #EEF2F8;border-radius:14px;padding:14px 18px;margin-bottom:16px}
+.wa-bar{flex:1;height:8px;background:#EEF2F8;border-radius:99px;overflow:hidden}
+.wa-fill{height:100%;border-radius:99px;transition:width 0.3s}
+.tab-btn{padding:8px 16px;border-radius:10px;border:1px solid #E5E7EB;background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:#64748B;transition:all 0.15s;font-family:inherit}
+.tab-btn.active{background:#0A1628;color:#fff;border-color:#0A1628}
+.enrich-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.enrich-toggle{width:36px;height:20px;border-radius:99px;border:none;cursor:pointer;position:relative;transition:background 0.2s;flex-shrink:0}
+.enrich-toggle.on{background:#1E5FCC}
+.enrich-toggle.off{background:#E5E7EB}
+.enrich-toggle::after{content:'';position:absolute;top:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:left 0.2s}
+.enrich-toggle.on::after{left:18px}
+.enrich-toggle.off::after{left:2px}
+.cas-badge{padding:4px 10px;border-radius:8px;font-size:11px;font-weight:700}
+.cas-1{background:#EEF4FF;color:#1E5FCC}
+.cas-2{background:#FFFBEB;color:#B45309}
+.cas-3{background:#FFF1F2;color:#BE123C}
+.cas-4{background:#F0FDF4;color:#15803D}
+.cas-5{background:#F1F5F9;color:#94A3B8}
+.detail-panel{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:16px;padding:20px;margin-top:12px;display:none}
+.detail-panel.open{display:block}
+
+/* ── CSV Import ── */
+.csv-zone{border:2px dashed #B5D4F4;border-radius:14px;padding:32px;text-align:center;cursor:pointer;transition:all 0.2s;background:#F8FBFF;position:relative}
+.csv-zone:hover{border-color:#1E5FCC;background:#EEF4FF}
+.csv-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+
+/* ── RTL ── */
+[dir="rtl"] .mission-card.priority-a{border-left:none;border-right:4px solid #EF4444}
+[dir="rtl"] .mission-card.priority-b{border-left:none;border-right:4px solid #F59E0B}
+[dir="rtl"] .mission-card.priority-c{border-left:none;border-right:4px solid #94A3B8}
+[dir="rtl"] .sidebar{right:0;left:auto;transform:translateX(100%)}
+[dir="rtl"] .sidebar.open{transform:translateX(0)}
+
+@media(max-width:768px){
+  .kpi-grid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+  .sim-grid{grid-template-columns:1fr}
+  .comm-grid{grid-template-columns:1fr}
+  .paliers-grid{grid-template-columns:1fr}
+  .kpi-val{font-size:22px}
+  .hero{padding:16px 18px;margin-bottom:14px}
+  .card{padding:14px}
+  .modal{max-height:85vh}
+}
 </style>
 </head>
 <body>
 <div class="layout">
-
-  <!-- SIDEBAR -->
+  <!-- ── SIDEBAR ── -->
   <div class="sidebar sidebar-light" id="sidebar">
     <div class="sidebar-logo">
-      <div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        <div style="font-family:'Syne',sans-serif;font-size:19px;font-weight:800;letter-spacing:-0.5px;color:#1E3A5F">Medi<span style="color:#2563EB">Pulse</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <div style="font-size:18px;font-weight:800;letter-spacing:-0.5px;color:#1E3A5F">Medi<span style="color:#2563EB">Pulse</span></div>
       </div>
-      <div style="font-size:10px;color:#94A3B8;padding-left:33px;font-style:italic">La réputation médicale, automatisée.</div>
+      <div style="font-size:10px;color:#94A3B8;padding-left:30px;font-style:italic" id="sb-tagline">La reputation medicale, automatisee.</div>
     </div>
     <div class="sidebar-user">
-      <div class="sidebar-avatar" id="sb-avatar" style="background:#EFF6FF;color:#2563EB"></div>
+      <div class="sidebar-avatar" id="sb-avatar" style="background:#EEF4FF;color:#1E5FCC"></div>
       <div>
         <div class="sidebar-username" id="sb-name"></div>
         <div class="sidebar-role" id="sb-role" style="font-size:11px"></div>
       </div>
     </div>
     <div class="sidebar-nav">
-      <div class="nav-section">Mon espace</div>
-      <div class="nav-link active" id="nav-dashboard" onclick="showPage('dashboard')"><i class="ti ti-chart-bar"></i>Dashboard</div>
-      <div class="nav-link" id="nav-simulateur" onclick="showPage('simulateur')"><i class="ti ti-currency-dollar"></i>Simulateur revenus</div>
-      <div class="nav-link" id="nav-prospects" onclick="showPage('prospects')"><i class="ti ti-list"></i>Prospects</div>
-      <div class="nav-link" id="nav-commissions" onclick="showPage('commissions')"><i class="ti ti-receipt"></i>Commissions</div>
-      <div class="nav-link" id="nav-valider" onclick="showPage('valider')"><i class="ti ti-circle-plus"></i>Valider cabinet</div>
+      <div class="nav-section" id="nav-section-label">Mon espace</div>
+      <div class="nav-link active" id="nav-dashboard" onclick="showPage('dashboard')"><i class="ti ti-chart-bar"></i><span data-t="nav_dashboard">Dashboard</span></div>
+      <div class="nav-link" id="nav-cabinets" onclick="showPage('cabinets')"><i class="ti ti-building-hospital"></i><span data-t="nav_cabinets">Mes Cabinets</span></div>
+      <div class="nav-link" id="nav-simulateur" onclick="showPage('simulateur')"><i class="ti ti-currency-dollar"></i><span data-t="nav_simulateur">Simulateur</span></div>
+      <div class="nav-link" id="nav-prospects" onclick="showPage('prospects')"><i class="ti ti-users"></i><span data-t="nav_prospects">Prospects</span></div>
+      <div class="nav-link" id="nav-commissions" onclick="showPage('commissions')"><i class="ti ti-receipt"></i><span data-t="nav_commissions">Commissions</span></div>
+      <div class="nav-link" id="nav-valider" onclick="showPage('valider')"><i class="ti ti-circle-plus"></i><span data-t="nav_valider">Valider cabinet</span></div>
+      <div class="nav-link" id="nav-prospection" onclick="showPage('prospection')" style="border-left:3px solid #1E5FCC;background:rgba(30,95,204,0.04)"><i class="ti ti-brain" style="color:#1E5FCC"></i><span data-t="nav_prospection" style="color:#1E5FCC;font-weight:700">Prospection IA</span></div>
     </div>
     <div class="sidebar-footer">
-      <button class="logout-btn logout-btn-red" onclick="doLogout()">
-        <i class="ti ti-logout" style="font-size:16px"></i> Déconnexion
-      </button>
+      <button class="logout-btn logout-btn-red" onclick="doLogout()"><i class="ti ti-logout" style="font-size:15px"></i> <span data-t="logout">Deconnexion</span></button>
     </div>
   </div>
 
-  <!-- MAIN -->
+  <div class="sidebar-overlay" id="mob-overlay" onclick="closeSidebar()"></div>
+
+  <!-- ── MAIN ── -->
   <div class="main">
-    <div class="topbar" id="topbar" style="background:#1c1f2e;border-bottom:1px solid rgba(255,255,255,0.08)">
-      <div style="display:flex;align-items:center;gap:12px">
-        <button class="mobile-menu-btn" onclick="toggleSidebar()" style="color:#e2e8f0"><i class="ti ti-menu-2"></i></button>
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:700;color:#e2e8f0" id="page-title">Dashboard</div>
+    <div class="topbar topbar-light">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()" style="color:#0F172A"><i class="ti ti-menu-2"></i></button>
+        <div style="font-size:15px;font-weight:700;color:#0F172A" id="page-title">Dashboard</div>
       </div>
-      <div style="display:flex;align-items:center;gap:12px">
-        <span id="role-pill" style="padding:4px 14px;border-radius:99px;font-size:11px;font-weight:600;background:rgba(6,182,212,0.15);color:#06B6D4;border:1px solid rgba(6,182,212,0.25)"></span>
-        <span style="font-size:13px;color:#64748B" id="topbar-date"></span>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <!-- Lang switcher -->
+        <div class="lang-bar">
+          <button class="lang-btn active" id="btn-fr" onclick="setLang('fr')">🇫🇷 FR</button>
+          <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇬🇧 EN</button>
+          <button class="lang-btn" id="btn-ar" onclick="setLang('ar')">🇲🇦 AR</button>
+        </div>
+        <span id="role-pill" style="padding:3px 12px;border-radius:99px;font-size:11px;font-weight:600;background:rgba(6,182,212,0.1);color:#0D7490;border:1px solid rgba(13,116,144,0.2)"></span>
+        <span style="font-size:11px;color:#94A3B8" id="topbar-date"></span>
       </div>
     </div>
-
-    <div class="content" id="main-content" style="background:#0f172a">
-      <div style="text-align:center;padding:60px;color:#64748b">Chargement...</div>
+    <div class="content content-light" id="main-content">
+      <div style="text-align:center;padding:60px;color:#94A3B8">Chargement...</div>
     </div>
   </div>
 </div>
 
-<!-- MODAL MODIFIER PROSPECT -->
+<!-- ══════════════════════════════════════
+     MODALS
+══════════════════════════════════════ -->
+
+<!-- MODIFIER PROSPECT -->
 <div class="overlay" id="edit-overlay" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="background:#1e293b;border-color:#334155">
-    <div style="padding:20px 24px 16px;border-bottom:1px solid #334155;display:flex;align-items:center;justify-content:space-between">
+  <div class="modal">
+    <div class="modal-hd">
       <div>
-        <div style="font-size:17px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif" id="edit-name"></div>
-        <div style="font-size:13px;color:#64748b;margin-top:2px;font-family:'Plus Jakarta Sans',sans-serif" id="edit-meta"></div>
+        <div style="font-size:15px;font-weight:700;color:#0A1628" id="edit-name"></div>
+        <div style="font-size:12px;color:#64748B;margin-top:2px" id="edit-meta"></div>
       </div>
-      <button onclick="document.getElementById('edit-overlay').classList.remove('open')" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:20px"><i class="ti ti-x"></i></button>
+      <button onclick="document.getElementById('edit-overlay').classList.remove('open')" style="background:none;border:none;cursor:pointer;font-size:20px;color:#94A3B8"><i class="ti ti-x"></i></button>
     </div>
-    <div style="padding:20px 24px 24px">
-      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;font-family:'Plus Jakarta Sans',sans-serif">Statut</div>
-      <div id="status-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px"></div>
-      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">Mobile WhatsApp</div>
-      <input class="finput" type="tel" id="edit-mobile" placeholder="06 XX XX XX XX" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
-      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">Note rapide</div>
-      <textarea class="finput" id="edit-note" rows="2" placeholder="Résultat de l'appel..." style="background:#0f172a;border-color:#334155;color:#e2e8f0;resize:none"></textarea>
-      <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">Date de rappel</div>
-      <input class="finput" type="date" id="edit-rappel" style="background:#0f172a;border-color:#334155;color:#e2e8f0;margin-bottom:16px">
-      <button onclick="saveEdit()" style="width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#2563EB,#06B6D4);color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">
-        <i class="ti ti-device-floppy"></i> Enregistrer
-      </button>
+    <div class="modal-body">
+      <div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px" data-t="status">Statut</div>
+      <div id="status-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px"></div>
+      <div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="mobile_wa">Mobile WhatsApp</div>
+      <input class="finput" type="tel" id="edit-mobile" placeholder="06 XX XX XX XX">
+      <div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="quick_note">Note rapide</div>
+      <textarea class="finput" id="edit-note" rows="2" style="resize:none"></textarea>
+      <div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="callback_date">Date de rappel</div>
+      <input class="finput" type="date" id="edit-rappel">
+      <button class="save-btn" onclick="saveEdit()"><i class="ti ti-device-floppy" style="font-size:15px"></i> <span data-t="save">Enregistrer</span></button>
     </div>
   </div>
 </div>
 
-<!-- MODAL AJOUTER PROSPECT -->
+<!-- AJOUTER PROSPECT -->
 <div class="overlay" id="add-overlay" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="background:#1e293b;border-color:#334155">
-    <div style="padding:20px 24px 16px;border-bottom:1px solid #334155;display:flex;align-items:center;justify-content:space-between">
-      <div style="font-size:17px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Nouveau prospect</div>
-      <button onclick="document.getElementById('add-overlay').classList.remove('open')" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:20px"><i class="ti ti-x"></i></button>
+  <div class="modal">
+    <div class="modal-hd">
+      <div style="font-size:15px;font-weight:700;color:#0A1628" data-t="new_prospect">Nouveau prospect</div>
+      <button onclick="document.getElementById('add-overlay').classList.remove('open')" style="background:none;border:none;cursor:pointer;font-size:20px;color:#94A3B8"><i class="ti ti-x"></i></button>
     </div>
-    <div style="padding:20px 24px 24px">
+    <div class="modal-body">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div>
-          <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Nom *</div>
-          <input class="finput" id="add-nom" placeholder="Dr Nom Prénom" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
-        </div>
-        <div>
-          <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Spécialité *</div>
-          <input class="finput" id="add-spec" placeholder="Dermatologue..." style="background:#0f172a;border-color:#334155;color:#e2e8f0">
-        </div>
-        <div>
-          <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Quartier</div>
-          <input class="finput" id="add-quartier" placeholder="Bd Abdelmoumen..." style="background:#0f172a;border-color:#334155;color:#e2e8f0">
-        </div>
-        <div>
-          <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Tél mobile</div>
-          <input class="finput" type="tel" id="add-mobile" placeholder="06 XX XX XX XX" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
+        <div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="name">Nom *</div><input class="finput" id="add-nom" placeholder="Dr Nom Prenom"></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="specialty">Specialite *</div><input class="finput" id="add-spec" placeholder="Dermatologue..."></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="area">Quartier</div><input class="finput" id="add-quartier" placeholder="Bd Abdelmoumen..."></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="mobile">Tel mobile</div><input class="finput" type="tel" id="add-mobile" placeholder="06 XX XX XX XX"></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="google_rating">Note Google</div><input class="finput" type="number" id="add-rating" placeholder="4.2" step="0.1" min="1" max="5"></div>
+        <div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="nb_reviews">Nb avis</div><input class="finput" type="number" id="add-avis" placeholder="12" min="0"></div>
+      </div>
+      <button class="save-btn" onclick="saveAdd()"><i class="ti ti-user-plus" style="font-size:15px"></i> <span data-t="add_prospect">Ajouter</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL PROSPECT IA -->
+<div class="overlay" id="ia-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-hd">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#0A1628" id="ia-name"></div>
+        <div style="font-size:12px;color:#64748B;margin-top:2px" id="ia-meta"></div>
+      </div>
+      <button onclick="document.getElementById('ia-overlay').classList.remove('open')" style="background:none;border:none;cursor:pointer;font-size:20px;color:#94A3B8"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body" id="ia-body">
+      <div style="text-align:center;padding:30px;color:#94A3B8">Analyse en cours...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCES CABINET (création) -->
+<div class="overlay" id="acces-overlay">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-hd">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#0A1628" data-t="cabinet_created">Cabinet cree avec succes</div>
+        <div style="font-size:12px;color:#64748B;margin-top:2px" data-t="send_access">Transmettez ces acces au cabinet</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#15803D;display:flex;align-items:center;gap:8px">
+        <i class="ti ti-lock" style="font-size:15px;flex-shrink:0"></i>
+        <span data-t="unique_access">Ces acces sont uniques — notez-les maintenant.</span>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px" data-t="doctor">Medecin</div>
+      <div class="acces-box">
+        <div class="acces-row"><div><div class="acces-label">Email</div><div class="acces-val" id="acc-med-email"></div></div><button class="copy-btn" onclick="copyText('acc-med-email')"><i class="ti ti-copy"></i> <span data-t="copy">Copier</span></button></div>
+        <div class="acces-row" style="margin-bottom:0"><div><div class="acces-label" data-t="password">Mot de passe</div><div class="acces-val" id="acc-pwd"></div></div><button class="copy-btn" onclick="copyText('acc-pwd')"><i class="ti ti-copy"></i> <span data-t="copy">Copier</span></button></div>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;margin-top:4px" data-t="assistant">Assistante</div>
+      <div class="acces-box">
+        <div class="acces-row" style="margin-bottom:0"><div><div class="acces-label">Email</div><div class="acces-val" id="acc-ass-email"></div></div><button class="copy-btn" onclick="copyText('acc-ass-email')"><i class="ti ti-copy"></i> <span data-t="copy">Copier</span></button></div>
+      </div>
+      <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:12px 14px;margin-top:4px;margin-bottom:16px">
+        <div class="acces-label" style="margin-bottom:6px">URLs</div>
+        <div style="font-size:12px;color:#64748B;margin-bottom:4px"><span data-t="doctor">Medecin</span> : <span style="color:#1E5FCC;font-weight:600">medipulse-gamma.vercel.app/medecin.html</span></div>
+        <div style="font-size:12px;color:#64748B"><span data-t="assistant">Assistante</span> : <span style="color:#1E5FCC;font-weight:600">medipulse-gamma.vercel.app/assistante.html</span></div>
+      </div>
+      <button class="save-btn" onclick="copyAll()" style="margin-bottom:10px"><i class="ti ti-clipboard-copy" style="font-size:15px"></i> <span data-t="copy_all">Tout copier</span></button>
+      <button onclick="envoyerParWhatsApp()" style="width:100%;padding:13px;border-radius:14px;background:#16A34A;color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:10px"><i class="ti ti-brand-whatsapp" style="font-size:15px"></i> <span data-t="send_whatsapp">Envoyer par WhatsApp</span></button>
+      <button onclick="document.getElementById('acces-overlay').classList.remove('open');showPage('cabinets')" style="width:100%;padding:12px;border-radius:12px;border:1.5px solid #E2E8F0;background:#fff;font-size:13px;font-weight:600;color:#64748B;cursor:pointer;font-family:inherit" data-t="see_cabinets">Voir mes cabinets</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACCES URGENCE -->
+<div class="overlay" id="urgence-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-hd">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#0A1628" id="urg-title"></div>
+        <div style="font-size:12px;color:#64748B;margin-top:2px" data-t="emergency_access">Intervention d'urgence</div>
+      </div>
+      <button onclick="document.getElementById('urgence-overlay').classList.remove('open')" style="background:none;border:none;cursor:pointer;font-size:20px;color:#94A3B8"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#B45309;display:flex;align-items:center;gap:8px">
+        <i class="ti ti-alert-triangle" style="font-size:15px;flex-shrink:0"></i>
+        <span data-t="confidential_warning">Ces informations sont confidentielles.</span>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px" data-t="doctor">Medecin</div>
+      <div class="acces-box" style="margin-bottom:14px">
+        <div class="acces-row"><div><div class="acces-label">Email</div><div class="acces-val" id="urg-med-email"></div></div><button class="copy-btn" onclick="copyText('urg-med-email')"><i class="ti ti-copy"></i></button></div>
+        <div class="acces-row" style="margin-bottom:0"><div><div class="acces-label">URL</div><div class="acces-val" style="font-size:11px;color:#1E5FCC">medipulse-gamma.vercel.app/medecin.html</div></div></div>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px" data-t="assistant">Assistante</div>
+      <div class="acces-box" style="margin-bottom:20px">
+        <div class="acces-row"><div><div class="acces-label">Email</div><div class="acces-val" id="urg-ass-email"></div></div><button class="copy-btn" onclick="copyText('urg-ass-email')"><i class="ti ti-copy"></i></button></div>
+        <div class="acces-row" style="margin-bottom:0"><div><div class="acces-label">URL</div><div class="acces-val" style="font-size:11px;color:#1E5FCC">medipulse-gamma.vercel.app/assistante.html</div></div></div>
+      </div>
+      <button onclick="resetPassword()" class="save-btn" style="background:#B45309;margin-bottom:10px" id="btn-reset">
+        <i class="ti ti-refresh" style="font-size:15px"></i> <span data-t="generate_password">Generer nouveau mot de passe</span>
+      </button>
+      <div id="new-pwd-box" style="display:none;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:14px;text-align:center">
+        <div style="font-size:11px;color:#64748B;margin-bottom:6px" data-t="new_password_generated">Nouveau mot de passe genere</div>
+        <div style="font-size:18px;font-weight:800;color:#15803D;font-family:monospace" id="new-pwd-val"></div>
+        <button class="copy-btn" style="margin-top:8px" onclick="copyText('new-pwd-val')"><i class="ti ti-copy"></i> <span data-t="copy">Copier</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOUMETTRE PAIEMENT -->
+<div class="overlay" id="pmt-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-hd">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#0A1628" data-t="submit_payment">Soumettre un paiement</div>
+        <div style="font-size:12px;color:#64748B;margin-top:2px" id="pmt-cab-name"></div>
+      </div>
+      <button onclick="document.getElementById('pmt-overlay').classList.remove('open')" style="background:none;border:none;cursor:pointer;font-size:20px;color:#94A3B8"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div style="background:#EEF4FF;border:1px solid #B5D4F4;border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#1E5FCC;display:flex;align-items:center;gap:8px">
+        <i class="ti ti-info-circle" style="font-size:15px;flex-shrink:0"></i>
+        <span data-t="payment_info">Le justificatif sera verifie par l'owner avant confirmation.</span>
+      </div>
+      <div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="amount">Montant (MAD) *</div>
+      <input class="finput" type="number" id="pmt-montant" placeholder="1499">
+      <div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="month">Mois concerne *</div>
+      <input class="finput" type="month" id="pmt-mois">
+      <div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="payment_method">Mode de paiement</div>
+      <select class="finput" id="pmt-mode">
+        <option value="virement" data-t="wire_transfer">Virement bancaire</option>
+        <option value="cash">Cash</option>
+        <option value="cheque" data-t="check">Cheque</option>
+      </select>
+      <div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="receipt_photo">Photo justificatif *</div>
+      <img id="pmt-preview" class="preview-img" alt="">
+      <div class="upload-zone" id="pmt-upload-zone">
+        <input type="file" id="pmt-file" accept="image/*" onchange="handleFileChange(event)">
+        <div id="pmt-upload-content">
+          <i class="ti ti-upload" style="font-size:28px;color:#1E5FCC;margin-bottom:8px;display:block"></i>
+          <div style="font-size:13px;font-weight:600;color:#0A1628" data-t="click_or_drag">Cliquez ou glissez une photo</div>
+          <div style="font-size:11px;color:#94A3B8;margin-top:4px">JPG, PNG — max 10 Mo</div>
         </div>
       </div>
-      <button onclick="saveAdd()" style="width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#2563EB,#06B6D4);color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;margin-top:4px">
-        <i class="ti ti-user-plus"></i> Ajouter
+      <div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px" data-t="note_optional">Note (optionnel)</div>
+      <input class="finput" id="pmt-note" placeholder="Ex: Virement recu ce matin...">
+      <button class="save-btn" id="btn-submit-pmt" onclick="soumettreJustif()">
+        <i class="ti ti-send" style="font-size:15px"></i> <span data-t="submit_for_validation">Soumettre pour validation</span>
       </button>
     </div>
   </div>
@@ -137,548 +399,1384 @@ input[type=range] { accent-color: #3b82f6; }
 
 <div id="toast"></div>
 
+<!-- ══════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════ -->
 <script src="/js/supabase.js"></script>
-<script src="/js/auth.js"></script>
 <script>
-// ══ STATE ══
-let currentUser = null;
-let userRecord = null;
-let prospects = [];
-let crmFilter = 'Tous';
-let editId = null;
+// ══════════════════════════════════════
+// i18n — Traductions trilingues
+// ══════════════════════════════════════
+var LANG_DATA = {
+  fr: {
+    nav_dashboard:'Dashboard', nav_cabinets:'Mes Cabinets', nav_simulateur:'Simulateur',
+    nav_prospects:'Prospects', nav_commissions:'Commissions', nav_valider:'Valider cabinet',
+    nav_prospection:'Prospection IA', logout:'Deconnexion',
+    tagline:'La reputation medicale, automatisee.',
+    my_space:'Mon espace',
+    status:'Statut', mobile_wa:'Mobile WhatsApp', quick_note:'Note rapide',
+    callback_date:'Date de rappel', save:'Enregistrer',
+    new_prospect:'Nouveau prospect', name:'Nom *', specialty:'Specialite *',
+    area:'Quartier', mobile:'Tel mobile', google_rating:'Note Google', nb_reviews:'Nb avis',
+    add_prospect:'Ajouter',
+    cabinet_created:'Cabinet cree avec succes', send_access:'Transmettez ces acces',
+    unique_access:'Ces acces sont uniques — notez-les maintenant.',
+    doctor:'Medecin', assistant:'Assistante', password:'Mot de passe',
+    copy:'Copier', copy_all:'Tout copier',
+    send_whatsapp:'Envoyer par WhatsApp', see_cabinets:'Voir mes cabinets',
+    emergency_access:"Intervention d'urgence",
+    confidential_warning:'Ces informations sont confidentielles.',
+    generate_password:'Generer nouveau mot de passe',
+    new_password_generated:'Nouveau mot de passe genere',
+    submit_payment:'Soumettre un paiement',
+    payment_info:"Le justificatif sera verifie par l'owner.",
+    amount:'Montant (MAD) *', month:'Mois concerne *',
+    payment_method:'Mode de paiement', wire_transfer:'Virement bancaire', check:'Cheque',
+    receipt_photo:'Photo justificatif *', click_or_drag:'Cliquez ou glissez une photo',
+    note_optional:'Note (optionnel)', submit_for_validation:'Soumettre pour validation',
+    // Dashboard
+    hello:'Bonjour', new_cabinet:'Nouveau cabinet',
+    active_cabinets:'Cabinets actifs', in_trial:'En trial',
+    revenue:'Revenus MAD', recurring:'Recurrent/mois',
+    last_prospects:'Derniers prospects', see_all:'Voir tout',
+    no_prospect:'Aucun prospect',
+    objective:'Objectif', days_left:'JOURS',
+    each_cabinet:'Chaque cabinet actif =',
+    per_month_life:'/mois a vie',
+    // Prospection IA
+    prospection_ia:'Prospection IA',
+    todays_mission:"Mission du jour",
+    mission_sub:'Top 5 prospects a contacter maintenant',
+    wa_today:'WhatsApp / jour',
+    wa_limit_reached:'Limite atteinte — reprise demain',
+    analyze_ai:'Analyser IA',
+    call_script:'Script appel',
+    wa_message_label:'Message WhatsApp',
+    objection_label:'Objection probable',
+    next_action:'Prochaine action',
+    angle_label:'Angle recommande',
+    copy_script:'Copier le script',
+    copy_wa:'Copier & Envoyer WA',
+    move_to:'Passer a',
+    enrich_title:'Enrichir le prospect',
+    import_linkedin:'Importer CSV LinkedIn',
+    import_instructions:'Exporte ta liste Sales Navigator (CSV), glisse-la ici.',
+    all_prospects:'Tous les prospects',
+    score_label:'Score',
+    priority_a:'Priorite A — Appeler maintenant',
+    priority_b:'Priorite B — Cette semaine',
+    priority_c:'Priorite C — Faible priorite',
+    temp_hot:'🔥 Chaud', temp_warm:'🟡 Tiede', temp_cold:'❄️ Froid',
+    cas_label:'Cas',
+    reception_script:'Script receptionniste',
+    doctor_script:'Script medecin direct',
+    response_to_objection:'Reponse recommandee',
+    no_mission:'Aucun prospect IA — ajoutez des prospects et cliquez Analyser IA.',
+    generating:'Generation en cours...',
+    generated:'Genere',
+    copy_ok:'Copie !',
+    analyze_all:'Analyser tout',
+    // Prospects
+    my_prospects:'Mes Prospects', add:'Ajouter',
+    filter_all:'Tous', filter_new:'Nouveau', filter_callback:'Rappeler',
+    filter_reachable:'Joignable', filter_demo:'Demo Bookee',
+    filter_signed:'Signe', filter_refused:'Refus',
+    no_tel:'Aucun numero',
+    add_mobile:'Ajouter le mobile',
+    // Commissions
+    commissions:'Mes Commissions', remuneration:'Structure de remuneration',
+    new_commission:'Commission nouveau cabinet', recurring_commission:'Commission recurrente',
+    per_cabinet:'/ cabinet', per_month_life2:'/mois a vie',
+    bonus_tiers:'Bonus paliers', history:'Historique',
+    no_commission:"Aucune commission pour l'instant",
+    // Simulateur
+    revenue_sim:'Simulateur de revenus',
+    sim_sub:'Combien peux-tu gagner selon tes efforts ?',
+    new_this_month:'Nouveaux cabinets ce mois',
+    active_portfolio:'Portefeuille actif total',
+    new_commission_pct:'Commission nouveaux',
+    recurring_pct:'Recurrent',
+    total_month:'Total ce mois',
+    tier_reached:'Palier atteint !',
+    // Cabinets
+    my_cabinets:'Mes Cabinets',
+    cabinets_sub:'cabinets valides — soumettez les paiements',
+    no_cabinet:'Aucun cabinet valide',
+    start_first:'Commencez par valider votre premier cabinet.',
+    validate_btn:'Valider un cabinet',
+    submit_payment_btn:'Soumettre paiement',
+    see_access:'Voir les acces',
+    google_fiche:'Fiche Google',
+    // Valider
+    validate_cabinet:'Valider un cabinet',
+    trial_sub:'Trial gratuit de 7 jours',
+    trial_info:"Trial gratuit de 7 jours — vous serez notifie la veille de l'expiration.",
+    email_optional:"Les emails sont optionnels — un acces sera genere automatiquement.",
+    cabinet_name:'Nom du cabinet *', doctor_name:'Nom du medecin *',
+    specialty2:'Specialite *', city:'Ville', assistant_name:'Nom assistante *',
+    plan:'Plan', google_link:'Lien Google Maps',
+    cabinet_whatsapp:'WhatsApp cabinet', doctor_whatsapp:'WhatsApp medecin',
+    validate_start:'Valider le cabinet — Demarrer le trial',
+    creating:'Creation en cours...',
+    // Errors
+    err_name_spec_required:'Nom et specialite requis',
+    err_upload_too_large:'Photo trop lourde (max 10 Mo)',
+    err_amount_month:'Montant et mois requis',
+    err_photo_required:'Photo justificatif requise',
+    err_cabinet_required:'Nom cabinet, medecin, specialite et assistante requis',
+    saved:'Enregistre', prospect_added:'Prospect ajoute',
+    payment_submitted:'Paiement soumis — en attente de validation',
+    pwd_generated:'Mot de passe genere !',
+    err_generic:'Erreur',
+    copied:'Copie !', all_copied:'Tout copie !'
+  },
+  en: {
+    nav_dashboard:'Dashboard', nav_cabinets:'My Practices', nav_simulateur:'Simulator',
+    nav_prospects:'Prospects', nav_commissions:'Commissions', nav_valider:'Add Practice',
+    nav_prospection:'AI Prospecting', logout:'Sign out',
+    tagline:'Medical reputation, automated.',
+    my_space:'My space',
+    status:'Status', mobile_wa:'WhatsApp Mobile', quick_note:'Quick note',
+    callback_date:'Callback date', save:'Save',
+    new_prospect:'New prospect', name:'Name *', specialty:'Specialty *',
+    area:'Area', mobile:'Mobile', google_rating:'Google Rating', nb_reviews:'Reviews count',
+    add_prospect:'Add',
+    cabinet_created:'Practice created successfully', send_access:'Send credentials to practice',
+    unique_access:'These credentials are unique — save them now.',
+    doctor:'Doctor', assistant:'Assistant', password:'Password',
+    copy:'Copy', copy_all:'Copy all',
+    send_whatsapp:'Send via WhatsApp', see_cabinets:'See my practices',
+    emergency_access:'Emergency access',
+    confidential_warning:'This information is confidential.',
+    generate_password:'Generate new password',
+    new_password_generated:'New password generated',
+    submit_payment:'Submit payment',
+    payment_info:'The receipt will be verified by the owner before confirmation.',
+    amount:'Amount (MAD) *', month:'Month *',
+    payment_method:'Payment method', wire_transfer:'Wire transfer', check:'Check',
+    receipt_photo:'Receipt photo *', click_or_drag:'Click or drag a photo',
+    note_optional:'Note (optional)', submit_for_validation:'Submit for validation',
+    hello:'Hello', new_cabinet:'New practice',
+    active_cabinets:'Active practices', in_trial:'In trial',
+    revenue:'Revenue MAD', recurring:'Recurring/month',
+    last_prospects:'Recent prospects', see_all:'See all',
+    no_prospect:'No prospects',
+    objective:'Goal', days_left:'DAYS',
+    each_cabinet:'Each active practice =',
+    per_month_life:'/month for life',
+    prospection_ia:'AI Prospecting',
+    todays_mission:"Today's Mission",
+    mission_sub:'Top 5 prospects to contact right now',
+    wa_today:'WhatsApp / day',
+    wa_limit_reached:"Limit reached — resumes tomorrow",
+    analyze_ai:'AI Analyze',
+    call_script:'Call script',
+    wa_message_label:'WhatsApp message',
+    objection_label:'Likely objection',
+    next_action:'Next action',
+    angle_label:'Recommended angle',
+    copy_script:'Copy script',
+    copy_wa:'Copy & Send WA',
+    move_to:'Move to',
+    enrich_title:'Enrich prospect',
+    import_linkedin:'Import LinkedIn CSV',
+    import_instructions:'Export your Sales Navigator list (CSV), drop it here.',
+    all_prospects:'All prospects',
+    score_label:'Score',
+    priority_a:'Priority A — Call now',
+    priority_b:'Priority B — This week',
+    priority_c:'Priority C — Low priority',
+    temp_hot:'🔥 Hot', temp_warm:'🟡 Warm', temp_cold:'❄️ Cold',
+    cas_label:'Case',
+    reception_script:'Receptionist script',
+    doctor_script:'Direct doctor script',
+    response_to_objection:'Recommended response',
+    no_mission:'No AI prospects — add prospects and click AI Analyze.',
+    generating:'Generating...', generated:'Generated', copy_ok:'Copied!',
+    analyze_all:'Analyze all',
+    my_prospects:'My Prospects', add:'Add',
+    filter_all:'All', filter_new:'New', filter_callback:'Callback',
+    filter_reachable:'Reachable', filter_demo:'Demo Booked',
+    filter_signed:'Signed', filter_refused:'Refused',
+    no_tel:'No phone number', add_mobile:'Add mobile number',
+    commissions:'My Commissions', remuneration:'Compensation structure',
+    new_commission:'New practice commission', recurring_commission:'Recurring commission',
+    per_cabinet:'/ practice', per_month_life2:'/month for life',
+    bonus_tiers:'Bonus tiers', history:'History',
+    no_commission:'No commissions yet',
+    revenue_sim:'Revenue Simulator',
+    sim_sub:'How much can you earn?',
+    new_this_month:'New practices this month',
+    active_portfolio:'Total active portfolio',
+    new_commission_pct:'New commissions',
+    recurring_pct:'Recurring',
+    total_month:'Total this month',
+    tier_reached:'Tier reached!',
+    my_cabinets:'My Practices',
+    cabinets_sub:'validated practices — submit received payments',
+    no_cabinet:'No validated practice',
+    start_first:'Start by validating your first practice.',
+    validate_btn:'Add a practice',
+    submit_payment_btn:'Submit payment',
+    see_access:'View credentials',
+    google_fiche:'Google listing',
+    validate_cabinet:'Add a practice',
+    trial_sub:'7-day free trial',
+    trial_info:'7-day free trial — you will be notified the day before expiration.',
+    email_optional:'Emails are optional — access will be auto-generated.',
+    cabinet_name:'Practice name *', doctor_name:'Doctor name *',
+    specialty2:'Specialty *', city:'City', assistant_name:'Assistant name *',
+    plan:'Plan', google_link:'Google Maps link',
+    cabinet_whatsapp:'Practice WhatsApp', doctor_whatsapp:'Doctor WhatsApp',
+    validate_start:'Validate practice — Start trial',
+    creating:'Creating...',
+    err_name_spec_required:'Name and specialty required',
+    err_upload_too_large:'File too large (max 10MB)',
+    err_amount_month:'Amount and month required',
+    err_photo_required:'Receipt photo required',
+    err_cabinet_required:'Practice name, doctor, specialty and assistant required',
+    saved:'Saved', prospect_added:'Prospect added',
+    payment_submitted:'Payment submitted — pending validation',
+    pwd_generated:'Password generated!',
+    err_generic:'Error',
+    copied:'Copied!', all_copied:'All copied!'
+  },
+  ar: {
+    nav_dashboard:'لوحة القيادة', nav_cabinets:'عياداتي', nav_simulateur:'المحاكي',
+    nav_prospects:'العملاء المحتملون', nav_commissions:'العمولات', nav_valider:'إضافة عيادة',
+    nav_prospection:'التنقيب بالذكاء الاصطناعي', logout:'تسجيل الخروج',
+    tagline:'السمعة الطبية، آليًا.',
+    my_space:'مساحتي',
+    status:'الحالة', mobile_wa:'واتساب المحمول', quick_note:'ملاحظة سريعة',
+    callback_date:'تاريخ المعاودة', save:'حفظ',
+    new_prospect:'عميل محتمل جديد', name:'الاسم *', specialty:'التخصص *',
+    area:'الحي', mobile:'الهاتف', google_rating:'تقييم جوجل', nb_reviews:'عدد التقييمات',
+    add_prospect:'إضافة',
+    cabinet_created:'تم إنشاء العيادة بنجاح', send_access:'أرسل بيانات الوصول',
+    unique_access:'هذه البيانات فريدة — احفظها الآن.',
+    doctor:'الطبيب', assistant:'المساعدة', password:'كلمة المرور',
+    copy:'نسخ', copy_all:'نسخ الكل',
+    send_whatsapp:'إرسال عبر واتساب', see_cabinets:'عرض العيادات',
+    emergency_access:'وصول طارئ',
+    confidential_warning:'هذه المعلومات سرية.',
+    generate_password:'توليد كلمة مرور جديدة',
+    new_password_generated:'تم توليد كلمة مرور جديدة',
+    submit_payment:'تقديم دفعة',
+    payment_info:'سيتم التحقق من الإيصال من قبل المالك.',
+    amount:'المبلغ (درهم) *', month:'الشهر *',
+    payment_method:'طريقة الدفع', wire_transfer:'تحويل بنكي', check:'شيك',
+    receipt_photo:'صورة الإيصال *', click_or_drag:'اضغط أو اسحب صورة',
+    note_optional:'ملاحظة (اختياري)', submit_for_validation:'تقديم للمراجعة',
+    hello:'مرحباً', new_cabinet:'عيادة جديدة',
+    active_cabinets:'العيادات النشطة', in_trial:'في الفترة التجريبية',
+    revenue:'الإيرادات (درهم)', recurring:'متكرر/شهر',
+    last_prospects:'آخر العملاء', see_all:'عرض الكل',
+    no_prospect:'لا يوجد عملاء',
+    objective:'الهدف', days_left:'أيام',
+    each_cabinet:'كل عيادة نشطة =',
+    per_month_life:'/شهر مدى الحياة',
+    prospection_ia:'التنقيب بالذكاء الاصطناعي',
+    todays_mission:'مهمة اليوم',
+    mission_sub:'أفضل 5 عملاء للتواصل الآن',
+    wa_today:'واتساب / يوم',
+    wa_limit_reached:'تم الوصول للحد — يستأنف غدًا',
+    analyze_ai:'تحليل بالذكاء الاصطناعي',
+    call_script:'نص المكالمة',
+    wa_message_label:'رسالة واتساب',
+    objection_label:'الاعتراض المحتمل',
+    next_action:'الإجراء التالي',
+    angle_label:'الزاوية الموصى بها',
+    copy_script:'نسخ النص',
+    copy_wa:'نسخ وإرسال واتساب',
+    move_to:'نقل إلى',
+    enrich_title:'إثراء بيانات العميل',
+    import_linkedin:'استيراد CSV لينكدإن',
+    import_instructions:'صدّر قائمة Sales Navigator (CSV) وأسقطها هنا.',
+    all_prospects:'جميع العملاء',
+    score_label:'النقاط',
+    priority_a:'الأولوية أ — اتصل الآن',
+    priority_b:'الأولوية ب — هذا الأسبوع',
+    priority_c:'الأولوية ج — أولوية منخفضة',
+    temp_hot:'🔥 ساخن', temp_warm:'🟡 دافئ', temp_cold:'❄️ بارد',
+    cas_label:'الحالة',
+    reception_script:'نص الموظف',
+    doctor_script:'نص الطبيب مباشرة',
+    response_to_objection:'الرد الموصى به',
+    no_mission:'لا يوجد عملاء — أضف عملاء واضغط تحليل.',
+    generating:'جارٍ التوليد...', generated:'تم التوليد', copy_ok:'تم النسخ!',
+    analyze_all:'تحليل الكل',
+    my_prospects:'عملائي المحتملون', add:'إضافة',
+    filter_all:'الكل', filter_new:'جديد', filter_callback:'معاودة',
+    filter_reachable:'متاح', filter_demo:'عرض محجوز',
+    filter_signed:'موقع', filter_refused:'رفض',
+    no_tel:'لا يوجد رقم', add_mobile:'أضف رقم الهاتف',
+    commissions:'عمولاتي', remuneration:'هيكل التعويض',
+    new_commission:'عمولة عيادة جديدة', recurring_commission:'عمولة متكررة',
+    per_cabinet:'/ عيادة', per_month_life2:'/شهر مدى الحياة',
+    bonus_tiers:'مكافآت المستويات', history:'السجل',
+    no_commission:'لا توجد عمولات بعد',
+    revenue_sim:'محاكي الإيرادات',
+    sim_sub:'كم يمكنك كسبه؟',
+    new_this_month:'عيادات جديدة هذا الشهر',
+    active_portfolio:'إجمالي المحفظة النشطة',
+    new_commission_pct:'عمولات الجديدة',
+    recurring_pct:'المتكرر',
+    total_month:'الإجمالي هذا الشهر',
+    tier_reached:'تم الوصول للمستوى!',
+    my_cabinets:'عياداتي',
+    cabinets_sub:'عيادات مصادق عليها — قدم المدفوعات',
+    no_cabinet:'لا توجد عيادات',
+    start_first:'ابدأ بالتحقق من أول عيادة.',
+    validate_btn:'إضافة عيادة',
+    submit_payment_btn:'تقديم دفعة',
+    see_access:'عرض بيانات الوصول',
+    google_fiche:'صفحة جوجل',
+    validate_cabinet:'إضافة عيادة',
+    trial_sub:'فترة تجريبية مجانية 7 أيام',
+    trial_info:'فترة تجريبية مجانية 7 أيام — ستتلقى إشعارًا قبل يوم من الانتهاء.',
+    email_optional:'الإيميلات اختيارية — سيتم إنشاء وصول تلقائيًا.',
+    cabinet_name:'اسم العيادة *', doctor_name:'اسم الطبيب *',
+    specialty2:'التخصص *', city:'المدينة', assistant_name:'اسم المساعدة *',
+    plan:'الخطة', google_link:'رابط خرائط جوجل',
+    cabinet_whatsapp:'واتساب العيادة', doctor_whatsapp:'واتساب الطبيب',
+    validate_start:'التحقق من العيادة — بدء الفترة التجريبية',
+    creating:'جارٍ الإنشاء...',
+    err_name_spec_required:'الاسم والتخصص مطلوبان',
+    err_upload_too_large:'الملف كبير جداً (الحد 10 ميغابايت)',
+    err_amount_month:'المبلغ والشهر مطلوبان',
+    err_photo_required:'صورة الإيصال مطلوبة',
+    err_cabinet_required:'اسم العيادة والطبيب والتخصص والمساعدة مطلوبة',
+    saved:'تم الحفظ', prospect_added:'تمت إضافة العميل',
+    payment_submitted:'تم تقديم الدفعة — في انتظار التحقق',
+    pwd_generated:'تم توليد كلمة المرور!',
+    err_generic:'خطأ',
+    copied:'تم النسخ!', all_copied:'تم نسخ الكل!'
+  }
+};
 
-// ══ INIT ══
-(async () => {
-  const auth = await requireAuth('commercial');
+var currentLang = 'fr';
+var currentPage = 'dashboard';
+
+function t(key) {
+  return (LANG_DATA[currentLang] && LANG_DATA[currentLang][key]) || (LANG_DATA['fr'][key]) || key;
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  ['btn-fr','btn-en','btn-ar'].forEach(function(id){ document.getElementById(id).classList.remove('active'); });
+  document.getElementById('btn-'+lang).classList.add('active');
+  // Update all data-t elements
+  document.querySelectorAll('[data-t]').forEach(function(el){
+    var key = el.getAttribute('data-t');
+    el.textContent = t(key);
+  });
+  // Re-render current page
+  showPage(currentPage);
+}
+
+// ══════════════════════════════════════
+// Constants
+// ══════════════════════════════════════
+var TD = 1499;
+var TARIF = {starter:999, pro:1499, enterprise:2499};
+var P_SIG_TER = 0.30, P_REC_TER = 0.10;
+var P_SIG_TEL = 0.20, P_REC_TEL = 0.08;
+var PAL_TER = [{s:5,b:1000},{s:10,b:2500},{s:15,b:5000}];
+var PAL_TEL = [{s:5,b:500},{s:10,b:1500},{s:15,b:3000}];
+
+var ST = [
+  {key:'Nouveau',label:'Nouveau',desc:'Pas encore contacte',bg:'#F1F5F9',color:'#64748B',border:'#CBD5E1'},
+  {key:'Rappeler',label:'Rappeler',desc:'A rappeler',bg:'#FFFBEB',color:'#B45309',border:'#FDE68A'},
+  {key:'Joignable',label:'Joignable',desc:'Joint, interesse',bg:'#EEF4FF',color:'#1E5FCC',border:'#B5D4F4'},
+  {key:'Demo Bookee',label:'Demo Bookee',desc:'Demo planifiee',bg:'#F5F3FF',color:'#7C3AED',border:'#DDD6FE'},
+  {key:'Signe',label:'Signe',desc:'Cabinet signe !',bg:'#F0FDF4',color:'#15803D',border:'#BBF7D0'},
+  {key:'Refus',label:'Refus',desc:'Pas interesse',bg:'#FFF1F2',color:'#BE123C',border:'#FECDD3'},
+];
+
+// ══════════════════════════════════════
+// State
+// ══════════════════════════════════════
+var currentUser = null, userRecord = null;
+var prospects = [], crmFilter = 'Tous', editId = null;
+var urgenceCabinetId = null, urgenceMedEmail = null, urgenceAssEmail = null;
+var pmtCabinetId = null, pmtCabinetPlan = null, pmtFile = null;
+var accesWaMedecin = '';
+var iaProspects = [];
+var selectedIAId = null;
+var waCount = 0;
+
+// ══════════════════════════════════════
+// Init
+// ══════════════════════════════════════
+(async function(){
+  var auth = await requireAuth('commercial');
   if (!auth) return;
   currentUser = auth.session.user;
   userRecord = auth.user;
-
-  const isTer = userRecord.type === 'terrain';
-  const initials = (userRecord.nom || currentUser.email).substring(0, 2).toUpperCase();
-  document.getElementById('sb-avatar').textContent = initials;
+  var isTer = userRecord.type === 'terrain';
+  document.getElementById('sb-avatar').textContent = (userRecord.nom||currentUser.email).substring(0,2).toUpperCase();
   document.getElementById('sb-name').textContent = userRecord.nom || currentUser.email.split('@')[0];
-  document.getElementById('sb-role').textContent = isTer ? 'Commercial Terrain' : 'Commercial Téléphone';
-  document.getElementById('role-pill').textContent = isTer ? 'Commercial Terrain' : 'Commercial Téléphone';
-  document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('fr-FR', {day:'numeric',month:'long',year:'numeric'});
-
+  document.getElementById('sb-role').textContent = isTer ? (currentLang==='en'?'Field Sales':'Commercial Terrain') : (currentLang==='en'?'Phone Sales':'Commercial Telephone');
+  document.getElementById('role-pill').textContent = isTer ? 'Terrain' : 'Telephone';
+  document.getElementById('topbar-date').textContent = new Date().toLocaleDateString(currentLang==='ar'?'ar-MA':'fr-FR',{day:'numeric',month:'long'});
+  loadWaCount();
   showPage('dashboard');
 })();
 
-// ══ NAVIGATION ══
+// ══════════════════════════════════════
+// WA Counter
+// ══════════════════════════════════════
+var WA_MAX = 15;
+var WA_KEY = 'mp_wa_' + new Date().toISOString().slice(0,10);
+function loadWaCount() {
+  try { waCount = parseInt(localStorage.getItem(WA_KEY)||'0'); } catch(e){ waCount = 0; }
+}
+function incrementWa() {
+  waCount++;
+  try { localStorage.setItem(WA_KEY, waCount); } catch(e){}
+}
+
+// ══════════════════════════════════════
+// Navigation
+// ══════════════════════════════════════
 function showPage(page) {
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-  const navEl = document.getElementById('nav-' + page);
-  if (navEl) navEl.classList.add('active');
-
-  const titles = {
-    dashboard: 'Mon Dashboard',
-    simulateur: 'Simulateur revenus',
-    prospects: 'Mes Prospects',
-    commissions: 'Mes commissions',
-    valider: 'Valider un cabinet'
+  currentPage = page;
+  closeSidebar();
+  document.querySelectorAll('.nav-link').forEach(function(l){ l.classList.remove('active'); });
+  var el = document.getElementById('nav-'+page);
+  if (el) el.classList.add('active');
+  var titles = {
+    dashboard: t('nav_dashboard'), cabinets: t('nav_cabinets'),
+    simulateur: t('nav_simulateur'), prospects: t('nav_prospects'),
+    commissions: t('nav_commissions'), valider: t('nav_valider'),
+    prospection: t('nav_prospection')
   };
-  document.getElementById('page-title').textContent = titles[page] || 'Dashboard';
-
+  document.getElementById('page-title').textContent = titles[page] || page;
   if (page === 'dashboard') renderDashboard();
+  else if (page === 'cabinets') renderCabinets();
   else if (page === 'simulateur') renderSimulateur();
   else if (page === 'prospects') renderProspects();
   else if (page === 'commissions') renderCommissions();
   else if (page === 'valider') renderValider();
+  else if (page === 'prospection') renderProspectionIA();
 }
 
 function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
+  var sb = document.getElementById('sidebar');
+  var ov = document.getElementById('mob-overlay');
+  var open = sb.classList.toggle('open');
+  if (ov) ov.classList.toggle('active', open);
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  var ov = document.getElementById('mob-overlay');
+  if (ov) ov.classList.remove('active');
 }
 
-// ══ DASHBOARD ══
+// ══════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════
 async function renderDashboard() {
-  const now = new Date();
-  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
-  const { data } = await sb.from('prospection').select('*').order('id');
-  prospects = data || [];
+  var r1 = await sb.from('prospection').select('*');
+  prospects = r1.data || [];
+  var r2 = await sb.from('cabinets').select('*').eq('commercial_id', currentUser.email);
+  var cabinets = r2.data || [];
+  var isTer = userRecord.type === 'terrain';
+  var paliers = isTer ? PAL_TER : PAL_TEL;
+  var pSig = isTer ? P_SIG_TER : P_SIG_TEL;
+  var pRec = isTer ? P_REC_TER : P_REC_TEL;
+  var cabActifs = cabinets.filter(function(c){ return c.statut === 'actif'; }).length;
+  var cabTrial = cabinets.filter(function(c){ return c.statut === 'trial'; }).length;
+  var primeSig = cabActifs * Math.round(TD * pSig);
+  var recurrent = cabActifs * Math.round(TD * pRec);
+  var bonus = ([...paliers].reverse().find(function(p){ return cabActifs >= p.s; }) || {b:0}).b;
+  var total = primeSig + bonus + recurrent;
+  var next = paliers.find(function(p){ return cabActifs < p.s; });
+  var prev = [...paliers].reverse().find(function(p){ return cabActifs >= p.s; });
+  var pct = next ? Math.round(((cabActifs-(prev?prev.s:0))/(next.s-(prev?prev.s:0)))*100) : 100;
+  var daysLeft = Math.ceil((new Date(new Date().getFullYear(),new Date().getMonth()+1,0) - new Date())/(1000*60*60*24));
+  var nom = (userRecord.nom || currentUser.email.split('@')[0]).split(' ')[0];
 
-  const isTer = userRecord.type === 'terrain';
-  const paliers = isTer ? PAL_TER : PAL_TEL;
-  const pSig = isTer ? P_SIG_TER : P_SIG_TEL;
-  const pRec = isTer ? P_REC_TER : P_REC_TEL;
-  const signes = prospects.filter(p => p.statut === 'Signé' && p.date_appel >= firstDay);
-  const totalSignes = signes.length;
-  const primeSig = totalSignes * Math.round(TD * pSig);
-  const bonus = ([...paliers].reverse().find(p => totalSignes >= p.s) || {b:0}).b;
-  const total = primeSig + bonus;
-  const next = paliers.find(p => totalSignes < p.s);
-  const prev = [...paliers].reverse().find(p => totalSignes >= p.s);
-  let pct = 0;
-  if (next) { const base = prev ? prev.s : 0; pct = Math.round(((totalSignes - base) / (next.s - base)) * 100); }
-  else { pct = 100; }
-  const daysLeft = Math.ceil((new Date(now.getFullYear(), now.getMonth()+1, 0) - now) / (1000*60*60*24));
-  const nom = (userRecord.nom || currentUser.email.split('@')[0]).split(' ')[0];
-
-  document.getElementById('main-content').innerHTML = `
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px">
-      <div style="font-size:22px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Mon Dashboard 💼</div>
-      <button onclick="showPage('valider')" style="padding:10px 20px;border-radius:8px;background:#10b981;color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">+ Nouveau cabinet</button>
-    </div>
-
-    <!-- HERO -->
-    <div style="background:linear-gradient(135deg,#1a2744,#0f1e3a);border-radius:16px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden">
-      <div style="position:absolute;top:0;right:0;background:#b45309;color:#fff;padding:8px 16px;border-radius:0 16px 0 16px;text-align:center">
-        <div style="font-size:24px;font-weight:800;font-family:'Syne',sans-serif">${daysLeft}</div>
-        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">JOURS RESTANTS</div>
-      </div>
-      <div style="font-size:13px;color:#94a3b8;margin-bottom:4px;font-family:'Plus Jakarta Sans',sans-serif">Bonjour ${nom} 👋</div>
-      <div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;font-family:'Syne',sans-serif">
-        ${totalSignes === 0 ? 'Lance-toi — signe ton premier cabinet ! 🚀' : 'Excellent travail — continue ! 💪'}
-      </div>
-      <div style="font-size:13px;color:#94a3b8;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">
-        Chaque cabinet signé = ${Math.round(TD*pSig)} MAD + ${Math.round(TD*pRec)} MAD/mois à vie
-      </div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-        <div style="font-size:13px;font-weight:600;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Progression vers l'objectif (${paliers[paliers.length-1].s} cabinets)</div>
-        <div style="font-size:13px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">${pct}%</div>
-      </div>
-      <div style="height:8px;background:rgba(255,255,255,0.1);border-radius:99px;overflow:hidden;margin-bottom:12px;position:relative">
-        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#3b82f6,#06b6d4);border-radius:99px;transition:width 1s ease"></div>
-        ${paliers.map(p => `<div style="position:absolute;top:50%;transform:translateY(-50%);left:${Math.round((p.s/paliers[paliers.length-1].s)*100)}%;width:2px;height:16px;background:rgba(255,255,255,0.3)"></div>`).join('')}
-      </div>
-      <div style="display:flex;gap:16px;font-size:13px;color:#94a3b8;font-family:'Plus Jakarta Sans',sans-serif">
-        ${paliers.map(p => `<span>🏆 ${p.s} → <span style="color:#f59e0b;font-weight:600">+${p.b} MAD</span></span>`).join(' · ')}
-      </div>
-      ${totalSignes < paliers[0].s ? `
-        <div style="margin-top:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 16px;font-size:13px;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">
-          💡 Signe <strong>${paliers[0].s} cabinets</strong> pour débloquer ton premier bonus de <span style="color:#f59e0b;font-weight:700">+${paliers[0].b} MAD</span>
-        </div>` : ''}
-    </div>
-
-    <!-- KPI CARDS -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px">
-      ${[
-        {val:'+'+next?.b||paliers[paliers.length-1].b+' MAD',lbl:'PROCHAIN BONUS',sub:'→ Signe '+( next?.s||paliers[paliers.length-1].s)+' cabinets',color:'#f97316'},
-        {val:total.toLocaleString('fr-FR')+' MAD',lbl:'REVENUS CE MOIS',sub:totalSignes===0?'→ Signe ton 1er cabinet !':'→ '+totalSignes+' signé'+(totalSignes>1?'s':''),color:'#3b82f6'},
-        {val:totalSignes+' / '+paliers[paliers.length-1].s,lbl:'CABINETS SIGNÉS',sub:'→ Objectif : '+paliers[paliers.length-1].s+' cabinets',color:'#10b981'},
-        {val:(totalSignes*Math.round(TD*pRec)).toLocaleString('fr-FR')+' MAD',lbl:'RÉCURRENT GARANTI',sub:'↑ +'+Math.round(TD*pRec)+' MAD par cabinet/mois',color:'#06b6d4'},
-      ].map(k => `
-        <div style="background:#1e293b;border-radius:12px;border:1px solid #334155;padding:20px">
-          <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">${k.lbl}</div>
-          <div style="font-size:24px;font-weight:800;color:${k.color};font-family:'Syne',sans-serif">${k.val}</div>
-          <div style="font-size:12px;color:#94a3b8;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${k.sub}</div>
-        </div>
-      `).join('')}
-    </div>
-
-    <!-- CABINETS ACTIFS -->
-    <div style="background:#1e293b;border-radius:12px;border:1px solid #334155;padding:20px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div style="font-size:16px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Mes cabinets actifs</div>
-        <div style="font-size:13px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">0 cabinet · 0 MAD récurrent/mois</div>
-      </div>
-      <div style="text-align:center;padding:32px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">
-        <div style="font-size:36px;margin-bottom:12px">🏥</div>
-        <div style="font-size:14px;font-weight:600;color:#94a3b8">Aucun cabinet pour l'instant</div>
-        <div style="font-size:13px;color:#64748b;margin-top:4px">Clique sur "+ Nouveau cabinet" pour commencer !</div>
-      </div>
-    </div>
-  `;
+  document.getElementById('main-content').innerHTML =
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">' +
+      '<div><div style="font-size:22px;font-weight:800;color:#0A1628;letter-spacing:-0.4px">'+t('hello')+' '+nom+' !</div>' +
+      '<div style="font-size:12px;color:#64748B;margin-top:2px">'+new Date().toLocaleDateString(currentLang==='ar'?'ar-MA':'fr-FR',{weekday:'long',day:'numeric',month:'long'})+'</div></div>' +
+      '<button onclick="showPage(\'valider\')" style="padding:11px 18px;border-radius:14px;background:#0A1628;color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit"><i class="ti ti-plus" style="font-size:14px"></i> '+t('new_cabinet')+'</button>' +
+    '</div>' +
+    '<div class="hero">' +
+      '<div style="position:absolute;top:0;'+(currentLang==='ar'?'left':'right')+':0;background:#B45309;color:#fff;padding:8px 12px;border-radius:'+(currentLang==='ar'?'20px 0 12px 0':'0 20px 0 12px')+';text-align:center;z-index:2">' +
+        '<div style="font-size:20px;font-weight:800">'+daysLeft+'</div>' +
+        '<div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em">'+t('days_left')+'</div>' +
+      '</div>' +
+      '<div style="position:relative;z-index:2">' +
+        '<div style="font-size:17px;font-weight:800;color:#F0F9FF;margin-bottom:3px;letter-spacing:-0.3px">'+(cabActifs===0?'🎯':'✅ ')+(cabActifs===0?'':'')+(cabActifs===0?t('new_cabinet'):'')+'</div>' +
+        '<div style="font-size:11px;color:rgba(186,230,253,0.55);margin-bottom:16px">'+t('each_cabinet')+' '+Math.round(TD*pSig)+' MAD + '+Math.round(TD*pRec)+' MAD'+t('per_month_life')+'</div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">' +
+          '<div style="font-size:11px;font-weight:600;color:rgba(186,230,253,0.8)">'+t('objective')+' : '+paliers[paliers.length-1].s+'</div>' +
+          '<div style="font-size:11px;font-weight:700;color:#38BDF8">'+pct+'%</div>' +
+        '</div>' +
+        '<div class="prog-track"><div class="prog-fill" style="width:'+pct+'%"></div></div>' +
+        '<div style="display:flex;gap:12px;font-size:11px;color:rgba(186,230,253,0.5);flex-wrap:wrap">' +
+          paliers.map(function(p){ return '<span>'+p.s+' <span style="color:#FBBF24;font-weight:600">+'+p.b+' MAD</span></span>'; }).join(' · ') +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="kpi-grid">' +
+      '<div class="kpi-card"><div class="kpi-icon" style="background:#F0FDF4"><i class="ti ti-building-hospital" style="font-size:17px;color:#10B981"></i></div><div class="kpi-val" style="color:#10B981">'+cabActifs+'</div><div class="kpi-lbl">'+t('active_cabinets')+'</div></div>' +
+      '<div class="kpi-card"><div class="kpi-icon" style="background:#FFFBEB"><i class="ti ti-clock" style="font-size:17px;color:#F59E0B"></i></div><div class="kpi-val" style="color:#F59E0B">'+cabTrial+'</div><div class="kpi-lbl">'+t('in_trial')+'</div></div>' +
+      '<div class="kpi-card"><div class="kpi-icon" style="background:#EEF4FF"><i class="ti ti-currency-dollar" style="font-size:17px;color:#1E5FCC"></i></div><div class="kpi-val" style="color:#1E5FCC">'+total.toLocaleString('fr-FR')+'</div><div class="kpi-lbl">'+t('revenue')+'</div></div>' +
+      '<div class="kpi-card"><div class="kpi-icon" style="background:#F0FDF4"><i class="ti ti-refresh" style="font-size:17px;color:#10B981"></i></div><div class="kpi-val" style="color:#10B981">'+recurrent.toLocaleString('fr-FR')+'</div><div class="kpi-lbl">'+t('recurring')+'</div></div>' +
+    '</div>' +
+    '<div class="card">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">' +
+        '<div style="font-size:14px;font-weight:700;color:#0A1628">'+t('last_prospects')+'</div>' +
+        '<span onclick="showPage(\'prospects\')" style="font-size:12px;color:#1E5FCC;font-weight:600;cursor:pointer">'+t('see_all')+'</span>' +
+      '</div>' +
+      (prospects.slice(0,5).map(function(p){
+        var st = ST.find(function(s){ return s.key === p.statut; }) || ST[0];
+        return '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F9FAFB;flex-wrap:wrap">' +
+          '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#0A1628">'+p.nom+'</div>' +
+          '<div style="font-size:11px;color:#94A3B8;margin-top:1px">'+p.specialite+' · '+(p.quartier||p.ville||'')+'</div></div>' +
+          '<span style="padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;background:'+st.bg+';color:'+st.color+';white-space:nowrap;flex-shrink:0">'+st.label+'</span>' +
+        '</div>';
+      }).join('') || '<div style="text-align:center;padding:24px;color:#94A3B8;font-size:13px">'+t('no_prospect')+'</div>') +
+    '</div>';
 }
 
-// ══ SIMULATEUR ══
-function renderSimulateur() {
-  const isTer = userRecord.type === 'terrain';
-  const pSig = isTer ? P_SIG_TER : P_SIG_TEL;
-  const pRec = isTer ? P_REC_TER : P_REC_TEL;
-
-  document.getElementById('main-content').innerHTML = `
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
-      <div style="font-size:22px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">💰 Simulateur revenus</div>
-      <button onclick="showPage('valider')" style="padding:10px 20px;border-radius:8px;background:#10b981;color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">+ Nouveau cabinet</button>
-    </div>
-
-    <div style="background:#1e293b;border-radius:16px;border:1px solid #334155;padding:24px">
-      <div style="font-size:17px;font-weight:700;color:#e2e8f0;margin-bottom:4px;font-family:'Syne',sans-serif">💰 Simulateur de revenus</div>
-      <div style="font-size:13px;color:#64748b;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">Combien peux-tu gagner selon tes efforts ?</div>
-
-      <div style="background:#0f172a;border-radius:12px;padding:16px 20px;margin-bottom:20px">
-        <div style="font-size:14px;font-weight:600;color:#e2e8f0;margin-bottom:4px;font-family:'Plus Jakarta Sans',sans-serif">🎯 Si je signe X cabinets ce mois...</div>
-        <div style="font-size:12px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">
-          Paliers bonus : 5 cab → +${isTer?250:200} MAD · 10 cab → +${isTer?500:400} MAD · 15 cab → +${isTer?750:600} MAD
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-        <div>
-          <div style="margin-bottom:24px">
-            <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">NOUVEAUX CABINETS — CE MOIS</div>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-              <input type="range" id="sim-new" min="0" max="20" value="5" oninput="updateSim()" style="flex:1;margin-right:12px">
-              <span id="sim-new-val" style="font-size:20px;font-weight:700;color:#3b82f6;min-width:28px;text-align:right;font-family:'Syne',sans-serif">5</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:11px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif"><span>0</span><span>20</span></div>
-          </div>
-          <div>
-            <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">CABINETS ACTIFS TOTAL — PORTEFEUILLE</div>
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-              <input type="range" id="sim-total" min="0" max="30" value="0" oninput="updateSim()" style="flex:1;margin-right:12px;accent-color:#06b6d4">
-              <span id="sim-total-val" style="font-size:20px;font-weight:700;color:#06b6d4;min-width:28px;text-align:right;font-family:'Syne',sans-serif">0</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:11px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif"><span>0</span><span>30</span></div>
-          </div>
-        </div>
-        <div id="sim-result" style="background:#0f172a;border-radius:12px;padding:20px"></div>
-      </div>
-    </div>
-  `;
-  updateSim();
-}
-
-function updateSim() {
-  const isTer = userRecord.type === 'terrain';
-  const pSig = isTer ? P_SIG_TER : P_SIG_TEL;
-  const pRec = isTer ? P_REC_TER : P_REC_TEL;
-  const paliers = isTer ? PAL_TER : PAL_TEL;
-
-  const nNew = parseInt(document.getElementById('sim-new')?.value || 5);
-  const nTot = parseInt(document.getElementById('sim-total')?.value || 0);
-  const snv = document.getElementById('sim-new-val');
-  const stv = document.getElementById('sim-total-val');
-  if (snv) snv.textContent = nNew;
-  if (stv) stv.textContent = nTot;
-
-  const commNew = nNew * Math.round(TD * pSig);
-  const commRec = nTot * Math.round(TD * pRec);
-  const bonus = ([...paliers].reverse().find(p => nNew >= p.s) || {b:0}).b;
-  const total = commNew + commRec + bonus;
-
-  const panel = document.getElementById('sim-result');
-  if (!panel) return;
-
-  panel.innerHTML = `
-    <div style="margin-bottom:16px">
-      <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">COMMISSION NOUVEAUX (${Math.round(pSig*100)}%)</div>
-      <div style="font-size:28px;font-weight:800;color:#f97316;font-family:'Syne',sans-serif">${commNew.toLocaleString('fr-FR')} MAD</div>
-      <div style="font-size:12px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">${nNew} × ${TD} × ${Math.round(pSig*100)}%</div>
-    </div>
-    <div style="margin-bottom:16px;padding-top:16px;border-top:1px solid #1e293b">
-      <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">RÉCURRENT (${Math.round(pRec*100)}%/MOIS)</div>
-      <div style="font-size:28px;font-weight:800;color:#10b981;font-family:'Syne',sans-serif">${commRec.toLocaleString('fr-FR')} MAD</div>
-      <div style="font-size:12px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">${nTot} × ${TD} × ${Math.round(pRec*100)}%</div>
-    </div>
-    <div style="padding-top:16px;border-top:1px solid #1e293b">
-      <div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">TOTAL CE MOIS</div>
-      <div style="font-size:36px;font-weight:800;color:#06b6d4;font-family:'Syne',sans-serif">${total.toLocaleString('fr-FR')} MAD</div>
-      ${bonus > 0 ? `<div style="margin-top:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:8px 12px;font-size:13px;color:#f59e0b;font-family:'Plus Jakarta Sans',sans-serif">🏆 PALIER ${nNew} CABINETS ! +${bonus} MAD</div>` : ''}
-    </div>
-  `;
-}
-
-// ══ PROSPECTS ══
-async function renderProspects() {
-  if (!prospects.length) {
-    const { data } = await sb.from('prospection').select('*').order('id');
-    prospects = data || [];
+// ══════════════════════════════════════
+// MES CABINETS
+// ══════════════════════════════════════
+async function renderCabinets() {
+  var res = await sb.from('cabinets').select('*').eq('commercial_id', currentUser.email).order('date_debut', {ascending:false});
+  var cabinets = res.data || [];
+  function statutBadge(s) {
+    if (s==='actif') return '<span class="badge badge-actif">'+t('active_cabinets')+'</span>';
+    if (s==='trial') return '<span class="badge badge-trial">Trial</span>';
+    return '<span class="badge badge-suspendu">Suspendu</span>';
   }
-  renderProspectsList();
+  document.getElementById('main-content').innerHTML =
+    '<div style="margin-bottom:24px">' +
+      '<div class="section-title">'+t('my_cabinets')+'</div>' +
+      '<div class="section-sub">'+cabinets.length+' '+t('cabinets_sub')+'</div>' +
+    '</div>' +
+    (cabinets.length ?
+      cabinets.map(function(c){
+        var jours = c.date_fin_trial ? Math.ceil((new Date(c.date_fin_trial)-Date.now())/(1000*60*60*24)) : null;
+        return '<div class="cabinet-row">' +
+          '<div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">' +
+            '<div><div style="font-size:15px;font-weight:700;color:#0A1628">'+c.nom_cabinet+'</div>' +
+            '<div style="font-size:12px;color:#64748B;margin-top:3px">'+(c.specialite||'')+' · '+(c.ville||'')+'</div></div>' +
+            statutBadge(c.statut) +
+          '</div>' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">' +
+            '<div style="font-size:11px;color:#94A3B8">'+t('doctor')+'<br><span style="color:#0A1628;font-weight:600">'+(c.nom_medecin||'—')+'</span></div>' +
+            '<div style="font-size:11px;color:#94A3B8">'+t('plan')+'<br><span style="color:#0A1628;font-weight:600">'+(c.plan||'pro').charAt(0).toUpperCase()+(c.plan||'pro').slice(1)+'</span></div>' +
+          '</div>' +
+          '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
+            '<button class="btn-sm btn-green" onclick="ouvrirSoumettreJustif(\''+c.id+'\',\''+c.nom_cabinet+'\',\''+c.plan+'\')"><i class="ti ti-receipt" style="font-size:13px"></i> '+t('submit_payment_btn')+'</button>' +
+            '<button class="btn-sm btn-blue" onclick="voirAcces(\''+c.id+'\',\''+c.nom_cabinet+'\',\''+c.email_medecin+'\',\''+c.email_assistante+'\')"><i class="ti ti-key" style="font-size:13px"></i> '+t('see_access')+'</button>' +
+            (c.lien_google||c.google_url?'<a href="'+(c.lien_google||c.google_url)+'" target="_blank" class="btn-sm btn-dark"><i class="ti ti-star" style="font-size:13px"></i> '+t('google_fiche')+'</a>':'') +
+          '</div>' +
+        '</div>';
+      }).join('') :
+      '<div class="card" style="text-align:center;padding:48px">' +
+        '<div style="width:56px;height:56px;border-radius:16px;background:#EEF4FF;display:flex;align-items:center;justify-content:center;margin:0 auto 16px"><i class="ti ti-building-hospital" style="font-size:24px;color:#1E5FCC"></i></div>' +
+        '<div style="font-size:16px;font-weight:700;color:#0A1628;margin-bottom:6px">'+t('no_cabinet')+'</div>' +
+        '<div style="font-size:13px;color:#64748B;margin-bottom:20px">'+t('start_first')+'</div>' +
+        '<button onclick="showPage(\'valider\')" class="save-btn" style="max-width:200px;margin:0 auto"><i class="ti ti-plus"></i> '+t('validate_btn')+'</button>' +
+      '</div>'
+    );
 }
 
+// ══════════════════════════════════════
+// PROSPECTION IA
+// ══════════════════════════════════════
+async function renderProspectionIA() {
+  // Load prospects
+  var res = await sb.from('prospection').select('*').order('id', {ascending:false});
+  iaProspects = res.data || [];
+
+  var waColor = waCount >= 13 ? '#EF4444' : waCount >= 10 ? '#F59E0B' : '#10B981';
+  var waPct = Math.min((waCount/WA_MAX)*100, 100);
+
+  document.getElementById('main-content').innerHTML =
+    // Header
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">' +
+      '<div>' +
+        '<div style="font-size:22px;font-weight:800;color:#0A1628;letter-spacing:-0.4px">'+t('prospection_ia')+'</div>' +
+        '<div style="font-size:13px;color:#64748B;margin-top:2px">'+t('mission_sub')+'</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
+        '<button onclick="openAddOverlay()" style="padding:10px 16px;border-radius:12px;background:#EEF4FF;color:#1E5FCC;border:1px solid #B5D4F4;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px"><i class="ti ti-plus"></i> '+t('add')+'</button>' +
+        '<button onclick="analyzeAll()" style="padding:10px 16px;border-radius:12px;background:#0A1628;color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px" id="btn-analyze-all"><i class="ti ti-brain"></i> '+t('analyze_all')+'</button>' +
+      '</div>' +
+    '</div>' +
+
+    // WA Counter
+    '<div class="wa-counter">' +
+      '<div style="width:36px;height:36px;border-radius:10px;background:#F0FDF4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-brand-whatsapp" style="font-size:18px;color:#16A34A"></i></div>' +
+      '<div style="flex:1">' +
+        '<div style="display:flex;justify-content:space-between;margin-bottom:6px">' +
+          '<span style="font-size:12px;font-weight:700;color:#0A1628">'+t('wa_today')+'</span>' +
+          '<span style="font-size:12px;font-weight:800;color:'+waColor+'">'+waCount+'/'+WA_MAX+'</span>' +
+        '</div>' +
+        '<div class="wa-bar"><div class="wa-fill" style="width:'+waPct+'%;background:'+waColor+'"></div></div>' +
+        (waCount>=WA_MAX?'<div style="font-size:10px;color:#EF4444;margin-top:4px;font-weight:600">⚠️ '+t('wa_limit_reached')+'</div>':'') +
+      '</div>' +
+    '</div>' +
+
+    // Tabs
+    '<div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">' +
+      '<button class="tab-btn active" id="tab-mission" onclick="switchIATab(\'mission\')">🎯 '+t('todays_mission')+'</button>' +
+      '<button class="tab-btn" id="tab-all" onclick="switchIATab(\'all\')">📋 '+t('all_prospects')+'</button>' +
+      '<button class="tab-btn" id="tab-import" onclick="switchIATab(\'import\')">📥 '+t('import_linkedin')+'</button>' +
+    '</div>' +
+
+    '<div id="ia-tab-content"></div>';
+
+  switchIATab('mission');
+}
+
+function switchIATab(tab) {
+  ['mission','all','import'].forEach(function(t){
+    var btn = document.getElementById('tab-'+t);
+    if (btn) btn.classList.toggle('active', t===tab);
+  });
+  if (tab === 'mission') renderMission();
+  else if (tab === 'all') renderAllIA();
+  else if (tab === 'import') renderImport();
+}
+
+function renderMission() {
+  // Top 5 = prospects with priority A or highest score, not yet signed
+  var prioritized = iaProspects
+    .filter(function(p){ return p.statut !== 'Signe' && p.statut !== 'Refus'; })
+    .sort(function(a,b){
+      var pa = a.priorite==='A'?3:a.priorite==='B'?2:1;
+      var pb = b.priorite==='A'?3:b.priorite==='B'?2:1;
+      if (pb !== pa) return pb - pa;
+      return (b.score||0) - (a.score||0);
+    })
+    .slice(0, 5);
+
+  if (!prioritized.length) {
+    document.getElementById('ia-tab-content').innerHTML =
+      '<div class="card" style="text-align:center;padding:48px;color:#94A3B8">' +
+        '<div style="font-size:40px;margin-bottom:12px">🎯</div>' +
+        '<div style="font-size:14px;font-weight:600">'+t('no_mission')+'</div>' +
+      '</div>';
+    return;
+  }
+
+  document.getElementById('ia-tab-content').innerHTML =
+    prioritized.map(function(p, i){ return renderMissionCard(p, i); }).join('');
+}
+
+function renderMissionCard(p, i) {
+  var priClass = p.priorite==='A'?'priority-a':p.priorite==='B'?'priority-b':'priority-c';
+  var priLabel = p.priorite==='A'?t('priority_a'):p.priorite==='B'?t('priority_b'):t('priority_c');
+  var tempClass = p.temperature==='chaud'?'temp-hot':p.temperature==='tiede'?'temp-warm':'temp-cold';
+  var tempLabel = p.temperature==='chaud'?t('temp_hot'):p.temperature==='tiede'?t('temp_warm'):t('temp_cold');
+  var scoreColor = (p.score||0)>=70?'#10B981':(p.score||0)>=40?'#F59E0B':'#EF4444';
+  var scoreBg = (p.score||0)>=70?'#F0FDF4':(p.score||0)>=40?'#FFFBEB':'#FFF1F2';
+  var casClass = 'cas-'+(p.cas||'5');
+
+  return '<div class="mission-card '+priClass+'" onclick="openIADetail('+p.id+')" id="mc-'+p.id+'">' +
+    '<div style="display:flex;align-items:flex-start;gap:12px">' +
+      '<div class="score-ring" style="background:'+scoreBg+';color:'+scoreColor+'">'+(p.score||'?')+'</div>' +
+      '<div style="flex:1;min-width:0">' +
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">' +
+          '<div style="font-size:14px;font-weight:700;color:#0A1628">'+p.nom+'</div>' +
+          (p.temperature?'<span class="'+tempClass+'">'+tempLabel+'</span>':'') +
+          (p.cas?'<span class="cas-badge '+casClass+'">'+t('cas_label')+' '+p.cas+'</span>':'') +
+        '</div>' +
+        '<div style="font-size:12px;color:#64748B;margin-bottom:8px">'+p.specialite+' · '+(p.quartier||p.ville||'')+
+          (p.rating?' · ⭐'+p.rating+(p.nb_avis?' ('+p.nb_avis+' avis)':''):'')+'</div>' +
+        (p.angle?'<div class="angle-box" style="margin-bottom:8px;font-size:12px;padding:10px 12px">'+p.angle+'</div>':'') +
+        '<div style="font-size:11px;font-weight:600;color:#64748B">'+priLabel+'</div>' +
+      '</div>' +
+    '</div>' +
+    '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">' +
+      (!p.score?'<button class="btn-sm btn-blue" onclick="event.stopPropagation();analyzeOne('+p.id+')" id="analyze-'+p.id+'"><i class="ti ti-brain" style="font-size:13px"></i> '+t('analyze_ai')+'</button>':'') +
+      '<button class="btn-sm btn-dark" onclick="event.stopPropagation();openIADetail('+p.id+')"><i class="ti ti-phone" style="font-size:13px"></i> '+t('call_script')+'</button>' +
+      '<button class="btn-sm btn-green" onclick="event.stopPropagation();openWAMessage('+p.id+')" '+(waCount>=WA_MAX?'disabled style="opacity:0.5;cursor:not-allowed"':'')+'><i class="ti ti-brand-whatsapp" style="font-size:13px"></i> WA</button>' +
+    '</div>' +
+  '</div>';
+}
+
+function renderAllIA() {
+  if (!iaProspects.length) {
+    document.getElementById('ia-tab-content').innerHTML = '<div class="card" style="text-align:center;padding:40px;color:#94A3B8">'+t('no_prospect')+'</div>';
+    return;
+  }
+  document.getElementById('ia-tab-content').innerHTML =
+    '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">' +
+      ['Tous','Nouveau','Rappeler','Joignable','Demo Bookee','Signe','Refus'].map(function(f){
+        return '<div onclick="filterIAAll(\''+f+'\')" class="chip chip-off" id="iaf-'+f.replace(' ','_')+'">'+f+'</div>';
+      }).join('') +
+    '</div>' +
+    '<div id="ia-all-list">' +
+      iaProspects.map(function(p){ return renderAllCard(p); }).join('') +
+    '</div>';
+  document.getElementById('iaf-Tous').classList.replace('chip-off','chip-on');
+}
+
+function filterIAAll(filter) {
+  document.querySelectorAll('[id^="iaf-"]').forEach(function(el){ el.classList.replace('chip-on','chip-off'); });
+  var el = document.getElementById('iaf-'+filter.replace(' ','_'));
+  if (el) el.classList.replace('chip-off','chip-on');
+  var filtered = filter==='Tous' ? iaProspects : iaProspects.filter(function(p){ return p.statut===filter; });
+  document.getElementById('ia-all-list').innerHTML = filtered.map(function(p){ return renderAllCard(p); }).join('');
+}
+
+function renderAllCard(p) {
+  var st = ST.find(function(s){ return s.key===p.statut; }) || ST[0];
+  var scoreColor = (p.score||0)>=70?'#10B981':(p.score||0)>=40?'#F59E0B':'#EF4444';
+  var scoreBg = (p.score||0)>=70?'#F0FDF4':(p.score||0)>=40?'#FFFBEB':'#FFF1F2';
+  return '<div class="prospect-card">' +
+    '<div class="score-ring" style="background:'+scoreBg+';color:'+scoreColor+';font-size:12px">'+(p.score||'—')+'</div>' +
+    '<div style="flex:1;min-width:0">' +
+      '<div style="font-size:13px;font-weight:600;color:#0A1628">'+p.nom+'</div>' +
+      '<div style="font-size:11px;color:#94A3B8;margin-top:2px">'+p.specialite+' · '+(p.quartier||p.ville||'')+(p.rating?' · ⭐'+p.rating:'')+'</div>' +
+    '</div>' +
+    '<span style="padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;background:'+st.bg+';color:'+st.color+';white-space:nowrap;flex-shrink:0">'+st.label+'</span>' +
+    '<div style="display:flex;gap:4px;flex-shrink:0">' +
+      (!p.score?'<button class="p-action" onclick="analyzeOne('+p.id+')" title="'+t('analyze_ai')+'"><i class="ti ti-brain" style="color:#1E5FCC"></i></button>':'') +
+      '<button class="p-action" onclick="openIADetail('+p.id+')" title="'+t('call_script')+'"><i class="ti ti-phone"></i></button>' +
+      '<button class="p-action" onclick="openWAMessage('+p.id+')" title="WA" style="color:#16A34A"><i class="ti ti-brand-whatsapp"></i></button>' +
+      '<button class="p-action" onclick="editProspect('+p.id+')" title="'+t('save')+'"><i class="ti ti-edit"></i></button>' +
+    '</div>' +
+  '</div>';
+}
+
+function renderImport() {
+  document.getElementById('ia-tab-content').innerHTML =
+    '<div class="card">' +
+      '<div style="font-size:16px;font-weight:700;color:#0A1628;margin-bottom:6px">'+t('import_linkedin')+'</div>' +
+      '<div style="font-size:13px;color:#64748B;margin-bottom:20px">'+t('import_instructions')+'</div>' +
+      '<div class="csv-zone" id="csv-zone">' +
+        '<input type="file" accept=".csv" onchange="handleCSVImport(event)">' +
+        '<i class="ti ti-file-type-csv" style="font-size:40px;color:#1E5FCC;margin-bottom:12px;display:block"></i>' +
+        '<div style="font-size:14px;font-weight:600;color:#0A1628">'+t('click_or_drag')+'</div>' +
+        '<div style="font-size:11px;color:#94A3B8;margin-top:6px">CSV LinkedIn Sales Navigator</div>' +
+      '</div>' +
+      '<div id="csv-preview"></div>' +
+    '</div>' +
+    '<div class="card" style="margin-top:0">' +
+      '<div style="font-size:13px;font-weight:700;color:#0A1628;margin-bottom:12px">Format CSV attendu</div>' +
+      '<div style="background:#F8FAFC;border-radius:10px;padding:14px;font-family:monospace;font-size:12px;color:#64748B;line-height:1.8">' +
+        'First Name, Last Name, Title, Company, Location<br>' +
+        'Mohamed, Baji, Dentiste, Smiles & Beyond, Casablanca<br>' +
+        '...' +
+      '</div>' +
+    '</div>';
+}
+
+async function handleCSVImport(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  var text = await file.text();
+  var lines = text.split('\n').filter(function(l){ return l.trim(); });
+  var headers = lines[0].split(',').map(function(h){ return h.trim().replace(/"/g,'').toLowerCase(); });
+  var rows = lines.slice(1).map(function(line){
+    var vals = line.split(',').map(function(v){ return v.trim().replace(/"/g,''); });
+    var obj = {};
+    headers.forEach(function(h,i){ obj[h] = vals[i]||''; });
+    return obj;
+  });
+
+  var preview = document.getElementById('csv-preview');
+  preview.innerHTML = '<div style="margin-top:16px;font-size:13px;font-weight:600;color:#0A1628;margin-bottom:10px">'+rows.length+' prospects detectes</div>' +
+    rows.slice(0,5).map(function(r){
+      var nom = 'Dr '+(r['first name']||r['firstname']||r['prenom']||'')+' '+(r['last name']||r['lastname']||r['nom']||'');
+      var spec = r['title']||r['titre']||r['specialty']||'';
+      var ville = r['location']||r['ville']||'Casablanca';
+      return '<div style="padding:8px 0;border-bottom:1px solid #F1F5F9;font-size:12px;color:#64748B">'+nom.trim()+' · '+spec+' · '+ville+'</div>';
+    }).join('') +
+    '<button onclick="importCSVConfirm('+JSON.stringify(rows).replace(/</g,'&lt;')+')" style="margin-top:14px;padding:11px 18px;border-radius:12px;background:#0A1628;color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px"><i class="ti ti-download"></i> Importer '+rows.length+' prospects</button>';
+}
+
+async function importCSVConfirm(rows) {
+  var toInsert = rows.map(function(r){
+    return {
+      nom: 'Dr '+(r['first name']||r['firstname']||r['prenom']||'')+' '+(r['last name']||r['lastname']||r['nom']||''),
+      specialite: r['title']||r['titre']||'',
+      ville: r['location']||r['ville']||'Casablanca',
+      source: 'linkedin',
+      statut: 'Nouveau',
+      commercial_id: currentUser.email
+    };
+  }).filter(function(r){ return r.nom.trim().length > 4; });
+
+  var res = await sb.from('prospection').insert(toInsert);
+  if (res.error) { showToast(t('err_generic')+': '+res.error.message, 'error'); return; }
+  showToast(toInsert.length+' '+t('prospect_added'), 'success');
+  renderProspectionIA();
+}
+
+// ══════════════════════════════════════
+// AI Analysis
+// ══════════════════════════════════════
+async function analyzeOne(id) {
+  var p = iaProspects.find(function(x){ return x.id===id; });
+  if (!p) return;
+  var btn = document.getElementById('analyze-'+id);
+  if (btn) { btn.disabled=true; btn.innerHTML='<i class="ti ti-loader-2"></i> ...'; }
+
+  try {
+    var result = await claudeScore(p);
+    await sb.from('prospection').update({
+      score: result.score, cas: result.cas, temperature: result.temperature,
+      priorite: result.priorite, angle: result.angle,
+      objection: result.objection_probable, script_medecin: result.script_medecin,
+      script_receptionniste: result.script_receptionniste,
+      prochaine_action: result.prochaine_action
+    }).eq('id', id);
+    // Update local
+    var idx = iaProspects.findIndex(function(x){ return x.id===id; });
+    if (idx>=0) iaProspects[idx] = Object.assign({}, iaProspects[idx], result, {
+      objection: result.objection_probable,
+      script_medecin: result.script_medecin,
+      script_receptionniste: result.script_receptionniste,
+      prochaine_action: result.prochaine_action
+    });
+    showToast(t('generated')+ ' ✓', 'success');
+    renderMission();
+  } catch(e) {
+    showToast(t('err_generic'), 'error');
+    if (btn) { btn.disabled=false; btn.innerHTML='<i class="ti ti-brain"></i> '+t('analyze_ai'); }
+  }
+}
+
+async function analyzeAll() {
+  var toAnalyze = iaProspects.filter(function(p){ return !p.score && p.statut!=='Signe' && p.statut!=='Refus'; }).slice(0,10);
+  if (!toAnalyze.length) { showToast('Tous les prospects sont deja analyses', 'info'); return; }
+  var btn = document.getElementById('btn-analyze-all');
+  if (btn) { btn.disabled=true; btn.innerHTML='<i class="ti ti-loader-2"></i> (0/'+toAnalyze.length+')'; }
+  for (var i=0; i<toAnalyze.length; i++) {
+    if (btn) btn.innerHTML='<i class="ti ti-loader-2"></i> ('+i+'/'+toAnalyze.length+')';
+    await analyzeOne(toAnalyze[i].id);
+    await new Promise(function(r){ setTimeout(r, 800); });
+  }
+  if (btn) { btn.disabled=false; btn.innerHTML='<i class="ti ti-brain"></i> '+t('analyze_all'); }
+  showToast(t('generated')+' '+toAnalyze.length, 'success');
+}
+
+async function claudeScore(p) {
+  var langInstruction = currentLang==='en' ? 'Respond in English.' : currentLang==='ar' ? 'Respond in Arabic.' : 'Respond in French.';
+  var prompt = 'Tu es un expert commercial B2B SaaS medical au Maroc pour MediPulse (automatisation Google Reviews via WhatsApp).\n'+langInstruction+'\n\nProspect:\nNom: '+p.nom+'\nSpecialite: '+p.specialite+'\nVille/Quartier: '+(p.ville||'')+(p.quartier?' / '+p.quartier:'')+'\nNote Google: '+(p.rating||'?')+'/5\nNb avis: '+(p.nb_avis||'?')+'\nSite web: '+(p.site_web?'Oui':'Non')+'\nDabadoc: '+(p.dabadoc?'Oui':'Non')+'\nInstagram: '+(p.instagram?'Oui':'Non')+'\nLinkedIn: '+(p.linkedin_actif?'Oui':'Non')+'\nSource: '+(p.source||'manuel')+'\nStatut pipeline: '+(p.statut||'Nouveau')+'\nHistorique: '+(p.note||'Aucun')+'\n\nRules:\n- Hot if: nb_avis<25 AND rating>4.0\n- Case 1: good rating, few reviews -> valoriser reputation\n- Case 2: strong competitor -> urgence competitive (use "confrere" not "concurrent")\n- Case 3: weak digital presence -> besoin visibilite\n- Case 4: very advanced in pipeline -> close now\n- Case 5: low relevance -> deprioritize\n\nReturn ONLY valid JSON:\n{"score":75,"cas":"1","temperature":"chaud","priorite":"A","angle":"...","objection_probable":"...","reponse_objection":"...","script_medecin":"...","script_receptionniste":"...","prochaine_action":"..."}';
+
+  var resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: 'Tu es expert en prospection B2B medicale au Maroc. Reponds UNIQUEMENT en JSON valide sans markdown.',
+      messages: [{role:'user', content:prompt}]
+    })
+  });
+  var data = await resp.json();
+  var text = (data.content&&data.content[0]&&data.content[0].text)||'{}';
+  var clean = text.replace(/```json|```/g,'').trim();
+  return JSON.parse(clean);
+}
+
+// ══════════════════════════════════════
+// IA Detail Modal
+// ══════════════════════════════════════
+function openIADetail(id) {
+  var p = iaProspects.find(function(x){ return x.id===id; });
+  if (!p) return;
+  selectedIAId = id;
+  document.getElementById('ia-name').textContent = p.nom;
+  document.getElementById('ia-meta').textContent = p.specialite+' · '+(p.quartier||p.ville||'')+(p.rating?' · ⭐'+p.rating+(p.nb_avis?' ('+p.nb_avis+' avis)':''):'');
+
+  var body = document.getElementById('ia-body');
+  if (!p.score) {
+    body.innerHTML = '<div style="text-align:center;padding:20px">' +
+      '<button onclick="analyzeOneModal('+p.id+')" class="save-btn"><i class="ti ti-brain"></i> '+t('analyze_ai')+'</button>' +
+    '</div>';
+  } else {
+    renderIAModal(p);
+  }
+  document.getElementById('ia-overlay').classList.add('open');
+}
+
+async function analyzeOneModal(id) {
+  document.getElementById('ia-body').innerHTML = '<div style="text-align:center;padding:30px;color:#94A3B8"><i class="ti ti-loader-2" style="font-size:30px;animation:spin 1s linear infinite;display:block;margin-bottom:12px"></i>'+t('generating')+'</div>';
+  await analyzeOne(id);
+  var p = iaProspects.find(function(x){ return x.id===id; });
+  if (p) renderIAModal(p);
+}
+
+function renderIAModal(p) {
+  var tempLabel = p.temperature==='chaud'?t('temp_hot'):p.temperature==='tiede'?t('temp_warm'):t('temp_cold');
+  var priLabel = p.priorite==='A'?t('priority_a'):p.priorite==='B'?t('priority_b'):t('priority_c');
+  var scoreColor = (p.score||0)>=70?'#10B981':(p.score||0)>=40?'#F59E0B':'#EF4444';
+
+  document.getElementById('ia-body').innerHTML =
+    // Score row
+    '<div style="display:flex;gap:10px;margin-bottom:16px">' +
+      '<div style="flex:1;background:#F8FAFC;border-radius:12px;padding:14px;text-align:center">' +
+        '<div style="font-size:32px;font-weight:900;color:'+scoreColor+'">'+p.score+'</div>' +
+        '<div style="font-size:11px;color:#94A3B8">'+t('score_label')+'/100</div>' +
+      '</div>' +
+      '<div style="flex:1;background:#F8FAFC;border-radius:12px;padding:14px;text-align:center">' +
+        '<div style="font-size:20px;font-weight:800;color:#0A1628">'+tempLabel+'</div>' +
+        '<div style="font-size:11px;color:#94A3B8">'+t('cas_label')+' '+p.cas+'</div>' +
+      '</div>' +
+    '</div>' +
+    '<div style="font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px">'+t('angle_label')+'</div>' +
+    '<div class="angle-box" style="margin-bottom:14px">'+(p.angle||'—')+'</div>' +
+
+    '<div style="display:flex;gap:8px;margin-bottom:14px">' +
+      '<button class="tab-btn active" id="st-doctor" onclick="switchScriptTab(\'doctor\')">👨‍⚕️ '+t('doctor_script')+'</button>' +
+      '<button class="tab-btn" id="st-reception" onclick="switchScriptTab(\'reception\')">📞 '+t('reception_script')+'</button>' +
+    '</div>' +
+    '<div id="script-content">' +
+      '<div class="script-box" id="script-text">'+(p.script_medecin||'—')+'</div>' +
+    '</div>' +
+    '<button onclick="copyScript()" class="btn-sm btn-blue" style="margin-top:8px;margin-bottom:16px;width:100%;justify-content:center"><i class="ti ti-copy"></i> '+t('copy_script')+'</button>' +
+
+    '<div style="font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px">'+t('objection_label')+'</div>' +
+    '<div class="objection-box" style="margin-bottom:8px">'+(p.objection||'—')+'</div>' +
+    '<div style="font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px">'+t('response_to_objection')+'</div>' +
+    '<div class="angle-box" style="margin-bottom:16px">'+(p.reponse_objection||p.angle||'—')+'</div>' +
+
+    '<div style="font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">'+t('next_action')+'</div>' +
+    '<div style="background:#EEF4FF;border:1px solid #B5D4F4;border-radius:12px;padding:14px;font-size:13px;font-weight:600;color:#1E5FCC;margin-bottom:16px">'+(p.prochaine_action||'—')+'</div>' +
+
+    '<button onclick="openWAMessageModal('+p.id+')" '+(waCount>=WA_MAX?'disabled style="opacity:0.5"':'')+' class="save-btn" style="background:#16A34A"><i class="ti ti-brand-whatsapp"></i> '+t('copy_wa')+'</button>';
+
+  // Store current script type
+  window._currentScriptP = p;
+  window._currentScriptType = 'doctor';
+}
+
+function switchScriptTab(type) {
+  var p = window._currentScriptP;
+  if (!p) return;
+  window._currentScriptType = type;
+  document.getElementById('st-doctor').classList.toggle('active', type==='doctor');
+  document.getElementById('st-reception').classList.toggle('active', type==='reception');
+  document.getElementById('script-text').textContent = type==='doctor' ? (p.script_medecin||'—') : (p.script_receptionniste||'—');
+}
+
+function copyScript() {
+  var text = document.getElementById('script-text').textContent;
+  navigator.clipboard.writeText(text).then(function(){ showToast(t('copied'), 'success'); });
+}
+
+async function openWAMessage(id) {
+  if (waCount >= WA_MAX) { showToast(t('wa_limit_reached'), 'error'); return; }
+  openIADetail(id);
+}
+
+async function openWAMessageModal(id) {
+  if (waCount >= WA_MAX) { showToast(t('wa_limit_reached'), 'error'); return; }
+  var p = iaProspects.find(function(x){ return x.id===id; });
+  if (!p) return;
+
+  // Generate WA message
+  var langInstruction = currentLang==='en'?'Respond in English.':currentLang==='ar'?'Respond in Arabic.':'Respond in French marocain.';
+  var touch = (p.touch||0) + 1;
+  var prompt = 'Genere un message WhatsApp de prospection pour MediPulse.\n'+langInstruction+'\nProspect: '+p.nom+'\nSpecialite: '+p.specialite+'\nNote Google: '+(p.rating||'?')+'/5\nNb avis: '+(p.nb_avis||'?')+'\nCas: '+(p.cas||'1')+'\nAngle: '+(p.angle||'')+'\nTouch numero: '+touch+'/3\n\nRules:\n- Touch 1: accroche courte sur manque d avis\n- Touch 2: relance douce, valeur + preuve sociale\n- Touch 3: derniere tentative, urgence\n- Max 4 lignes WhatsApp\n- Signer "Mams - MediPulse"\nReponds UNIQUEMENT avec le message WhatsApp.';
+
+  try {
+    var resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:500,
+        system:'Expert WhatsApp copywriting B2B medical Maroc. Reponds uniquement avec le message.',
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    var data = await resp.json();
+    var msg = (data.content&&data.content[0]&&data.content[0].text)||'';
+    // Copy and open WA
+    navigator.clipboard.writeText(msg);
+    incrementWa();
+    await sb.from('prospection').update({touch:touch, last_wa_date:new Date().toISOString().split('T')[0], wa_message:msg}).eq('id', id);
+    var tel = ((p.telephone_mobile||p.telephone_fixe||'').replace(/\s/g,'').replace(/^0/,'212'));
+    var url = tel ? 'https://wa.me/'+tel+'?text='+encodeURIComponent(msg) : 'https://wa.me/?text='+encodeURIComponent(msg);
+    window.open(url,'_blank');
+    // Update counter display
+    loadWaCount();
+    document.getElementById('ia-overlay').classList.remove('open');
+    showToast(t('copied')+' — WA ouvert', 'success');
+  } catch(e) {
+    showToast(t('err_generic'), 'error');
+  }
+}
+
+function openAddOverlay() {
+  document.getElementById('add-overlay').classList.add('open');
+}
+
+// ══════════════════════════════════════
+// PROSPECTS (existing page)
+// ══════════════════════════════════════
+async function renderProspects() {
+  if (!prospects.length) { var r = await sb.from('prospection').select('*').order('id'); prospects = r.data||[]; }
+  renderProspectsList();
+}
 function renderProspectsList() {
-  const filtered = crmFilter === 'Tous' ? prospects : prospects.filter(p => p.statut === crmFilter);
-
-  document.getElementById('main-content').innerHTML = `
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
-      <div>
-        <div style="font-size:22px;font-weight:700;color:#e2e8f0;font-family:'Plus Jakarta Sans',sans-serif">Mes Prospects</div>
-        <div style="font-size:13px;color:#64748b;margin-top:2px;font-family:'Plus Jakarta Sans',sans-serif">${prospects.length} prospects</div>
-      </div>
-      <button onclick="document.getElementById('add-overlay').classList.add('open')" style="padding:10px 18px;border-radius:10px;background:linear-gradient(135deg,#1E3A8A,#2563EB);color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">
-        + Ajouter prospect
-      </button>
-    </div>
-    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-      ${['Tous','Nouveau','Rappeler','Joignable','Démo Bookée','Signé','Refus'].map(f => `
-        <div onclick="setFilter('${f}')" class="chip ${crmFilter===f?'chip-active':'chip-inactive'}">${f}</div>
-      `).join('')}
-    </div>
-    <div id="prospects-list">
-      ${filtered.length ? filtered.map(p => {
-        const st = ST.find(s => s.key === p.statut) || ST[0];
-        return `
-          <div class="prospect-row">
-            <div style="flex:1">
-              <div style="font-size:14px;font-weight:600;color:#111827;font-family:'Plus Jakarta Sans',sans-serif">${p.nom}</div>
-              <div style="font-size:12px;color:#6B7280;margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif">
-                ${p.specialite} · ${p.quartier||p.ville||''}
-                ${p.telephone_fixe ? ' · ' + p.telephone_fixe : ''}
-              </div>
-              ${p.note ? `<div style="font-size:11px;color:#94A3B8;margin-top:3px;font-style:italic;font-family:'Plus Jakarta Sans',sans-serif">${p.note}</div>` : ''}
-            </div>
-            <span style="padding:4px 10px;border-radius:99px;font-size:11px;font-weight:600;background:${st.bg};color:${st.color};white-space:nowrap">${st.label}</span>
-            <div style="display:flex;gap:6px">
-              <button class="action-btn" onclick="callProspect(${p.id})" title="Appeler">
-                <i class="ti ti-phone" style="font-size:15px;color:#16A34A"></i>
-              </button>
-              <button class="action-btn" onclick="waProspect(${p.id})" title="WhatsApp">
-                <i class="ti ti-brand-whatsapp" style="font-size:15px;color:#16A34A"></i>
-              </button>
-              <button class="action-btn" onclick="editProspect(${p.id})" title="Modifier">
-                <i class="ti ti-edit" style="font-size:15px;color:#2563EB"></i>
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('') : `
-        <div style="text-align:center;padding:48px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">
-          <i class="ti ti-search" style="font-size:40px;display:block;margin-bottom:12px;color:#334155"></i>
-          Aucun prospect trouvé
-        </div>
-      `}
-    </div>
-  `;
+  var filtered = crmFilter==='Tous' ? prospects : prospects.filter(function(p){ return p.statut===crmFilter; });
+  document.getElementById('main-content').innerHTML =
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">' +
+      '<div><div class="section-title">'+t('my_prospects')+'</div><div style="font-size:12px;color:#64748B;margin-top:3px">'+prospects.length+' prospects</div></div>' +
+      '<button onclick="document.getElementById(\'add-overlay\').classList.add(\'open\')" style="padding:10px 16px;border-radius:12px;background:#0A1628;color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;font-family:inherit"><i class="ti ti-plus" style="font-size:13px"></i> '+t('add')+'</button>' +
+    '</div>' +
+    '<div class="chips-wrap">' +
+      [t('filter_all'),t('filter_new'),t('filter_callback'),t('filter_reachable'),t('filter_demo'),t('filter_signed'),t('filter_refused')].map(function(f,i){
+        var keys=['Tous','Nouveau','Rappeler','Joignable','Demo Bookee','Signe','Refus'];
+        return '<div onclick="setCrmFilter(\''+keys[i]+'\')" class="chip '+(crmFilter===keys[i]?'chip-on':'chip-off')+'">'+f+'</div>';
+      }).join('') +
+    '</div>' +
+    '<div>' +
+      (filtered.length ? filtered.map(function(p){
+        var st = ST.find(function(s){ return s.key===p.statut; }) || ST[0];
+        return '<div class="prospect-card">' +
+          '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:#0A1628">'+p.nom+'</div>' +
+          '<div style="font-size:11px;color:#94A3B8;margin-top:2px">'+p.specialite+' · '+(p.quartier||p.ville||'')+(p.telephone_fixe?' · '+p.telephone_fixe:'')+'</div>' +
+          (p.note?'<div style="font-size:10px;color:#CBD5E1;margin-top:2px;font-style:italic">'+p.note+'</div>':'') +
+          '</div>' +
+          '<span style="padding:3px 10px;border-radius:99px;font-size:10px;font-weight:600;background:'+st.bg+';color:'+st.color+';white-space:nowrap;flex-shrink:0">'+st.label+'</span>' +
+          '<div style="display:flex;gap:4px;flex-shrink:0">' +
+            '<button class="p-action" onclick="callProspect('+p.id+')" title="'+t('call_script')+'"><i class="ti ti-phone"></i></button>' +
+            '<button class="p-action" onclick="waProspect('+p.id+')" title="WA" style="color:#16A34A"><i class="ti ti-brand-whatsapp"></i></button>' +
+            '<button class="p-action" onclick="editProspect('+p.id+')" title="'+t('save')+'"><i class="ti ti-edit"></i></button>' +
+          '</div>' +
+        '</div>';
+      }).join('') : '<div style="text-align:center;padding:48px;color:#94A3B8;font-size:13px">'+t('no_prospect')+'</div>') +
+    '</div>';
 }
-
-function setFilter(f) {
-  crmFilter = f;
-  renderProspectsList();
-}
-
-function callProspect(id) {
-  const p = prospects.find(x => x.id === id);
-  if (!p) return;
-  const tel = (p.telephone_fixe || p.telephone_mobile || '').replace(/\s/g, '');
-  if (tel) window.location.href = 'tel:' + tel;
-  else showToast('Aucun numéro disponible', 'error');
-}
-
-function waProspect(id) {
-  const p = prospects.find(x => x.id === id);
-  if (!p) return;
-  const tel = (p.telephone_mobile || p.telephone_fixe || '').replace(/\s/g, '').replace(/^0/, '212');
-  if (tel) window.open('https://wa.me/' + tel, '_blank');
-  else showToast('Ajouter le mobile via Modifier', 'error');
-}
-
+function setCrmFilter(f) { crmFilter = f; renderProspectsList(); }
+function callProspect(id) { var p=prospects.find(function(x){return x.id===id;}); if(!p)return; var tel=(p.telephone_fixe||p.telephone_mobile||'').replace(/\s/g,''); if(tel)window.location.href='tel:'+tel; else showToast(t('no_tel'),'error'); }
+function waProspect(id) { var p=prospects.find(function(x){return x.id===id;}); if(!p)return; var tel=(p.telephone_mobile||p.telephone_fixe||'').replace(/\s/g,'').replace(/^0/,'212'); if(tel)window.open('https://wa.me/'+tel,'_blank'); else showToast(t('add_mobile'),'error'); }
 function editProspect(id) {
-  const p = prospects.find(x => x.id === id);
-  if (!p) return;
+  var p = prospects.find(function(x){return x.id===id;}) || iaProspects.find(function(x){return x.id===id;});
+  if(!p)return;
   editId = id;
   document.getElementById('edit-name').textContent = p.nom;
-  document.getElementById('edit-meta').textContent = p.specialite + (p.telephone_fixe ? ' · ' + p.telephone_fixe : '');
-  document.getElementById('edit-mobile').value = p.telephone_mobile || '';
-  document.getElementById('edit-note').value = p.note || '';
-  document.getElementById('edit-rappel').value = p.date_rappel || '';
-
-  document.getElementById('status-grid').innerHTML = ST.map(s => `
-    <div onclick="selectStatus('${s.key}',this)" style="padding:10px 12px;border-radius:10px;border:2px solid ${p.statut===s.key?s.border:'#334155'};background:${p.statut===s.key?s.bg:'transparent'};cursor:pointer;transition:all 0.15s" data-key="${s.key}">
-      <div style="font-size:12px;font-weight:600;color:${s.color};font-family:'Plus Jakarta Sans',sans-serif">${s.label}</div>
-      <div style="font-size:10px;color:#64748b;margin-top:2px;font-family:'Plus Jakarta Sans',sans-serif">${s.desc}</div>
-    </div>
-  `).join('');
-
+  document.getElementById('edit-meta').textContent = p.specialite+(p.telephone_fixe?' · '+p.telephone_fixe:'');
+  document.getElementById('edit-mobile').value = p.telephone_mobile||'';
+  document.getElementById('edit-note').value = p.note||'';
+  document.getElementById('edit-rappel').value = p.date_rappel||'';
+  document.getElementById('status-grid').innerHTML = ST.map(function(s){
+    return '<div onclick="selectSt(\''+s.key+'\',this)" class="st-opt '+(p.statut===s.key?'selected':'')+'" data-key="'+s.key+'" style="border-color:'+(p.statut===s.key?s.border:'#E5E7EB')+';background:'+(p.statut===s.key?s.bg:'#fff')+'">' +
+      '<div style="font-size:12px;font-weight:600;color:'+s.color+'">'+s.label+'</div>' +
+      '<div style="font-size:10px;color:#94A3B8;margin-top:1px">'+s.desc+'</div>' +
+    '</div>';
+  }).join('');
   document.getElementById('edit-overlay').classList.add('open');
 }
-
-function selectStatus(key, el) {
-  document.querySelectorAll('#status-grid > div').forEach(d => {
-    const s = ST.find(x => x.key === d.dataset.key);
-    d.style.borderColor = '#334155';
-    d.style.background = 'transparent';
-  });
-  const s = ST.find(x => x.key === key);
-  el.style.borderColor = s.border;
-  el.style.background = s.bg;
+function selectSt(key,el){
+  document.querySelectorAll('#status-grid .st-opt').forEach(function(d){d.style.borderColor='#E5E7EB';d.style.background='#fff';d.classList.remove('selected');});
+  var s=ST.find(function(x){return x.key===key;});
+  if(s){el.style.borderColor=s.border;el.style.background=s.bg;}
+  el.classList.add('selected');
 }
-
 async function saveEdit() {
-  const selEl = document.querySelector('#status-grid > div[style*="rgb"]');
-  const statut = selEl ? selEl.dataset.key : 'Nouveau';
-  const { error } = await sb.from('prospection').update({
-    statut,
-    telephone_mobile: document.getElementById('edit-mobile').value,
-    note: document.getElementById('edit-note').value,
-    date_rappel: document.getElementById('edit-rappel').value || null,
-    date_appel: new Date().toISOString().split('T')[0],
-    commercial_id: currentUser.email,
-  }).eq('id', editId);
-
-  if (error) { showToast('Erreur sauvegarde', 'error'); return; }
-  showToast('Enregistré', 'success');
+  var allOpts=document.querySelectorAll('#status-grid .st-opt');
+  var statut='Nouveau';
+  for(var i=0;i<allOpts.length;i++){if(allOpts[i].classList.contains('selected')){statut=allOpts[i].dataset.key;break;}}
+  var r=await sb.from('prospection').update({statut,telephone_mobile:document.getElementById('edit-mobile').value,note:document.getElementById('edit-note').value,date_rappel:document.getElementById('edit-rappel').value||null,date_appel:new Date().toISOString().split('T')[0],commercial_id:currentUser.email}).eq('id',editId);
+  if(r.error){showToast(t('err_generic'),'error');return;}
+  showToast(t('saved'),'success');
   document.getElementById('edit-overlay').classList.remove('open');
-  renderProspects();
+  var r2=await sb.from('prospection').select('*').order('id');
+  prospects=r2.data||[];
+  iaProspects=prospects;
+  if(currentPage==='prospects')renderProspectsList();
+  else if(currentPage==='prospection')renderProspectionIA();
 }
-
 async function saveAdd() {
-  const nom = document.getElementById('add-nom')?.value.trim();
-  const spec = document.getElementById('add-spec')?.value.trim();
-  if (!nom || !spec) { showToast('Nom et spécialité requis', 'error'); return; }
-
-  const { error } = await sb.from('prospection').insert([{
-    nom, specialite: spec,
-    quartier: document.getElementById('add-quartier').value,
-    ville: 'Casablanca',
-    telephone_mobile: document.getElementById('add-mobile').value,
-    statut: 'Nouveau',
-    commercial_id: currentUser.email,
+  var nom=document.getElementById('add-nom')?.value.trim();
+  var spec=document.getElementById('add-spec')?.value.trim();
+  if(!nom||!spec){showToast(t('err_name_spec_required'),'error');return;}
+  var r=await sb.from('prospection').insert([{
+    nom, specialite:spec,
+    quartier:document.getElementById('add-quartier').value,
+    ville:'Casablanca',
+    telephone_mobile:document.getElementById('add-mobile').value,
+    rating:parseFloat(document.getElementById('add-rating').value)||null,
+    nb_avis:parseInt(document.getElementById('add-avis').value)||null,
+    statut:'Nouveau', commercial_id:currentUser.email, source:'manuel'
   }]);
-
-  if (error) { showToast('Erreur ajout', 'error'); return; }
-  showToast('Prospect ajouté', 'success');
+  if(r.error){showToast(t('err_generic'),'error');return;}
+  showToast(t('prospect_added'),'success');
   document.getElementById('add-overlay').classList.remove('open');
-  ['add-nom','add-spec','add-quartier','add-mobile'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = '';
-  });
-  renderProspects();
+  ['add-nom','add-spec','add-quartier','add-mobile','add-rating','add-avis'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  var r2=await sb.from('prospection').select('*').order('id');
+  prospects=r2.data||[];
+  iaProspects=prospects;
+  if(currentPage==='prospects')renderProspectsList();
+  else if(currentPage==='prospection')renderProspectionIA();
 }
 
-// ══ COMMISSIONS ══
+// ══════════════════════════════════════
+// SIMULATEUR
+// ══════════════════════════════════════
+function renderSimulateur() {
+  document.getElementById('main-content').innerHTML =
+    '<div style="margin-bottom:24px"><div class="section-title">'+t('revenue_sim')+'</div><div class="section-sub">'+t('sim_sub')+'</div></div>' +
+    '<div class="card">' +
+      '<div class="sim-grid">' +
+        '<div>' +
+          '<div style="margin-bottom:20px">' +
+            '<div style="font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px">'+t('new_this_month')+'</div>' +
+            '<div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><input type="range" id="sim-new" min="0" max="20" value="5" oninput="updateSim()" style="flex:1;accent-color:#1E5FCC"><span id="sim-new-val" style="font-size:24px;font-weight:800;color:#1E5FCC;min-width:30px;text-align:right">5</span></div>' +
+          '</div>' +
+          '<div>' +
+            '<div style="font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px">'+t('active_portfolio')+'</div>' +
+            '<div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><input type="range" id="sim-total" min="0" max="30" value="0" oninput="updateSim()" style="flex:1;accent-color:#10B981"><span id="sim-total-val" style="font-size:24px;font-weight:800;color:#10B981;min-width:30px;text-align:right">0</span></div>' +
+          '</div>' +
+        '</div>' +
+        '<div id="sim-result" style="background:#F8FAFC;border-radius:14px;padding:20px;border:1px solid #EEF2F8"></div>' +
+      '</div>' +
+    '</div>';
+  updateSim();
+}
+function updateSim() {
+  var isTer=userRecord.type==='terrain';
+  var pSig=isTer?P_SIG_TER:P_SIG_TEL;
+  var pRec=isTer?P_REC_TER:P_REC_TEL;
+  var paliers=isTer?PAL_TER:PAL_TEL;
+  var nNew=parseInt(document.getElementById('sim-new')?.value||5);
+  var nTot=parseInt(document.getElementById('sim-total')?.value||0);
+  var snv=document.getElementById('sim-new-val');if(snv)snv.textContent=nNew;
+  var stv=document.getElementById('sim-total-val');if(stv)stv.textContent=nTot;
+  var commNew=nNew*Math.round(TD*pSig);
+  var commRec=nTot*Math.round(TD*pRec);
+  var bonus=([...paliers].reverse().find(function(p){return nNew>=p.s;})||{b:0}).b;
+  var total=commNew+commRec+bonus;
+  var panel=document.getElementById('sim-result');
+  if(!panel)return;
+  panel.innerHTML=
+    '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #EEF2F8"><div style="font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;margin-bottom:6px">'+t('new_commission_pct')+' ('+Math.round(pSig*100)+'%)</div><div style="font-size:26px;font-weight:800;color:#EA580C;letter-spacing:-0.5px">'+commNew.toLocaleString('fr-FR')+' MAD</div></div>' +
+    '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #EEF2F8"><div style="font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;margin-bottom:6px">'+t('recurring_pct')+' ('+Math.round(pRec*100)+'%)</div><div style="font-size:26px;font-weight:800;color:#10B981;letter-spacing:-0.5px">'+commRec.toLocaleString('fr-FR')+' MAD</div></div>' +
+    '<div><div style="font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;margin-bottom:6px">'+t('total_month')+'</div><div style="font-size:32px;font-weight:800;color:#1E5FCC;letter-spacing:-0.5px">'+total.toLocaleString('fr-FR')+' MAD</div>' +
+    (bonus>0?'<div style="margin-top:10px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:8px 12px;font-size:12px;color:#EA580C;font-weight:600">'+t('tier_reached')+' +'+bonus+' MAD</div>':'') +
+    '</div>';
+}
+
+// ══════════════════════════════════════
+// COMMISSIONS
+// ══════════════════════════════════════
 function renderCommissions() {
-  const isTer = userRecord.type === 'terrain';
-  const pSig = isTer ? P_SIG_TER : P_SIG_TEL;
-  const pRec = isTer ? P_REC_TER : P_REC_TEL;
-  const paliers = isTer ? PAL_TER : PAL_TEL;
-
-  document.getElementById('main-content').innerHTML = `
-    <div style="font-size:22px;font-weight:700;color:#e2e8f0;margin-bottom:24px;font-family:'Syne',sans-serif">Mes commissions</div>
-
-    <div style="background:#1e293b;border-radius:16px;border:1px solid #334155;padding:24px;margin-bottom:20px">
-      <div style="font-size:13px;font-weight:600;color:#94a3b8;margin-bottom:20px;font-family:'Plus Jakarta Sans',sans-serif">📋 Grille de commissions MediPulse</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
-        <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:20px;text-align:center">
-          <div style="font-size:10px;font-weight:700;color:#3b82f6;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;font-family:'Plus Jakarta Sans',sans-serif">COMMISSION NOUVEAU CABINET</div>
-          <div style="font-size:36px;font-weight:800;color:#3b82f6;font-family:'Syne',sans-serif">${Math.round(pSig*100)}%</div>
-          <div style="font-size:13px;color:#64748b;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif">= ${Math.round(TD*pSig)} MAD / cabinet</div>
-        </div>
-        <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:20px;text-align:center">
-          <div style="font-size:10px;font-weight:700;color:#10b981;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;font-family:'Plus Jakarta Sans',sans-serif">COMMISSION RÉCURRENTE</div>
-          <div style="font-size:36px;font-weight:800;color:#10b981;font-family:'Syne',sans-serif">${Math.round(pRec*100)}%</div>
-          <div style="font-size:13px;color:#64748b;margin-top:8px;font-family:'Plus Jakarta Sans',sans-serif">= ${Math.round(TD*pRec)} MAD/mois à vie</div>
-        </div>
-      </div>
-      <div style="background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:20px">
-        <div style="font-size:13px;font-weight:600;color:#f59e0b;margin-bottom:16px;font-family:'Plus Jakarta Sans',sans-serif">🏆 Bonus paliers</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-          ${paliers.map(p => `
-            <div style="text-align:center">
-              <div style="font-size:22px;font-weight:800;color:#f59e0b;font-family:'Syne',sans-serif">+${p.b} MAD</div>
-              <div style="font-size:12px;color:#64748b;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">${p.s} cabinets</div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    </div>
-
-    <div style="background:#1e293b;border-radius:16px;border:1px solid #334155;padding:24px">
-      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #334155">
-        ${['MOIS', 'NOUVEAUX ('+Math.round(pSig*100)+'%)', 'RÉCURRENT ('+Math.round(pRec*100)+'%)', 'BONUS', 'TOTAL', 'STATUT'].map(h =>
-          `<div style="font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;font-family:'Plus Jakarta Sans',sans-serif">${h}</div>`
-        ).join('')}
-      </div>
-      <div style="text-align:center;padding:32px;color:#64748b;font-family:'Plus Jakarta Sans',sans-serif">
-        Aucune commission pour l'instant
-      </div>
-    </div>
-  `;
+  var isTer=userRecord.type==='terrain';
+  var pSig=isTer?P_SIG_TER:P_SIG_TEL;
+  var pRec=isTer?P_REC_TER:P_REC_TEL;
+  var paliers=isTer?PAL_TER:PAL_TEL;
+  document.getElementById('main-content').innerHTML=
+    '<div style="margin-bottom:24px"><div class="section-title">'+t('commissions')+'</div><div class="section-sub">'+t('remuneration')+'</div></div>'+
+    '<div class="comm-grid">'+
+      '<div style="background:#EEF4FF;border:1px solid #B5D4F4;border-radius:18px;padding:20px;text-align:center"><div style="font-size:11px;font-weight:700;color:#1E5FCC;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px">'+t('new_commission')+'</div><div style="font-size:36px;font-weight:800;color:#1E5FCC;letter-spacing:-0.5px">'+Math.round(pSig*100)+'%</div><div style="font-size:13px;color:#64748B;margin-top:8px">= '+Math.round(TD*pSig)+' MAD'+t('per_cabinet')+'</div></div>'+
+      '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:18px;padding:20px;text-align:center"><div style="font-size:11px;font-weight:700;color:#15803D;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px">'+t('recurring_commission')+'</div><div style="font-size:36px;font-weight:800;color:#15803D;letter-spacing:-0.5px">'+Math.round(pRec*100)+'%</div><div style="font-size:13px;color:#64748B;margin-top:8px">= '+Math.round(TD*pRec)+' MAD'+t('per_month_life2')+'</div></div>'+
+    '</div>'+
+    '<div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:18px;padding:20px;margin-bottom:16px">'+
+      '<div style="font-size:14px;font-weight:700;color:#92400E;margin-bottom:16px">'+t('bonus_tiers')+'</div>'+
+      '<div class="paliers-grid">'+
+        paliers.map(function(p){return'<div style="text-align:center;background:#fff;border-radius:12px;padding:16px;border:1px solid #FDE68A"><div style="font-size:24px;font-weight:800;color:#EA580C;letter-spacing:-0.5px">+'+p.b+' MAD</div><div style="font-size:12px;color:#94A3B8;margin-top:6px">'+p.s+' '+(currentLang==='en'?'practices':'cabinets')+'</div></div>';}).join('') +
+      '</div>'+
+    '</div>'+
+    '<div class="card"><div style="font-size:14px;font-weight:700;color:#0A1628;margin-bottom:14px">'+t('history')+'</div><div style="text-align:center;padding:28px;color:#94A3B8;font-size:13px">'+t('no_commission')+'</div></div>';
 }
 
-// ══ VALIDER CABINET ══
+// ══════════════════════════════════════
+// VALIDER
+// ══════════════════════════════════════
 function renderValider() {
-  document.getElementById('main-content').innerHTML = `
-    <div style="margin-bottom:24px">
-      <div style="font-size:22px;font-weight:700;color:#e2e8f0;font-family:'Syne',sans-serif">Valider un cabinet signé</div>
-      <div style="font-size:13px;color:#64748b;margin-top:4px;font-family:'Plus Jakarta Sans',sans-serif">Crée automatiquement les accès médecin et assistante — Trial 7 jours</div>
-    </div>
-    <div style="max-width:600px">
-      <div style="background:#1e293b;border-radius:16px;border:1px solid #334155;padding:28px">
-        <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#93c5fd;font-family:'Plus Jakarta Sans',sans-serif">
-          ℹ️ Le cabinet bénéficiera d'un essai gratuit de 7 jours. Vous serez notifié la veille de l'expiration.
-        </div>
-        ${[
-          ['cab-nom','cab-medecin','Nom du cabinet *','Nom du médecin *','Cabinet Dr. Nom','Dr. Prénom Nom'],
-          ['cab-spec','cab-ville','Spécialité *','Ville','Dermatologue...','Casablanca'],
-          ['cab-email-med','cab-assistante','Email médecin *','Nom assistante *','dr.nom@medipulse.ma','Prénom Nom'],
-          ['cab-email-ass','','Email assistante *','','assistante.nom@medipulse.ma',''],
-        ].map(row => `
-          <div style="display:grid;grid-template-columns:${row[1]?'1fr 1fr':'1fr'};gap:16px;margin-bottom:16px">
-            <div>
-              <div style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">${row[2]}</div>
-              <input class="finput" id="${row[0]}" placeholder="${row[4]}" style="background:#0f172a;border-color:#334155;color:#e2e8f0" ${row[0]==='cab-ville'?'value="Casablanca"':''}>
-            </div>
-            ${row[1] ? `<div>
-              <div style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">${row[3]}</div>
-              <input class="finput" id="${row[1]}" placeholder="${row[5]}" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
-            </div>` : ''}
-          </div>
-        `).join('')}
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-          <div>
-            <div style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Plan</div>
-            <select class="finput" id="cab-plan" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
-              <option value="starter">Starter — 999 DH/mois</option>
-              <option value="pro" selected>Pro — 1499 DH/mois</option>
-              <option value="enterprise">Enterprise — 2499 DH/mois</option>
-            </select>
-          </div>
-          <div>
-            <div style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">Lien Google Maps</div>
-            <input class="finput" id="cab-google" placeholder="https://g.page/..." style="background:#0f172a;border-color:#334155;color:#e2e8f0">
-          </div>
-        </div>
-        <div style="margin-bottom:20px">
-          <div style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif">WhatsApp cabinet</div>
-          <input class="finput" type="tel" id="cab-whatsapp" placeholder="06 XX XX XX XX" style="background:#0f172a;border-color:#334155;color:#e2e8f0">
-        </div>
-        <button onclick="validerCabinet()" style="width:100%;padding:14px;border-radius:12px;background:#10b981;color:#fff;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">
-          ✓ Valider le cabinet — Démarrer le trial
-        </button>
-      </div>
-    </div>
-  `;
+  document.getElementById('main-content').innerHTML=
+    '<div style="margin-bottom:24px"><div class="section-title">'+t('validate_cabinet')+'</div><div class="section-sub">'+t('trial_sub')+'</div></div>'+
+    '<div style="background:#EEF4FF;border:1px solid #B5D4F4;border-radius:12px;padding:12px 16px;margin-bottom:12px;font-size:13px;color:#1E5FCC;display:flex;align-items:center;gap:8px"><i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0"></i>'+t('trial_info')+'</div>'+
+    '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#15803D;display:flex;align-items:center;gap:8px"><i class="ti ti-mail-off" style="font-size:16px;flex-shrink:0"></i>'+t('email_optional')+'</div>'+
+    '<div class="card">'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">'+
+        '<div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('cabinet_name')+'</div><input class="finput" id="cab-nom" placeholder="Cabinet Dr. Nom"></div>'+
+        '<div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('doctor_name')+'</div><input class="finput" id="cab-medecin" placeholder="Dr. Prenom Nom"></div>'+
+        '<div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('specialty2')+'</div><input class="finput" id="cab-spec" placeholder="Dermatologue..."></div>'+
+        '<div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('city')+'</div><input class="finput" id="cab-ville" value="Casablanca"></div>'+
+        '<div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('assistant_name')+'</div><input class="finput" id="cab-assistante" placeholder="Prenom Nom"></div>'+
+        '<div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('plan')+'</div><select class="finput" id="cab-plan"><option value="starter">Starter — 999 DH/mois</option><option value="pro" selected>Pro — 1499 DH/mois</option><option value="enterprise">Enterprise — 2499 DH/mois</option></select></div>'+
+      '</div>'+
+      '<div style="margin-bottom:12px"><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('google_link')+'</div><input class="finput" id="cab-google" placeholder="https://g.page/..."></div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">'+
+        '<div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('cabinet_whatsapp')+'</div><input class="finput" type="tel" id="cab-whatsapp" placeholder="06 XX XX XX XX"></div>'+
+        '<div><div style="font-size:10px;font-weight:700;color:#0A1628;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">'+t('doctor_whatsapp')+'</div><input class="finput" type="tel" id="cab-wa-med" placeholder="06 XX XX XX XX"></div>'+
+      '</div>'+
+      '<button onclick="validerCabinet()" class="save-btn" id="btn-valider"><i class="ti ti-check" style="font-size:15px"></i> '+t('validate_start')+'</button>'+
+    '</div>';
 }
 
-async function validerCabinet() {
-  const nom = document.getElementById('cab-nom')?.value.trim();
-  const med = document.getElementById('cab-medecin')?.value.trim();
-  const spec = document.getElementById('cab-spec')?.value.trim();
-  const ville = document.getElementById('cab-ville')?.value.trim();
-  const emailMed = document.getElementById('cab-email-med')?.value.trim();
-  const ass = document.getElementById('cab-assistante')?.value.trim();
-  const emailAss = document.getElementById('cab-email-ass')?.value.trim();
-  const plan = document.getElementById('cab-plan')?.value;
-  const googleUrl = document.getElementById('cab-google')?.value.trim();
-  const whatsapp = document.getElementById('cab-whatsapp')?.value.trim();
-
-  if (!nom || !med || !spec || !emailMed || !ass || !emailAss) {
-    showToast('Tous les champs requis', 'error'); return;
+// ══════════════════════════════════════
+// VALIDER CABINET (logic)
+// ══════════════════════════════════════
+async function validerCabinet(){
+  var nom=document.getElementById('cab-nom')?.value.trim();
+  var med=document.getElementById('cab-medecin')?.value.trim();
+  var spec=document.getElementById('cab-spec')?.value.trim();
+  var ville=document.getElementById('cab-ville')?.value.trim();
+  var ass=document.getElementById('cab-assistante')?.value.trim();
+  var plan=document.getElementById('cab-plan')?.value;
+  var googleUrl=document.getElementById('cab-google')?.value.trim();
+  var whatsapp=document.getElementById('cab-whatsapp')?.value.trim();
+  var waMedecin=document.getElementById('cab-wa-med')?.value.trim();
+  accesWaMedecin=waMedecin||'';
+  if(!nom||!med||!spec||!ass){showToast(t('err_cabinet_required'),'error');return;}
+  var btn=document.getElementById('btn-valider');
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2" style="font-size:15px"></i> '+t('creating');}
+  try{
+    var today=new Date();
+    var trialEnd=new Date(today);trialEnd.setDate(trialEnd.getDate()+7);
+    var renewDate=new Date(today);renewDate.setMonth(renewDate.getMonth()+1);
+    var r1=await sb.from('cabinets').insert([{
+      nom_cabinet:nom,nom_medecin:med,specialite:spec,ville:ville||'Casablanca',
+      email_medecin:null,email_assistante:null,nom_assistante:ass,
+      plan:plan||'pro',statut:'trial',
+      date_signature:today.toISOString().split('T')[0],
+      date_debut:today.toISOString().split('T')[0],
+      date_fin_trial:trialEnd.toISOString().split('T')[0],
+      date_renouvellement:renewDate.toISOString().split('T')[0],
+      statut_paiement:'trial',commercial_id:currentUser.email,
+      google_url:googleUrl||null,whatsapp_cabinet:whatsapp||null,
+    }]).select('id').single();
+    if(r1.error||!r1.data?.id)throw new Error(r1.error?.message||'ID manquant');
+    var cabinetId=r1.data.id;
+    await sb.from('users').insert([
+      {email:'dr-temp-'+cabinetId+'@medipulse.ma',nom:med,role:'medecin',type:'',statut:'actif',cabinet_id:cabinetId,commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
+      {email:'as-temp-'+cabinetId+'@medipulse.ma',nom:ass,role:'assistante',type:'',statut:'actif',cabinet_id:cabinetId,commercial_id:currentUser.email,date_creation:today.toISOString().split('T')[0]},
+    ]);
+    showToast(t('creating'),'info');
+    var hwRes=await fetch('https://czttvnvcetgmjfqishig.supabase.co/functions/v1/hyper-worker',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6dHR2bnZjZXRnbWpmcWlzaGlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjc2OTMsImV4cCI6MjA5MzMwMzY5M30.diTXQqKQOU4QoRwqKwwbeHmhE_ulAI3RLJEtTs0I1w8','apikey':'sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m'},
+      body:JSON.stringify({cabinetId,nomCabinet:nom,nomMedecin:med,nomAssistante:ass,emailMedecin:'',emailAssistante:'',specialite:spec,ville:ville||'Casablanca',whatsapp:whatsapp||'',lienGoogle:googleUrl||'',commercial:currentUser.email}),
+    });
+    var hwData=await hwRes.json();
+    if(hwData.acces){
+      document.getElementById('acc-med-email').textContent=hwData.acces.medecin.email;
+      document.getElementById('acc-ass-email').textContent=hwData.acces.assistante.email;
+      document.getElementById('acc-pwd').textContent=hwData.acces.medecin.password;
+      document.getElementById('acces-overlay').classList.add('open');
+    }else{
+      showToast(nom+' '+t('saved'),'success');
+      setTimeout(function(){showPage('cabinets');},2000);
+    }
+  }catch(err){
+    showToast(t('err_generic')+': '+err.message,'error');
+    if(btn){btn.disabled=false;btn.innerHTML='<i class="ti ti-check" style="font-size:15px"></i> '+t('validate_start');}
   }
-
-  const today = new Date();
-  const trialEnd = new Date(today); trialEnd.setDate(trialEnd.getDate() + 7);
-  const renewDate = new Date(today); renewDate.setMonth(renewDate.getMonth() + 1);
-
-  const { error } = await sb.from('cabinets').insert([{
-    nom_cabinet: nom, nom_medecin: med, specialite: spec, ville,
-    email_medecin: emailMed, email_assistante: emailAss, nom_assistante: ass,
-    plan, statut: 'trial',
-    date_signature: today.toISOString().split('T')[0],
-    date_debut: today.toISOString().split('T')[0],
-    date_fin_trial: trialEnd.toISOString().split('T')[0],
-    date_renouvellement: renewDate.toISOString().split('T')[0],
-    statut_paiement: 'trial',
-    commercial_id: currentUser.email,
-    google_url: googleUrl,
-    whatsapp_cabinet: whatsapp,
-  }]);
-
-  if (error) { showToast('Erreur — ' + error.message, 'error'); return; }
-
-  // Create user accounts
-  await sb.from('users').insert([
-    { email: emailMed, nom: med, role: 'medecin', type: '', statut: 'actif', commercial_id: currentUser.email, date_creation: today.toISOString().split('T')[0] },
-    { email: emailAss, nom: ass, role: 'assistante', type: '', statut: 'actif', commercial_id: currentUser.email, date_creation: today.toISOString().split('T')[0] },
-  ]);
-
-  showToast('Cabinet validé ! Trial 7 jours activé.', 'success');
-  setTimeout(() => showPage('dashboard'), 1500);
 }
+
+// ══════════════════════════════════════
+// PAIEMENT
+// ══════════════════════════════════════
+function ouvrirSoumettreJustif(cabinetId,nomCab,plan){
+  pmtCabinetId=cabinetId;pmtCabinetPlan=plan||'pro';pmtFile=null;
+  document.getElementById('pmt-cab-name').textContent=nomCab;
+  document.getElementById('pmt-montant').value=TARIF[pmtCabinetPlan]||TD;
+  var now=new Date();
+  document.getElementById('pmt-mois').value=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  document.getElementById('pmt-mode').value='virement';
+  document.getElementById('pmt-note').value='';
+  document.getElementById('pmt-preview').style.display='none';
+  document.getElementById('pmt-preview').src='';
+  document.getElementById('pmt-upload-content').style.display='block';
+  document.getElementById('pmt-file').value='';
+  document.getElementById('pmt-overlay').classList.add('open');
+}
+function handleFileChange(e){
+  var file=e.target.files[0];if(!file)return;
+  if(file.size>10*1024*1024){showToast(t('err_upload_too_large'),'error');return;}
+  pmtFile=file;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var img=document.getElementById('pmt-preview');img.src=ev.target.result;img.style.display='block';
+    document.getElementById('pmt-upload-content').style.display='none';
+  };
+  reader.readAsDataURL(file);
+}
+async function soumettreJustif(){
+  var montant=document.getElementById('pmt-montant').value;
+  var mois=document.getElementById('pmt-mois').value;
+  if(!montant||!mois){showToast(t('err_amount_month'),'error');return;}
+  if(!pmtFile){showToast(t('err_photo_required'),'error');return;}
+  var btn=document.getElementById('btn-submit-pmt');
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2" style="font-size:15px"></i> ...';
+  try{
+    var ext=pmtFile.name.split('.').pop()||'jpg';
+    var fileName='justif_'+pmtCabinetId+'_'+Date.now()+'.'+ext;
+    var storageRes=await sb.storage.from('justificatifs').upload(fileName,pmtFile,{contentType:pmtFile.type||'image/jpeg',upsert:false});
+    if(storageRes.error)throw new Error(storageRes.error.message);
+    var insertRes=await sb.from('paiements').insert([{cabinet_id:pmtCabinetId,montant:parseFloat(montant),mode:document.getElementById('pmt-mode').value,statut:'en_attente_confirmation',note:document.getElementById('pmt-note').value||null,mois,justif_path:storageRes.data.path||fileName,commercial_id:currentUser.email}]);
+    if(insertRes.error)throw new Error(insertRes.error.message);
+    showToast(t('payment_submitted'),'success');
+    document.getElementById('pmt-overlay').classList.remove('open');
+  }catch(err){showToast(t('err_generic')+': '+err.message,'error');}
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-send" style="font-size:15px"></i> '+t('submit_for_validation');
+}
+
+// ══════════════════════════════════════
+// URGENCE / ACCES
+// ══════════════════════════════════════
+function voirAcces(cabinetId,nomCab,emailMed,emailAss){
+  urgenceCabinetId=cabinetId;urgenceMedEmail=emailMed;urgenceAssEmail=emailAss;
+  document.getElementById('urg-title').textContent=nomCab;
+  document.getElementById('urg-med-email').textContent=emailMed||'—';
+  document.getElementById('urg-ass-email').textContent=emailAss||'—';
+  document.getElementById('new-pwd-box').style.display='none';
+  document.getElementById('urgence-overlay').classList.add('open');
+}
+async function resetPassword(){
+  var btn=document.getElementById('btn-reset');
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2"></i> ...';}
+  var chars='ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  var pwd='Pulse#';for(var i=0;i<6;i++)pwd+=chars.charAt(Math.floor(Math.random()*chars.length));
+  try{
+    await fetch('https://czttvnvcetgmjfqishig.supabase.co/functions/v1/hyper-worker',{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6dHR2bnZjZXRnbWpmcWlzaGlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjc2OTMsImV4cCI6MjA5MzMwMzY5M30.diTXQqKQOU4QoRwqKwwbeHmhE_ulAI3RLJEtTs0I1w8','apikey':'sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m'},
+      body:JSON.stringify({action:'reset_password',cabinetId:urgenceCabinetId,newPassword:pwd}),
+    });
+    document.getElementById('new-pwd-val').textContent=pwd;
+    document.getElementById('new-pwd-box').style.display='block';
+    showToast(t('pwd_generated'),'success');
+  }catch(e){showToast(t('err_generic'),'error');}
+  if(btn){btn.disabled=false;btn.innerHTML='<i class="ti ti-refresh" style="font-size:15px"></i> '+t('generate_password');}
+}
+
+// ══════════════════════════════════════
+// COPY / WA helpers
+// ══════════════════════════════════════
+function copyText(id){var val=document.getElementById(id)?.textContent;if(!val)return;navigator.clipboard.writeText(val).then(function(){showToast(t('copied'),'success');});}
+function copyAll(){
+  var med=document.getElementById('acc-med-email')?.textContent;
+  var ass=document.getElementById('acc-ass-email')?.textContent;
+  var pwd=document.getElementById('acc-pwd')?.textContent;
+  var txt='MEDECIN\nEmail : '+med+'\nMot de passe : '+pwd+'\nURL : https://medipulse-gamma.vercel.app/medecin.html\n\nASSISTANTE\nEmail : '+ass+'\nURL : https://medipulse-gamma.vercel.app/assistante.html';
+  navigator.clipboard.writeText(txt).then(function(){showToast(t('all_copied'),'success');});
+}
+function envoyerParWhatsApp(){
+  var med=document.getElementById('acc-med-email')?.textContent;
+  var ass=document.getElementById('acc-ass-email')?.textContent;
+  var pwd=document.getElementById('acc-pwd')?.textContent;
+  var msg='*Vos acces MediPulse*\n\n*'+t('doctor')+'*\nEmail : '+med+'\nMot de passe : '+pwd+'\nURL : https://medipulse-gamma.vercel.app/medecin.html\n\n*'+t('assistant')+'*\nEmail : '+ass+'\nURL : https://medipulse-gamma.vercel.app/assistante.html';
+  var tel=(accesWaMedecin||'').replace(/\s/g,'').replace(/^0/,'212');
+  var url=tel?'https://wa.me/'+tel+'?text='+encodeURIComponent(msg):'https://wa.me/?text='+encodeURIComponent(msg);
+  window.open(url,'_blank');
+}
+
+// ══════════════════════════════════════
+// CSS animation for loaders
+// ══════════════════════════════════════
+var styleEl = document.createElement('style');
+styleEl.textContent = '@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}.ti-loader-2{animation:spin 1s linear infinite;display:inline-block}';
+document.head.appendChild(styleEl);
 </script>
 </body>
 </html>
