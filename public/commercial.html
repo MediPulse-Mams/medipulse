@@ -779,7 +779,7 @@ function setLang(lang) {
 // ══════════════════════════════════════
 // Constants
 // ══════════════════════════════════════
-var TD = 1499;
+var TD_PRICE = 1499;
 var TARIF = {starter:999, pro:1499, enterprise:2499};
 var P_SIG_TER = 0.30, P_REC_TER = 0.10;
 var P_SIG_TEL = 0.20, P_REC_TEL = 0.08;
@@ -889,8 +889,8 @@ async function renderDashboard() {
   var pRec = isTer ? P_REC_TER : P_REC_TEL;
   var cabActifs = cabinets.filter(function(c){ return c.statut === 'actif'; }).length;
   var cabTrial = cabinets.filter(function(c){ return c.statut === 'trial'; }).length;
-  var primeSig = cabActifs * Math.round(TD * pSig);
-  var recurrent = cabActifs * Math.round(TD * pRec);
+  var primeSig = cabActifs * Math.round(TD_PRICE * pSig);
+  var recurrent = cabActifs * Math.round(TD_PRICE * pRec);
   var bonus = ([...paliers].reverse().find(function(p){ return cabActifs >= p.s; }) || {b:0}).b;
   var total = primeSig + bonus + recurrent;
   var next = paliers.find(function(p){ return cabActifs < p.s; });
@@ -912,7 +912,7 @@ async function renderDashboard() {
       '</div>' +
       '<div style="position:relative;z-index:2">' +
         '<div style="font-size:17px;font-weight:800;color:#F0F9FF;margin-bottom:3px;letter-spacing:-0.3px">'+(cabActifs===0?'🎯':'✅ ')+(cabActifs===0?'':'')+(cabActifs===0?t('new_cabinet'):'')+'</div>' +
-        '<div style="font-size:11px;color:rgba(186,230,253,0.55);margin-bottom:16px">'+t('each_cabinet')+' '+Math.round(TD*pSig)+' MAD + '+Math.round(TD*pRec)+' MAD'+t('per_month_life')+'</div>' +
+        '<div style="font-size:11px;color:rgba(186,230,253,0.55);margin-bottom:16px">'+t('each_cabinet')+' '+Math.round(TD_PRICE*pSig)+' MAD + '+Math.round(TD_PRICE*pRec)+' MAD'+t('per_month_life')+'</div>' +
         '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">' +
           '<div style="font-size:11px;font-weight:600;color:rgba(186,230,253,0.8)">'+t('objective')+' : '+paliers[paliers.length-1].s+'</div>' +
           '<div style="font-size:11px;font-weight:700;color:#38BDF8">'+pct+'%</div>' +
@@ -1551,8 +1551,8 @@ function updateSim() {
   var nTot=parseInt(document.getElementById('sim-total')?.value||0);
   var snv=document.getElementById('sim-new-val');if(snv)snv.textContent=nNew;
   var stv=document.getElementById('sim-total-val');if(stv)stv.textContent=nTot;
-  var commNew=nNew*Math.round(TD*pSig);
-  var commRec=nTot*Math.round(TD*pRec);
+  var commNew=nNew*Math.round(TD_PRICE*pSig);
+  var commRec=nTot*Math.round(TD_PRICE*pRec);
   var bonus=([...paliers].reverse().find(function(p){return nNew>=p.s;})||{b:0}).b;
   var total=commNew+commRec+bonus;
   var panel=document.getElementById('sim-result');
@@ -1576,8 +1576,8 @@ function renderCommissions() {
   document.getElementById('main-content').innerHTML=
     '<div style="margin-bottom:24px"><div class="section-title">'+t('commissions')+'</div><div class="section-sub">'+t('remuneration')+'</div></div>'+
     '<div class="comm-grid">'+
-      '<div style="background:#EEF4FF;border:1px solid #B5D4F4;border-radius:18px;padding:20px;text-align:center"><div style="font-size:11px;font-weight:700;color:#1E5FCC;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px">'+t('new_commission')+'</div><div style="font-size:36px;font-weight:800;color:#1E5FCC;letter-spacing:-0.5px">'+Math.round(pSig*100)+'%</div><div style="font-size:13px;color:#64748B;margin-top:8px">= '+Math.round(TD*pSig)+' MAD'+t('per_cabinet')+'</div></div>'+
-      '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:18px;padding:20px;text-align:center"><div style="font-size:11px;font-weight:700;color:#15803D;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px">'+t('recurring_commission')+'</div><div style="font-size:36px;font-weight:800;color:#15803D;letter-spacing:-0.5px">'+Math.round(pRec*100)+'%</div><div style="font-size:13px;color:#64748B;margin-top:8px">= '+Math.round(TD*pRec)+' MAD'+t('per_month_life2')+'</div></div>'+
+      '<div style="background:#EEF4FF;border:1px solid #B5D4F4;border-radius:18px;padding:20px;text-align:center"><div style="font-size:11px;font-weight:700;color:#1E5FCC;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px">'+t('new_commission')+'</div><div style="font-size:36px;font-weight:800;color:#1E5FCC;letter-spacing:-0.5px">'+Math.round(pSig*100)+'%</div><div style="font-size:13px;color:#64748B;margin-top:8px">= '+Math.round(TD_PRICE*pSig)+' MAD'+t('per_cabinet')+'</div></div>'+
+      '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:18px;padding:20px;text-align:center"><div style="font-size:11px;font-weight:700;color:#15803D;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px">'+t('recurring_commission')+'</div><div style="font-size:36px;font-weight:800;color:#15803D;letter-spacing:-0.5px">'+Math.round(pRec*100)+'%</div><div style="font-size:13px;color:#64748B;margin-top:8px">= '+Math.round(TD_PRICE*pRec)+' MAD'+t('per_month_life2')+'</div></div>'+
     '</div>'+
     '<div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:18px;padding:20px;margin-bottom:16px">'+
       '<div style="font-size:14px;font-weight:700;color:#92400E;margin-bottom:16px">'+t('bonus_tiers')+'</div>'+
@@ -1680,7 +1680,7 @@ async function validerCabinet(){
 function ouvrirSoumettreJustif(cabinetId,nomCab,plan){
   pmtCabinetId=cabinetId;pmtCabinetPlan=plan||'pro';pmtFile=null;
   document.getElementById('pmt-cab-name').textContent=nomCab;
-  document.getElementById('pmt-montant').value=TARIF[pmtCabinetPlan]||TD;
+  document.getElementById('pmt-montant').value=TARIF[pmtCabinetPlan]||TD_PRICE;
   var now=new Date();
   document.getElementById('pmt-mois').value=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
   document.getElementById('pmt-mode').value='virement';
