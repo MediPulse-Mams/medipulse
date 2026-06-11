@@ -745,7 +745,8 @@ async function handleOwnerCSV(event) {
     return { nom: nom.trim(), specialite: specialite.trim(), ville: ville.trim(), telephone_mobile: telephone.trim(), source: source, statut: 'Nouveau' };
   }).filter(function(r){ return r.nom.length > 2; });
 
-  var preview = document.getElementById('owner-csv-preview');
+  window._pendingImport = normalized;
+var preview = document.getElementById('owner-csv-preview');
   preview.innerHTML =
     '<div style="margin-top:16px;font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px">'+normalized.length+' prospects détectés</div>' +
     normalized.slice(0,5).map(function(r){
@@ -764,7 +765,7 @@ async function handleOwnerCSV(event) {
       '</select>' +
     '</div>' +
 
-    '<button onclick="confirmOwnerImport('+JSON.stringify(normalized).replace(/</g,'&lt;')+')" style="width:100%;padding:12px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px"><i class="ti ti-download"></i> Importer '+normalized.length+' prospects</button>';
+    '<button onclick="confirmOwnerImport(window._pendingImport)" style="width:100%;padding:12px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px"><i class="ti ti-download"></i> Importer '+normalized.length+' prospects</button>';
 }
 
 async function confirmOwnerImport(rows) {
@@ -898,3 +899,4 @@ function renderOwnerAll() {
 </script>
 </body>
 </html>
+
