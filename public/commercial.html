@@ -1252,15 +1252,8 @@ async function analyzeAll() {
 }
 
 async function claudeScore(p) {
-  var resp = await fetch('https://czttvnvcetgmjfqishig.supabase.co/functions/v1/hyper-worker', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json','Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6dHR2bnZjZXRnbWpmcWlzaGlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Mjc2OTMsImV4cCI6MjA5MzMwMzY5M30.diTXQqKQOU4QoRwqKwwbeHmhE_ulAI3RLJEtTs0I1w8','apikey':'sb_publishable_mRTR9POOteWe_D2YgpucRQ_hMMxNP1m'},
-    body: JSON.stringify({action:'claude_score', prospect:p})
-  });
-  var data = await resp.json();
-  if(!data.success) throw new Error(data.error||'Erreur score');
-  return data.result;
-}';
+  var langInstruction = currentLang==='en' ? 'Respond in English.' : currentLang==='ar' ? 'Respond in Arabic.' : 'Respond in French.';
+  var prompt = 'Tu es un expert commercial B2B SaaS medical au Maroc pour MediPulse (automatisation Google Reviews via WhatsApp).\n'+langInstruction+'\n\nProspect:\nNom: '+p.nom+'\nSpecialite: '+p.specialite+'\nVille/Quartier: '+(p.ville||'')+(p.quartier?' / '+p.quartier:'')+'\nNote Google: '+(p.rating||'?')+'/5\nNb avis: '+(p.nb_avis||'?')+'\nSite web: '+(p.site_web?'Oui':'Non')+'\nDabadoc: '+(p.dabadoc?'Oui':'Non')+'\nInstagram: '+(p.instagram?'Oui':'Non')+'\nLinkedIn: '+(p.linkedin_actif?'Oui':'Non')+'\nSource: '+(p.source||'manuel')+'\nStatut pipeline: '+(p.statut||'Nouveau')+'\nHistorique: '+(p.note||'Aucun')+'\n\nRules:\n- Hot if: nb_avis<25 AND rating>4.0\n- Case 1: good rating, few reviews -> valoriser reputation\n- Case 2: strong competitor -> urgence competitive (use "confrere" not "concurrent")\n- Case 3: weak digital presence -> besoin visibilite\n- Case 4: very advanced in pipeline -> close now\n- Case 5: low relevance -> deprioritize\n\nReturn ONLY valid JSON:\n{"score":75,"cas":"1","temperature":"chaud","priorite":"A","angle":"...","objection_probable":"...","reponse_objection":"...","script_medecin":"...","script_receptionniste":"...","prochaine_action":"..."}';
 
   var resp = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -1774,7 +1767,6 @@ document.head.appendChild(styleEl);
 </script>
 </body>
 </html>
-
 
 
 
