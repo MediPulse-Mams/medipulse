@@ -190,17 +190,17 @@ async function renderAccueil() {
     '<div style="font-size:14px;font-weight:700;color:#0F172A;margin-bottom:12px;display:flex;align-items:center;gap:7px"><i class="ti ti-bolt" style="color:#F59E0B"></i>Actions recommandees</div>' +
     '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px">' +
       '<div onclick="filtrerHistorique(\'attente\')" style="background:#FFF7ED;border:1.5px solid #FED7AA;border-radius:14px;padding:16px;cursor:pointer;transition:all 0.15s" onmouseover="this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.transform=\'translateY(0)\'">' +
-        '<div style="font-size:22px;margin-bottom:4px">\uD83D\uDD25</div>' +
+        '<div style="width:32px;height:32px;border-radius:9px;background:#FFEDD5;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><i class="ti ti-clock" style="font-size:17px;color:#EA580C"></i></div>' +
         '<div style="font-size:24px;font-weight:800;color:#EA580C;line-height:1">' + enAttente + '</div>' +
         '<div style="font-size:11px;color:#9A3412;margin-top:4px;font-weight:600">En attente</div>' +
       '</div>' +
       '<div onclick="filtrerHistorique(\'positif\')" style="background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:14px;padding:16px;cursor:pointer;transition:all 0.15s" onmouseover="this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.transform=\'translateY(0)\'">' +
-        '<div style="font-size:22px;margin-bottom:4px">\u2B50</div>' +
+        '<div style="width:32px;height:32px;border-radius:9px;background:#FEF3C7;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><i class="ti ti-thumb-up" style="font-size:17px;color:#D97706"></i></div>' +
         '<div style="font-size:24px;font-weight:800;color:#D97706;line-height:1">' + satisfaits + '</div>' +
         '<div style="font-size:11px;color:#92400E;margin-top:4px;font-weight:600">Satisfaits a relancer</div>' +
       '</div>' +
       '<div onclick="filtrerHistorique(\'google\')" style="background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:14px;padding:16px;cursor:pointer;transition:all 0.15s" onmouseover="this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.transform=\'translateY(0)\'">' +
-        '<div style="font-size:22px;margin-bottom:4px">\uD83D\uDD17</div>' +
+        '<div style="width:32px;height:32px;border-radius:9px;background:#DBEAFE;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><i class="ti ti-brand-google" style="font-size:17px;color:#2563EB"></i></div>' +
         '<div style="font-size:24px;font-weight:800;color:#2563EB;line-height:1">' + googleRedirect + '</div>' +
         '<div style="font-size:11px;color:#1E40AF;margin-top:4px;font-weight:600">Rediriges Google</div>' +
       '</div>' +
@@ -370,8 +370,8 @@ function waRelancePositif(e){
   var nom = e.nom_patient || '';
   var lien = _lienGoogle();
   var cab = _cabNom();
-  var msgFR = 'Bonjour ' + nom + ' \uD83D\uDC4B\n\nMerci pour votre retour positif concernant votre visite chez ' + cab + '.\n\nSi vous avez quelques secondes, vous pouvez partager votre experience ici :\n\n' + lien;
-  var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + ' \uD83D\uDC4B\n\n\u0634\u0643\u0631\u0627 \u0639\u0644\u0649 \u062a\u0642\u064a\u064a\u0645\u0643\u0645 \u0627\u0644\u0625\u064a\u062c\u0627\u0628\u064a \u0644\u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0644\u0640 ' + cab + '.\n\n\u0625\u0630\u0627 \u0643\u0627\u0646 \u0644\u062f\u064a\u0643\u0645 \u0628\u0636\u0639 \u062b\u0648\u0627\u0646\u064d\u060c \u064a\u0645\u0643\u0646\u0643\u0645 \u0645\u0634\u0627\u0631\u0643\u0629 \u062a\u062c\u0631\u0628\u062a\u0643\u0645 \u0647\u0646\u0627 :\n\n' + lien;
+  var msgFR = 'Bonjour ' + nom + '\n\nMerci pour votre retour positif concernant votre visite chez ' + cab + '.\n\nSi vous avez quelques secondes, vous pouvez partager votre experience ici :\n\n' + lien;
+  var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + '\n\n\u0634\u0643\u0631\u0627 \u0639\u0644\u0649 \u062a\u0642\u064a\u064a\u0645\u0643\u0645 \u0627\u0644\u0625\u064a\u062c\u0627\u0628\u064a \u0644\u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0644\u0640 ' + cab + '.\n\n\u0625\u0630\u0627 \u0643\u0627\u0646 \u0644\u062f\u064a\u0643\u0645 \u0628\u0636\u0639 \u062b\u0648\u0627\u0646\u064d\u060c \u064a\u0645\u0643\u0646\u0643\u0645 \u0645\u0634\u0627\u0631\u0643\u0629 \u062a\u062c\u0631\u0628\u062a\u0643\u0645 \u0647\u0646\u0627 :\n\n' + lien;
   return 'https://wa.me/' + _tel212(e.tel_patient) + '?text=' + encodeURIComponent(e.langue==='ar'?msgAR:msgFR);
 }
 
@@ -404,7 +404,7 @@ async function marquerStatut(id, statut){
 }
 
 function getStatutBadge(statut) {
-  if (statut === 'google_redirect' || statut === 'avis_laisse' || statut === 'lien_clique') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#DBEAFE;color:#1D4ED8">\uD83D\uDD17 Redirige Google</span>';
+  if (statut === 'google_redirect' || statut === 'avis_laisse' || statut === 'lien_clique') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#DBEAFE;color:#1D4ED8">Redirige Google</span>';
   if (statut === 'positif') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#F0FDF4;color:#15803D">Satisfait</span>';
   if (statut === 'negatif') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#FFF1F2;color:#BE123C">Negatif</span>';
   if (statut === 'relance') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#FFFBEB;color:#B45309">Relance</span>';
@@ -433,8 +433,8 @@ async function envoyerFormulaire(lang) {
   var patientUrl = 'https://medipulse-gamma.vercel.app/patient.html?token=' + token + '&lang=' + lang;
   var nomCabinet = cabinetData.nom_cabinet || 'notre cabinet';
 
-  var msgFR = 'Bonjour ' + nom + ' \uD83D\uDC4B\n\nMerci pour votre visite au ' + nomCabinet + ' !\n\nVotre avis compte pour nous. Cliquez ci-dessous (1 minute) :\n\uD83D\uDC49 ' + patientUrl + '\n\nLien securise MediPulse \u00B7 ' + nomCabinet;
-  var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + ' \uD83D\uDC4B\n\n\u0634\u0643\u0631\u0627 \u0639\u0644\u0649 \u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0644\u0640 ' + nomCabinet + ' !\n\n\u0631\u0623\u064a\u0643\u0645 \u064a\u0647\u0645\u0646\u0627. \u0627\u0636\u063a\u0637\u0648\u0627 \u0623\u062f\u0646\u0627\u0647 (\u062f\u0642\u064a\u0642\u0629 \u0648\u0627\u062d\u062f\u0629) :\n\uD83D\uDC49 ' + patientUrl + '\n\n\u0631\u0627\u0628\u0637 \u0622\u0645\u0646 MediPulse \u00B7 ' + nomCabinet;
+  var msgFR = 'Bonjour ' + nom + '\n\nMerci pour votre visite au ' + nomCabinet + ' !\n\nVotre avis compte pour nous. Cliquez ci-dessous (1 minute) :\n' + patientUrl + '\n\nLien securise MediPulse \u00B7 ' + nomCabinet;
+  var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + '\n\n\u0634\u0643\u0631\u0627 \u0639\u0644\u0649 \u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0644\u0640 ' + nomCabinet + ' !\n\n\u0631\u0623\u064a\u0643\u0645 \u064a\u0647\u0645\u0646\u0627. \u0627\u0636\u063a\u0637\u0648\u0627 \u0623\u062f\u0646\u0627\u0647 (\u062f\u0642\u064a\u0642\u0629 \u0648\u0627\u062d\u062f\u0629) :\n' + patientUrl + '\n\n\u0631\u0627\u0628\u0637 \u0622\u0645\u0646 MediPulse \u00B7 ' + nomCabinet;
 
   var msg = encodeURIComponent(lang === 'ar' ? msgAR : msgFR);
   var telF = tel.replace(/\s/g, '').replace(/^0/, '212');
