@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MediPulse - Mon Cabinet</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/shared.css">
@@ -230,7 +230,7 @@ function getNomCabinet(){return(cabinetData&&cabinetData.nom_cabinet)||'Mon Cabi
 function getLienGoogle(){return(cabinetData&&(cabinetData.lien_google||cabinetData.google_url))||'#';}
 
 function getStatutBadge(statut){
-  if(statut==='avis_laisse')return'<span class="badge badge-blue">Avis laisse</span>';
+  if(statut==='google_redirect'||statut==='avis_laisse'||statut==='lien_clique')return'<span class="badge badge-blue">\uD83D\uDD17 Redirige Google</span>';
   if(statut==='positif')return'<span class="badge badge-green">Positif</span>';
   if(statut==='negatif')return'<span class="badge badge-red">Negatif</span>';
   return'<span class="badge badge-orange">En attente</span>';
@@ -320,13 +320,13 @@ async function renderDashboard(){
   var weekAgo=new Date(Date.now()-7*24*60*60*1000).toISOString().split('T')[0];
   var r1=await sb.from('envois_whatsapp').select('*').eq('cabinet_id',cabinetData&&cabinetData.id||'').gte('created_at',today+'T00:00:00');
   var r2=await sb.from('envois_whatsapp').select('*').eq('cabinet_id',cabinetData&&cabinetData.id||'').gte('created_at',weekAgo+'T00:00:00').order('created_at',{ascending:false});
-  var r3=await sb.from('envois_whatsapp').select('*').eq('cabinet_id',cabinetData&&cabinetData.id||'').in('statut',['positif','avis_laisse','negatif']).order('created_at',{ascending:false}).limit(5);
+  var r3=await sb.from('envois_whatsapp').select('*').eq('cabinet_id',cabinetData&&cabinetData.id||'').in('statut',['positif','google_redirect','avis_laisse','lien_clique','negatif']).order('created_at',{ascending:false}).limit(5);
   var envoisJour=r1.data||[];
   var envoisSemaine=r2.data||[];
   var derniers=r3.data||[];
   var nbEnvoisJour=envoisJour.length;
   var nbEnvoisSemaine=envoisSemaine.length;
-  var positifsSemaine=envoisSemaine.filter(function(e){return e.statut==='positif'||e.statut==='avis_laisse';}).length;
+  var positifsSemaine=envoisSemaine.filter(function(e){return e.statut==='positif'||e.statut==='google_redirect'||e.statut==='avis_laisse'||e.statut==='lien_clique';}).length;
   var aLancerCount=envoisSemaine.filter(function(e){return e.statut==='envoye'&&joursDepuis(e.created_at)>=2;}).length;
   var tauxReponse=nbEnvoisSemaine>0?Math.round((envoisSemaine.filter(function(e){return e.statut!=='envoye';}).length/nbEnvoisSemaine)*100):0;
   var nbAvis=parseInt(cabinetData&&cabinetData.nb_avis_depart)||0;
@@ -422,17 +422,17 @@ async function renderAvis(){
 async function renderStats(){
   var res=await sb.from('envois_whatsapp').select('*').eq('cabinet_id',cabinetData&&cabinetData.id||'');
   var tous=res.data||[];
-  var positifs=tous.filter(function(e){return e.statut==='positif'||e.statut==='avis_laisse';}).length;
+  var positifs=tous.filter(function(e){return e.statut==='positif'||e.statut==='google_redirect'||e.statut==='avis_laisse'||e.statut==='lien_clique';}).length;
   var negatifs=tous.filter(function(e){return e.statut==='negatif';}).length;
-  var enAttente=tous.filter(function(e){return e.statut==='envoye';}).length;
-  var avisLaisses=tous.filter(function(e){return e.statut==='avis_laisse';}).length;
-  var tauxConversion=tous.length>0?Math.round((avisLaisses/tous.length)*100):0;
+  var enAttente=tous.filter(function(e){return e.statut==='envoye'||e.statut==='relance';}).length;
+  var googleRedirects=tous.filter(function(e){return e.statut==='google_redirect'||e.statut==='avis_laisse'||e.statut==='lien_clique';}).length;
+  var tauxConversion=tous.length>0?Math.round((googleRedirects/tous.length)*100):0;
   var tauxSatisfaction=(positifs+negatifs)>0?Math.round((positifs/(positifs+negatifs))*100):0;
   var note=getNote();
   var stats=[
     {val:tous.length,lbl:'Total envoyes',color:'#1E5FCC',bg:'#EEF4FF',icon:'ti-send'},
     {val:positifs,lbl:'Responses positives',color:'#10B981',bg:'#F0FDF4',icon:'ti-thumb-up'},
-    {val:avisLaisses,lbl:'Avis Google laisses',color:'#1E5FCC',bg:'#EEF4FF',icon:'ti-star'},
+    {val:googleRedirects,lbl:'Patients rediriges Google',color:'#1E5FCC',bg:'#EEF4FF',icon:'ti-brand-google'},
     {val:negatifs,lbl:'Retours negatifs',color:'#EF4444',bg:'#FFF1F2',icon:'ti-thumb-down'},
     {val:enAttente,lbl:'En attente reponse',color:'#F59E0B',bg:'#FFFBEB',icon:'ti-clock'},
     {val:tauxConversion+'%',lbl:'Taux conversion Google',color:'#F59E0B',bg:'#FFFBEB',icon:'ti-chart-pie'},
