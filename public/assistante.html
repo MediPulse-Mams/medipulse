@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MediPulse - Espace Assistante</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/shared.css">
@@ -161,10 +161,13 @@ async function renderAccueil() {
 
   var envois = res.data || [];
   var total = envois.length;
-  var positifs = envois.filter(function(e) { return e.statut === 'positif' || e.statut === 'avis_laisse'; }).length;
+  var satisfaits = envois.filter(function(e) { return e.statut === 'positif'; }).length;
+  var googleRedirect = envois.filter(function(e) { return e.statut === 'google_redirect' || e.statut === 'avis_laisse' || e.statut === 'lien_clique'; }).length;
   var negatifs = envois.filter(function(e) { return e.statut === 'negatif'; }).length;
+  var enAttente = envois.filter(function(e) { return e.statut === 'envoye' || e.statut === 'en_attente' || e.statut === 'relance'; }).length;
   var nomCabinet = cabinetData ? cabinetData.nom_cabinet : 'votre cabinet';
   var nbRelances = parseInt(document.getElementById('relance-badge')?.textContent || '0') || 0;
+  var positifs = satisfaits + googleRedirect;
 
   document.getElementById('main-content').innerHTML =
     '<div style="margin-bottom:24px">' +
@@ -183,6 +186,25 @@ async function renderAccueil() {
         '<i class="ti ti-chevron-right" style="color:#F59E0B;font-size:18px;flex-shrink:0"></i>' +
       '</div>' : ''
     ) +
+
+    '<div style="font-size:14px;font-weight:700;color:#0F172A;margin-bottom:12px;display:flex;align-items:center;gap:7px"><i class="ti ti-bolt" style="color:#F59E0B"></i>Actions recommandees</div>' +
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px">' +
+      '<div onclick="filtrerHistorique(\'attente\')" style="background:#FFF7ED;border:1.5px solid #FED7AA;border-radius:14px;padding:16px;cursor:pointer;transition:all 0.15s" onmouseover="this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.transform=\'translateY(0)\'">' +
+        '<div style="font-size:22px;margin-bottom:4px">\uD83D\uDD25</div>' +
+        '<div style="font-size:24px;font-weight:800;color:#EA580C;line-height:1">' + enAttente + '</div>' +
+        '<div style="font-size:11px;color:#9A3412;margin-top:4px;font-weight:600">En attente</div>' +
+      '</div>' +
+      '<div onclick="filtrerHistorique(\'positif\')" style="background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:14px;padding:16px;cursor:pointer;transition:all 0.15s" onmouseover="this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.transform=\'translateY(0)\'">' +
+        '<div style="font-size:22px;margin-bottom:4px">\u2B50</div>' +
+        '<div style="font-size:24px;font-weight:800;color:#D97706;line-height:1">' + satisfaits + '</div>' +
+        '<div style="font-size:11px;color:#92400E;margin-top:4px;font-weight:600">Satisfaits a relancer</div>' +
+      '</div>' +
+      '<div onclick="filtrerHistorique(\'google\')" style="background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:14px;padding:16px;cursor:pointer;transition:all 0.15s" onmouseover="this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.transform=\'translateY(0)\'">' +
+        '<div style="font-size:22px;margin-bottom:4px">\uD83D\uDD17</div>' +
+        '<div style="font-size:24px;font-weight:800;color:#2563EB;line-height:1">' + googleRedirect + '</div>' +
+        '<div style="font-size:11px;color:#1E40AF;margin-top:4px;font-weight:600">Rediriges Google</div>' +
+      '</div>' +
+    '</div>' +
 
     '<div class="form-grid">' +
       '<div class="card">' +
@@ -296,10 +318,7 @@ async function marquerRelance(id) {
 function buildTable(envois) {
   var rows = envois.map(function(e) {
     var badge = getStatutBadge(e.statut);
-    var action = '';
-    if (e.statut === 'positif' || e.statut === 'avis_laisse') {
-      action = '<button class="btn-wa" onclick="envoyerLienGoogle(\'' + (e.tel_patient||'') + '\',\'' + (e.nom_patient||'') + '\',\'' + (e.langue||'fr') + '\')">Lien Google</button>';
-    }
+    var action = actionBouton(e);
     return '<tr>' +
       '<td style="font-weight:600;color:#111827">' + (e.nom_patient||'-') + '</td>' +
       '<td style="color:#6B7280">' + (e.tel_patient||'-') + '</td>' +
@@ -312,10 +331,7 @@ function buildTable(envois) {
 
   var cards = envois.map(function(e) {
     var badge = getStatutBadge(e.statut);
-    var action = '';
-    if ((e.statut === 'positif' || e.statut === 'avis_laisse') && e.tel_patient) {
-      action = '<button class="btn-wa" onclick="envoyerLienGoogle(\'' + e.tel_patient + '\',\'' + (e.nom_patient||'') + '\',\'' + (e.langue||'fr') + '\')">Google</button>';
-    }
+    var action = actionBouton(e);
     return '<div style="background:#F9FAFB;border-radius:12px;padding:14px;border:1px solid #F3F4F6">' +
       '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">' +
         '<div style="font-size:14px;font-weight:700;color:#111827">' + (e.nom_patient||'-') + '</div>' +
@@ -333,9 +349,63 @@ function buildTable(envois) {
     '<div class="cards-mobile">' + cards + '</div>';
 }
 
+// ─── RELANCES CONTEXTUELLES ───
+function _tel212(t){ return (t||'').replace(/\s/g,'').replace(/^0/,'212'); }
+function _cabNom(){ return (cabinetData && cabinetData.nom_cabinet) ? cabinetData.nom_cabinet : 'notre cabinet'; }
+function _lienGoogle(){ return cabinetData ? (cabinetData.lien_google || cabinetData.google_url || '') : ''; }
+function _patientUrl(e){ return e.feedback_token ? 'https://medipulse-gamma.vercel.app/patient.html?token=' + e.feedback_token + '&lang=' + (e.langue||'fr') : ''; }
+
+// CAS A : en_attente → relance satisfaction
+function waRelanceAttente(e){
+  var nom = e.nom_patient || '';
+  var url = _patientUrl(e);
+  var cab = _cabNom();
+  var msgFR = 'Bonjour ' + nom + ',\n\nSuite a votre visite chez ' + cab + ', nous souhaitions simplement savoir si tout s\'est bien passe.\n\nVotre retour nous aide a ameliorer notre qualite de service.\n\n' + url;
+  var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + '\n\n\u0628\u0639\u062f \u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0644\u0640 ' + cab + '\u060c \u0646\u0648\u062f \u0645\u0639\u0631\u0641\u0629 \u0625\u0646 \u0643\u0627\u0646 \u0643\u0644 \u0634\u064a\u0621 \u0639\u0644\u0649 \u0645\u0627 \u064a\u0631\u0627\u0645.\n\n\u0631\u0623\u064a\u0643\u0645 \u064a\u0633\u0627\u0639\u062f\u0646\u0627 \u0639\u0644\u0649 \u062a\u062d\u0633\u064a\u0646 \u062c\u0648\u062f\u0629 \u062e\u062f\u0645\u0627\u062a\u0646\u0627.\n\n' + url;
+  return 'https://wa.me/' + _tel212(e.tel_patient) + '?text=' + encodeURIComponent(e.langue==='ar'?msgAR:msgFR);
+}
+
+// CAS B : positif → relance avis Google
+function waRelancePositif(e){
+  var nom = e.nom_patient || '';
+  var lien = _lienGoogle();
+  var cab = _cabNom();
+  var msgFR = 'Bonjour ' + nom + ' \uD83D\uDC4B\n\nMerci pour votre retour positif concernant votre visite chez ' + cab + '.\n\nSi vous avez quelques secondes, vous pouvez partager votre experience ici :\n\n' + lien;
+  var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + ' \uD83D\uDC4B\n\n\u0634\u0643\u0631\u0627 \u0639\u0644\u0649 \u062a\u0642\u064a\u064a\u0645\u0643\u0645 \u0627\u0644\u0625\u064a\u062c\u0627\u0628\u064a \u0644\u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0644\u0640 ' + cab + '.\n\n\u0625\u0630\u0627 \u0643\u0627\u0646 \u0644\u062f\u064a\u0643\u0645 \u0628\u0636\u0639 \u062b\u0648\u0627\u0646\u064d\u060c \u064a\u0645\u0643\u0646\u0643\u0645 \u0645\u0634\u0627\u0631\u0643\u0629 \u062a\u062c\u0631\u0628\u062a\u0643\u0645 \u0647\u0646\u0627 :\n\n' + lien;
+  return 'https://wa.me/' + _tel212(e.tel_patient) + '?text=' + encodeURIComponent(e.langue==='ar'?msgAR:msgFR);
+}
+
+// CAS C : google_redirect → relance Google (rappel)
+function waRelanceGoogle(e){
+  var nom = e.nom_patient || '';
+  var lien = _lienGoogle();
+  var msgFR = 'Bonjour ' + nom + ',\n\nNous esperons que votre visite s\'est bien deroulee.\n\nSi vous n\'avez pas encore eu l\'occasion de partager votre experience, voici a nouveau le lien :\n\n' + lien;
+  var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + '\n\n\u0646\u062a\u0645\u0646\u0649 \u0623\u0646 \u062a\u0643\u0648\u0646 \u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0642\u062f \u0633\u0627\u0631\u062a \u0628\u0634\u0643\u0644 \u062c\u064a\u062f.\n\n\u0625\u0630\u0627 \u0644\u0645 \u062a\u062a\u0645\u0643\u0646\u0648\u0627 \u0628\u0639\u062f \u0645\u0646 \u0645\u0634\u0627\u0631\u0643\u0629 \u062a\u062c\u0631\u0628\u062a\u0643\u0645\u060c \u0625\u0644\u064a\u0643\u0645 \u0627\u0644\u0631\u0627\u0628\u0637 \u0645\u0646 \u062c\u062f\u064a\u062f :\n\n' + lien;
+  return 'https://wa.me/' + _tel212(e.tel_patient) + '?text=' + encodeURIComponent(e.langue==='ar'?msgAR:msgFR);
+}
+
+// Génère le bon bouton selon le statut
+function actionBouton(e){
+  if(!e.tel_patient) return '';
+  var s = e.statut;
+  if(s === 'negatif') return '';
+  if(s === 'positif'){
+    return '<a href="' + waRelancePositif(e) + '" target="_blank" class="btn-wa" style="background:#F59E0B" onclick="marquerStatut(\'' + e.id + '\',\'positif\')"><i class="ti ti-star" style="font-size:12px"></i> Relancer avis</a>';
+  }
+  if(s === 'google_redirect' || s === 'avis_laisse' || s === 'lien_clique'){
+    return '<a href="' + waRelanceGoogle(e) + '" target="_blank" class="btn-wa" style="background:#1D4ED8"><i class="ti ti-brand-google" style="font-size:12px"></i> Relance Google</a>';
+  }
+  // en_attente, envoye, relance
+  return '<a href="' + waRelanceAttente(e) + '" target="_blank" class="btn-wa" onclick="marquerRelance(\'' + e.id + '\')"><i class="ti ti-brand-whatsapp" style="font-size:12px"></i> Relancer</a>';
+}
+
+async function marquerStatut(id, statut){
+  // ne change pas le statut, juste pour tracking si besoin
+}
+
 function getStatutBadge(statut) {
-  if (statut === 'avis_laisse') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#EFF6FF;color:#2563EB">Avis laisse</span>';
-  if (statut === 'positif') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#F0FDF4;color:#15803D">Positif</span>';
+  if (statut === 'google_redirect' || statut === 'avis_laisse' || statut === 'lien_clique') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#DBEAFE;color:#1D4ED8">\uD83D\uDD17 Redirige Google</span>';
+  if (statut === 'positif') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#F0FDF4;color:#15803D">Satisfait</span>';
   if (statut === 'negatif') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#FFF1F2;color:#BE123C">Negatif</span>';
   if (statut === 'relance') return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#FFFBEB;color:#B45309">Relance</span>';
   return '<span style="padding:3px 9px;border-radius:99px;font-size:10px;font-weight:600;background:#FFF7ED;color:#EA580C">En attente</span>';
@@ -363,8 +433,8 @@ async function envoyerFormulaire(lang) {
   var patientUrl = 'https://medipulse-gamma.vercel.app/patient.html?token=' + token + '&lang=' + lang;
   var nomCabinet = cabinetData.nom_cabinet || 'notre cabinet';
 
-  var msgFR = 'Bonjour ' + nom + '\n\nMerci pour votre visite au ' + nomCabinet + ' !\n\nPourriez-vous nous donner votre avis ? Cela prend 1 minute\n\n' + patientUrl + '\n\nMerci !';
-  var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + '\n\n\u0634\u0643\u0631\u0627 \u0639\u0644\u0649 \u0632\u064a\u0627\u0631\u062a\u0643\u0645\n\n\u0647\u0644 \u064a\u0645\u0643\u0646\u0643\u0645 \u062a\u0642\u064a\u064a\u0645 \u062a\u062c\u0631\u0628\u062a\u0643\u0645\n\n' + patientUrl;
+  var msgFR = 'Bonjour ' + nom + ' \uD83D\uDC4B\n\nMerci pour votre visite au ' + nomCabinet + ' !\n\nVotre avis compte pour nous. Cliquez ci-dessous (1 minute) :\n\uD83D\uDC49 ' + patientUrl + '\n\nLien securise MediPulse \u00B7 ' + nomCabinet;
+  var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + ' \uD83D\uDC4B\n\n\u0634\u0643\u0631\u0627 \u0639\u0644\u0649 \u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0644\u0640 ' + nomCabinet + ' !\n\n\u0631\u0623\u064a\u0643\u0645 \u064a\u0647\u0645\u0646\u0627. \u0627\u0636\u063a\u0637\u0648\u0627 \u0623\u062f\u0646\u0627\u0647 (\u062f\u0642\u064a\u0642\u0629 \u0648\u0627\u062d\u062f\u0629) :\n\uD83D\uDC49 ' + patientUrl + '\n\n\u0631\u0627\u0628\u0637 \u0622\u0645\u0646 MediPulse \u00B7 ' + nomCabinet;
 
   var msg = encodeURIComponent(lang === 'ar' ? msgAR : msgFR);
   var telF = tel.replace(/\s/g, '').replace(/^0/, '212');
@@ -389,12 +459,20 @@ async function envoyerFormulaire(lang) {
   setTimeout(function() { renderAccueil(); }, 800);
 }
 
+var _filtreHist = null;
+function filtrerHistorique(type){
+  _filtreHist = type;
+  showPage('historique');
+}
+
 async function renderHistorique() {
+
   document.getElementById('main-content').innerHTML =
     '<div style="margin-bottom:20px;display:flex;align-items:center;justify-content:space-between">' +
       '<div><div style="font-size:22px;font-weight:800;color:#0F172A;letter-spacing:-0.4px">Historique des envois</div></div>' +
-      '<button onclick="renderHistorique()" style="background:none;border:none;cursor:pointer;font-size:13px;color:#2563EB;font-weight:600;font-family:inherit">Actualiser</button>' +
+      '<button onclick="_filtreHist=null;renderHistorique()" style="background:none;border:none;cursor:pointer;font-size:13px;color:#2563EB;font-weight:600;font-family:inherit">Actualiser</button>' +
     '</div>' +
+    (filtreLabel ? '<div style="display:inline-flex;align-items:center;gap:8px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:99px;padding:6px 14px;margin-bottom:14px;font-size:12px;font-weight:600;color:#2563EB">Filtre : ' + filtreLabel + ' <span onclick="_filtreHist=null;renderHistorique()" style="cursor:pointer;font-weight:800;margin-left:4px">\u00D7</span></div>' : '') +
     '<div class="card" id="hist-content"><div style="text-align:center;padding:40px;color:#94A3B8">Chargement...</div></div>';
 
   var res = await sb.from('envois_whatsapp')
@@ -404,16 +482,23 @@ async function renderHistorique() {
     .limit(100);
 
   var liste = res.data || [];
+
+  // Appliquer le filtre si présent
+  if (_filtreHist === 'attente') {
+    liste = liste.filter(function(e){ return e.statut === 'envoye' || e.statut === 'en_attente' || e.statut === 'relance'; });
+  } else if (_filtreHist === 'positif') {
+    liste = liste.filter(function(e){ return e.statut === 'positif'; });
+  } else if (_filtreHist === 'google') {
+    liste = liste.filter(function(e){ return e.statut === 'google_redirect' || e.statut === 'avis_laisse' || e.statut === 'lien_clique'; });
+  }
+  var filtreLabel = _filtreHist === 'attente' ? 'En attente' : _filtreHist === 'positif' ? 'Satisfaits a relancer' : _filtreHist === 'google' ? 'Rediriges Google' : null;
   var panel = document.getElementById('hist-content');
   if (!panel) return;
 
   if (liste.length) {
     var rows = liste.map(function(e) {
       var badge = getStatutBadge(e.statut);
-      var action = '';
-      if ((e.statut === 'positif' || e.statut === 'avis_laisse') && e.tel_patient) {
-        action = '<button class="btn-wa" onclick="envoyerLienGoogle(\'' + e.tel_patient + '\',\'' + (e.nom_patient||'') + '\',\'' + (e.langue||'fr') + '\')">Lien Google</button>';
-      }
+      var action = actionBouton(e);
       return '<tr>' +
         '<td style="font-weight:600;color:#111827">' + (e.nom_patient||'-') + '</td>' +
         '<td style="color:#6B7280">' + (e.tel_patient||'-') + '</td>' +
