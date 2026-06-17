@@ -448,10 +448,15 @@ async function envoyerFormulaire(lang) {
   var token = crypto.randomUUID();
   var patientUrl = 'https://avis-medipulse.vercel.app/patient.html?token=' + token + '&lang=' + lang;
   var nomCabinet = cabinetData.nom_cabinet || 'notre cabinet';
+  var nomCabinetAR = cabinetData.nom_cabinet_ar || nomCabinet;
 
   var motVisite = _motVisiteFR();
-  var msgFR = 'Bonjour ' + nom + '\n\nMerci pour ' + motVisite + ' ' + nomCabinet + ' !\n\nVotre avis compte pour nous. Cliquez ci-dessous (1 minute) :\n' + patientUrl + '\n\nLien securise MediPulse \u00B7 ' + nomCabinet;
-  var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + '\n\n\u0634\u0643\u0631\u0627 \u0639\u0644\u0649 ' + _motVisiteAR() + ' ' + nomCabinet + ' !\n\n\u0631\u0623\u064a\u0643\u0645 \u064a\u0647\u0645\u0646\u0627. \u0627\u0636\u063a\u0637\u0648\u0627 \u0623\u062f\u0646\u0627\u0647 (\u062f\u0642\u064a\u0642\u0629 \u0648\u0627\u062d\u062f\u0629) :\n' + patientUrl + '\n\n\u0631\u0627\u0628\u0637 \u0622\u0645\u0646 MediPulse \u00B7 ' + nomCabinet;
+  var msgFR = 'Bonjour ' + nom + '\n\nMerci pour ' + motVisite + ' *' + nomCabinet + '* !\n\nVotre avis compte pour nous. Cliquez ci-dessous (1 minute) :\n' + patientUrl + '\n\nLien securise MediPulse \u00B7 ' + nomCabinet;
+
+  var phraseAR = cabinetData.nom_cabinet_ar
+    ? '\u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0625\u0644\u0649 *' + nomCabinetAR + '*'
+    : _motVisiteAR() + ' *' + nomCabinetAR + '*';
+  var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + '\n\n\u0634\u0643\u0631\u0627 \u0639\u0644\u0649 ' + phraseAR + ' !\n\n\u0631\u0623\u064a\u0643\u0645 \u064a\u0647\u0645\u0646\u0627. \u0627\u0636\u063a\u0637\u0648\u0627 \u0623\u062f\u0646\u0627\u0647 (\u062f\u0642\u064a\u0642\u0629 \u0648\u0627\u062d\u062f\u0629) :\n' + patientUrl + '\n\n\u0631\u0627\u0628\u0637 \u0622\u0645\u0646 MediPulse \u00B7 ' + nomCabinetAR;
 
   var msg = encodeURIComponent(lang === 'ar' ? msgAR : msgFR);
   var telF = tel.replace(/\s/g, '').replace(/^0/, '212');
@@ -483,6 +488,7 @@ function filtrerHistorique(type){
 }
 
 async function renderHistorique() {
+  var filtreLabel = _filtreHist === 'attente' ? 'En attente' : _filtreHist === 'positif' ? 'Satisfaits a relancer' : _filtreHist === 'google' ? 'Rediriges Google' : null;
 
   document.getElementById('main-content').innerHTML =
     '<div style="margin-bottom:20px;display:flex;align-items:center;justify-content:space-between">' +
@@ -508,7 +514,6 @@ async function renderHistorique() {
   } else if (_filtreHist === 'google') {
     liste = liste.filter(function(e){ return e.statut === 'google_redirect' || e.statut === 'avis_laisse' || e.statut === 'lien_clique'; });
   }
-  var filtreLabel = _filtreHist === 'attente' ? 'En attente' : _filtreHist === 'positif' ? 'Satisfaits a relancer' : _filtreHist === 'google' ? 'Rediriges Google' : null;
   var panel = document.getElementById('hist-content');
   if (!panel) return;
 
