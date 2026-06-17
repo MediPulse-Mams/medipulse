@@ -352,6 +352,21 @@ function buildTable(envois) {
 // ─── RELANCES CONTEXTUELLES ───
 function _tel212(t){ return (t||'').replace(/\s/g,'').replace(/^0/,'212'); }
 function _cabNom(){ return (cabinetData && cabinetData.nom_cabinet) ? cabinetData.nom_cabinet : 'notre cabinet'; }
+// Vocabulaire selon le type d'établissement
+function _typeEtab(){ return (cabinetData && cabinetData.type_etablissement) ? cabinetData.type_etablissement : 'cabinet'; }
+function _motVisiteFR(){
+  var t = _typeEtab();
+  if(t === 'laboratoire') return 'votre passage au';
+  if(t === 'centre_dentaire') return 'votre visite au';
+  if(t === 'clinique') return 'votre passage à la';
+  if(t === 'pharmacie') return 'votre passage à la';
+  return 'votre visite au';
+}
+function _motVisiteAR(){
+  var t = _typeEtab();
+  if(t === 'laboratoire') return '\u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0644\u0645\u062e\u062a\u0628\u0631';
+  return '\u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0644\u0640';
+}
 function _lienGoogle(){ return cabinetData ? (cabinetData.lien_google || cabinetData.google_url || '') : ''; }
 function _patientUrl(e){ return e.feedback_token ? 'https://medipulse-gamma.vercel.app/patient.html?token=' + e.feedback_token + '&lang=' + (e.langue||'fr') : ''; }
 
@@ -360,7 +375,8 @@ function waRelanceAttente(e){
   var nom = e.nom_patient || '';
   var url = _patientUrl(e);
   var cab = _cabNom();
-  var msgFR = 'Bonjour ' + nom + ',\n\nSuite a votre visite chez ' + cab + ', nous souhaitions simplement savoir si tout s\'est bien passe.\n\nVotre retour nous aide a ameliorer notre qualite de service.\n\n' + url;
+  var motV = _typeEtab() === 'laboratoire' ? 'votre passage au' : 'votre visite chez';
+  var msgFR = 'Bonjour ' + nom + ',\n\nSuite a ' + motV + ' ' + cab + ', nous souhaitions simplement savoir si tout s\'est bien passe.\n\nVotre retour nous aide a ameliorer notre qualite de service.\n\n' + url;
   var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + '\n\n\u0628\u0639\u062f \u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0644\u0640 ' + cab + '\u060c \u0646\u0648\u062f \u0645\u0639\u0631\u0641\u0629 \u0625\u0646 \u0643\u0627\u0646 \u0643\u0644 \u0634\u064a\u0621 \u0639\u0644\u0649 \u0645\u0627 \u064a\u0631\u0627\u0645.\n\n\u0631\u0623\u064a\u0643\u0645 \u064a\u0633\u0627\u0639\u062f\u0646\u0627 \u0639\u0644\u0649 \u062a\u062d\u0633\u064a\u0646 \u062c\u0648\u062f\u0629 \u062e\u062f\u0645\u0627\u062a\u0646\u0627.\n\n' + url;
   return 'https://wa.me/' + _tel212(e.tel_patient) + '?text=' + encodeURIComponent(e.langue==='ar'?msgAR:msgFR);
 }
@@ -433,8 +449,9 @@ async function envoyerFormulaire(lang) {
   var patientUrl = 'https://medipulse-gamma.vercel.app/patient.html?token=' + token + '&lang=' + lang;
   var nomCabinet = cabinetData.nom_cabinet || 'notre cabinet';
 
-  var msgFR = 'Bonjour ' + nom + '\n\nMerci pour votre visite au ' + nomCabinet + ' !\n\nVotre avis compte pour nous. Cliquez ci-dessous (1 minute) :\n' + patientUrl + '\n\nLien securise MediPulse \u00B7 ' + nomCabinet;
-  var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + '\n\n\u0634\u0643\u0631\u0627 \u0639\u0644\u0649 \u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0644\u0640 ' + nomCabinet + ' !\n\n\u0631\u0623\u064a\u0643\u0645 \u064a\u0647\u0645\u0646\u0627. \u0627\u0636\u063a\u0637\u0648\u0627 \u0623\u062f\u0646\u0627\u0647 (\u062f\u0642\u064a\u0642\u0629 \u0648\u0627\u062d\u062f\u0629) :\n' + patientUrl + '\n\n\u0631\u0627\u0628\u0637 \u0622\u0645\u0646 MediPulse \u00B7 ' + nomCabinet;
+  var motVisite = _motVisiteFR();
+  var msgFR = 'Bonjour ' + nom + '\n\nMerci pour ' + motVisite + ' ' + nomCabinet + ' !\n\nVotre avis compte pour nous. Cliquez ci-dessous (1 minute) :\n' + patientUrl + '\n\nLien securise MediPulse \u00B7 ' + nomCabinet;
+  var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + nom + '\n\n\u0634\u0643\u0631\u0627 \u0639\u0644\u0649 ' + _motVisiteAR() + ' ' + nomCabinet + ' !\n\n\u0631\u0623\u064a\u0643\u0645 \u064a\u0647\u0645\u0646\u0627. \u0627\u0636\u063a\u0637\u0648\u0627 \u0623\u062f\u0646\u0627\u0647 (\u062f\u0642\u064a\u0642\u0629 \u0648\u0627\u062d\u062f\u0629) :\n' + patientUrl + '\n\n\u0631\u0627\u0628\u0637 \u0622\u0645\u0646 MediPulse \u00B7 ' + nomCabinet;
 
   var msg = encodeURIComponent(lang === 'ar' ? msgAR : msgFR);
   var telF = tel.replace(/\s/g, '').replace(/^0/, '212');
