@@ -283,7 +283,7 @@ async function renderRelances() {
       liste.map(function(e) {
         var jours = joursDepuis(e.created_at);
         var tel = (e.tel_patient || '').replace(/\s/g, '').replace(/^0/, '212');
-        var patientUrl = e.feedback_token ? 'https://medipulse-gamma.vercel.app/patient.html?token=' + e.feedback_token : (e.form_url && !e.form_url.includes('docs.google') ? e.form_url : '');
+        var patientUrl = e.feedback_token ? 'https://avis-medipulse.vercel.app/patient.html?token=' + e.feedback_token : (e.form_url && !e.form_url.includes('docs.google') ? e.form_url : '');
         var msgFR = 'Bonjour ' + (e.nom_patient || '') + ',\n\nNous esperons que votre visite au ' + nomCab + ' s\'est bien passee.\n\nPourriez-vous nous donner votre avis en 1 minute ?\n\n' + patientUrl;
         var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + (e.nom_patient || '') + '\n\n\u0646\u062a\u0645\u0646\u0649 \u0623\u0646 \u062a\u0643\u0648\u0646 \u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0642\u062f \u0633\u0627\u0631\u062a \u0628\u0634\u0643\u0644 \u062c\u064a\u062f.\n\n\u0647\u0644 \u064a\u0645\u0643\u0646\u0643\u0645 \u0625\u0639\u0637\u0627\u0624\u0646\u0627 \u0631\u0623\u064a\u0643\u0645 ?\n\n' + patientUrl;
         var msg = encodeURIComponent(e.langue === 'ar' ? msgAR : msgFR);
@@ -368,7 +368,7 @@ function _motVisiteAR(){
   return '\u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0644\u0640';
 }
 function _lienGoogle(){ return cabinetData ? (cabinetData.lien_google || cabinetData.google_url || '') : ''; }
-function _patientUrl(e){ return e.feedback_token ? 'https://medipulse-gamma.vercel.app/patient.html?token=' + e.feedback_token + '&lang=' + (e.langue||'fr') : ''; }
+function _patientUrl(e){ return e.feedback_token ? 'https://avis-medipulse.vercel.app/patient.html?token=' + e.feedback_token + '&lang=' + (e.langue||'fr') : ''; }
 
 // CAS A : en_attente → relance satisfaction
 function waRelanceAttente(e){
@@ -446,7 +446,7 @@ async function envoyerFormulaire(lang) {
   if (!cabinetData) { showToast('Cabinet non configure', 'error'); return; }
 
   var token = crypto.randomUUID();
-  var patientUrl = 'https://medipulse-gamma.vercel.app/patient.html?token=' + token + '&lang=' + lang;
+  var patientUrl = 'https://avis-medipulse.vercel.app/patient.html?token=' + token + '&lang=' + lang;
   var nomCabinet = cabinetData.nom_cabinet || 'notre cabinet';
 
   var motVisite = _motVisiteFR();
@@ -528,12 +528,14 @@ async function renderHistorique() {
     }).join('');
     panel.innerHTML = '<div class="table-desktop-wrap"><table class="hist-table"><thead><tr><th>Patient</th><th>Telephone</th><th>Langue</th><th>Date</th><th>Heure</th><th>Statut</th><th>Action</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
       '<div class="cards-mobile">' + liste.map(function(e) {
+        var actMob = actionBouton(e);
         return '<div style="background:#F9FAFB;border-radius:12px;padding:14px;border:1px solid #F3F4F6">' +
           '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">' +
             '<div style="font-size:13px;font-weight:700;color:#111827">' + (e.nom_patient||'-') + '</div>' +
             getStatutBadge(e.statut) +
           '</div>' +
-          '<div style="font-size:11px;color:#9CA3AF">' + new Date(e.created_at).toLocaleDateString('fr-FR') + ' - ' + (e.langue==='ar'?'Arabe':'Francais') + '</div>' +
+          '<div style="font-size:11px;color:#9CA3AF;margin-bottom:' + (actMob ? '10px' : '0') + '">' + (e.tel_patient||'-') + ' - ' + new Date(e.created_at).toLocaleDateString('fr-FR') + ' - ' + (e.langue==='ar'?'Arabe':'Francais') + '</div>' +
+          (actMob ? '<div style="display:flex;justify-content:flex-end">' + actMob + '</div>' : '') +
         '</div>';
       }).join('') + '</div>';
   } else {
