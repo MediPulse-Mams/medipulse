@@ -282,12 +282,7 @@ async function renderRelances() {
     (liste.length ?
       liste.map(function(e) {
         var jours = joursDepuis(e.created_at);
-        var tel = (e.tel_patient || '').replace(/\s/g, '').replace(/^0/, '212');
-        var patientUrl = e.feedback_token ? 'https://avis-medipulse.vercel.app/patient.html?token=' + e.feedback_token : (e.form_url && !e.form_url.includes('docs.google') ? e.form_url : '');
-        var msgFR = 'Bonjour ' + (e.nom_patient || '') + ',\n\nNous esperons que votre visite au ' + nomCab + ' s\'est bien passee.\n\nPourriez-vous nous donner votre avis en 1 minute ?\n\n' + patientUrl;
-        var msgAR = '\u0645\u0631\u062d\u0628\u0627 ' + (e.nom_patient || '') + '\n\n\u0646\u062a\u0645\u0646\u0649 \u0623\u0646 \u062a\u0643\u0648\u0646 \u0632\u064a\u0627\u0631\u062a\u0643\u0645 \u0642\u062f \u0633\u0627\u0631\u062a \u0628\u0634\u0643\u0644 \u062c\u064a\u062f.\n\n\u0647\u0644 \u064a\u0645\u0643\u0646\u0643\u0645 \u0625\u0639\u0637\u0627\u0624\u0646\u0627 \u0631\u0623\u064a\u0643\u0645 ?\n\n' + patientUrl;
-        var msg = encodeURIComponent(e.langue === 'ar' ? msgAR : msgFR);
-        var waUrl = 'https://wa.me/' + tel + '?text=' + msg;
+        var waUrl = waRelanceAttente(e);
         return '<div class="relance-card">' +
           '<div style="flex:1;min-width:0">' +
             '<div style="font-size:14px;font-weight:700;color:#0A1628">' + (e.nom_patient || 'Patient') + '</div>' +
